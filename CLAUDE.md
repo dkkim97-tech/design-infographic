@@ -13,6 +13,10 @@ PPT·슬라이드·발표자료 제작 요청 시 `.claude/skills/`의 스킬을
 | "ppt Design_1", "플랫 벡터", "Flat Vector" | `ppt-design-1` (순백 배경 + 포인트 컬러 4종) |
 | 강의자료·교육·워크숍·세미나 | `lecture-slide-creator` (교육학적 구성 + 발표자 노트) |
 
+## UI/UX 디자인 스킬
+
+웹·앱 UI, 랜딩 페이지, 대시보드, 인포그래픽 HTML 등 화면 디자인 작업 시 `ui-ux-pro-max` 스킬을 사용한다 (UI 스타일 84종, 컬러 팔레트 192종, 폰트 페어링 74종, 업종별 디자인 룰, 차트 룰 25종 데이터베이스 — MIT 라이선스, [nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill)). PPT 슬라이드에 차트·컬러 시스템이 필요할 때도 근거 있는 팔레트·차트 선택을 위해 참조할 수 있다.
+
 공통 사항:
 
 - 실제 PPTX 파일 생성은 Anthropic 공식 내장 `pptx` 스킬로 빌드한다
