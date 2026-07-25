@@ -5,6 +5,33 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Vibe Prompt 100 — 바이브 코딩 프롬프트 라이브러리</title>
 <meta name="description" content="바이브 코딩을 위한 100개의 실전 프롬프트 라이브러리. 아이디어부터 배포까지 복사해서 바로 쓰는 프롬프트 모음."/>
+<link rel="canonical" href="https://vibe-prompt-100.vercel.app/"/>
+<meta name="theme-color" content="#18181b"/>
+<meta name="color-scheme" content="light dark"/>
+<!-- Open Graph -->
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="Vibe Prompt 100"/>
+<meta property="og:locale" content="ko_KR"/>
+<meta property="og:title" content="Vibe Prompt 100 — 바이브 코딩 프롬프트 100선"/>
+<meta property="og:description" content="아이디어·기획·UI/UX·개발·데이터·디버깅·배포·AI·그로스까지, 복사해서 바로 쓰는 바이브 코딩 프롬프트 100개."/>
+<meta property="og:url" content="https://vibe-prompt-100.vercel.app/"/>
+<meta property="og:image" content="https://vibe-prompt-100.vercel.app/og-image.png"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:image:alt" content="Vibe Prompt 100 — 바이브 코딩 프롬프트 라이브러리"/>
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Vibe Prompt 100 — 바이브 코딩 프롬프트 100선"/>
+<meta name="twitter:description" content="복사해서 바로 쓰는 바이브 코딩 프롬프트 100개. 아이디어부터 배포까지."/>
+<meta name="twitter:image" content="https://vibe-prompt-100.vercel.app/og-image.png"/>
+<!-- PWA / iOS -->
+<link rel="manifest" href="manifest.webmanifest"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Vibe Prompt 100"/>
+<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png"/>
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png"/>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>"/>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet"/>
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -19,7 +46,9 @@ html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
   --text:#18181b; --sub:#a1a1aa; --sub-2:#71717a;
   --accent:#18181b; --accent-text:#ffffff; --accent-soft:#e4e4e7;
   --radius:10px; --font:'Noto Sans KR','IBM Plex Sans',sans-serif;
+  --glass-bg:rgba(255,255,255,.55); --glass-brd:rgba(0,0,0,.08); --glass-hi:rgba(255,255,255,.85); --glass-sh:rgba(20,20,40,.12);
 }
+html,body{overflow-x:hidden;max-width:100%}
 body{background:var(--bg);font-family:var(--font);color:var(--text);min-height:100vh;transition:background .3s ease,color .3s ease}
 input,button,textarea,select{font-family:inherit}
 ::selection{background:#e0e7ff;color:#3730a3}
@@ -33,8 +62,8 @@ input,button,textarea,select{font-family:inherit}
 /* Design-select intro screen */
 .ds-screen{min-height:100vh;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 24px;animation:fadeIn .4s ease both}
 .ds-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;width:100%;max-width:860px}
-.ds-card{border:2px solid var(--border);border-radius:16px;overflow:hidden;background:var(--surface);cursor:pointer;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;text-align:left}
-.ds-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.14)}
+.ds-card{border:1.5px solid var(--glass-brd);border-radius:16px;overflow:hidden;background:var(--glass-bg);-webkit-backdrop-filter:blur(12px) saturate(1.5);backdrop-filter:blur(12px) saturate(1.5);cursor:pointer;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;text-align:left;box-shadow:0 4px 16px var(--glass-sh),inset 0 1px 0 var(--glass-hi)}
+.ds-card:hover{transform:translateY(-4px);box-shadow:0 16px 44px var(--glass-sh),inset 0 1px 0 var(--glass-hi)}
 .ds-swatch{height:96px;display:flex;align-items:center;justify-content:center;position:relative}
 .ds-dots{position:absolute;bottom:10px;left:12px;display:flex;gap:6px}
 .ds-dot{width:14px;height:14px;border-radius:50%;box-shadow:0 1px 3px rgba(0,0,0,.2)}
@@ -57,23 +86,53 @@ input,button,textarea,select{font-family:inherit}
 .cat-pill{display:inline-flex;align-items:center;gap:4px;padding:2px 8px 2px 6px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:-.2px;white-space:nowrap}
 .cat-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
 
+/* ── Glass-bead buttons (글라스 비드) ── */
+.glass-bead{-webkit-backdrop-filter:blur(10px) saturate(1.6);backdrop-filter:blur(10px) saturate(1.6);
+  background:var(--glass-bg);border:1px solid var(--glass-brd);color:var(--text);
+  box-shadow:0 2px 8px var(--glass-sh),inset 0 1px 0 var(--glass-hi),inset 0 10px 14px -10px var(--glass-hi);
+  transition:transform .16s ease,box-shadow .16s ease,background .16s ease}
+.glass-bead:hover{transform:translateY(-1px);box-shadow:0 7px 18px var(--glass-sh),inset 0 1px 0 var(--glass-hi),inset 0 12px 16px -10px var(--glass-hi)}
+.glass-bead:active{transform:translateY(0) scale(.98)}
+
 /* Action buttons */
-.act-btn{display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--sub-2);font-size:11px;font-weight:500;cursor:pointer;transition:all .15s;white-space:nowrap}
-.act-btn:hover{background:var(--surface-2);border-color:#d1d5db;color:var(--text)}
-.act-btn.copied{background:#f0fdf4;border-color:#86efac;color:#16a34a}
+.act-btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:6px 12px;border-radius:999px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;
+  -webkit-backdrop-filter:blur(10px) saturate(1.6);backdrop-filter:blur(10px) saturate(1.6);
+  background:var(--glass-bg);border:1px solid var(--glass-brd);color:var(--text);
+  box-shadow:0 2px 8px var(--glass-sh),inset 0 1px 0 var(--glass-hi),inset 0 10px 14px -10px var(--glass-hi);
+  transition:transform .16s ease,box-shadow .16s ease,background .16s ease}
+.act-btn:hover{transform:translateY(-1px);box-shadow:0 7px 18px var(--glass-sh),inset 0 1px 0 var(--glass-hi),inset 0 12px 16px -10px var(--glass-hi)}
+.act-btn:active{transform:translateY(0) scale(.98)}
+.act-btn.copied{background:rgba(34,197,94,.18);border-color:rgba(34,197,94,.5);color:#16a34a}
 .act-btn svg{width:13px;height:13px;flex-shrink:0}
 
 /* Tab buttons */
-.tab-btn{padding:6px 14px;border-radius:20px;border:1px solid transparent;background:transparent;color:var(--sub-2);font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap}
-.tab-btn:hover{background:var(--accent-soft);color:var(--text)}
-.tab-btn.active{background:var(--accent);color:var(--accent-text);border-color:var(--accent)}
+.tab-btn{padding:7px 15px;border-radius:999px;border:1px solid transparent;background:transparent;color:var(--sub-2);font-size:12px;font-weight:600;cursor:pointer;transition:all .16s ease;white-space:nowrap}
+.tab-btn:hover{background:var(--glass-bg);border-color:var(--glass-brd);color:var(--text);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:inset 0 1px 0 var(--glass-hi)}
+.tab-btn.active{background:var(--accent);color:var(--accent-text);border-color:var(--glass-brd);box-shadow:0 3px 10px var(--glass-sh),inset 0 1px 0 rgba(255,255,255,.35),inset 0 10px 14px -10px rgba(255,255,255,.45)}
 
 /* Admin buttons */
-.admin-btn{padding:5px 10px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--sub-2);font-size:11px;font-weight:500;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:4px}
-.admin-btn:hover{background:var(--surface-2);border-color:#d1d5db}
+.admin-btn{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:999px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;
+  -webkit-backdrop-filter:blur(10px) saturate(1.6);backdrop-filter:blur(10px) saturate(1.6);
+  background:var(--glass-bg);border:1px solid var(--glass-brd);color:var(--text);
+  box-shadow:0 2px 8px var(--glass-sh),inset 0 1px 0 var(--glass-hi),inset 0 10px 14px -10px var(--glass-hi);
+  transition:transform .16s ease,box-shadow .16s ease,background .16s ease}
+.admin-btn:hover{transform:translateY(-1px);box-shadow:0 7px 18px var(--glass-sh),inset 0 1px 0 var(--glass-hi),inset 0 12px 16px -10px var(--glass-hi)}
+.admin-btn:active{transform:translateY(0) scale(.98)}
+
+/* Primary glass-bead CTA */
+.gbtn-primary{position:relative;border:1px solid var(--glass-brd);background:var(--accent);color:var(--accent-text);font-weight:700;cursor:pointer;
+  box-shadow:0 4px 16px var(--glass-sh),inset 0 1px 0 rgba(255,255,255,.4),inset 0 14px 20px -12px rgba(255,255,255,.5);
+  transition:transform .16s ease,box-shadow .16s ease,filter .16s ease}
+.gbtn-primary:hover{transform:translateY(-1px);filter:brightness(1.06);box-shadow:0 10px 26px var(--glass-sh),inset 0 1px 0 rgba(255,255,255,.45),inset 0 14px 20px -12px rgba(255,255,255,.55)}
+.gbtn-primary:active{transform:translateY(0) scale(.99)}
+
+/* Round glass-bead icon buttons */
+.gbtn-round{-webkit-backdrop-filter:blur(8px) saturate(1.5);backdrop-filter:blur(8px) saturate(1.5);
+  box-shadow:0 2px 8px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.6);transition:transform .16s ease,box-shadow .16s ease}
+.gbtn-round:hover{transform:translateY(-1px) scale(1.05)}
 
 /* Toast */
-.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--accent);color:var(--accent-text);padding:10px 24px;border-radius:10px;font-size:13px;font-weight:600;z-index:9999;pointer-events:none;box-shadow:0 8px 30px rgba(0,0,0,.2);white-space:nowrap;transition:all .3s ease}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--accent);color:var(--accent-text);padding:11px 24px;border-radius:999px;font-size:13px;font-weight:600;z-index:9999;pointer-events:none;box-shadow:0 8px 30px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.3);white-space:nowrap;transition:all .3s ease;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
 
 /* Modal overlay */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:8000;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
@@ -90,13 +149,17 @@ input,button,textarea,select{font-family:inherit}
 .hero-band::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 78% 20%,rgba(255,255,255,.25),transparent 45%)}
 
 /* Responsive */
+.style-card{min-width:0}
 @media(max-width:900px){
-  .grid-4{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))!important}
+  .grid-4{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))!important}
 }
 @media(max-width:600px){
-  .grid-4{grid-template-columns:1fr 1fr!important;gap:12px!important}
+  .grid-4{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}
   .header-inner{flex-direction:column;gap:10px!important}
-  .tab-row{flex-wrap:wrap}
+  .main-wrap{padding-left:14px!important;padding-right:14px!important}
+}
+@media(max-width:380px){
+  .grid-4{grid-template-columns:1fr!important}
 }
 </style>
 </head>
@@ -117,19 +180,21 @@ const THEME_KEY="vibe-prompt-100-theme";
 /* ══════════════════════════════════════
    DESIGN THEMES — 실행 시 선택하는 앱 디자인
 ══════════════════════════════════════ */
+const GLASS_LIGHT={"--glass-bg":"rgba(255,255,255,.55)","--glass-brd":"rgba(0,0,0,.08)","--glass-hi":"rgba(255,255,255,.85)","--glass-sh":"rgba(20,20,40,.12)"};
+const GLASS_DARK={"--glass-bg":"rgba(255,255,255,.09)","--glass-brd":"rgba(255,255,255,.16)","--glass-hi":"rgba(255,255,255,.26)","--glass-sh":"rgba(0,0,0,.45)"};
 const THEMES=[
   {id:"vivid",name:"비비드",en:"Vivid",emoji:"⚡",desc:"밝은 그레이 캔버스 · 컬러 강조",dots:["#6366f1","#ec4899","#f59e0b"],
-    tok:{"--bg":"#f4f4f5","--surface":"#ffffff","--surface-2":"#fafafa","--border":"#e8e8e8","--border-2":"#f4f4f5","--text":"#18181b","--sub":"#a1a1aa","--sub-2":"#71717a","--accent":"#18181b","--accent-text":"#ffffff","--accent-soft":"#e4e4e7","--radius":"10px","--font":"'Noto Sans KR','IBM Plex Sans',sans-serif"}},
+    tok:{"--bg":"#f4f4f5","--surface":"#ffffff","--surface-2":"#fafafa","--border":"#e8e8e8","--border-2":"#f4f4f5","--text":"#18181b","--sub":"#a1a1aa","--sub-2":"#71717a","--accent":"#18181b","--accent-text":"#ffffff","--accent-soft":"#e4e4e7","--radius":"10px","--font":"'Noto Sans KR','IBM Plex Sans',sans-serif",...GLASS_LIGHT}},
   {id:"cream",name:"크림 코랄",en:"Cream Coral",emoji:"🍑",desc:"크림 배경 · 코랄 포인트 · 세리프",dots:["#d97757","#c2410c","#f5e6d3"],
-    tok:{"--bg":"#f7f3ec","--surface":"#fffdf8","--surface-2":"#f4ede1","--border":"#e7ddca","--border-2":"#efe7d8","--text":"#2b2018","--sub":"#a8977f","--sub-2":"#8a7a63","--accent":"#d97757","--accent-text":"#ffffff","--accent-soft":"#efe1d6","--radius":"12px","--font":"'Noto Sans KR','IBM Plex Sans',sans-serif"}},
+    tok:{"--bg":"#f7f3ec","--surface":"#fffdf8","--surface-2":"#f4ede1","--border":"#e7ddca","--border-2":"#efe7d8","--text":"#2b2018","--sub":"#a8977f","--sub-2":"#8a7a63","--accent":"#d97757","--accent-text":"#ffffff","--accent-soft":"#efe1d6","--radius":"12px","--font":"'Noto Sans KR','IBM Plex Sans',sans-serif",...GLASS_LIGHT,"--glass-bg":"rgba(255,251,244,.6)","--glass-brd":"rgba(120,90,60,.14)"}},
   {id:"mono",name:"모노 미니멀",en:"Mono Minimal",emoji:"◼️",desc:"순백 · 블랙 · 여백 강조",dots:["#111111","#666666","#e5e5e5"],
-    tok:{"--bg":"#ffffff","--surface":"#ffffff","--surface-2":"#f7f7f7","--border":"#e5e5e5","--border-2":"#f0f0f0","--text":"#111111","--sub":"#9a9a9a","--sub-2":"#6b6b6b","--accent":"#111111","--accent-text":"#ffffff","--accent-soft":"#efefef","--radius":"6px","--font":"'IBM Plex Sans','Noto Sans KR',sans-serif"}},
+    tok:{"--bg":"#ffffff","--surface":"#ffffff","--surface-2":"#f7f7f7","--border":"#e5e5e5","--border-2":"#f0f0f0","--text":"#111111","--sub":"#9a9a9a","--sub-2":"#6b6b6b","--accent":"#111111","--accent-text":"#ffffff","--accent-soft":"#efefef","--radius":"6px","--font":"'IBM Plex Sans','Noto Sans KR',sans-serif",...GLASS_LIGHT,"--glass-bg":"rgba(255,255,255,.5)","--glass-brd":"rgba(0,0,0,.12)"}},
   {id:"dark",name:"다크 테크",en:"Dark Tech",emoji:"🌙",desc:"딥 네이비 · 인디고 글로우",dots:["#6366f1","#0ea5e9","#1a1a22"],
-    tok:{"--bg":"#0f0f16","--surface":"#1a1a24","--surface-2":"#232330","--border":"#2c2c3a","--border-2":"#26262f","--text":"#e9e9f2","--sub":"#7c7c92","--sub-2":"#9a9ab0","--accent":"#6366f1","--accent-text":"#ffffff","--accent-soft":"#2a2a3a","--radius":"10px","--font":"'IBM Plex Sans','Noto Sans KR',sans-serif"}},
+    tok:{"--bg":"#0f0f16","--surface":"#1a1a24","--surface-2":"#232330","--border":"#2c2c3a","--border-2":"#26262f","--text":"#e9e9f2","--sub":"#7c7c92","--sub-2":"#9a9ab0","--accent":"#6366f1","--accent-text":"#ffffff","--accent-soft":"#2a2a3a","--radius":"10px","--font":"'IBM Plex Sans','Noto Sans KR',sans-serif",...GLASS_DARK}},
   {id:"pastel",name:"파스텔",en:"Pastel",emoji:"🎨",desc:"라벤더 · 소프트 바이올렛",dots:["#8b5cf6","#ec4899","#a78bfa"],
-    tok:{"--bg":"#f5f3ff","--surface":"#ffffff","--surface-2":"#f6f2fe","--border":"#e7e0fb","--border-2":"#efeafe","--text":"#3b2f57","--sub":"#a99cc9","--sub-2":"#8478a8","--accent":"#8b5cf6","--accent-text":"#ffffff","--accent-soft":"#ece5fb","--radius":"14px","--font":"'Noto Sans KR','IBM Plex Sans',sans-serif"}},
+    tok:{"--bg":"#f5f3ff","--surface":"#ffffff","--surface-2":"#f6f2fe","--border":"#e7e0fb","--border-2":"#efeafe","--text":"#3b2f57","--sub":"#a99cc9","--sub-2":"#8478a8","--accent":"#8b5cf6","--accent-text":"#ffffff","--accent-soft":"#ece5fb","--radius":"14px","--font":"'Noto Sans KR','IBM Plex Sans',sans-serif",...GLASS_LIGHT,"--glass-bg":"rgba(250,248,255,.6)","--glass-brd":"rgba(90,70,150,.14)"}},
   {id:"ocean",name:"오션",en:"Ocean",emoji:"🌊",desc:"클린 블루 · 상쾌한 톤",dots:["#0ea5e9","#14b8a6","#38bdf8"],
-    tok:{"--bg":"#eef6fb","--surface":"#ffffff","--surface-2":"#eaf4fa","--border":"#d5e7f1","--border-2":"#e4f0f7","--text":"#0c3a52","--sub":"#7fa8bd","--sub-2":"#4f7f97","--accent":"#0284c7","--accent-text":"#ffffff","--accent-soft":"#dcedf7","--radius":"12px","--font":"'Noto Sans KR','IBM Plex Sans',sans-serif"}},
+    tok:{"--bg":"#eef6fb","--surface":"#ffffff","--surface-2":"#eaf4fa","--border":"#d5e7f1","--border-2":"#e4f0f7","--text":"#0c3a52","--sub":"#7fa8bd","--sub-2":"#4f7f97","--accent":"#0284c7","--accent-text":"#ffffff","--accent-soft":"#dcedf7","--radius":"12px","--font":"'Noto Sans KR','IBM Plex Sans',sans-serif",...GLASS_LIGHT,"--glass-bg":"rgba(240,249,255,.6)","--glass-brd":"rgba(20,90,140,.14)"}},
 ];
 const applyTheme=id=>{
   const t=THEMES.find(x=>x.id===id)||THEMES[0];
@@ -313,14 +378,14 @@ function Card({s,fav,admin,onFav,onCopy,copied,onView,onEdit,onDel}){
         {/* Level badge - top left */}
         <span style={{position:'absolute',top:10,left:10,background:'rgba(0,0,0,.28)',color:'#fff',padding:'3px 9px',borderRadius:20,fontSize:10,fontWeight:700,letterSpacing:'.3px',zIndex:2}}>{LV[s.lv]||'중급'}</span>
         {/* Fav heart - top right */}
-        <button className="fav-btn" onClick={e=>{e.stopPropagation();onFav(s.id);}} style={{position:'absolute',top:8,right:8,width:30,height:30,borderRadius:'50%',background:fav?'rgba(255,255,255,.95)':'rgba(255,255,255,.7)',border:'none',cursor:'pointer',color:fav?'#ef4444':'#ccc',fontSize:16,display:'flex',alignItems:'center',justifyContent:'center',transition:'all .15s',opacity:fav?1:0,boxShadow:'0 1px 4px rgba(0,0,0,.1)',zIndex:2}}>
+        <button className="fav-btn gbtn-round" onClick={e=>{e.stopPropagation();onFav(s.id);}} style={{position:'absolute',top:8,right:8,width:30,height:30,borderRadius:'50%',background:fav?'rgba(255,255,255,.92)':'rgba(255,255,255,.62)',border:'1px solid rgba(255,255,255,.5)',cursor:'pointer',color:fav?'#ef4444':'#e0e0e0',fontSize:16,display:'flex',alignItems:'center',justifyContent:'center',opacity:fav?1:0,zIndex:2}}>
           {fav?'♥':'♡'}
         </button>
         {/* Admin actions overlay */}
         {admin&&(
           <div className="card-actions" style={{position:'absolute',bottom:8,right:8,display:'flex',gap:4,opacity:0,transition:'opacity .15s',zIndex:2}}>
-            <button onClick={e=>{e.stopPropagation();onEdit(s);}} title="편집" style={{width:26,height:26,borderRadius:6,background:'rgba(255,255,255,.92)',border:'none',cursor:'pointer',color:'#555',display:'flex',alignItems:'center',justifyContent:'center',boxShadow:'0 1px 4px rgba(0,0,0,.15)'}}>{I.edit}</button>
-            <button onClick={e=>{e.stopPropagation();onDel(s.id);}} title="삭제" style={{width:26,height:26,borderRadius:6,background:'rgba(239,68,68,.9)',border:'none',cursor:'pointer',color:'#fff',display:'flex',alignItems:'center',justifyContent:'center',boxShadow:'0 1px 4px rgba(0,0,0,.15)'}}>{I.del}</button>
+            <button className="gbtn-round" onClick={e=>{e.stopPropagation();onEdit(s);}} title="편집" style={{width:26,height:26,borderRadius:8,background:'rgba(255,255,255,.85)',border:'1px solid rgba(255,255,255,.5)',cursor:'pointer',color:'#555',display:'flex',alignItems:'center',justifyContent:'center'}}>{I.edit}</button>
+            <button className="gbtn-round" onClick={e=>{e.stopPropagation();onDel(s.id);}} title="삭제" style={{width:26,height:26,borderRadius:8,background:'rgba(239,68,68,.85)',border:'1px solid rgba(255,255,255,.35)',cursor:'pointer',color:'#fff',display:'flex',alignItems:'center',justifyContent:'center'}}>{I.del}</button>
           </div>
         )}
       </div>
@@ -370,7 +435,7 @@ function Detail({s,onClose,onCopy,copied}){
         {/* Hero */}
         <div className="hero-band" style={{width:'100%',height:150,background:CG[s.cat]||CC[s.cat],position:'relative',flexShrink:0,display:'flex',alignItems:'center',justifyContent:'center'}}>
           <span style={{fontSize:64,filter:'drop-shadow(0 2px 10px rgba(0,0,0,.25))'}}>{CAT_EMOJI[s.cat]||'⚡'}</span>
-          <button onClick={onClose} style={{position:'absolute',top:12,right:12,width:32,height:32,borderRadius:'50%',background:'rgba(0,0,0,.4)',border:'none',cursor:'pointer',color:'#fff',fontSize:18,display:'flex',alignItems:'center',justifyContent:'center',zIndex:2}}>×</button>
+          <button className="gbtn-round" onClick={onClose} style={{position:'absolute',top:12,right:12,width:32,height:32,borderRadius:'50%',background:'rgba(0,0,0,.35)',border:'1px solid rgba(255,255,255,.3)',cursor:'pointer',color:'#fff',fontSize:18,display:'flex',alignItems:'center',justifyContent:'center',zIndex:2}}>×</button>
           <div style={{position:'absolute',bottom:12,left:12,display:'flex',gap:8,alignItems:'center',zIndex:2}}>
             <span style={{background:'rgba(0,0,0,.5)',color:'#fff',padding:'4px 10px',borderRadius:6,fontSize:12,fontWeight:700,fontFamily:"'IBM Plex Mono',monospace"}}>#{String(s.id).padStart(3,'0')}</span>
             <span style={{background:'rgba(255,255,255,.9)',color:CC[s.cat]||'#333',padding:'4px 10px',borderRadius:6,fontSize:11,fontWeight:700}}>{CAT_KO[s.cat]||s.cat}</span>
@@ -382,7 +447,7 @@ function Detail({s,onClose,onCopy,copied}){
           <div style={{fontWeight:900,fontSize:22,color:'var(--text)',marginBottom:4}}>{s.ko}</div>
           <div style={{fontSize:13,color:'var(--sub)',fontFamily:"'IBM Plex Mono',monospace",marginBottom:16}}>{s.en}</div>
           <div style={{fontSize:13.5,color:'var(--sub-2)',lineHeight:1.75,marginBottom:20,padding:16,background:'var(--surface-2)',borderRadius:10,border:'1px solid var(--border)',whiteSpace:'pre-wrap',maxHeight:260,overflow:'auto'}}>{s.prompt}</div>
-          <button onClick={()=>onCopy(s)} style={{width:'100%',padding:'12px 0',borderRadius:10,border:'none',background:copied===s.id?'#16a34a':'var(--accent)',color:'var(--accent-text)',fontWeight:700,fontSize:14,cursor:'pointer',transition:'all .2s',display:'flex',alignItems:'center',justifyContent:'center',gap:8}}>
+          <button className="gbtn-primary" onClick={()=>onCopy(s)} style={{width:'100%',padding:'13px 0',borderRadius:14,background:copied===s.id?'#16a34a':'var(--accent)',color:'var(--accent-text)',fontSize:14,display:'flex',alignItems:'center',justifyContent:'center',gap:8}}>
             {copied===s.id?'✓ 복사 완료!':'📋 프롬프트 전체 복사'}
           </button>
         </div>
@@ -406,7 +471,7 @@ function Login({onClose,onLogin}){
         <input type="password" value={pw} onChange={e=>setPw(e.target.value)} onKeyDown={e=>e.key==='Enter'&&go()} placeholder="비밀번호" autoFocus
           style={{width:'100%',padding:'10px 14px',borderRadius:8,border:`1.5px solid ${err?'#ef4444':'var(--border)'}`,background:'var(--surface-2)',color:'var(--text)',fontSize:14,outline:'none',marginBottom:err?4:14}}/>
         {err&&<div style={{fontSize:11,color:'#ef4444',marginBottom:8}}>비밀번호가 틀렸습니다</div>}
-        <button onClick={go} style={{width:'100%',padding:'10px 0',borderRadius:8,border:'none',background:'var(--accent)',color:'var(--accent-text)',fontWeight:700,fontSize:14,cursor:'pointer'}}>로그인</button>
+        <button className="gbtn-primary" onClick={go} style={{width:'100%',padding:'11px 0',borderRadius:12,background:'var(--accent)',color:'var(--accent-text)',fontSize:14}}>로그인</button>
       </div>
     </div>
   );
@@ -466,7 +531,7 @@ function Form({item,onClose,onSave}){
           <input value={en} onChange={e=>setEn(e.target.value)} placeholder="예: Write a PRD" style={inputStyle}/>
           <label style={labelStyle}>프롬프트</label>
           <textarea value={prompt} onChange={e=>setPr(e.target.value)} placeholder="복사해서 바로 쓸 프롬프트 본문. [플레이스홀더]로 변수를 표시하세요." rows={6} style={{...inputStyle,resize:'vertical',lineHeight:1.6}}/>
-          <button onClick={save} style={{width:'100%',padding:'11px 0',borderRadius:8,border:'none',background:'var(--accent)',color:'var(--accent-text)',fontWeight:700,fontSize:14,cursor:'pointer',marginTop:4}}>
+          <button className="gbtn-primary" onClick={save} style={{width:'100%',padding:'12px 0',borderRadius:12,background:'var(--accent)',color:'var(--accent-text)',fontSize:14,marginTop:4}}>
             {isEdit?'수정 완료':'추가하기'}
           </button>
         </div>
@@ -604,7 +669,7 @@ function App(){
           </div>
 
           {/* Right buttons */}
-          <div style={{display:'flex',gap:6,flexShrink:0}}>
+          <div style={{display:'flex',gap:6,flexShrink:0,flexWrap:'wrap',justifyContent:'flex-end'}}>
             <button className="admin-btn" onClick={()=>setShowSelect(true)}>🎨 디자인</button>
             <button className="admin-btn" onClick={()=>{copyText(SITE_URL);tst('✓ URL 복사됨');}}>{I.link} URL 복사</button>
             {admin?(
@@ -632,7 +697,7 @@ function App(){
       </header>
 
       {/* GRID */}
-      <main style={{maxWidth:1280,margin:'0 auto',padding:'20px 24px 40px'}}>
+      <main className="main-wrap" style={{maxWidth:1280,margin:'0 auto',padding:'20px 24px 40px'}}>
         {filtered.length===0?(
           <div style={{textAlign:'center',padding:'80px 0'}}>
             <div style={{fontSize:40,marginBottom:12,opacity:.15}}>{active==='FAVORITES'?'♡':'🔍'}</div>
