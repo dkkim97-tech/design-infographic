@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Design by Myway 75 — Style Library</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet"/>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{background:#f4f4f5;font-family:'Noto Sans KR','IBM Plex Sans',sans-serif;color:#1a1a1a;min-height:100vh}
+input,button,textarea,select{font-family:inherit}
+::selection{background:#e0e7ff;color:#3730a3}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#d1d5db;border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:#9ca3af}
+
+/* Animations */
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+
+.card-enter{animation:fadeIn .35s ease both}
+
+/* Card hover */
+.style-card{transition:box-shadow .22s ease,transform .22s ease}
+.style-card:hover{box-shadow:0 8px 32px rgba(0,0,0,.1)!important;transform:translateY(-3px)}
+.style-card:hover .card-actions{opacity:1!important}
+.style-card:hover .fav-btn{opacity:1!important}
+
+/* Category pills */
+.cat-pill{display:inline-flex;align-items:center;gap:4px;padding:2px 8px 2px 6px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:-.2px;white-space:nowrap}
+.cat-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+
+/* Action buttons */
+.act-btn{display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border:1px solid #e5e5e5;border-radius:6px;background:#fff;color:#666;font-size:11px;font-weight:500;cursor:pointer;transition:all .15s;white-space:nowrap}
+.act-btn:hover{background:#f9fafb;border-color:#d1d5db;color:#333}
+.act-btn.copied{background:#f0fdf4;border-color:#86efac;color:#16a34a}
+.act-btn svg{width:13px;height:13px;flex-shrink:0}
+
+/* Tab buttons */
+.tab-btn{padding:6px 14px;border-radius:20px;border:1px solid transparent;background:transparent;color:#71717a;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap}
+.tab-btn:hover{background:#e4e4e7;color:#3f3f46}
+.tab-btn.active{background:#18181b;color:#fff;border-color:#18181b}
+
+/* Admin buttons */
+.admin-btn{padding:5px 10px;border-radius:6px;border:1px solid #e5e5e5;background:#fff;color:#666;font-size:11px;font-weight:500;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:4px}
+.admin-btn:hover{background:#fafafa;border-color:#d1d5db}
+
+/* Toast */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#18181b;color:#fff;padding:10px 24px;border-radius:10px;font-size:13px;font-weight:600;z-index:9999;pointer-events:none;box-shadow:0 8px 30px rgba(0,0,0,.2);white-space:nowrap;transition:all .3s ease}
+
+/* Modal overlay */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:8000;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.modal-box{background:#fff;border-radius:16px;box-shadow:0 24px 80px rgba(0,0,0,.18);animation:slideUp .25s ease;max-height:90vh;overflow:hidden;display:flex;flex-direction:column}
+
+/* Search input */
+.search-wrap{position:relative;flex:1;max-width:320px}
+.search-wrap input{width:100%;padding:8px 12px 8px 34px;border:1px solid #e5e5e5;border-radius:8px;font-size:13px;outline:none;background:#fff;transition:border-color .15s}
+.search-wrap input:focus{border-color:#a5b4fc}
+.search-wrap svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#a1a1aa}
+
+/* Migration banner */
+.mig-banner{position:fixed;top:0;left:0;right:0;z-index:9999;background:#18181b;color:#fff;padding:14px 24px;display:flex;align-items:center;justify-content:center;gap:14px;font-size:13px;font-weight:600}
+.mig-bar{width:180px;height:5px;background:rgba(255,255,255,.2);border-radius:3px;overflow:hidden}
+.mig-fill{height:100%;background:#a5b4fc;border-radius:3px;transition:width .3s}
+
+/* Responsive */
+@media(max-width:900px){
+  .grid-4{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))!important}
+}
+@media(max-width:600px){
+  .grid-4{grid-template-columns:1fr 1fr!important;gap:12px!important}
+  .header-inner{flex-direction:column;gap:10px!important}
+  .tab-row{flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const {useState,useEffect,useRef,useCallback}=React;
+
+/* ══════════════════════════════════════
+   CONFIG
+══════════════════════════════════════ */
+const ADMIN_PW="myway75";
+const SITE_URL="https://design-infographic.netlify.app/";
+const EDITS_KEY="myway75-edits";
+const FAVS_KEY="myway75-favs";
+const MIG_FLAG="myway75-idb-v1";
+const DB_NAME="myway75-imgdb";
+const DB_STORE="images";
+
+const CATS=["ALL","FAVORITES","TECHNICAL","DIGITAL","GRAPHIC","ARTISTIC","3D","COMICS","CONCEPT","CRAFT","VINTAGE"];
+const CAT_IN=["TECHNICAL","DIGITAL","GRAPHIC","ARTISTIC","3D","COMICS","CONCEPT","CRAFT","VINTAGE"];
+const CC={TECHNICAL:"#6366f1",DIGITAL:"#3b82f6",GRAPHIC:"#8b5cf6",ARTISTIC:"#ec4899","3D":"#14b8a6",COMICS:"#f97316",CONCEPT:"#818cf8",CRAFT:"#a855f7",VINTAGE:"#d97706"};
+const CAT_KO={TECHNICAL:"테크니컬",DIGITAL:"디지털",GRAPHIC:"그래픽",ARTISTIC:"아티스틱","3D":"3D",COMICS:"코믹스",CONCEPT:"컨셉",CRAFT:"크래프트",VINTAGE:"빈티지"};
+
+/* ══════════════════════════════════════
+   IndexedDB
+══════════════════════════════════════ */
+let _db=null;
+function openDB(){
+  if(_db)return Promise.resolve(_db);
+  return new Promise((res,rej)=>{
+    const r=indexedDB.open(DB_NAME,1);
+    r.onupgradeneeded=e=>e.target.result.createObjectStore(DB_STORE);
+    r.onsuccess=e=>{_db=e.target.result;res(_db);};
+    r.onerror=()=>rej(r.error);
+  });
+}
+function idbSet(id,val){return openDB().then(db=>new Promise((res,rej)=>{const tx=db.transaction(DB_STORE,'readwrite');tx.objectStore(DB_STORE).put(val,'img-'+id);tx.oncomplete=res;tx.onerror=()=>rej(tx.error);}));}
+function idbGet(id){return openDB().then(db=>new Promise(res=>{const r=db.transaction(DB_STORE,'readonly').objectStore(DB_STORE).get('img-'+id);r.onsuccess=()=>res(r.result||null);r.onerror=()=>res(null);}));}
+function idbDel(id){return openDB().then(db=>new Promise(res=>{const tx=db.transaction(DB_STORE,'readwrite');tx.objectStore(DB_STORE).delete('img-'+id);tx.oncomplete=res;tx.onerror=res;}));}
+
+/* ══════════════════════════════════════
+   Migration: localStorage base64 → IndexedDB
+══════════════════════════════════════ */
+async function migrate(onP){
+  if(localStorage.getItem(MIG_FLAG)==='1')return{skip:true};
+  const raw=localStorage.getItem(EDITS_KEY);
+  if(!raw){localStorage.setItem(MIG_FLAG,'1');return{skip:true};}
+  let styles;
+  try{styles=JSON.parse(raw);}catch(e){localStorage.setItem(MIG_FLAG,'1');return{skip:true};}
+  const toMove=styles.filter(s=>s.image&&s.image.startsWith('data:'));
+  if(!toMove.length){localStorage.setItem(MIG_FLAG,'1');return{skip:true};}
+  onP&&onP(0,toMove.length);
+  const cleaned=styles.map(s=>s.image&&s.image.startsWith('data:')?{...s,image:'__idb__'+s.id}:s);
+  for(let i=0;i<toMove.length;i++){
+    try{await idbSet(toMove[i].id,toMove[i].image);}catch(e){console.warn('idb fail',e);}
+    onP&&onP(i+1,toMove.length);
+    await new Promise(r=>setTimeout(r,0));
+  }
+  try{localStorage.setItem(EDITS_KEY,JSON.stringify(cleaned));}catch(e){}
+  localStorage.setItem(MIG_FLAG,'1');
+  return{moved:toMove.length};
+}
+
+/* ══════════════════════════════════════
+   Storage helpers
+══════════════════════════════════════ */
+function lsLoad(k){try{const d=localStorage.getItem(k);return d?JSON.parse(d):null;}catch(e){return null;}}
+function lsSave(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){console.warn('lsSave fail',e);}}
+
+/* ══════════════════════════════════════
+   DEFAULT STYLES
+══════════════════════════════════════ */
+const DEFAULTS=[
+  // ── Page 1, Row 1 ──
+  {id:316,cat:"GRAPHIC",ko:"스피드",en:"Speed / Dynamic",prompt:"High-speed dynamic infographic design with bold arrows and motion lines, energetic diagonal composition, speed blur effects, racing aesthetic, strong contrast, vivid accent colors on dark background",grad:"linear-gradient(135deg,#1a1a2e,#e74c3c,#f39c12)",image:null},
+  {id:325,cat:"TECHNICAL",ko:"인포그래픽",en:"Infographic / Clean",prompt:"Clean professional infographic with structured data blocks, pie charts, bar graphs, timeline elements, icon grid, organized sections with clear hierarchy, modern corporate data visualization",grad:"linear-gradient(135deg,#2c3e50,#3498db,#ecf0f1)",image:null},
+  {id:389,cat:"CONCEPT",ko:"제품 소개",en:"Product Showcase / Scene",prompt:"Product showcase scene with lifestyle setting, clean white background product hero shot, feature callouts, spec comparison table, elegant product photography composition, commercial advertisement feel",grad:"linear-gradient(135deg,#f8f9fa,#dee2e6,#adb5bd)",image:null},
+  {id:397,cat:"TECHNICAL",ko:"분석 리포트",en:"Analysis Report / Data",prompt:"Analysis report style with executive summary blocks, KPI dashboard cards, financial charts, trend arrows, percentage indicators, professional business document aesthetic, data-driven visual storytelling",grad:"linear-gradient(135deg,#1a1a2e,#4a4a6a,#8b8baa)",image:null},
+  // ── Page 1, Row 2 ──
+  {id:327,cat:"GRAPHIC",ko:"모노+액센트",en:"Mono + Accent Tone",prompt:"Monochrome design with single bold accent color, high contrast black and white photography base, strategic color pop elements, sophisticated editorial layout, minimal yet impactful visual hierarchy",grad:"linear-gradient(135deg,#1a1a1a,#444,#e74c3c)",image:null},
+  {id:299,cat:"CONCEPT",ko:"미니멀리즘 여백",en:"Minimalism / Void / Essence",prompt:"Ultra-minimal design with generous white space, single focal element, sparse typography, zen-like composition, reduction to essentials, breathing room, contemplative void aesthetic, less is more philosophy",grad:"linear-gradient(135deg,#fafafa,#f0f0f0,#e8e8e8)",image:null},
+  {id:317,cat:"GRAPHIC",ko:"스토리텔링",en:"Storytelling / Narrative",prompt:"Narrative storytelling infographic with sequential flow, chapter-like sections, illustration vignettes, story arc visualization, emotional journey mapping, editorial illustration style, magazine feature layout",grad:"linear-gradient(135deg,#2d3436,#636e72,#b2bec3)",image:null},
+  {id:248,cat:"TECHNICAL",ko:"데이터 비주얼",en:"Data Viz / Graph / Information",prompt:"Data visualization with complex graphs and charts, information density, multi-variable scatter plots, heat maps, network diagrams, statistical infographic, rich data storytelling with annotations",grad:"linear-gradient(135deg,#0c2461,#1e3799,#4a69bd)",image:null},
+  // ── Page 1, Row 3 ──
+  {id:888,cat:"COMICS",ko:"낙서 노트",en:"Doodle / Notebook",prompt:"Hand-drawn doodle notebook style with black ink sketches on lined paper, casual hand-lettering, arrows speech bubbles, simple stick-figure illustrations, margin notes, school notebook aesthetic, spontaneous sketch feel",grad:"linear-gradient(135deg,#f5f0e8,#e8e0d0,#d4c8b0)",image:null},
+  {id:263,cat:"GRAPHIC",ko:"프레피 체크",en:"Preppy / Check / Navy",prompt:"Preppy style with navy and white check patterns, collegiate aesthetic, classic stripe elements, brass button accents, academic crest design, traditional plaid, New England inspired, nautical elements",grad:"linear-gradient(135deg,#1a2a6c,#b21f1f,#fdbb2d)",image:null},
+  {id:223,cat:"CONCEPT",ko:"마블 화이트 골드",en:"Marble / White / Gold",prompt:"Elegant marble and gold design with white marble textures, gold geometric accents, luxury brand aesthetic, premium material study, classical yet modern, high-end product showcase, sophisticated palette",grad:"linear-gradient(135deg,#f5f5f5,#e8e8e8,#d4af37)",image:null},
+  {id:283,cat:"ARTISTIC",ko:"흑백 인물 빛",en:"Black&White / Portrait / Light",prompt:"Black and white portrait photography style with dramatic chiaroscuro lighting, high contrast monochrome, studio portrait aesthetic, rim lighting, moody atmospheric quality, cinematic black and white",grad:"linear-gradient(135deg,#000,#333,#666)",image:null},
+  // ── Page 2, Row 1 ──
+  {id:55,cat:"3D",ko:"클레이모피즘 파스텔",en:"Claymorphism / Pastel / Rounded",prompt:"Claymorphism design with soft pastel clay-like 3D elements, rounded puffy shapes, gentle shadows, playful toy aesthetic, marshmallow texture, warm soft lighting, children's illustration feel",grad:"linear-gradient(135deg,#ffeaa7,#fab1a0,#a29bfe,#55efc4)",image:null},
+  {id:178,cat:"3D",ko:"클레이 스톱모션",en:"Clay / Stopmotion / Cute",prompt:"Clay stop-motion animation style with handcrafted clay figures, visible fingerprint textures, warm studio lighting, miniature set design, Aardman-inspired character design, playful stop-motion aesthetic",grad:"linear-gradient(135deg,#fdcb6e,#e17055,#00b894)",image:null},
+  {id:33,cat:"ARTISTIC",ko:"유화 임파스토 클래식",en:"Oil painting / Impasto / Classical",prompt:"Classical oil painting with heavy impasto technique, rich texture palette knife work, old master glazing, museum-quality fine art, dramatic Rembrandt lighting, warm earth tones, gallery exhibition quality",grad:"linear-gradient(135deg,#2c1810,#6b4423,#c4923a,#e8c87a)",image:null},
+  {id:85,cat:"ARTISTIC",ko:"유화 인상주의 빛",en:"Oil Painting / Impressionism / Light",prompt:"Impressionist oil painting with vibrant light-filled scenes, loose expressive brushwork, plein air outdoor painting, dappled sunlight through leaves, pastel sky, Monet-inspired color harmony, garden paradise",grad:"linear-gradient(135deg,#87ceeb,#98fb98,#dda0dd,#f0e68c)",image:null},
+  // ── Page 2, Row 2 ──
+  {id:240,cat:"CONCEPT",ko:"날씨 구름 비",en:"Weather / Cloud / Rain",prompt:"Weather-themed atmospheric design with dramatic cloud formations, rain droplets, lightning bolts, fog and mist effects, storm aesthetics, meteorological diagram style, nature's power visualization",grad:"linear-gradient(135deg,#2c3e50,#4a6274,#7fb3d3,#bdc3c7)",image:null},
+  {id:76,cat:"ARTISTIC",ko:"스케치 수채화 여행",en:"Sketch / Watercolor / Travel",prompt:"Travel sketchbook style with loose pen and watercolor technique, urban sketching, hand-drawn architecture, casual field notes, stamp and postmark elements, wanderlust journal aesthetic, authentic hand-drawn feel",grad:"linear-gradient(135deg,#f9e4b7,#e8c17a,#7ab8bf,#5a9e8f)",image:null},
+  {id:279,cat:"CRAFT",ko:"핸드리튼 초크 캐주얼",en:"Handwritten / Chalk / Casual",prompt:"Handwritten chalk style on blackboard background, casual hand lettering, chalk dust texture, doodle illustrations, cafe menu board aesthetic, warm friendly handcrafted feel, whiteboard sketch notes",grad:"linear-gradient(135deg,#2d3436,#636e72,#dfe6e9)",image:null},
+  {id:269,cat:"DIGITAL",ko:"사이버 테크웨어 블랙",en:"Cyber / Techwear / Black",prompt:"Dark cyberpunk techwear aesthetic with black technical materials, neon accent lines, HUD interface elements, tactical gear design, dark futuristic urban style, tech-noir atmosphere, matte black with glow",grad:"linear-gradient(135deg,#0a0a0a,#1a1a2e,#2d1b69,#0ff)",image:null},
+];
+
+/* ══════════════════════════════════════
+   SVG ICONS
+══════════════════════════════════════ */
+const I={
+  copy:<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>,
+  eye:<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>,
+  fire:<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 12c2-2.96 0-7-1-8 0 3.038-1.773 4.741-3 6-1.226 1.26-2 3.24-2 5a6 6 0 1 0 12 0c0-1.532-1.056-3.94-2-5-1.786 3-2.791 3-4 2z"/></svg>,
+  search:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>,
+  edit:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>,
+  del:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>,
+  plus:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>,
+  link:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>,
+  lock:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>,
+  dl:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>,
+  ul:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>,
+  img:<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ccc" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>,
+  check:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>,
+};
+
+/* ══════════════════════════════════════
+   HOOKS
+══════════════════════════════════════ */
+function useImg(image,id){
+  const[src,setSrc]=useState(null);
+  useEffect(()=>{
+    if(!image){setSrc(null);return;}
+    if(image.startsWith('__idb__')){idbGet(id).then(setSrc);}
+    else{setSrc(image);}
+  },[image,id]);
+  return src;
+}
+
+/* ══════════════════════════════════════
+   TOAST
+══════════════════════════════════════ */
+function Toast({msg,vis}){
+  return <div className="toast" style={{opacity:vis?1:0,transform:`translateX(-50%) translateY(${vis?0:10}px)`}}>{msg}</div>;
+}
+
+/* ══════════════════════════════════════
+   CARD — Redesigned to match PDF style
+══════════════════════════════════════ */
+function Card({s,fav,admin,onFav,onCopy,copied,onView,onEdit,onDel}){
+  const img=useImg(s.image,s.id);
+  const catColor=CC[s.cat]||'#888';
+  return(
+    <div className="style-card" style={{borderRadius:10,overflow:'hidden',background:'#fff',border:'1px solid #e8e8e8',position:'relative'}}>
+      {/* Image area */}
+      <div onClick={()=>onView(s)} style={{width:'100%',height:200,background:img?`url(${img}) center/cover no-repeat`:s.grad,position:'relative',cursor:'pointer'}}>
+        {/* Fav heart - top right */}
+        <button className="fav-btn" onClick={e=>{e.stopPropagation();onFav(s.id);}} style={{position:'absolute',top:10,right:10,width:30,height:30,borderRadius:'50%',background:fav?'rgba(255,255,255,.95)':'rgba(255,255,255,.7)',border:'none',cursor:'pointer',color:fav?'#ef4444':'#ccc',fontSize:16,display:'flex',alignItems:'center',justifyContent:'center',transition:'all .15s',opacity:fav?1:0,boxShadow:'0 1px 4px rgba(0,0,0,.1)'}}>
+          {fav?'♥':'♡'}
+        </button>
+        {/* Admin actions overlay */}
+        {admin&&(
+          <div className="card-actions" style={{position:'absolute',bottom:8,right:8,display:'flex',gap:4,opacity:0,transition:'opacity .15s'}}>
+            <button onClick={e=>{e.stopPropagation();onEdit(s);}} title="편집" style={{width:26,height:26,borderRadius:6,background:'rgba(255,255,255,.92)',border:'none',cursor:'pointer',color:'#555',display:'flex',alignItems:'center',justifyContent:'center',boxShadow:'0 1px 4px rgba(0,0,0,.15)'}}>{I.edit}</button>
+            <button onClick={e=>{e.stopPropagation();onDel(s.id);}} title="삭제" style={{width:26,height:26,borderRadius:6,background:'rgba(239,68,68,.9)',border:'none',cursor:'pointer',color:'#fff',display:'flex',alignItems:'center',justifyContent:'center',boxShadow:'0 1px 4px rgba(0,0,0,.15)'}}>{I.del}</button>
+          </div>
+        )}
+      </div>
+
+      {/* Info area */}
+      <div style={{padding:'10px 12px 8px'}}>
+        {/* ID + Category + PTS row */}
+        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:6}}>
+          <div style={{display:'flex',alignItems:'center',gap:8}}>
+            <span style={{fontSize:12,fontWeight:700,color:catColor,fontFamily:"'IBM Plex Mono',monospace"}}>#{s.id}</span>
+            <span className="cat-pill" style={{background:catColor+'14',color:catColor}}>
+              <span className="cat-dot" style={{background:catColor}}></span>
+              {CAT_KO[s.cat]||s.cat}
+            </span>
+          </div>
+          <span style={{fontSize:10,fontWeight:600,color:'#a1a1aa',fontFamily:"'IBM Plex Mono',monospace",letterSpacing:'.5px'}}>{s.id>100?(Math.floor(s.id/7)%10+40)+' PTS':''}</span>
+        </div>
+
+        {/* Style name */}
+        <div style={{fontWeight:700,fontSize:15,color:'#18181b',marginBottom:2,lineHeight:1.35}}>{s.ko}</div>
+        <div style={{fontSize:11,color:'#a1a1aa',fontFamily:"'IBM Plex Mono',monospace",marginBottom:10,letterSpacing:'-.2px'}}>{s.en}</div>
+
+        {/* Action buttons row */}
+        <div style={{display:'flex',gap:5,borderTop:'1px solid #f4f4f5',paddingTop:8}}>
+          <button className={`act-btn${copied===s.id?' copied':''}`} onClick={()=>onCopy(s)} style={{flex:1,justifyContent:'center'}}>
+            {copied===s.id?I.check:I.copy}
+            <span>{copied===s.id?'복사됨':'프롬프트 복사'}</span>
+          </button>
+          <button className="act-btn" onClick={()=>onView(s)} style={{justifyContent:'center'}}>
+            {I.eye} <span>상세</span>
+          </button>
+          <button className="act-btn" onClick={()=>{window.open&&window.open('https://www.bing.com/images/create','_blank');}} style={{justifyContent:'center',color:'#f97316'}}>
+            {I.fire} <span style={{fontWeight:600}}>BananaNL</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════
+   DETAIL MODAL
+══════════════════════════════════════ */
+function Detail({s,onClose,onCopy,copied}){
+  const img=useImg(s.image,s.id);
+  return(
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-box" onClick={e=>e.stopPropagation()} style={{width:520,maxWidth:'92vw'}}>
+        {/* Image */}
+        <div style={{width:'100%',height:280,background:img?`url(${img}) center/cover no-repeat`:s.grad,position:'relative',flexShrink:0}}>
+          <button onClick={onClose} style={{position:'absolute',top:12,right:12,width:32,height:32,borderRadius:'50%',background:'rgba(0,0,0,.5)',border:'none',cursor:'pointer',color:'#fff',fontSize:18,display:'flex',alignItems:'center',justifyContent:'center'}}>×</button>
+          <div style={{position:'absolute',bottom:12,left:12,display:'flex',gap:8,alignItems:'center'}}>
+            <span style={{background:'rgba(0,0,0,.6)',color:'#fff',padding:'4px 10px',borderRadius:6,fontSize:12,fontWeight:700,fontFamily:"'IBM Plex Mono',monospace"}}>#{s.id}</span>
+            <span style={{background:(CC[s.cat]||'#888')+'dd',color:'#fff',padding:'4px 10px',borderRadius:6,fontSize:11,fontWeight:600}}>{CAT_KO[s.cat]||s.cat}</span>
+          </div>
+        </div>
+        {/* Content */}
+        <div style={{padding:'20px 24px 24px'}}>
+          <div style={{fontWeight:900,fontSize:22,color:'#18181b',marginBottom:4}}>{s.ko}</div>
+          <div style={{fontSize:13,color:'#a1a1aa',fontFamily:"'IBM Plex Mono',monospace",marginBottom:16}}>{s.en}</div>
+          <div style={{fontSize:13,color:'#52525b',lineHeight:1.7,marginBottom:20,padding:16,background:'#fafafa',borderRadius:10,border:'1px solid #f0f0f0',fontFamily:"'IBM Plex Sans','Noto Sans KR',sans-serif",maxHeight:160,overflow:'auto'}}>{s.prompt}</div>
+          <button onClick={()=>onCopy(s)} style={{width:'100%',padding:'12px 0',borderRadius:10,border:'none',background:copied===s.id?'#16a34a':'#18181b',color:'#fff',fontWeight:700,fontSize:14,cursor:'pointer',transition:'all .2s',display:'flex',alignItems:'center',justifyContent:'center',gap:8}}>
+            {copied===s.id?'✓ 복사 완료!':'📋 프롬프트 전체 복사'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════
+   LOGIN MODAL
+══════════════════════════════════════ */
+function Login({onClose,onLogin}){
+  const[pw,setPw]=useState('');
+  const[err,setErr]=useState(false);
+  const go=()=>{if(pw===ADMIN_PW){onLogin();onClose();}else{setErr(true);setTimeout(()=>setErr(false),1500);}};
+  return(
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-box" onClick={e=>e.stopPropagation()} style={{padding:32,width:320}}>
+        <div style={{fontSize:18,fontWeight:900,color:'#18181b',marginBottom:6}}>관리자 로그인</div>
+        <div style={{fontSize:12,color:'#a1a1aa',marginBottom:20}}>비밀번호를 입력하세요</div>
+        <input type="password" value={pw} onChange={e=>setPw(e.target.value)} onKeyDown={e=>e.key==='Enter'&&go()} placeholder="비밀번호" autoFocus
+          style={{width:'100%',padding:'10px 14px',borderRadius:8,border:`1.5px solid ${err?'#ef4444':'#e5e5e5'}`,fontSize:14,outline:'none',marginBottom:err?4:14}}/>
+        {err&&<div style={{fontSize:11,color:'#ef4444',marginBottom:8}}>비밀번호가 틀렸습니다</div>}
+        <button onClick={go} style={{width:'100%',padding:'10px 0',borderRadius:8,border:'none',background:'#18181b',color:'#fff',fontWeight:700,fontSize:14,cursor:'pointer'}}>로그인</button>
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════
+   FORM MODAL (Add/Edit) — URL only
+══════════════════════════════════════ */
+function Form({item,onClose,onSave}){
+  const isEdit=!!item;
+  const existImg=useImg(item?.image,item?.id);
+  const[ko,setKo]=useState(item?.ko||'');
+  const[en,setEn]=useState(item?.en||'');
+  const[cat,setCat]=useState(item?.cat||'ARTISTIC');
+  const[prompt,setPr]=useState(item?.prompt||'');
+  const[imgUrl,setImgUrl]=useState((item?.image&&!item.image.startsWith('__idb__')&&!item.image.startsWith('data:'))?item.image:'');
+  const[preview,setPreview]=useState(null);
+  const[imgMode,setImgMode]=useState('url'); // 'url' or 'file'
+  const[fileData,setFileData]=useState(null); // base64 from file upload
+  const[previewErr,setPreviewErr]=useState(false);
+
+  // Google Drive URL 자동 변환
+  const convertGDriveUrl=(url)=>{
+    if(!url)return url;
+    // https://drive.google.com/file/d/FILE_ID/view?...
+    const m1=url.match(/drive\.google\.com\/file\/d\/([^\/\?]+)/);
+    if(m1)return 'https://drive.google.com/uc?export=view&id='+m1[1];
+    // https://drive.google.com/open?id=FILE_ID
+    const m2=url.match(/drive\.google\.com\/open\?id=([^&]+)/);
+    if(m2)return 'https://drive.google.com/uc?export=view&id='+m2[1];
+    // https://lh3.googleusercontent.com/d/FILE_ID
+    const m3=url.match(/lh3\.googleusercontent\.com\/d\/([^\/\?]+)/);
+    if(m3)return 'https://lh3.googleusercontent.com/d/'+m3[1];
+    return url;
+  };
+
+  const handleUrlChange=(val)=>{
+    setImgUrl(val);
+    setPreviewErr(false);
+    const converted=convertGDriveUrl(val.trim());
+    setPreview(converted);
+  };
+
+  // 파일 업로드 → base64
+  const handleFile=(e)=>{
+    const f=e.target.files[0];
+    if(!f)return;
+    if(f.size>5*1024*1024){alert('⚠️ 5MB 이하 이미지만 가능합니다');return;}
+    const r=new FileReader();
+    r.onload=(ev)=>{
+      setFileData(ev.target.result);
+      setPreview(ev.target.result);
+      setPreviewErr(false);
+    };
+    r.readAsDataURL(f);
+  };
+
+  const save=async()=>{
+    if(!ko.trim()||!prompt.trim())return;
+    let finalImage=item?.image||null;
+
+    if(imgMode==='file'&&fileData){
+      // 파일 업로드: IndexedDB에 저장
+      const newId=item?.id||Date.now();
+      try{await idbSet(newId,fileData);finalImage='__idb__'+newId;}catch(e){console.warn('idb save err',e);}
+    }else if(imgMode==='url'&&imgUrl.trim()){
+      // URL: Google Drive 자동 변환 적용
+      finalImage=convertGDriveUrl(imgUrl.trim());
+    }
+
+    const d={
+      id:item?.id||Date.now(),
+      cat,
+      ko:ko.trim(),
+      en:en.trim(),
+      prompt:prompt.trim(),
+      image:finalImage,
+      grad:item?.grad||`linear-gradient(135deg,${CC[cat]||'#888'}22,${CC[cat]||'#888'}88)`
+    };
+    onSave(d);onClose();
+  };
+
+  const labelStyle={fontSize:12,fontWeight:600,color:'#52525b',marginBottom:4,display:'block'};
+  const inputStyle={width:'100%',padding:'8px 12px',borderRadius:8,border:'1.5px solid #e5e5e5',fontSize:13,outline:'none',marginBottom:12};
+  const tabStyle=(active)=>({flex:1,padding:'7px 0',borderRadius:6,border:'1px solid '+(active?'#18181b':'#e5e5e5'),background:active?'#18181b':'#fff',color:active?'#fff':'#666',fontSize:12,fontWeight:600,cursor:'pointer',textAlign:'center'});
+
+  return(
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-box" onClick={e=>e.stopPropagation()} style={{width:440,maxWidth:'92vw',maxHeight:'90vh'}}>
+        <div style={{padding:'20px 24px',borderBottom:'1px solid #f0f0f0',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+          <div style={{fontWeight:900,fontSize:18,color:'#18181b'}}>{isEdit?'스타일 편집':'새 스타일 추가'}</div>
+          <button onClick={onClose} style={{background:'none',border:'none',fontSize:20,cursor:'pointer',color:'#a1a1aa'}}>×</button>
+        </div>
+        <div style={{padding:'16px 24px 24px',overflow:'auto'}}>
+          <label style={labelStyle}>카테고리</label>
+          <select value={cat} onChange={e=>setCat(e.target.value)} style={{...inputStyle,cursor:'pointer'}}>
+            {CAT_IN.map(c=><option key={c} value={c}>{CAT_KO[c]} ({c})</option>)}
+          </select>
+          <label style={labelStyle}>한글 이름</label>
+          <input value={ko} onChange={e=>setKo(e.target.value)} placeholder="예: 수채화 드림" style={inputStyle}/>
+          <label style={labelStyle}>영문 이름</label>
+          <input value={en} onChange={e=>setEn(e.target.value)} placeholder="예: Watercolor / Soft" style={inputStyle}/>
+          <label style={labelStyle}>프롬프트</label>
+          <textarea value={prompt} onChange={e=>setPr(e.target.value)} placeholder="AI 이미지 생성 프롬프트..." rows={4} style={{...inputStyle,resize:'vertical',lineHeight:1.5}}/>
+
+          {/* 이미지 입력 방식 탭 */}
+          <label style={labelStyle}>이미지</label>
+          <div style={{display:'flex',gap:6,marginBottom:10}}>
+            <button onClick={()=>setImgMode('url')} style={tabStyle(imgMode==='url')}>🔗 URL 입력</button>
+            <button onClick={()=>setImgMode('file')} style={tabStyle(imgMode==='file')}>📁 파일 업로드</button>
+          </div>
+
+          {imgMode==='url'?(
+            <>
+              <input value={imgUrl} onChange={e=>handleUrlChange(e.target.value)} placeholder="https://... 또는 Google Drive 공유 링크" style={inputStyle}/>
+              {imgUrl.includes('drive.google.com')&&imgUrl!==convertGDriveUrl(imgUrl)&&(
+                <div style={{fontSize:11,color:'#16a34a',marginBottom:8,marginTop:-8,padding:'4px 8px',background:'#f0fdf4',borderRadius:6}}>
+                  ✅ Google Drive 링크가 자동 변환됩니다
+                </div>
+              )}
+            </>
+          ):(
+            <>
+              <input type="file" accept="image/*" onChange={handleFile} style={{...inputStyle,padding:6,cursor:'pointer'}}/>
+              <div style={{fontSize:11,color:'#a1a1aa',marginBottom:8,marginTop:-8}}>JPG, PNG, WebP · 최대 5MB</div>
+            </>
+          )}
+
+          {/* 미리보기 */}
+          {(preview||existImg)&&(
+            <div style={{position:'relative',marginBottom:12}}>
+              <img
+                src={preview||existImg}
+                onError={()=>setPreviewErr(true)}
+                onLoad={()=>setPreviewErr(false)}
+                style={{width:'100%',height:140,objectFit:'cover',borderRadius:8,border:'1px solid #e5e5e5',display:previewErr?'none':'block'}}
+              />
+              {previewErr&&(
+                <div style={{width:'100%',height:140,borderRadius:8,border:'1px solid #fecaca',background:'#fef2f2',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:4}}>
+                  <span style={{fontSize:20}}>⚠️</span>
+                  <span style={{fontSize:11,color:'#dc2626',fontWeight:600}}>이미지를 불러올 수 없습니다</span>
+                  <span style={{fontSize:10,color:'#999'}}>URL이 올바른지 확인하거나 파일 업로드를 사용하세요</span>
+                </div>
+              )}
+            </div>
+          )}
+
+          <button onClick={save} style={{width:'100%',padding:'11px 0',borderRadius:8,border:'none',background:'#18181b',color:'#fff',fontWeight:700,fontSize:14,cursor:'pointer',marginTop:4}}>
+            {isEdit?'수정 완료':'추가하기'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════
+   MAIN APP
+══════════════════════════════════════ */
+function App(){
+  const[styles,setStyles]=useState(null);
+  const[favs,setFavs]=useState(new Set());
+  const[admin,setAdmin]=useState(false);
+  const[q,setQ]=useState('');
+  const[active,setActive]=useState('ALL');
+  const[copied,setCopied]=useState(null);
+  const[detail,setDetail]=useState(null);
+  const[login,setLogin]=useState(false);
+  const[form,setForm]=useState(false);
+  const[editItem,setEditItem]=useState(null);
+  const[toast,setToast]=useState({msg:'',vis:false});
+  const[mig,setMig]=useState(null);
+  const importRef=useRef(null);
+
+  const tst=msg=>{setToast({msg,vis:true});setTimeout(()=>setToast(t=>({...t,vis:false})),2200);};
+  const copyText=t=>{navigator.clipboard?navigator.clipboard.writeText(t):(() =>{const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();document.execCommand('copy');document.body.removeChild(a);})();};
+
+  // Load
+  useEffect(()=>{
+    const init=async()=>{
+      // Migration
+      try{
+        const r=await migrate((done,total)=>setMig({done,total}));
+        if(r.moved)setMig({done:r.moved,total:r.moved,complete:true});
+      }catch(e){console.warn('migration err',e);}
+      setTimeout(()=>setMig(null),2000);
+
+      // Load styles
+      const saved=lsLoad(EDITS_KEY);
+      setStyles(saved&&Array.isArray(saved)?saved:DEFAULTS);
+
+      // Load favs
+      const f=lsLoad(FAVS_KEY);
+      if(f&&Array.isArray(f))setFavs(new Set(f));
+    };
+    init();
+  },[]);
+
+  // Persist
+  useEffect(()=>{if(styles)lsSave(EDITS_KEY,styles);},[styles]);
+  useEffect(()=>{lsSave(FAVS_KEY,[...favs]);},[favs]);
+
+  const toggleFav=id=>setFavs(p=>{const n=new Set(p);n.has(id)?n.delete(id):n.add(id);return n;});
+  const doCopy=s=>{copyText(s.prompt);setCopied(s.id);tst('✓ 프롬프트가 복사되었습니다');setTimeout(()=>setCopied(null),2000);};
+  const doSave=async d=>{
+    const exists=styles.find(s=>s.id===d.id);
+    if(exists){setStyles(p=>p.map(s=>s.id===d.id?{...s,...d}:s));}
+    else{setStyles(p=>[d,...p]);}
+    tst(exists?'✅ 수정되었습니다':'✅ 추가되었습니다');
+  };
+  const doDel=id=>{if(!window.confirm('정말 삭제하시겠습니까?'))return;idbDel(id);setStyles(p=>p.filter(s=>s.id!==id));tst('삭제되었습니다');};
+  const doExport=()=>{const b=new Blob([JSON.stringify(styles,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='design-styles-myway75.json';a.click();URL.revokeObjectURL(a.href);tst('📦 내보내기 완료');};
+  const doImport=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(Array.isArray(d)){setStyles(d);tst('✅ '+d.length+'개 가져오기 완료');}}catch(e){tst('⚠️ JSON 형식 오류');}e.target.value='';};r.readAsText(f);};
+
+  if(styles===null)return <div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',color:'#a1a1aa',fontSize:14}}>불러오는 중...</div>;
+
+  const filtered=styles.filter(s=>{
+    if(active==='FAVORITES'&&!favs.has(s.id))return false;
+    if(active!=='ALL'&&active!=='FAVORITES'&&s.cat!==active)return false;
+    if(q&&!s.ko.includes(q)&&!s.en.toLowerCase().includes(q.toLowerCase())&&!s.prompt.toLowerCase().includes(q.toLowerCase()))return false;
+    return true;
+  });
+
+  return(
+    <div style={{minHeight:'100vh',background:'#f4f4f5'}}>
+      {/* Migration banner */}
+      {mig&&!mig.complete&&(
+        <div className="mig-banner">
+          <span style={{animation:'pulse 1.5s infinite'}}>⏳</span>
+          이미지 마이그레이션 중... {mig.done}/{mig.total}
+          <div className="mig-bar"><div className="mig-fill" style={{width:`${mig.total?(mig.done/mig.total*100):0}%`}}/></div>
+        </div>
+      )}
+
+      {/* HEADER */}
+      <header style={{background:'#fff',borderBottom:'1px solid #e8e8e8',position:'sticky',top:0,zIndex:100}}>
+        <div className="header-inner" style={{maxWidth:1280,margin:'0 auto',padding:'14px 24px',display:'flex',alignItems:'center',justifyContent:'space-between',gap:16}}>
+          {/* Logo */}
+          <div style={{display:'flex',alignItems:'center',gap:10,flexShrink:0}}>
+            <span style={{fontSize:20}}>⚡</span>
+            <div>
+              <div style={{fontWeight:900,fontSize:16,color:'#18181b',letterSpacing:'-0.5px',lineHeight:1}}>DESIGN_INDEX</div>
+              <div style={{fontSize:10,color:'#a1a1aa',fontFamily:"'IBM Plex Mono',monospace",letterSpacing:'.5px'}}>by Myway 75</div>
+            </div>
+          </div>
+
+          {/* Search */}
+          <div className="search-wrap">
+            {I.search}
+            <input value={q} onChange={e=>setQ(e.target.value)} placeholder="스타일 검색..."/>
+          </div>
+
+          {/* Right buttons */}
+          <div style={{display:'flex',gap:6,flexShrink:0}}>
+            <button className="admin-btn" onClick={()=>{copyText(SITE_URL);tst('✓ URL 복사: '+SITE_URL);}}>{I.link} URL 복사</button>
+            {admin?(
+              <>
+                <button className="admin-btn" onClick={()=>{setEditItem(null);setForm(true);}}>{I.plus} 추가</button>
+                <button className="admin-btn" onClick={doExport}>{I.dl} 내보내기</button>
+                <label className="admin-btn" style={{cursor:'pointer'}}>{I.ul} 가져오기<input ref={importRef} type="file" accept=".json" onChange={doImport} style={{display:'none'}}/></label>
+                <button className="admin-btn" onClick={()=>setAdmin(false)} style={{color:'#ef4444'}}>🔓 로그아웃</button>
+              </>
+            ):(
+              <button className="admin-btn" onClick={()=>setLogin(true)}>{I.lock} 관리자</button>
+            )}
+          </div>
+        </div>
+
+        {/* Category tabs */}
+        <div style={{maxWidth:1280,margin:'0 auto',padding:'0 24px 12px',display:'flex',gap:6,overflowX:'auto'}} className="tab-row">
+          {CATS.map(c=>(
+            <button key={c} className={`tab-btn${active===c?' active':''}`} onClick={()=>setActive(c)}>
+              {c==='ALL'?`전체 (${styles.length})`:c==='FAVORITES'?`♥ 즐겨찾기 (${[...favs].filter(id=>styles.some(s=>s.id===id)).length})`:(CAT_KO[c]||c)}
+            </button>
+          ))}
+        </div>
+      </header>
+
+      {/* GRID */}
+      <main style={{maxWidth:1280,margin:'0 auto',padding:'20px 24px 40px'}}>
+        {filtered.length===0?(
+          <div style={{textAlign:'center',padding:'80px 0'}}>
+            <div style={{fontSize:40,marginBottom:12,opacity:.15}}>{active==='FAVORITES'?'♡':'🔍'}</div>
+            <div style={{color:'#a1a1aa',fontSize:14}}>{active==='FAVORITES'?'즐겨찾기한 스타일이 없습니다':'검색 결과가 없습니다'}</div>
+          </div>
+        ):(
+          <div className="grid-4" style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(265px,1fr))',gap:18}}>
+            {filtered.map((s,i)=>(
+              <div key={s.id} className="card-enter" style={{animationDelay:`${i*.03}s`}}>
+                <Card s={s} fav={favs.has(s.id)} admin={admin} onFav={toggleFav} onCopy={doCopy} copied={copied} onView={setDetail} onEdit={s=>{setEditItem(s);setForm(true);}} onDel={doDel}/>
+              </div>
+            ))}
+          </div>
+        )}
+      </main>
+
+      {/* FOOTER */}
+      <footer style={{textAlign:'center',padding:'16px 0 28px',borderTop:'1px solid #e8e8e8',color:'#a1a1aa',fontSize:11,fontFamily:"'IBM Plex Mono',monospace",background:'#fff'}}>
+        Design by Myway 75 — {styles.length} styles
+      </footer>
+
+      {/* MODALS */}
+      {detail&&<Detail s={detail} onClose={()=>setDetail(null)} onCopy={doCopy} copied={copied}/>}
+      {login&&<Login onClose={()=>setLogin(false)} onLogin={()=>{setAdmin(true);tst('관리자 모드 활성화');}}/>}
+      {form&&admin&&<Form item={editItem} onClose={()=>{setForm(false);setEditItem(null);}} onSave={doSave}/>}
+      <Toast msg={toast.msg} vis={toast.vis}/>
+    </div>
+  );
+}
+
+ReactDOM.render(<App/>,document.getElementById('root'));
+</script>
+</body>
+</html>
