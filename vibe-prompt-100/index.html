@@ -13,7 +13,14 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
-body{background:#f4f4f5;font-family:'Noto Sans KR','IBM Plex Sans',sans-serif;color:#1a1a1a;min-height:100vh}
+/* Design tokens — overridden per selected theme (default = Vivid) */
+:root{
+  --bg:#f4f4f5; --surface:#ffffff; --surface-2:#fafafa; --border:#e8e8e8; --border-2:#f4f4f5;
+  --text:#18181b; --sub:#a1a1aa; --sub-2:#71717a;
+  --accent:#18181b; --accent-text:#ffffff; --accent-soft:#e4e4e7;
+  --radius:10px; --font:'Noto Sans KR','IBM Plex Sans',sans-serif;
+}
+body{background:var(--bg);font-family:var(--font);color:var(--text);min-height:100vh;transition:background .3s ease,color .3s ease}
 input,button,textarea,select{font-family:inherit}
 ::selection{background:#e0e7ff;color:#3730a3}
 
@@ -22,6 +29,16 @@ input,button,textarea,select{font-family:inherit}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:#d1d5db;border-radius:3px}
 ::-webkit-scrollbar-thumb:hover{background:#9ca3af}
+
+/* Design-select intro screen */
+.ds-screen{min-height:100vh;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 24px;animation:fadeIn .4s ease both}
+.ds-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;width:100%;max-width:860px}
+.ds-card{border:2px solid var(--border);border-radius:16px;overflow:hidden;background:var(--surface);cursor:pointer;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;text-align:left}
+.ds-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.14)}
+.ds-swatch{height:96px;display:flex;align-items:center;justify-content:center;position:relative}
+.ds-dots{position:absolute;bottom:10px;left:12px;display:flex;gap:6px}
+.ds-dot{width:14px;height:14px;border-radius:50%;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+@media(max-width:600px){.ds-grid{grid-template-columns:1fr 1fr;gap:12px}}
 
 /* Animations */
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
@@ -41,30 +58,30 @@ input,button,textarea,select{font-family:inherit}
 .cat-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
 
 /* Action buttons */
-.act-btn{display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border:1px solid #e5e5e5;border-radius:6px;background:#fff;color:#666;font-size:11px;font-weight:500;cursor:pointer;transition:all .15s;white-space:nowrap}
-.act-btn:hover{background:#f9fafb;border-color:#d1d5db;color:#333}
+.act-btn{display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--sub-2);font-size:11px;font-weight:500;cursor:pointer;transition:all .15s;white-space:nowrap}
+.act-btn:hover{background:var(--surface-2);border-color:#d1d5db;color:var(--text)}
 .act-btn.copied{background:#f0fdf4;border-color:#86efac;color:#16a34a}
 .act-btn svg{width:13px;height:13px;flex-shrink:0}
 
 /* Tab buttons */
-.tab-btn{padding:6px 14px;border-radius:20px;border:1px solid transparent;background:transparent;color:#71717a;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap}
-.tab-btn:hover{background:#e4e4e7;color:#3f3f46}
-.tab-btn.active{background:#18181b;color:#fff;border-color:#18181b}
+.tab-btn{padding:6px 14px;border-radius:20px;border:1px solid transparent;background:transparent;color:var(--sub-2);font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap}
+.tab-btn:hover{background:var(--accent-soft);color:var(--text)}
+.tab-btn.active{background:var(--accent);color:var(--accent-text);border-color:var(--accent)}
 
 /* Admin buttons */
-.admin-btn{padding:5px 10px;border-radius:6px;border:1px solid #e5e5e5;background:#fff;color:#666;font-size:11px;font-weight:500;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:4px}
-.admin-btn:hover{background:#fafafa;border-color:#d1d5db}
+.admin-btn{padding:5px 10px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--sub-2);font-size:11px;font-weight:500;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:4px}
+.admin-btn:hover{background:var(--surface-2);border-color:#d1d5db}
 
 /* Toast */
-.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#18181b;color:#fff;padding:10px 24px;border-radius:10px;font-size:13px;font-weight:600;z-index:9999;pointer-events:none;box-shadow:0 8px 30px rgba(0,0,0,.2);white-space:nowrap;transition:all .3s ease}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--accent);color:var(--accent-text);padding:10px 24px;border-radius:10px;font-size:13px;font-weight:600;z-index:9999;pointer-events:none;box-shadow:0 8px 30px rgba(0,0,0,.2);white-space:nowrap;transition:all .3s ease}
 
 /* Modal overlay */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:8000;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
-.modal-box{background:#fff;border-radius:16px;box-shadow:0 24px 80px rgba(0,0,0,.18);animation:slideUp .25s ease;max-height:90vh;overflow:hidden;display:flex;flex-direction:column}
+.modal-box{background:var(--surface);border-radius:16px;box-shadow:0 24px 80px rgba(0,0,0,.28);animation:slideUp .25s ease;max-height:90vh;overflow:hidden;display:flex;flex-direction:column}
 
 /* Search input */
 .search-wrap{position:relative;flex:1;max-width:320px}
-.search-wrap input{width:100%;padding:8px 12px 8px 34px;border:1px solid #e5e5e5;border-radius:8px;font-size:13px;outline:none;background:#fff;transition:border-color .15s}
+.search-wrap input{width:100%;padding:8px 12px 8px 34px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none;background:var(--surface);color:var(--text);transition:border-color .15s}
 .search-wrap input:focus{border-color:#a5b4fc}
 .search-wrap svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#a1a1aa}
 
@@ -95,6 +112,30 @@ const ADMIN_PW="vibe100";
 const SITE_URL="https://vibe-prompt-100.vercel.app/";
 const EDITS_KEY="vibe-prompt-100-edits";
 const FAVS_KEY="vibe-prompt-100-favs";
+const THEME_KEY="vibe-prompt-100-theme";
+
+/* ══════════════════════════════════════
+   DESIGN THEMES — 실행 시 선택하는 앱 디자인
+══════════════════════════════════════ */
+const THEMES=[
+  {id:"vivid",name:"비비드",en:"Vivid",emoji:"⚡",desc:"밝은 그레이 캔버스 · 컬러 강조",dots:["#6366f1","#ec4899","#f59e0b"],
+    tok:{"--bg":"#f4f4f5","--surface":"#ffffff","--surface-2":"#fafafa","--border":"#e8e8e8","--border-2":"#f4f4f5","--text":"#18181b","--sub":"#a1a1aa","--sub-2":"#71717a","--accent":"#18181b","--accent-text":"#ffffff","--accent-soft":"#e4e4e7","--radius":"10px","--font":"'Noto Sans KR','IBM Plex Sans',sans-serif"}},
+  {id:"cream",name:"크림 코랄",en:"Cream Coral",emoji:"🍑",desc:"크림 배경 · 코랄 포인트 · 세리프",dots:["#d97757","#c2410c","#f5e6d3"],
+    tok:{"--bg":"#f7f3ec","--surface":"#fffdf8","--surface-2":"#f4ede1","--border":"#e7ddca","--border-2":"#efe7d8","--text":"#2b2018","--sub":"#a8977f","--sub-2":"#8a7a63","--accent":"#d97757","--accent-text":"#ffffff","--accent-soft":"#efe1d6","--radius":"12px","--font":"'Noto Sans KR','IBM Plex Sans',sans-serif"}},
+  {id:"mono",name:"모노 미니멀",en:"Mono Minimal",emoji:"◼️",desc:"순백 · 블랙 · 여백 강조",dots:["#111111","#666666","#e5e5e5"],
+    tok:{"--bg":"#ffffff","--surface":"#ffffff","--surface-2":"#f7f7f7","--border":"#e5e5e5","--border-2":"#f0f0f0","--text":"#111111","--sub":"#9a9a9a","--sub-2":"#6b6b6b","--accent":"#111111","--accent-text":"#ffffff","--accent-soft":"#efefef","--radius":"6px","--font":"'IBM Plex Sans','Noto Sans KR',sans-serif"}},
+  {id:"dark",name:"다크 테크",en:"Dark Tech",emoji:"🌙",desc:"딥 네이비 · 인디고 글로우",dots:["#6366f1","#0ea5e9","#1a1a22"],
+    tok:{"--bg":"#0f0f16","--surface":"#1a1a24","--surface-2":"#232330","--border":"#2c2c3a","--border-2":"#26262f","--text":"#e9e9f2","--sub":"#7c7c92","--sub-2":"#9a9ab0","--accent":"#6366f1","--accent-text":"#ffffff","--accent-soft":"#2a2a3a","--radius":"10px","--font":"'IBM Plex Sans','Noto Sans KR',sans-serif"}},
+  {id:"pastel",name:"파스텔",en:"Pastel",emoji:"🎨",desc:"라벤더 · 소프트 바이올렛",dots:["#8b5cf6","#ec4899","#a78bfa"],
+    tok:{"--bg":"#f5f3ff","--surface":"#ffffff","--surface-2":"#f6f2fe","--border":"#e7e0fb","--border-2":"#efeafe","--text":"#3b2f57","--sub":"#a99cc9","--sub-2":"#8478a8","--accent":"#8b5cf6","--accent-text":"#ffffff","--accent-soft":"#ece5fb","--radius":"14px","--font":"'Noto Sans KR','IBM Plex Sans',sans-serif"}},
+  {id:"ocean",name:"오션",en:"Ocean",emoji:"🌊",desc:"클린 블루 · 상쾌한 톤",dots:["#0ea5e9","#14b8a6","#38bdf8"],
+    tok:{"--bg":"#eef6fb","--surface":"#ffffff","--surface-2":"#eaf4fa","--border":"#d5e7f1","--border-2":"#e4f0f7","--text":"#0c3a52","--sub":"#7fa8bd","--sub-2":"#4f7f97","--accent":"#0284c7","--accent-text":"#ffffff","--accent-soft":"#dcedf7","--radius":"12px","--font":"'Noto Sans KR','IBM Plex Sans',sans-serif"}},
+];
+const applyTheme=id=>{
+  const t=THEMES.find(x=>x.id===id)||THEMES[0];
+  const r=document.documentElement;
+  Object.entries(t.tok).forEach(([k,v])=>r.style.setProperty(k,v));
+};
 
 const CATS=["ALL","FAVORITES","IDEA","PLAN","UIUX","FRONT","BACK","DATA","DEBUG","DEPLOY","AI","GROWTH"];
 const CAT_IN=["IDEA","PLAN","UIUX","FRONT","BACK","DATA","DEBUG","DEPLOY","AI","GROWTH"];
@@ -265,7 +306,7 @@ function Toast({msg,vis}){
 function Card({s,fav,admin,onFav,onCopy,copied,onView,onEdit,onDel}){
   const catColor=CC[s.cat]||'#888';
   return(
-    <div className="style-card" style={{borderRadius:10,overflow:'hidden',background:'#fff',border:'1px solid #e8e8e8',position:'relative',display:'flex',flexDirection:'column'}}>
+    <div className="style-card" style={{borderRadius:'var(--radius)',overflow:'hidden',background:'var(--surface)',border:'1px solid var(--border)',position:'relative',display:'flex',flexDirection:'column'}}>
       {/* Hero band */}
       <div className="hero-band" onClick={()=>onView(s)} style={{width:'100%',height:104,background:CG[s.cat]||catColor,position:'relative',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center'}}>
         <span style={{fontSize:40,filter:'drop-shadow(0 2px 6px rgba(0,0,0,.2))'}}>{CAT_EMOJI[s.cat]||'⚡'}</span>
@@ -298,14 +339,14 @@ function Card({s,fav,admin,onFav,onCopy,copied,onView,onEdit,onDel}){
         </div>
 
         {/* Prompt name */}
-        <div style={{fontWeight:700,fontSize:15,color:'#18181b',marginBottom:2,lineHeight:1.35}}>{s.ko}</div>
-        <div style={{fontSize:11,color:'#a1a1aa',fontFamily:"'IBM Plex Mono',monospace",marginBottom:8,letterSpacing:'-.2px'}}>{s.en}</div>
+        <div style={{fontWeight:700,fontSize:15,color:'var(--text)',marginBottom:2,lineHeight:1.35}}>{s.ko}</div>
+        <div style={{fontSize:11,color:'var(--sub)',fontFamily:"'IBM Plex Mono',monospace",marginBottom:8,letterSpacing:'-.2px'}}>{s.en}</div>
 
         {/* Prompt preview */}
-        <div style={{fontSize:11.5,color:'#71717a',lineHeight:1.55,marginBottom:10,display:'-webkit-box',WebkitLineClamp:2,WebkitBoxOrient:'vertical',overflow:'hidden',flex:1}}>{s.prompt}</div>
+        <div style={{fontSize:11.5,color:'var(--sub-2)',lineHeight:1.55,marginBottom:10,display:'-webkit-box',WebkitLineClamp:2,WebkitBoxOrient:'vertical',overflow:'hidden',flex:1}}>{s.prompt}</div>
 
         {/* Action buttons row */}
-        <div style={{display:'flex',gap:5,borderTop:'1px solid #f4f4f5',paddingTop:8}}>
+        <div style={{display:'flex',gap:5,borderTop:'1px solid var(--border-2)',paddingTop:8}}>
           <button className={`act-btn${copied===s.id?' copied':''}`} onClick={()=>onCopy(s)} style={{flex:1,justifyContent:'center'}}>
             {copied===s.id?I.check:I.copy}
             <span>{copied===s.id?'복사됨':'프롬프트 복사'}</span>
@@ -338,10 +379,10 @@ function Detail({s,onClose,onCopy,copied}){
         </div>
         {/* Content */}
         <div style={{padding:'20px 24px 24px',overflow:'auto'}}>
-          <div style={{fontWeight:900,fontSize:22,color:'#18181b',marginBottom:4}}>{s.ko}</div>
-          <div style={{fontSize:13,color:'#a1a1aa',fontFamily:"'IBM Plex Mono',monospace",marginBottom:16}}>{s.en}</div>
-          <div style={{fontSize:13.5,color:'#3f3f46',lineHeight:1.75,marginBottom:20,padding:16,background:'#fafafa',borderRadius:10,border:'1px solid #f0f0f0',whiteSpace:'pre-wrap',maxHeight:260,overflow:'auto'}}>{s.prompt}</div>
-          <button onClick={()=>onCopy(s)} style={{width:'100%',padding:'12px 0',borderRadius:10,border:'none',background:copied===s.id?'#16a34a':'#18181b',color:'#fff',fontWeight:700,fontSize:14,cursor:'pointer',transition:'all .2s',display:'flex',alignItems:'center',justifyContent:'center',gap:8}}>
+          <div style={{fontWeight:900,fontSize:22,color:'var(--text)',marginBottom:4}}>{s.ko}</div>
+          <div style={{fontSize:13,color:'var(--sub)',fontFamily:"'IBM Plex Mono',monospace",marginBottom:16}}>{s.en}</div>
+          <div style={{fontSize:13.5,color:'var(--sub-2)',lineHeight:1.75,marginBottom:20,padding:16,background:'var(--surface-2)',borderRadius:10,border:'1px solid var(--border)',whiteSpace:'pre-wrap',maxHeight:260,overflow:'auto'}}>{s.prompt}</div>
+          <button onClick={()=>onCopy(s)} style={{width:'100%',padding:'12px 0',borderRadius:10,border:'none',background:copied===s.id?'#16a34a':'var(--accent)',color:'var(--accent-text)',fontWeight:700,fontSize:14,cursor:'pointer',transition:'all .2s',display:'flex',alignItems:'center',justifyContent:'center',gap:8}}>
             {copied===s.id?'✓ 복사 완료!':'📋 프롬프트 전체 복사'}
           </button>
         </div>
@@ -360,12 +401,12 @@ function Login({onClose,onLogin}){
   return(
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-box" onClick={e=>e.stopPropagation()} style={{padding:32,width:320}}>
-        <div style={{fontSize:18,fontWeight:900,color:'#18181b',marginBottom:6}}>관리자 로그인</div>
-        <div style={{fontSize:12,color:'#a1a1aa',marginBottom:20}}>비밀번호를 입력하세요</div>
+        <div style={{fontSize:18,fontWeight:900,color:'var(--text)',marginBottom:6}}>관리자 로그인</div>
+        <div style={{fontSize:12,color:'var(--sub)',marginBottom:20}}>비밀번호를 입력하세요</div>
         <input type="password" value={pw} onChange={e=>setPw(e.target.value)} onKeyDown={e=>e.key==='Enter'&&go()} placeholder="비밀번호" autoFocus
-          style={{width:'100%',padding:'10px 14px',borderRadius:8,border:`1.5px solid ${err?'#ef4444':'#e5e5e5'}`,fontSize:14,outline:'none',marginBottom:err?4:14}}/>
+          style={{width:'100%',padding:'10px 14px',borderRadius:8,border:`1.5px solid ${err?'#ef4444':'var(--border)'}`,background:'var(--surface-2)',color:'var(--text)',fontSize:14,outline:'none',marginBottom:err?4:14}}/>
         {err&&<div style={{fontSize:11,color:'#ef4444',marginBottom:8}}>비밀번호가 틀렸습니다</div>}
-        <button onClick={go} style={{width:'100%',padding:'10px 0',borderRadius:8,border:'none',background:'#18181b',color:'#fff',fontWeight:700,fontSize:14,cursor:'pointer'}}>로그인</button>
+        <button onClick={go} style={{width:'100%',padding:'10px 0',borderRadius:8,border:'none',background:'var(--accent)',color:'var(--accent-text)',fontWeight:700,fontSize:14,cursor:'pointer'}}>로그인</button>
       </div>
     </div>
   );
@@ -392,15 +433,15 @@ function Form({item,onClose,onSave}){
     onClose();
   };
 
-  const labelStyle={fontSize:12,fontWeight:600,color:'#52525b',marginBottom:4,display:'block'};
-  const inputStyle={width:'100%',padding:'8px 12px',borderRadius:8,border:'1.5px solid #e5e5e5',fontSize:13,outline:'none',marginBottom:12};
+  const labelStyle={fontSize:12,fontWeight:600,color:'var(--sub-2)',marginBottom:4,display:'block'};
+  const inputStyle={width:'100%',padding:'8px 12px',borderRadius:8,border:'1.5px solid var(--border)',background:'var(--surface-2)',color:'var(--text)',fontSize:13,outline:'none',marginBottom:12};
 
   return(
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-box" onClick={e=>e.stopPropagation()} style={{width:460,maxWidth:'92vw',maxHeight:'90vh'}}>
-        <div style={{padding:'20px 24px',borderBottom:'1px solid #f0f0f0',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-          <div style={{fontWeight:900,fontSize:18,color:'#18181b'}}>{isEdit?'프롬프트 편집':'새 프롬프트 추가'}</div>
-          <button onClick={onClose} style={{background:'none',border:'none',fontSize:20,cursor:'pointer',color:'#a1a1aa'}}>×</button>
+        <div style={{padding:'20px 24px',borderBottom:'1px solid var(--border)',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+          <div style={{fontWeight:900,fontSize:18,color:'var(--text)'}}>{isEdit?'프롬프트 편집':'새 프롬프트 추가'}</div>
+          <button onClick={onClose} style={{background:'none',border:'none',fontSize:20,cursor:'pointer',color:'var(--sub)'}}>×</button>
         </div>
         <div style={{padding:'16px 24px 24px',overflow:'auto'}}>
           <div style={{display:'flex',gap:12}}>
@@ -425,11 +466,45 @@ function Form({item,onClose,onSave}){
           <input value={en} onChange={e=>setEn(e.target.value)} placeholder="예: Write a PRD" style={inputStyle}/>
           <label style={labelStyle}>프롬프트</label>
           <textarea value={prompt} onChange={e=>setPr(e.target.value)} placeholder="복사해서 바로 쓸 프롬프트 본문. [플레이스홀더]로 변수를 표시하세요." rows={6} style={{...inputStyle,resize:'vertical',lineHeight:1.6}}/>
-          <button onClick={save} style={{width:'100%',padding:'11px 0',borderRadius:8,border:'none',background:'#18181b',color:'#fff',fontWeight:700,fontSize:14,cursor:'pointer',marginTop:4}}>
+          <button onClick={save} style={{width:'100%',padding:'11px 0',borderRadius:8,border:'none',background:'var(--accent)',color:'var(--accent-text)',fontWeight:700,fontSize:14,cursor:'pointer',marginTop:4}}>
             {isEdit?'수정 완료':'추가하기'}
           </button>
         </div>
       </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════
+   DESIGN SELECT — 실행 시 첫 화면
+══════════════════════════════════════ */
+function DesignSelect({current,onPick}){
+  return(
+    <div className="ds-screen">
+      <div style={{textAlign:'center',marginBottom:36}}>
+        <div style={{fontSize:34,marginBottom:10}}>⚡</div>
+        <div style={{fontWeight:900,fontSize:30,letterSpacing:'-1px',color:'var(--text)',marginBottom:8}}>VIBE PROMPT 100</div>
+        <div style={{fontSize:15,color:'var(--sub-2)',lineHeight:1.6}}>먼저 앱 디자인을 선택하세요<br/><span style={{fontSize:13,color:'var(--sub)'}}>Choose your design to get started</span></div>
+      </div>
+      <div className="ds-grid">
+        {THEMES.map(t=>(
+          <button key={t.id} className="ds-card" onClick={()=>onPick(t.id)}
+            style={{borderColor:current===t.id?t.tok["--accent"]:'var(--border)'}}>
+            <div className="ds-swatch" style={{background:t.tok["--bg"]}}>
+              <span style={{fontSize:34,filter:'drop-shadow(0 2px 6px rgba(0,0,0,.15))'}}>{t.emoji}</span>
+              <div className="ds-dots">
+                {t.dots.map((d,i)=><span key={i} className="ds-dot" style={{background:d}}></span>)}
+              </div>
+            </div>
+            <div style={{padding:'12px 14px 14px'}}>
+              <div style={{fontWeight:800,fontSize:15,color:'var(--text)'}}>{t.name}</div>
+              <div style={{fontSize:11,color:'var(--sub)',fontFamily:"'IBM Plex Mono',monospace",marginBottom:6}}>{t.en}</div>
+              <div style={{fontSize:11.5,color:'var(--sub-2)',lineHeight:1.5}}>{t.desc}</div>
+            </div>
+          </button>
+        ))}
+      </div>
+      <div style={{marginTop:28,fontSize:12,color:'var(--sub)'}}>선택한 디자인은 언제든 헤더의 <b>🎨 디자인</b> 버튼으로 다시 바꿀 수 있어요</div>
     </div>
   );
 }
@@ -449,6 +524,8 @@ function App(){
   const[form,setForm]=useState(false);
   const[editItem,setEditItem]=useState(null);
   const[toast,setToast]=useState({msg:'',vis:false});
+  const[theme,setTheme]=useState(null);        // null=아직 미결정(첫 화면 판단 전)
+  const[showSelect,setShowSelect]=useState(false); // 디자인 선택 화면 표시 여부
   const importRef=useRef(null);
 
   const tst=msg=>{setToast({msg,vis:true});setTimeout(()=>setToast(t=>({...t,vis:false})),2200);};
@@ -460,7 +537,19 @@ function App(){
     setStyles(saved&&Array.isArray(saved)&&saved.length?saved:DEFAULTS);
     const f=lsLoad(FAVS_KEY);
     if(f&&Array.isArray(f))setFavs(new Set(f));
+    // 디자인: 저장된 선택이 있으면 적용, 없으면 선택 화면을 먼저 보여줌
+    const savedTheme=lsLoad(THEME_KEY);
+    if(savedTheme&&THEMES.some(t=>t.id===savedTheme)){setTheme(savedTheme);applyTheme(savedTheme);}
+    else{setShowSelect(true);}
   },[]);
+
+  // 디자인 선택 확정
+  const pickTheme=id=>{
+    setTheme(id);applyTheme(id);lsSave(THEME_KEY,id);
+    setShowSelect(false);
+    if(location.hash!=='#content')location.hash='content';
+    tst('🎨 디자인이 적용되었습니다');
+  };
 
   // Persist
   useEffect(()=>{if(styles)lsSave(EDITS_KEY,styles);},[styles]);
@@ -479,7 +568,10 @@ function App(){
   const doImport=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(Array.isArray(d)){setStyles(d);tst('✅ '+d.length+'개 가져오기 완료');}}catch(e){tst('⚠️ JSON 형식 오류');}e.target.value='';};r.readAsText(f);};
   const doReset=()=>{if(!window.confirm('기본 100개 프롬프트로 초기화할까요? 편집 내용이 사라집니다.'))return;setStyles(DEFAULTS);tst('기본값으로 초기화되었습니다');};
 
-  if(styles===null)return <div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',color:'#a1a1aa',fontSize:14}}>불러오는 중...</div>;
+  if(styles===null)return <div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',color:'var(--sub)',fontSize:14}}>불러오는 중...</div>;
+
+  // 첫 실행: 디자인 선택 화면
+  if(showSelect)return <DesignSelect current={theme} onPick={pickTheme}/>;
 
   const filtered=styles.filter(s=>{
     if(active==='FAVORITES'&&!favs.has(s.id))return false;
@@ -492,16 +584,16 @@ function App(){
   });
 
   return(
-    <div style={{minHeight:'100vh',background:'#f4f4f5'}}>
+    <div style={{minHeight:'100vh',background:'var(--bg)'}}>
       {/* HEADER */}
-      <header style={{background:'#fff',borderBottom:'1px solid #e8e8e8',position:'sticky',top:0,zIndex:100}}>
+      <header style={{background:'var(--surface)',borderBottom:'1px solid var(--border)',position:'sticky',top:0,zIndex:100}}>
         <div className="header-inner" style={{maxWidth:1280,margin:'0 auto',padding:'14px 24px',display:'flex',alignItems:'center',justifyContent:'space-between',gap:16}}>
           {/* Logo */}
           <div style={{display:'flex',alignItems:'center',gap:10,flexShrink:0}}>
             <span style={{fontSize:20}}>⚡</span>
             <div>
-              <div style={{fontWeight:900,fontSize:16,color:'#18181b',letterSpacing:'-0.5px',lineHeight:1}}>VIBE PROMPT 100</div>
-              <div style={{fontSize:10,color:'#a1a1aa',fontFamily:"'IBM Plex Mono',monospace",letterSpacing:'.5px'}}>바이브 코딩 프롬프트 라이브러리</div>
+              <div style={{fontWeight:900,fontSize:16,color:'var(--text)',letterSpacing:'-0.5px',lineHeight:1}}>VIBE PROMPT 100</div>
+              <div style={{fontSize:10,color:'var(--sub)',fontFamily:"'IBM Plex Mono',monospace",letterSpacing:'.5px'}}>바이브 코딩 프롬프트 라이브러리</div>
             </div>
           </div>
 
@@ -513,6 +605,7 @@ function App(){
 
           {/* Right buttons */}
           <div style={{display:'flex',gap:6,flexShrink:0}}>
+            <button className="admin-btn" onClick={()=>setShowSelect(true)}>🎨 디자인</button>
             <button className="admin-btn" onClick={()=>{copyText(SITE_URL);tst('✓ URL 복사됨');}}>{I.link} URL 복사</button>
             {admin?(
               <>
@@ -543,7 +636,7 @@ function App(){
         {filtered.length===0?(
           <div style={{textAlign:'center',padding:'80px 0'}}>
             <div style={{fontSize:40,marginBottom:12,opacity:.15}}>{active==='FAVORITES'?'♡':'🔍'}</div>
-            <div style={{color:'#a1a1aa',fontSize:14}}>{active==='FAVORITES'?'즐겨찾기한 프롬프트가 없습니다':'검색 결과가 없습니다'}</div>
+            <div style={{color:'var(--sub)',fontSize:14}}>{active==='FAVORITES'?'즐겨찾기한 프롬프트가 없습니다':'검색 결과가 없습니다'}</div>
           </div>
         ):(
           <div className="grid-4" style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(265px,1fr))',gap:18}}>
@@ -557,7 +650,7 @@ function App(){
       </main>
 
       {/* FOOTER */}
-      <footer style={{textAlign:'center',padding:'16px 0 28px',borderTop:'1px solid #e8e8e8',color:'#a1a1aa',fontSize:11,fontFamily:"'IBM Plex Mono',monospace",background:'#fff'}}>
+      <footer style={{textAlign:'center',padding:'16px 0 28px',borderTop:'1px solid var(--border)',color:'var(--sub)',fontSize:11,fontFamily:"'IBM Plex Mono',monospace",background:'var(--surface)'}}>
         Vibe Prompt 100 — {styles.length} prompts · 복사해서 바로 쓰는 바이브 코딩 프롬프트
       </footer>
 
