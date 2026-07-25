@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bloom Oven의 베이커리 주문&nbsp;및&nbsp;배송&nbsp;안내 페이지입니다. 예약 주문, 지역 배송, 메뉴 정보, 24시간 상담, 관리자 대시보드를 한 번에 확인할 수 있습니다.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Bloom Oven | 주문&nbsp;및&nbsp;배송&nbsp;안내">
+  <meta property="og:description" content="예약 주문, 지역 배송, 대표 메뉴, 24시간 상담을 한 번에 확인하는 Bloom Oven 랜딩 페이지">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1200&q=80">
+  <meta property="og:locale" content="ko_KR">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Bloom Oven | 주문&nbsp;및&nbsp;배송&nbsp;안내">
+  <meta name="twitter:description" content="예약 주문, 지역 배송, 대표 메뉴, 24시간 상담을 한 번에 확인하는 Bloom Oven 랜딩 페이지">
+  <meta name="twitter:image" content="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1200&q=80">
+  <title>Bloom Oven | 주문&nbsp;및&nbsp;배송&nbsp;안내</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#127874;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero">
+      <nav class="topbar">
+        <a class="brand" href="#top">Bloom Oven</a>
+        <button class="nav-toggle glass-ico" aria-label="메뉴 열기" aria-expanded="false" aria-controls="primary-nav">
+          <span></span><span></span><span></span>
+        </button>
+        <div class="nav-links" id="primary-nav">
+          <a href="#menu">메뉴</a>
+          <a href="#hours">영업시간</a>
+          <a href="#location">위치</a>
+          <a href="#reservation">예약</a>
+          <a class="nav-icon-link glass-ico" href="chatbot.html" aria-label="상담봇">✿</a>
+          <a class="nav-icon-link glass-ico" href="admin.html" aria-label="관리자">⌘</a>
+        </div>
+      </nav>
+
+      <section class="hero-content" id="top">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">Bakery Order &amp; Delivery Guide</p>
+          <h1><span class="hero-line hero-line-en">Bloom Oven</span><span class="hero-line hero-line-ko">주문&nbsp;및&nbsp;배송&nbsp;안내</span></h1>
+          <p class="slogan">정성스럽게 구운 디저트를 가장 부드러운 순간에, 가장 예쁜 상태로 전해드립니다.</p>
+          <p class="hero-text">답례품, 주말 브런치, 기념일 케이크, 정기 간식 박스까지 예약 주문과 지역 배송을 한 번에 안내하는 베이커리 랜딩 페이지입니다. 컬러와 분위기는 세이지 민트, 블러시 핑크, 크림 베이지 톤으로 구성했습니다.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#reservation">지금 신청하기</a>
+            <a class="btn btn-secondary" href="#contact">문의하기</a>
+            <a class="btn btn-ghost" href="chatbot.html">24시간 상담</a>
+          </div>
+          <ul class="hero-highlights">
+            <li>당일 구움, 예약 우선 제작</li>
+            <li>서울 일부 지역 퀵 배송 가능</li>
+            <li>기업 간식 박스 / 답례품 맞춤 포장</li>
+          </ul>
+        </div>
+        <div class="hero-visual reveal">
+          <div class="image-frame large">
+            <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=900&q=80" alt="베이커리 대표 제품 이미지" loading="lazy">
+          </div>
+          <div class="floating-card review-spot glass-panel">
+            <span class="rating">★★★★★</span>
+            <p>"패키지가 너무 고급스럽고, 배송 도착 후에도 빵 결이 살아 있었어요."</p>
+            <strong>김서윤 고객</strong>
+          </div>
+        </div>
+      </section>
+    </header>
+
+    <main>
+      <section class="intro-band reveal">
+        <div class="badge-list"><span>수제 제작</span><span>선물 포장</span><span>예약 우선</span></div>
+        <div class="intro-copy">
+          <h2>주문 전 꼭 확인해주세요</h2>
+          <p>모든 제품은 예약 순서에 따라 제작되며, 시즌 과일과 크림 수급에 따라 일부 토핑이 변경될 수 있습니다. 변경 시에는 제작 전 개별 안내를 드립니다.</p>
+        </div>
+      </section>
+
+      <section class="section menu-section" id="menu">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Signature Menu</p>
+          <h2>메뉴 카드</h2>
+          <p>답례품부터 홀케이크까지 주문이 많은 대표 메뉴를 먼저 소개합니다.</p>
+        </div>
+        <div class="menu-grid">
+          <article class="menu-card reveal">
+            <div class="menu-media"><img src="https://images.unsplash.com/photo-1486427944299-d1955d23e34d?auto=format&fit=crop&w=800&q=80" alt="딸기 생크림 케이크" loading="lazy"></div>
+            <div class="menu-copy">
+              <h3>스트로베리 클라우드</h3>
+              <p>부드러운 제누아즈와 우유 생크림, 제철 딸기를 층층이 올린 시그니처 케이크</p>
+              <div class="menu-foot"><strong>₩42,000</strong><a class="btn btn-secondary btn-sm" href="#reservation">예약하기</a></div>
+            </div>
+          </article>
+          <article class="menu-card reveal">
+            <div class="menu-media"><img src="https://images.unsplash.com/photo-1517433670267-08bbd4be890f?auto=format&fit=crop&w=800&q=80" alt="버터 크루아상" loading="lazy"></div>
+            <div class="menu-copy">
+              <h3>버터 크루아상 박스</h3>
+              <p>프랑스산 버터로 구워낸 바삭한 결, 브런치와 선물용으로 인기 있는 6입 세트</p>
+              <div class="menu-foot"><strong>₩24,000</strong><a class="btn btn-secondary btn-sm" href="#reservation">예약하기</a></div>
+            </div>
+          </article>
+          <article class="menu-card reveal">
+            <div class="menu-media"><img src="https://images.unsplash.com/photo-1464306076886-da185f6a9d05?auto=format&fit=crop&w=800&q=80" alt="마들렌과 구움과자 세트" loading="lazy"></div>
+            <div class="menu-copy">
+              <h3>블룸 티타임 세트</h3>
+              <p>마들렌, 휘낭시에, 쿠키를 조합한 예약 한정 구움과자 세트</p>
+              <div class="menu-foot"><strong>₩31,000</strong><a class="btn btn-secondary btn-sm" href="#reservation">예약하기</a></div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section info-grid">
+        <article class="info-card reveal" id="hours">
+          <p class="eyebrow">Business Hours</p>
+          <h2>영업시간</h2>
+          <ul class="detail-list">
+            <li><span>월 - 금</span><strong>10:00 - 19:00</strong></li>
+            <li><span>토요일</span><strong>11:00 - 18:00</strong></li>
+            <li><span>일요일</span><strong>예약 픽업 전용</strong></li>
+            <li><span>정기 휴무</span><strong>매주 화요일</strong></li>
+          </ul>
+          <p class="note">당일 재고 소진 시 조기 마감될 수 있으며, 예약 픽업은 마감 후 1시간까지 가능합니다.</p>
+        </article>
+        <article class="info-card reveal" id="location">
+          <p class="eyebrow">Location</p>
+          <h2>위치</h2>
+          <p class="address">서울시 성동구 서울숲길 28, 1층 Bloom Oven</p>
+          <p>서울숲역 도보 6분 거리, 매장 앞 10분 정차 픽업이 가능합니다. 퀵 배송은 성동구, 광진구, 강남 일부 지역을 우선 운영합니다.</p>
+          <a class="text-link" href="https://maps.google.com/?q=서울시+성동구+서울숲길+28" target="_blank" rel="noreferrer">지도에서 보기 →</a>
+        </article>
+      </section>
+
+      <section class="section reservation-section" id="reservation">
+        <div class="section-heading left reveal">
+          <p class="eyebrow">Reservation</p>
+          <h2>예약 방법</h2>
+          <p>주문 수량과 수령 희망일을 남겨주시면 제작 가능 여부를 빠르게 안내합니다.</p>
+        </div>
+        <div class="reservation-layout">
+          <div class="reservation-steps">
+            <div class="step-card reveal"><span>01</span><h3>메뉴 선택</h3><p>케이크, 구움과자, 단체 선물 세트 중 원하는 메뉴와 수량을 선택합니다.</p></div>
+            <div class="step-card reveal"><span>02</span><h3>일정 확인</h3><p>희망 픽업일 또는 배송일을 기준으로 제작 가능 여부와 마감 상태를 확인합니다.</p></div>
+            <div class="step-card reveal"><span>03</span><h3>주문 확정</h3><p>안내받은 금액 결제 후 예약이 확정되며, 수령 전날 최종 안내 메시지를 발송합니다.</p></div>
+          </div>
+          <aside class="booking-panel glass-panel reveal">
+            <h3>빠른 문의</h3>
+            <p>카카오톡 채널 또는 이메일로 아래 내용을 보내주세요.</p>
+            <ul>
+              <li>주문자명 / 연락처</li>
+              <li>원하는 메뉴 / 수량</li>
+              <li>픽업 또는 배송 희망 날짜</li>
+              <li>초 문구, 리본, 쇼핑백 추가 여부</li>
+            </ul>
+            <a class="btn btn-primary block" href="mailto:hello@bloomoven.kr">이메일로 문의하기</a>
+          </aside>
+        </div>
+
+        <form class="reservation-form glass-panel reveal" action="#" method="post" novalidate>
+          <div class="form-heading">
+            <p class="eyebrow">Booking Form</p>
+            <h3>예약 폼</h3>
+            <p>아래 내용을 남겨주시면 확인 후 순차적으로 연락드립니다.</p>
+          </div>
+          <div class="form-grid">
+            <label class="field"><span>이름</span><input type="text" name="name" placeholder="홍길동" required></label>
+            <label class="field"><span>연락처</span><input type="tel" name="phone" placeholder="010-1234-5678" required></label>
+            <label class="field"><span>이메일</span><input type="email" name="email" placeholder="hello@example.com"></label>
+            <label class="field"><span>희망 수령일</span><input type="date" name="pickup_date" required></label>
+            <label class="field"><span>주문 메뉴</span>
+              <select name="menu" required>
+                <option value="">메뉴를 선택하세요</option>
+                <option value="스트로베리 클라우드">스트로베리 클라우드</option>
+                <option value="버터 크루아상 박스">버터 크루아상 박스</option>
+                <option value="블룸 티타임 세트">블룸 티타임 세트</option>
+                <option value="커스텀 케이크 상담">커스텀 케이크 상담</option>
+              </select>
+            </label>
+            <label class="field"><span>수량</span><input type="number" name="quantity" min="1" value="1" required></label>
+          </div>
+          <div class="choice-row">
+            <span class="choice-label">수령 방식</span>
+            <label class="radio-pill"><input type="radio" name="delivery_type" value="매장 픽업" checked> 매장 픽업</label>
+            <label class="radio-pill"><input type="radio" name="delivery_type" value="배송 요청"> 배송 요청</label>
+          </div>
+          <label class="field full-width"><span>주소</span><input type="text" name="address" placeholder="배송 요청 시 주소를 입력해주세요"></label>
+          <label class="field full-width"><span>추가 요청사항</span><textarea name="request" rows="5" placeholder="초 문구, 포장 요청, 알레르기 유의사항 등을 남겨주세요"></textarea></label>
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">지금 신청하기</button>
+            <a class="btn btn-secondary" href="mailto:hello@bloomoven.kr">문의하기</a>
+          </div>
+          <p class="form-notice" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section class="section support-section">
+        <div class="section-heading reveal">
+          <p class="eyebrow">24/7 Support</p>
+          <h2>24시간 상담 챗봇</h2>
+          <p>배송 가능 지역, 예약 일정, 추천 메뉴, 대량 주문 문의를 챗봇으로 바로 안내받을 수 있습니다.</p>
+        </div>
+        <div class="support-card glass-panel reveal">
+          <div>
+            <h3>실시간 상담 페이지로 이동</h3>
+            <p>OpenAI API 키가 설정되어 있으면 더 자연스러운 상담을 제공하고, 없으면 기본 FAQ 기반 상담으로 동작합니다.</p>
+          </div>
+          <a class="btn btn-primary" href="chatbot.html">상담봇 열기</a>
+        </div>
+      </section>
+
+      <section class="section reviews-section">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Reviews</p>
+          <h2>고객 후기</h2>
+          <p>실제 주문 고객이 남긴 리뷰 중 배송 만족도가 높은 내용을 골랐습니다.</p>
+        </div>
+        <div class="reviews-grid">
+          <article class="review-card reveal"><span class="rating">★★★★★</span><p>"행사 답례품으로 주문했는데 포장 컬러가 너무 우아해서 사진이 정말 잘 나왔어요."</p><strong>플라워 스튜디오 대표</strong></article>
+          <article class="review-card reveal"><span class="rating">★★★★★</span><p>"크루아상이 눅눅하지 않게 도착했고, 예약 응대가 빨라서 재주문했어요."</p><strong>정기배송 고객</strong></article>
+          <article class="review-card reveal"><span class="rating">★★★★★</span><p>"아이 돌잔치 케이크 문구가 섬세하고 전체 분위기가 레퍼런스 그대로였습니다."</p><strong>가족 행사 주문 고객</strong></article>
+        </div>
+      </section>
+
+      <section class="section faq-section">
+        <div class="section-heading reveal">
+          <p class="eyebrow">FAQ</p>
+          <h2>자주 묻는 질문</h2>
+        </div>
+        <div class="faq-list reveal">
+          <details open><summary>최소 며칠 전에 예약해야 하나요?</summary><p>홀케이크는 2일 전, 단체 구움과자 세트는 3일 전 예약을 권장합니다. 성수기에는 더 빨리 마감됩니다.</p></details>
+          <details><summary>배송 가능 지역은 어디인가요?</summary><p>성동구, 광진구, 강남 일부 지역에 퀵 배송을 운영하며 거리와 시간대에 따라 배송비가 달라집니다.</p></details>
+          <details><summary>알레르기 유발 성분 확인이 가능한가요?</summary><p>모든 제품의 주요 원재료와 알레르기 유발 성분을 주문 상담 시 안내합니다. 견과류 공정은 분리되지 않습니다.</p></details>
+          <details><summary>기업 대량 주문도 가능한가요?</summary><p>가능합니다. 행사 일정, 예산, 브랜딩 스티커 여부를 전달해주시면 맞춤 견적서를 보내드립니다.</p></details>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer" id="contact">
+      <div>
+        <p class="eyebrow">Contact</p>
+        <h2>Bloom Oven</h2>
+        <p>이메일: <a href="mailto:hello@bloomoven.kr">hello@bloomoven.kr</a></p>
+        <p>전화번호: <a href="tel:0212345678">02-1234-5678</a></p>
+        <p>주소: 서울시 성동구 서울숲길 28, 1층</p>
+      </div>
+      <div>
+        <p class="eyebrow">Social Media</p>
+        <ul class="social-links">
+          <li><a href="https://instagram.com" target="_blank" rel="noreferrer">Instagram</a></li>
+          <li><a href="https://facebook.com" target="_blank" rel="noreferrer">Facebook</a></li>
+          <li><a href="https://blog.naver.com" target="_blank" rel="noreferrer">Naver Blog</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="eyebrow">CTA</p>
+        <div class="footer-actions">
+          <a class="btn btn-primary" href="#reservation">지금 신청하기</a>
+          <a class="btn btn-secondary" href="admin.html">관리자 대시보드</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <button class="to-top glass-ico" aria-label="맨 위로">↑</button>
+  <script src="app.js"></script>
+</body>
+</html>
