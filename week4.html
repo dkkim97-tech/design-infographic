@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4주차 · 코드에서 웹앱까지 | 클로드AI 마스터클래스 4주 실습 가이드</title>
+<meta name="description" content="클로드AI 마스터클래스 4주 실습 가이드 — 4주차 (BUILD). 현재 준비 중입니다.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="코드에서 웹앱까지 · 클로드AI 마스터클래스 4주차">
+<meta property="og:description" content="4주 실습 가이드 — 4주차 (BUILD). 준비 중.">
+<meta property="og:image" content="images/week4-cover.svg">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="클로드AI 마스터클래스 4주 실습 가이드">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📘</text></svg>">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<!-- 상단 주차 바 -->
+<div class="weekbar">
+  <div class="weekbar-inner">
+    <span class="brand">클로드AI 마스터클래스 · 4주</span>
+    <nav class="dots">
+      <a class="dot" href="index.html" title="1주차">1</a>
+      <a class="dot" href="week2.html" title="2주차">2</a>
+      <a class="dot" href="week3.html" title="3주차">3</a>
+      <a class="dot on" href="week4.html" title="4주차">4</a>
+    </nav>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- 히어로 매거진 커버 -->
+  <div class="hero-cover">
+    <img src="images/week4-cover.svg" alt="CLASSIC MAGAZINE — THE CLAUDE ISSUE · 클로드AI 마스터클래스 4주차, 코드에서 웹앱까지">
+  </div>
+
+  <header>
+    <div class="guide-badge"><span class="g-dot"></span> 클로드AI 마스터클래스 · 4주 실습 가이드</div>
+    <div class="kicker">Week 4 · BUILD</div>
+    <h1>코드에서<br><span class="gold">웹앱</span>까지</h1>
+    <p class="lead">이 주차는 현재 <b>준비 중</b>입니다. 오픈되면 이 페이지에 1주차처럼 <b>단계별 실습</b>과 <b>복사용 프롬프트</b>, <b>실습 링크</b>가 채워집니다.</p>
+    <div class="flow">
+      <span class="chip">코드</span><span class="arw">→</span><span class="chip">빌드</span><span class="arw">→</span><span class="chip">배포</span>
+    </div>
+  </header>
+
+  <!-- 이 주차에서 다룰 내용 -->
+  <div class="sect-label">이 주차에서 다룰 내용</div>
+  <div class="box">
+    <div class="box-head"><span class="box-badge">예정</span> 4주차 커리큘럼 (미리보기)</div>
+    <ul class="ol">
+              <li>클로드 코드(Claude Code) 첫걸음</li>
+              <li>나만의 웹앱 빌드</li>
+              <li>배포(Deploy)하고 링크 공유</li>
+              <li>포트폴리오 — 코드 도구 칸 채우기</li>
+    </ul>
+  </div>
+
+  <!-- 준비중 안내 -->
+  <div class="sect-label">단계별 실습</div>
+  <div class="finish">
+    <div class="ft">🚧 4주차 · 준비 중</div>
+    <ul class="check">
+      <li>단계별 실습 카드와 <b>복사용 프롬프트</b>가 곧 채워집니다</li>
+      <li>오픈 시 상단 <b>4번</b> 버튼에서 바로 확인할 수 있어요</li>
+    </ul>
+    <div class="port">📌 먼저 <b>1주차</b>부터 완주해 두면, 이번 주 실습이 훨씬 수월합니다.</div>
+  </div>
+
+  <div class="toolbar" style="margin-top:20px;">
+    <a class="tool primary" href="index.html"><span class="ic">←</span> 1주차 가이드로</a>
+    <a class="tool" href="https://aicontentslab.liveklass.com/classes/306977" target="_blank" rel="noopener"><span class="ic">↗</span> 과정 바로가기</a>
+  </div>
+
+  <!-- 푸터 -->
+  <footer>
+    <div class="maker">
+      <div class="name">제공 : <b>AICLab 김진수</b></div>
+      AI활용교육 &amp; GEO마케팅전문가
+    </div>
+    <div class="tagline">클로드AI 마스터클래스 4주 실습 가이드 · 온라인</div>
+  </footer>
+
+</div>
+
+<script>
+  // 향후 단계별 실습(아코디언·프롬프트 복사)이 추가될 때를 위한 공용 스크립트
+  function toggle(head){
+    const step = head.parentElement;
+    const body = step.querySelector('.step-body');
+    const open = step.classList.toggle('open');
+    body.style.maxHeight = open ? body.scrollHeight + 'px' : '0';
+  }
+  window.addEventListener('load', ()=>{
+    document.querySelectorAll('.step.open .step-body').forEach(b=>{ b.style.maxHeight = b.scrollHeight + 'px'; });
+  });
+  window.addEventListener('resize', ()=>{
+    document.querySelectorAll('.step.open .step-body').forEach(b=>{ b.style.maxHeight = b.scrollHeight + 'px'; });
+  });
+  function copyCode(btn){
+    const pre = btn.parentElement.querySelector('pre');
+    const tmp = document.createElement('textarea');
+    tmp.innerHTML = pre.innerHTML;
+    navigator.clipboard.writeText(tmp.value).then(()=>{
+      const orig = btn.textContent;
+      btn.textContent = '✓ 복사됨'; btn.classList.add('done');
+      setTimeout(()=>{ btn.textContent = orig; btn.classList.remove('done'); }, 1600);
+    });
+  }
+</script>
+</body>
+</html>

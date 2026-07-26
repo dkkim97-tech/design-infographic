@@ -35,9 +35,9 @@
     <span class="brand">클로드AI 마스터클래스 · 4주</span>
     <nav class="dots">
       <a class="dot on" href="index.html" title="1주차">1</a>
-      <a class="dot locked" onclick="comingSoon(2)" title="2주차 (준비중)">2</a>
-      <a class="dot locked" onclick="comingSoon(3)" title="3주차 (준비중)">3</a>
-      <a class="dot locked" onclick="comingSoon(4)" title="4주차 (준비중)">4</a>
+      <a class="dot" href="week2.html" title="2주차">2</a>
+      <a class="dot" href="week3.html" title="3주차">3</a>
+      <a class="dot" href="week4.html" title="4주차">4</a>
     </nav>
   </div>
 </div>
@@ -407,18 +407,6 @@ AI·디지털 용어를 쉽고 정확하게 풀어주는 것이 유일한 임무
 
 </div>
 
-<!-- 준비중 모달 (주차 커버 미리보기) -->
-<div class="modal-overlay" id="soon" onclick="if(event.target===this)closeSoon()">
-  <div class="modal">
-    <img class="m-cover" id="soonCover" src="images/week2-cover.svg" alt="다음 주차 매거진 커버">
-    <div class="m-body">
-      <div class="m-title" id="soonTitle"><b>2주차</b> · 준비 중</div>
-      <div class="m-desc"><span id="soonSub">스킬에서 앱까지</span><br>해당 주차는 준비 중이에요. 오픈 시 이 가이드에서 공지드립니다.</div>
-      <button class="m-btn" onclick="closeSoon()">확인</button>
-    </div>
-  </div>
-</div>
-
 <script>
   function toggle(head){
     const step = head.parentElement;
@@ -448,20 +436,6 @@ AI·디지털 용어를 쉽고 정확하게 풀어주는 것이 유일한 임무
       setTimeout(()=>{ btn.textContent = orig; btn.classList.remove('done'); }, 1600);
     });
   }
-  // 준비중 모달 — 주차별 커버 표시
-  const WEEK_SUB = {
-    2: '스킬에서 앱까지 · EVOLVE',
-    3: '코워크에서 스케줄드까지 · AUTOMATE',
-    4: '코드에서 웹앱까지 · BUILD'
-  };
-  function comingSoon(w){
-    document.getElementById('soonCover').src = 'images/week' + w + '-cover.svg';
-    document.getElementById('soonTitle').innerHTML = '<b>' + w + '주차</b> · 준비 중';
-    document.getElementById('soonSub').textContent = WEEK_SUB[w] || '';
-    document.getElementById('soon').classList.add('show');
-  }
-  function closeSoon(){ document.getElementById('soon').classList.remove('show'); }
-  document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeSoon(); });
 </script>
 </body>
 </html>
