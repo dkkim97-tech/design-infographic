@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>네이버 블로그 댓글 도우미</title>
+  <style>
+    :root {
+      --green: #03c75a;
+      --green-dark: #02b350;
+      --bg: #f4f6f8;
+      --card: #ffffff;
+      --text: #1f2a37;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", "맑은 고딕", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 24px 16px 60px;
+    }
+    .wrap { max-width: 680px; margin: 0 auto; }
+    header { text-align: center; margin-bottom: 28px; }
+    .logo {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 1.5rem; font-weight: 800;
+    }
+    .logo .dot {
+      background: var(--green); color: #fff; width: 34px; height: 34px;
+      border-radius: 9px; display: grid; place-items: center; font-size: 1.1rem;
+    }
+    header p { color: var(--muted); margin-top: 8px; font-size: 0.92rem; }
+    .card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 22px; margin-bottom: 18px;
+    }
+    label { display: block; font-weight: 700; margin-bottom: 10px; font-size: 0.95rem; }
+    textarea {
+      width: 100%; min-height: 150px; resize: vertical;
+      border: 1px solid var(--border); border-radius: 12px; padding: 14px;
+      font-size: 0.95rem; font-family: inherit; line-height: 1.6;
+    }
+    textarea:focus { outline: none; border-color: var(--green); }
+    .tones { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 18px 0; }
+    .tone {
+      border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px;
+      cursor: pointer; transition: 0.15s; background: #fff;
+    }
+    .tone:hover { border-color: var(--green); }
+    .tone.active { border-color: var(--green); background: #eafaf1; }
+    .tone .t-name { font-weight: 700; font-size: 0.92rem; }
+    .tone .t-desc { color: var(--muted); font-size: 0.78rem; margin-top: 2px; }
+    button.primary {
+      width: 100%; background: var(--green); color: #fff; border: none;
+      border-radius: 12px; padding: 15px; font-size: 1.02rem; font-weight: 800;
+      cursor: pointer; transition: 0.15s;
+    }
+    button.primary:hover { background: var(--green-dark); }
+    button.primary:disabled { background: #9ca3af; cursor: not-allowed; }
+    .results { margin-top: 6px; }
+    .result {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 18px; margin-bottom: 14px;
+    }
+    .result .body { white-space: pre-wrap; font-size: 0.96rem; }
+    .result .actions { display: flex; justify-content: flex-end; margin-top: 12px; }
+    button.copy {
+      background: #fff; border: 1px solid var(--green); color: var(--green);
+      border-radius: 9px; padding: 8px 16px; font-weight: 700; cursor: pointer;
+      font-size: 0.85rem;
+    }
+    button.copy.done { background: var(--green); color: #fff; }
+    .hint { color: var(--muted); font-size: 0.8rem; text-align: center; margin-top: 16px; }
+    .error {
+      background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca;
+      border-radius: 12px; padding: 14px; margin-bottom: 14px; font-size: 0.9rem;
+    }
+    .loading { text-align: center; color: var(--muted); padding: 20px; }
+    .notice {
+      background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af;
+      border-radius: 12px; padding: 12px 14px; font-size: 0.82rem; margin-bottom: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo"><span class="dot">N</span> 블로그 댓글 도우미</div>
+      <p>블로그 글을 붙여넣으면 자연스러운 댓글 초안을 만들어 드려요 ✨</p>
+    </header>
+
+    <div class="notice">
+      💡 이 도구는 <b>댓글 초안만</b> 만들어 줍니다. 마음에 드는 초안을 복사해서
+      <b>직접 게시</b>해 주세요. (자동 등록 기능은 없습니다 — 네이버 정책 준수)
+    </div>
+
+    <div class="card">
+      <label for="content">블로그 글 내용 또는 주제</label>
+      <textarea id="content" placeholder="여기에 블로그 글 내용을 붙여넣거나, 글의 주제·핵심 키워드를 적어 주세요."></textarea>
+
+      <div class="tones" id="tones">
+        <div class="tone active" data-tone="empathy">
+          <div class="t-name">🤍 공감형</div>
+          <div class="t-desc">감정·상황에 진심으로 공감</div>
+        </div>
+        <div class="tone" data-tone="cheer">
+          <div class="t-name">🎉 응원형</div>
+          <div class="t-desc">밝게 격려하고 응원</div>
+        </div>
+        <div class="tone" data-tone="question">
+          <div class="t-name">💬 질문형</div>
+          <div class="t-desc">자연스러운 질문 곁들임</div>
+        </div>
+        <div class="tone" data-tone="info">
+          <div class="t-name">📌 정보 추가형</div>
+          <div class="t-desc">유용한 경험·팁 보탬</div>
+        </div>
+      </div>
+
+      <button class="primary" id="genBtn">댓글 초안 만들기</button>
+    </div>
+
+    <div class="results" id="results"></div>
+    <p class="hint">3~5줄 · 이모지 포함 · 초안 3개 생성</p>
+  </div>
+
+  <script>
+    let selectedTone = "empathy";
+
+    document.getElementById("tones").addEventListener("click", (e) => {
+      const el = e.target.closest(".tone");
+      if (!el) return;
+      document.querySelectorAll(".tone").forEach((t) => t.classList.remove("active"));
+      el.classList.add("active");
+      selectedTone = el.dataset.tone;
+    });
+
+    const btn = document.getElementById("genBtn");
+    const results = document.getElementById("results");
+
+    btn.addEventListener("click", async () => {
+      const content = document.getElementById("content").value.trim();
+      results.innerHTML = "";
+      if (!content) {
+        showError("블로그 글 내용이나 주제를 입력해 주세요.");
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = "생성 중...";
+      results.innerHTML = '<div class="loading">🖊️ 댓글을 쓰는 중이에요...</div>';
+
+      try {
+        const resp = await fetch("/api/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ content, tone: selectedTone }),
+        });
+        const data = await resp.json();
+        results.innerHTML = "";
+        if (!resp.ok) {
+          showError(data.error || "오류가 발생했습니다.");
+          return;
+        }
+        data.comments.forEach(renderComment);
+      } catch (err) {
+        results.innerHTML = "";
+        showError("네트워크 오류가 발생했습니다. 다시 시도해 주세요.");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "댓글 초안 만들기";
+      }
+    });
+
+    function renderComment(text) {
+      const div = document.createElement("div");
+      div.className = "result";
+      const body = document.createElement("div");
+      body.className = "body";
+      body.textContent = text;
+      const actions = document.createElement("div");
+      actions.className = "actions";
+      const copy = document.createElement("button");
+      copy.className = "copy";
+      copy.textContent = "복사";
+      copy.addEventListener("click", async () => {
+        await navigator.clipboard.writeText(text);
+        copy.textContent = "복사됨 ✓";
+        copy.classList.add("done");
+        setTimeout(() => {
+          copy.textContent = "복사";
+          copy.classList.remove("done");
+        }, 1500);
+      });
+      actions.appendChild(copy);
+      div.appendChild(body);
+      div.appendChild(actions);
+      results.appendChild(div);
+    }
+
+    function showError(msg) {
+      const div = document.createElement("div");
+      div.className = "error";
+      div.textContent = "⚠️ " + msg;
+      results.appendChild(div);
+    }
+  </script>
+</body>
+</html>

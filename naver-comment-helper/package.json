@@ -1,0 +1,23 @@
+{
+  "name": "naver-comment-helper",
+  "version": "1.0.0",
+  "description": "네이버 블로그 댓글 초안 도우미 — AI가 좋은 댓글 문구를 생성하고, 사용자가 복사해 직접 게시합니다. 자동 등록/정책 우회 기능 없음.",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [
+    "naver",
+    "blog",
+    "comment",
+    "assistant",
+    "claude"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.68.0",
+    "express": "^4.21.2"
+  }
+}
