@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1700 944" width="1700" height="944" font-family="'Pretendard Variable',Pretendard,-apple-system,'Apple SD Gothic Neo',sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#20304A"/><stop offset="1" stop-color="#0F172A"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="78%" cy="26%" r="55%">
+      <stop offset="0" stop-color="#E8674C" stop-opacity="0.30"/><stop offset="1" stop-color="#E8674C" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#E6C98A"/><stop offset="1" stop-color="#C79A3B"/>
+    </linearGradient>
+  </defs>
+  <rect width="1700" height="944" fill="url(#bg)"/>
+  <rect width="1700" height="944" fill="url(#glow)"/>
+  <rect x="46" y="46" width="1608" height="852" fill="none" stroke="#C79A3B" stroke-opacity="0.5" stroke-width="2"/>
+  <rect x="58" y="58" width="1584" height="828" fill="none" stroke="#E6C98A" stroke-opacity="0.18" stroke-width="1"/>
+  <text x="90" y="132" fill="#E6C98A" font-size="26" font-weight="700" letter-spacing="10">C L A S S I C&#160;&#160;M A G A Z I N E</text>
+  <line x1="90" y1="156" x2="1610" y2="156" stroke="#E6C98A" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="1610" y="132" text-anchor="end" fill="#9FB0C8" font-size="22" letter-spacing="4">VOL.03 · 2026</text>
+  <text x="90" y="360" fill="#F7F3EC" font-size="150" font-weight="800" letter-spacing="-4">THE</text>
+  <text x="90" y="510" fill="url(#gold)" font-size="150" font-weight="800" letter-spacing="-4">CLAUDE</text>
+  <text x="90" y="620" fill="#F7F3EC" font-size="86" font-weight="800" letter-spacing="-2">ISSUE</text>
+  <rect x="640" y="556" width="150" height="14" fill="#E8674C"/>
+  <rect x="90" y="672" width="470" height="52" rx="26" fill="#E8674C"/>
+  <text x="325" y="707" text-anchor="middle" fill="#fff" font-size="24" font-weight="700" letter-spacing="1">WEEK 3 · AUTOMATE</text>
+  <text x="90" y="792" fill="#EAF0F8" font-size="46" font-weight="800" letter-spacing="-1">코워크에서 스케줄드까지</text>
+  <text x="90" y="836" fill="#9FB0C8" font-size="26" font-weight="500">Cowork · Connectors · Scheduled Tasks</text>
+  <circle cx="1454" cy="742" r="118" fill="none" stroke="#E6C98A" stroke-opacity="0.55" stroke-width="2"/>
+  <circle cx="1454" cy="742" r="100" fill="#E8674C" fill-opacity="0.12"/>
+  <text x="1454" y="732" text-anchor="middle" fill="#E6C98A" font-size="20" letter-spacing="3">COMING</text>
+  <text x="1454" y="772" text-anchor="middle" fill="#F7F3EC" font-size="30" font-weight="800">SOON</text>
+</svg>
