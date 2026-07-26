@@ -17,118 +17,106 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", "맑은 고딕", sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      padding: 24px 16px 60px;
+      background: var(--bg); color: var(--text); line-height: 1.6; padding: 24px 16px 60px;
     }
     .wrap { max-width: 680px; margin: 0 auto; }
-    header { text-align: center; margin-bottom: 28px; }
-    .logo {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-size: 1.5rem; font-weight: 800;
-    }
-    .logo .dot {
-      background: var(--green); color: #fff; width: 34px; height: 34px;
-      border-radius: 9px; display: grid; place-items: center; font-size: 1.1rem;
-    }
+    header { text-align: center; margin-bottom: 22px; }
+    .logo { display: inline-flex; align-items: center; gap: 8px; font-size: 1.5rem; font-weight: 800; }
+    .logo .dot { background: var(--green); color: #fff; width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; font-size: 1.1rem; }
     header p { color: var(--muted); margin-top: 8px; font-size: 0.92rem; }
-    .card {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 16px; padding: 22px; margin-bottom: 18px;
-    }
-    label { display: block; font-weight: 700; margin-bottom: 10px; font-size: 0.95rem; }
-    textarea {
-      width: 100%; min-height: 150px; resize: vertical;
-      border: 1px solid var(--border); border-radius: 12px; padding: 14px;
-      font-size: 0.95rem; font-family: inherit; line-height: 1.6;
-    }
+    .tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+    .tab { flex: 1; text-align: center; padding: 12px; border: 1px solid var(--border); background: #fff; border-radius: 12px; cursor: pointer; font-weight: 700; font-size: 0.92rem; color: var(--muted); }
+    .tab.active { border-color: var(--green); background: #eafaf1; color: var(--text); }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 22px; margin-bottom: 18px; }
+    label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 0.95rem; }
+    .sub { color: var(--muted); font-size: 0.8rem; font-weight: 400; margin-bottom: 10px; }
+    textarea { width: 100%; resize: vertical; border: 1px solid var(--border); border-radius: 12px; padding: 14px; font-size: 0.95rem; font-family: inherit; line-height: 1.6; }
     textarea:focus { outline: none; border-color: var(--green); }
-    .tones { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 18px 0; }
-    .tone {
-      border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px;
-      cursor: pointer; transition: 0.15s; background: #fff;
-    }
+    #content { min-height: 150px; }
+    #blogs { min-height: 130px; }
+    .tones { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 16px 0; }
+    .tone { border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; cursor: pointer; transition: 0.15s; background: #fff; }
     .tone:hover { border-color: var(--green); }
     .tone.active { border-color: var(--green); background: #eafaf1; }
     .tone .t-name { font-weight: 700; font-size: 0.92rem; }
     .tone .t-desc { color: var(--muted); font-size: 0.78rem; margin-top: 2px; }
-    button.primary {
-      width: 100%; background: var(--green); color: #fff; border: none;
-      border-radius: 12px; padding: 15px; font-size: 1.02rem; font-weight: 800;
-      cursor: pointer; transition: 0.15s;
-    }
+    button.primary { width: 100%; background: var(--green); color: #fff; border: none; border-radius: 12px; padding: 15px; font-size: 1.02rem; font-weight: 800; cursor: pointer; transition: 0.15s; }
     button.primary:hover { background: var(--green-dark); }
     button.primary:disabled { background: #9ca3af; cursor: not-allowed; }
-    .results { margin-top: 6px; }
-    .result {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 14px; padding: 18px; margin-bottom: 14px;
-    }
-    .result .body { white-space: pre-wrap; font-size: 0.96rem; }
-    .result .actions { display: flex; justify-content: flex-end; margin-top: 12px; }
-    button.copy {
-      background: #fff; border: 1px solid var(--green); color: var(--green);
-      border-radius: 9px; padding: 8px 16px; font-weight: 700; cursor: pointer;
-      font-size: 0.85rem;
-    }
+    .result { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 18px; margin-bottom: 14px; }
+    .result .meta { font-size: 0.82rem; color: var(--muted); margin-bottom: 8px; }
+    .result .ptitle { font-weight: 700; font-size: 0.95rem; margin-bottom: 10px; }
+    .result .ptitle a { color: var(--green-dark); text-decoration: none; }
+    .result .ptitle a:hover { text-decoration: underline; }
+    .result .body { white-space: pre-wrap; font-size: 0.96rem; background: #fafafa; border-radius: 10px; padding: 12px; }
+    .result .actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 12px; flex-wrap: wrap; }
+    button.copy, a.open { background: #fff; border: 1px solid var(--green); color: var(--green); border-radius: 9px; padding: 8px 16px; font-weight: 700; cursor: pointer; font-size: 0.85rem; text-decoration: none; display: inline-block; }
     button.copy.done { background: var(--green); color: #fff; }
+    a.open { border-color: var(--border); color: var(--muted); }
+    .result.fail { border-color: #fecaca; background: #fef2f2; }
+    .result.fail .body { background: transparent; color: #b91c1c; }
     .hint { color: var(--muted); font-size: 0.8rem; text-align: center; margin-top: 16px; }
-    .error {
-      background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca;
-      border-radius: 12px; padding: 14px; margin-bottom: 14px; font-size: 0.9rem;
-    }
+    .error { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; border-radius: 12px; padding: 14px; margin-bottom: 14px; font-size: 0.9rem; }
     .loading { text-align: center; color: var(--muted); padding: 20px; }
-    .notice {
-      background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af;
-      border-radius: 12px; padding: 12px 14px; font-size: 0.82rem; margin-bottom: 18px;
-    }
+    .notice { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; border-radius: 12px; padding: 12px 14px; font-size: 0.82rem; margin-bottom: 18px; }
+    .summary { font-size: 0.85rem; color: var(--muted); margin-bottom: 12px; }
+    .hidden { display: none; }
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
       <div class="logo"><span class="dot">N</span> 블로그 댓글 도우미</div>
-      <p>블로그 글을 붙여넣으면 자연스러운 댓글 초안을 만들어 드려요 ✨</p>
+      <p>자연스러운 댓글 초안을 만들어 드려요 ✨</p>
     </header>
 
     <div class="notice">
-      💡 이 도구는 <b>댓글 초안만</b> 만들어 줍니다. 마음에 드는 초안을 복사해서
-      <b>직접 게시</b>해 주세요. (자동 등록 기능은 없습니다 — 네이버 정책 준수)
+      💡 이 도구는 <b>댓글 초안만</b> 준비합니다. 마음에 드는 초안을 <b>복사</b>해서 직접 게시해 주세요.
+      (자동 등록 기능 없음 — 네이버 정책 준수)
     </div>
 
+    <div class="tabs">
+      <div class="tab active" data-tab="single">📝 글 하나에 댓글</div>
+      <div class="tab" data-tab="visit">🔁 답방 댓글 준비</div>
+    </div>
+
+    <!-- 톤 선택 (공통) -->
     <div class="card">
-      <label for="content">블로그 글 내용 또는 주제</label>
-      <textarea id="content" placeholder="여기에 블로그 글 내용을 붙여넣거나, 글의 주제·핵심 키워드를 적어 주세요."></textarea>
-
+      <label>댓글 톤</label>
       <div class="tones" id="tones">
-        <div class="tone active" data-tone="empathy">
-          <div class="t-name">🤍 공감형</div>
-          <div class="t-desc">감정·상황에 진심으로 공감</div>
-        </div>
-        <div class="tone" data-tone="cheer">
-          <div class="t-name">🎉 응원형</div>
-          <div class="t-desc">밝게 격려하고 응원</div>
-        </div>
-        <div class="tone" data-tone="question">
-          <div class="t-name">💬 질문형</div>
-          <div class="t-desc">자연스러운 질문 곁들임</div>
-        </div>
-        <div class="tone" data-tone="info">
-          <div class="t-name">📌 정보 추가형</div>
-          <div class="t-desc">유용한 경험·팁 보탬</div>
-        </div>
+        <div class="tone active" data-tone="empathy"><div class="t-name">🤍 공감형</div><div class="t-desc">감정·상황에 공감</div></div>
+        <div class="tone" data-tone="cheer"><div class="t-name">🎉 응원형</div><div class="t-desc">밝게 격려·응원</div></div>
+        <div class="tone" data-tone="question"><div class="t-name">💬 질문형</div><div class="t-desc">자연스러운 질문</div></div>
+        <div class="tone" data-tone="info"><div class="t-name">📌 정보 추가형</div><div class="t-desc">유용한 팁 보탬</div></div>
       </div>
-
-      <button class="primary" id="genBtn">댓글 초안 만들기</button>
     </div>
 
-    <div class="results" id="results"></div>
-    <p class="hint">3~5줄 · 이모지 포함 · 초안 3개 생성</p>
+    <!-- 탭 1: 단일 글 -->
+    <div id="panel-single">
+      <div class="card">
+        <label for="content">블로그 글 내용 또는 주제</label>
+        <textarea id="content" placeholder="여기에 블로그 글 내용을 붙여넣거나, 글의 주제·핵심 키워드를 적어 주세요."></textarea>
+        <button class="primary" id="genBtn" style="margin-top:16px">댓글 초안 만들기</button>
+      </div>
+    </div>
+
+    <!-- 탭 2: 답방 준비 -->
+    <div id="panel-visit" class="hidden">
+      <div class="card">
+        <label for="blogs">답방할 블로그 목록</label>
+        <div class="sub">내 블로그에 댓글 단 사람들의 블로그 주소나 아이디를 <b>한 줄에 하나씩</b> 붙여넣으세요. (최대 20개)<br>예) <code>blog.naver.com/abc123</code> 또는 <code>abc123</code></div>
+        <textarea id="blogs" placeholder="blog.naver.com/abc123&#10;blog.naver.com/hello_world&#10;xyz_diary"></textarea>
+        <button class="primary" id="visitBtn" style="margin-top:16px">최신 글 찾아 댓글 준비하기</button>
+      </div>
+    </div>
+
+    <div id="results"></div>
+    <p class="hint" id="hint">3~5줄 · 이모지 포함</p>
   </div>
 
   <script>
     let selectedTone = "empathy";
+    let currentTab = "single";
 
     document.getElementById("tones").addEventListener("click", (e) => {
       const el = e.target.closest(".tone");
@@ -138,69 +126,146 @@
       selectedTone = el.dataset.tone;
     });
 
-    const btn = document.getElementById("genBtn");
+    document.querySelectorAll(".tab").forEach((tab) => {
+      tab.addEventListener("click", () => {
+        currentTab = tab.dataset.tab;
+        document.querySelectorAll(".tab").forEach((t) => t.classList.toggle("active", t === tab));
+        document.getElementById("panel-single").classList.toggle("hidden", currentTab !== "single");
+        document.getElementById("panel-visit").classList.toggle("hidden", currentTab !== "visit");
+        document.getElementById("results").innerHTML = "";
+        document.getElementById("hint").textContent = currentTab === "visit"
+          ? "각 블로그의 최신 글에 맞춘 댓글을 준비합니다" : "3~5줄 · 이모지 포함";
+      });
+    });
+
     const results = document.getElementById("results");
 
-    btn.addEventListener("click", async () => {
+    // ── 단일 글 ──
+    document.getElementById("genBtn").addEventListener("click", async () => {
       const content = document.getElementById("content").value.trim();
       results.innerHTML = "";
-      if (!content) {
-        showError("블로그 글 내용이나 주제를 입력해 주세요.");
-        return;
-      }
+      if (!content) return showError("블로그 글 내용이나 주제를 입력해 주세요.");
+      await run("/api/generate", { content, tone: selectedTone }, "genBtn", (data) => {
+        data.comments.forEach((c) => renderComment({ comment: c }));
+      });
+    });
 
+    // ── 답방 준비 ──
+    document.getElementById("visitBtn").addEventListener("click", async () => {
+      const blogs = document.getElementById("blogs").value.trim();
+      results.innerHTML = "";
+      if (!blogs) return showError("블로그 주소나 아이디를 입력해 주세요.");
+      await run("/api/return-visit", { blogs, tone: selectedTone }, "visitBtn", (data) => {
+        const s = data.summary;
+        const sum = document.createElement("div");
+        sum.className = "summary";
+        sum.textContent = `총 ${s.total}개 중 ${s.ok}개 준비 완료${s.failed ? ` · ${s.failed}개 실패` : ""}`;
+        results.appendChild(sum);
+        data.results.forEach(renderVisitResult);
+      });
+    });
+
+    async function run(url, payload, btnId, onOk) {
+      const btn = document.getElementById(btnId);
+      const label = btn.textContent;
       btn.disabled = true;
-      btn.textContent = "생성 중...";
-      results.innerHTML = '<div class="loading">🖊️ 댓글을 쓰는 중이에요...</div>';
-
+      btn.textContent = "준비 중...";
+      results.innerHTML = '<div class="loading">🖊️ 준비하고 있어요...</div>';
       try {
-        const resp = await fetch("/api/generate", {
+        const resp = await fetch(url, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ content, tone: selectedTone }),
+          body: JSON.stringify(payload),
         });
         const data = await resp.json();
         results.innerHTML = "";
-        if (!resp.ok) {
-          showError(data.error || "오류가 발생했습니다.");
-          return;
-        }
-        data.comments.forEach(renderComment);
+        if (!resp.ok) return showError(data.error || "오류가 발생했습니다.");
+        onOk(data);
       } catch (err) {
         results.innerHTML = "";
         showError("네트워크 오류가 발생했습니다. 다시 시도해 주세요.");
       } finally {
         btn.disabled = false;
-        btn.textContent = "댓글 초안 만들기";
+        btn.textContent = label;
       }
-    });
+    }
 
-    function renderComment(text) {
+    function renderComment({ comment }) {
       const div = document.createElement("div");
       div.className = "result";
-      const body = document.createElement("div");
-      body.className = "body";
-      body.textContent = text;
+      div.appendChild(bodyEl(comment));
       const actions = document.createElement("div");
       actions.className = "actions";
-      const copy = document.createElement("button");
-      copy.className = "copy";
-      copy.textContent = "복사";
-      copy.addEventListener("click", async () => {
-        await navigator.clipboard.writeText(text);
-        copy.textContent = "복사됨 ✓";
-        copy.classList.add("done");
-        setTimeout(() => {
-          copy.textContent = "복사";
-          copy.classList.remove("done");
-        }, 1500);
-      });
-      actions.appendChild(copy);
-      div.appendChild(body);
+      actions.appendChild(copyBtn(comment));
       div.appendChild(actions);
       results.appendChild(div);
     }
 
+    function renderVisitResult(r) {
+      const div = document.createElement("div");
+      if (r.error || !r.comment) {
+        div.className = "result fail";
+        const meta = document.createElement("div");
+        meta.className = "ptitle";
+        meta.textContent = `@${r.blogId}`;
+        div.appendChild(meta);
+        div.appendChild(bodyEl("⚠️ " + (r.error || "댓글을 준비하지 못했습니다.")));
+        const actions = document.createElement("div");
+        actions.className = "actions";
+        actions.appendChild(openLink(r.blogUrl, "블로그 열기"));
+        div.appendChild(actions);
+        results.appendChild(div);
+        return;
+      }
+      div.className = "result";
+      const meta = document.createElement("div");
+      meta.className = "meta";
+      meta.textContent = `@${r.blogId}${r.postDate ? " · " + r.postDate : ""}`;
+      div.appendChild(meta);
+
+      const title = document.createElement("div");
+      title.className = "ptitle";
+      const a = document.createElement("a");
+      a.href = r.postUrl || r.blogUrl;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.textContent = "📄 " + (r.postTitle || "최신 글");
+      title.appendChild(a);
+      div.appendChild(title);
+
+      div.appendChild(bodyEl(r.comment));
+
+      const actions = document.createElement("div");
+      actions.className = "actions";
+      actions.appendChild(openLink(r.postUrl || r.blogUrl, "글 열기 ↗"));
+      actions.appendChild(copyBtn(r.comment));
+      div.appendChild(actions);
+      results.appendChild(div);
+    }
+
+    function bodyEl(text) {
+      const b = document.createElement("div");
+      b.className = "body";
+      b.textContent = text;
+      return b;
+    }
+    function copyBtn(text) {
+      const c = document.createElement("button");
+      c.className = "copy";
+      c.textContent = "복사";
+      c.addEventListener("click", async () => {
+        await navigator.clipboard.writeText(text);
+        c.textContent = "복사됨 ✓"; c.classList.add("done");
+        setTimeout(() => { c.textContent = "복사"; c.classList.remove("done"); }, 1500);
+      });
+      return c;
+    }
+    function openLink(href, label) {
+      const a = document.createElement("a");
+      a.className = "open"; a.href = href; a.target = "_blank"; a.rel = "noopener";
+      a.textContent = label;
+      return a;
+    }
     function showError(msg) {
       const div = document.createElement("div");
       div.className = "error";
