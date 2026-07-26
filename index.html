@@ -1,641 +1,1905 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Design by Myway 75 — Style Library</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>"/>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet"/>
-<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-<script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>소상공인 바이브코딩 시작 PRD 100선 — AICLab</title>
+<meta name="description" content="혼자 가게 보지 마세요. 복사 한 번이면 내 가게 도구의 PRD가 됩니다. 소상공인 바이브코딩 시작 PRD 100선 — AICLab." />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="AICLab" />
+<meta property="og:locale" content="ko_KR" />
+<meta property="og:title" content="시리즈 #4 — 소상공인 바이브코딩 시작 PRD 100선" />
+<meta property="og:description" content="AI 시대, 모든 사장님의 첫 코딩. 14분야 100개의 한 줄 컨셉 → 한 페이지 PRD." />
+<meta property="og:url" content="https://vibe-prompt-100-merchant.vercel.app/" />
+<meta property="og:image" content="https://vibe-prompt-100-merchant.vercel.app/og.jpg" />
+<meta property="og:image:secure_url" content="https://vibe-prompt-100-merchant.vercel.app/og.jpg" />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:width" content="1264" />
+<meta property="og:image:height" content="843" />
+<meta property="og:image:alt" content="시리즈 #4 — 소상공인 바이브코딩 시작 PRD 100선 — AICLab" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="시리즈 #4 — 소상공인 바이브코딩 시작 PRD 100선" />
+<meta name="twitter:description" content="혼자 가게 보지 마세요. 복사 한 번이면 내 가게 도구의 PRD가 됩니다." />
+<meta name="twitter:image" content="https://vibe-prompt-100-merchant.vercel.app/og.jpg" />
+<meta name="twitter:image:alt" content="시리즈 #4 — 소상공인 바이브코딩 시작 PRD 100선 — AICLab" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
-body{background:#f4f4f5;font-family:'Noto Sans KR','IBM Plex Sans',sans-serif;color:#1a1a1a;min-height:100vh}
-input,button,textarea,select{font-family:inherit}
-::selection{background:#e0e7ff;color:#3730a3}
-
-/* Scrollbar */
-::-webkit-scrollbar{width:6px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:#d1d5db;border-radius:3px}
-::-webkit-scrollbar-thumb:hover{background:#9ca3af}
-
-/* Animations */
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
-
-.card-enter{animation:fadeIn .35s ease both}
-
-/* Card hover */
-.style-card{transition:box-shadow .22s ease,transform .22s ease}
-.style-card:hover{box-shadow:0 8px 32px rgba(0,0,0,.1)!important;transform:translateY(-3px)}
-.style-card:hover .card-actions{opacity:1!important}
-.style-card:hover .fav-btn{opacity:1!important}
-
-/* Category pills */
-.cat-pill{display:inline-flex;align-items:center;gap:4px;padding:2px 8px 2px 6px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:-.2px;white-space:nowrap}
-.cat-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
-
-/* Action buttons */
-.act-btn{display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border:1px solid #e5e5e5;border-radius:6px;background:#fff;color:#666;font-size:11px;font-weight:500;cursor:pointer;transition:all .15s;white-space:nowrap}
-.act-btn:hover{background:#f9fafb;border-color:#d1d5db;color:#333}
-.act-btn.copied{background:#f0fdf4;border-color:#86efac;color:#16a34a}
-.act-btn svg{width:13px;height:13px;flex-shrink:0}
-
-/* Tab buttons */
-.tab-btn{padding:6px 14px;border-radius:20px;border:1px solid transparent;background:transparent;color:#71717a;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap}
-.tab-btn:hover{background:#e4e4e7;color:#3f3f46}
-.tab-btn.active{background:#18181b;color:#fff;border-color:#18181b}
-
-/* Admin buttons */
-.admin-btn{padding:5px 10px;border-radius:6px;border:1px solid #e5e5e5;background:#fff;color:#666;font-size:11px;font-weight:500;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:4px}
-.admin-btn:hover{background:#fafafa;border-color:#d1d5db}
-
-/* Toast */
-.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#18181b;color:#fff;padding:10px 24px;border-radius:10px;font-size:13px;font-weight:600;z-index:9999;pointer-events:none;box-shadow:0 8px 30px rgba(0,0,0,.2);white-space:nowrap;transition:all .3s ease}
-
-/* Modal overlay */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:8000;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
-.modal-box{background:#fff;border-radius:16px;box-shadow:0 24px 80px rgba(0,0,0,.18);animation:slideUp .25s ease;max-height:90vh;overflow:hidden;display:flex;flex-direction:column}
-
-/* Search input */
-.search-wrap{position:relative;flex:1;max-width:320px}
-.search-wrap input{width:100%;padding:8px 12px 8px 34px;border:1px solid #e5e5e5;border-radius:8px;font-size:13px;outline:none;background:#fff;transition:border-color .15s}
-.search-wrap input:focus{border-color:#a5b4fc}
-.search-wrap svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#a1a1aa}
-
-/* Migration banner */
-.mig-banner{position:fixed;top:0;left:0;right:0;z-index:9999;background:#18181b;color:#fff;padding:14px 24px;display:flex;align-items:center;justify-content:center;gap:14px;font-size:13px;font-weight:600}
-.mig-bar{width:180px;height:5px;background:rgba(255,255,255,.2);border-radius:3px;overflow:hidden}
-.mig-fill{height:100%;background:#a5b4fc;border-radius:3px;transition:width .3s}
-
-/* Responsive */
-@media(max-width:900px){
-  .grid-4{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))!important}
+:root {
+  --black: #000000;
+  --white: #FFFFFF;
+  --red: #D4A017;
+  --royal-blue: #0048BA;
+  --card-bg: #111111;
+  --card-hover: #1a1a1a;
+  --text-gray: #AAAAAA;
+  --text-dim: #666666;
+  --font-title: 'Black Han Sans', sans-serif;
+  --font-body: 'Noto Sans KR', sans-serif;
+  --font-accent: 'Bebas Neue', sans-serif;
 }
-@media(max-width:600px){
-  .grid-4{grid-template-columns:1fr 1fr!important;gap:12px!important}
-  .header-inner{flex-direction:column;gap:10px!important}
-  .tab-row{flex-wrap:wrap}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== KEYFRAMES ===== */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(50px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes bounceIn {
+  0% { opacity: 0; transform: translateY(50px) scale(0.8); }
+  60% { opacity: 1; transform: translateY(-8px) scale(1.05); }
+  80% { transform: translateY(3px) scale(0.98); }
+  100% { transform: translateY(0) scale(1); }
+}
+@keyframes glowPulse {
+  0%, 100% { text-shadow: 0 0 20px rgba(255,0,0,0.3), 0 0 40px rgba(255,0,0,0.1); }
+  50% { text-shadow: 0 0 30px rgba(255,0,0,0.5), 0 0 60px rgba(255,0,0,0.2); }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-100%); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes ripple {
+  0% { transform: scale(0); opacity: 0.6; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+@keyframes cardReveal {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes scanline {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 100%; }
+}
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: 100%; }
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-3px) rotate(-1deg); }
+  75% { transform: translateX(3px) rotate(1deg); }
+}
+@keyframes copySuccess {
+  0% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-30px); }
+}
+
+/* ===== NOISE OVERLAY ===== */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ===== TOP BAR ===== */
+.top-bar {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  z-index: 100;
+}
+.top-bar .brand {
+  font-family: var(--font-accent);
+  font-size: 28px;
+  letter-spacing: 3px;
+  color: var(--white);
+  opacity: 0;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  transform: translateY(10px);
+}
+.top-bar .brand.show { opacity: 1; transform: translateY(0); }
+.top-bar .brand span { color: var(--red); }
+.btn-guide {
+  background: transparent;
+  border: 1px solid var(--text-dim);
+  color: var(--text-gray);
+  padding: 8px 20px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  opacity: 0;
+  transform: translateY(10px);
+}
+.btn-guide.show { opacity: 1; transform: translateY(0); }
+.btn-guide:hover {
+  border-color: var(--red);
+  color: var(--white);
+  box-shadow: 0 0 15px rgba(255,0,0,0.2);
+}
+
+/* ===== INTRO OVERLAY ===== */
+.intro-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--black);
+  z-index: 5000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.6s ease;
+}
+.intro-overlay.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+.intro-overlay.hidden { display: none; }
+.intro-counter {
+  font-family: var(--font-accent);
+  font-size: clamp(80px, 20vw, 200px);
+  color: var(--red);
+  line-height: 1;
+  text-shadow: 0 0 40px rgba(255,0,0,0.4), 0 0 80px rgba(255,0,0,0.2);
+}
+.intro-text {
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: var(--text-dim);
+  letter-spacing: 4px;
+  margin-top: 16px;
+}
+.intro-bar {
+  width: 200px;
+  height: 2px;
+  background: #222;
+  margin-top: 30px;
+  overflow: hidden;
+  position: relative;
+}
+.intro-bar-fill {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  background: var(--red);
+  width: 0;
+  transition: width 0.3s linear;
+}
+
+/* ===== HERO ===== */
+.hero {
+  position: relative;
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: center;
+  padding: 3vh 20px 40px;
+  overflow: hidden;
+  background: var(--black);
+}
+
+/* 스파이럴 캔버스 배경 */
+.hero-canvas-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+.hero-canvas-wrap canvas {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* 이미지 오버레이 */
+.hero-img-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: url('og.jpg') center center / cover no-repeat;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.hero > *:not(.hero-canvas-wrap):not(.hero-img-overlay) {
+  position: relative;
+  z-index: 3;
+}
+
+.hero-title {
+  font-family: var(--font-title);
+  font-weight: 400;
+  line-height: 1.35;
+  margin-bottom: 30px;
+  letter-spacing: 2px;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+.hero-line {
+  display: block;
+  font-size: clamp(45px, 10vw, 126px);
+  overflow: hidden;
+  min-height: 1.3em;
+  -webkit-text-stroke: 0;
+  paint-order: stroke fill;
+}
+.hero-line .char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(50px) scale(0.8);
+  transition: none;
+}
+.hero-line .char.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  animation: bounceIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+.hero-line .char.settled {
+  opacity: 1;
+  transform: none;
+  animation: none;
+}
+.hero-line.accent {
+  color: var(--red);
+}
+.hero-line.accent.glow {
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+.hero-sub {
+  font-family: var(--font-body);
+  font-size: clamp(25px, 3.5vw, 46px);
+  font-weight: 300;
+  color: var(--royal-blue);
+  letter-spacing: 2px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease;
+  margin-bottom: 10px;
+}
+.hero-sub.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+.hero-sub-small {
+  font-family: var(--font-body);
+  font-size: clamp(21px, 2.8vw, 34px);
+  font-weight: 300;
+  color: var(--text-gray);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease;
+  margin-bottom: 50px;
+}
+.hero-sub-small.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scroll-cta {
+  position: relative;
+  z-index: 10;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease;
+}
+.scroll-cta.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+.scroll-cta a {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-gray);
+  text-decoration: none;
+  font-size: 14px;
+  letter-spacing: 1px;
+  transition: color 0.3s;
+}
+.scroll-cta a:hover { color: var(--white); }
+.scroll-cta .arrow {
+  font-size: 24px;
+  animation: float 2s ease-in-out infinite;
+}
+
+/* ===== STICKY HEADER ===== */
+.sticky-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  background: rgba(0,0,0,0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--red);
+  padding: 12px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  transform: translateY(-100%);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.sticky-header.visible {
+  transform: translateY(0);
+}
+.sticky-header .brand {
+  font-family: var(--font-accent);
+  font-size: 20px;
+  letter-spacing: 2px;
+}
+.sticky-header .brand span { color: var(--red); }
+.sticky-header .title {
+  font-family: var(--font-title);
+  font-size: 16px;
+  color: var(--text-gray);
+}
+.btn-toggle-all {
+  background: transparent;
+  border: 1px solid var(--text-dim);
+  color: var(--text-gray);
+  padding: 6px 16px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.btn-toggle-all:hover {
+  border-color: var(--royal-blue);
+  color: var(--white);
+}
+
+/* ===== MODAL ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(5px);
+  z-index: 2000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+.modal {
+  background: #0a0a0a;
+  border: 1px solid #222;
+  padding: 50px;
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+}
+.modal-overlay.active .modal {
+  transform: scale(1);
+}
+.modal h2 {
+  font-family: var(--font-title);
+  font-size: 28px;
+  margin-bottom: 30px;
+  color: var(--white);
+}
+.modal h2 span { color: var(--red); }
+.modal-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.modal-step-num {
+  font-family: var(--font-accent);
+  font-size: 36px;
+  color: var(--royal-blue);
+  line-height: 1;
+  min-width: 36px;
+}
+.modal-step-text {
+  font-size: 16px;
+  color: var(--text-gray);
+  line-height: 1.6;
+  padding-top: 6px;
+}
+.modal-step-text strong { color: var(--white); }
+.modal-close {
+  position: absolute;
+  top: 20px; right: 20px;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 28px;
+  cursor: pointer;
+  transition: color 0.2s;
+  line-height: 1;
+}
+.modal-close:hover { color: var(--white); }
+
+/* ===== MAIN CONTENT ===== */
+.main-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 20px 60px;
+}
+.section-count {
+  font-family: var(--font-accent);
+  font-size: 14px;
+  color: var(--text-dim);
+  letter-spacing: 4px;
+  text-align: center;
+  margin-bottom: 60px;
+  opacity: 0;
+}
+.section-count.visible {
+  animation: fadeInUp 0.6s ease forwards;
+}
+.section-count span { color: var(--red); font-size: 24px; }
+
+/* ===== ACCORDION ===== */
+.accordion-item {
+  margin-bottom: 2px;
+}
+.accordion-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 24px;
+  background: #080808;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  user-select: none;
+  border-left: 4px solid transparent;
+}
+.accordion-header:hover {
+  background: #0e0e0e;
+  border-left-color: var(--red);
+}
+.accordion-header.active {
+  border-left-color: var(--red);
+  background: #0e0e0e;
+}
+.accordion-icon {
+  width: 12px;
+  height: 12px;
+  background: var(--text-dim);
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+.accordion-header:hover .accordion-icon,
+.accordion-header.active .accordion-icon {
+  background: var(--red);
+  transform: scale(1.2);
+}
+.accordion-title {
+  flex: 1;
+  font-family: var(--font-title);
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+.accordion-count {
+  font-family: var(--font-accent);
+  font-size: 16px;
+  color: var(--text-dim);
+  letter-spacing: 2px;
+}
+.accordion-arrow {
+  font-size: 14px;
+  color: var(--text-dim);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  flex-shrink: 0;
+}
+.accordion-header.active .accordion-arrow {
+  transform: rotate(90deg);
+  color: var(--red);
+}
+
+.accordion-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.accordion-body-inner {
+  padding: 16px 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+/* ===== PROMPT CARD ===== */
+.prompt-card {
+  background: var(--card-bg);
+  padding: 20px 24px;
+  border-left: 3px solid transparent;
+  transition: all 0.3s ease;
+  position: relative;
+  opacity: 0;
+}
+.prompt-card.revealed {
+  animation: cardReveal 0.4s ease forwards;
+}
+.prompt-card:hover {
+  background: var(--card-hover);
+}
+.prompt-card[data-level="쉬움"] { border-left-color: transparent; }
+.prompt-card[data-level="쉬움"]:hover { border-left-color: var(--royal-blue); }
+.prompt-card[data-level="보통"] { border-left-color: transparent; }
+.prompt-card[data-level="보통"]:hover { border-left-color: var(--red); }
+
+.card-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.badge {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 8px;
+  letter-spacing: 0.5px;
+}
+.badge-easy {
+  background: rgba(0, 72, 186, 0.2);
+  color: var(--royal-blue);
+  border: 1px solid rgba(0, 72, 186, 0.3);
+}
+.badge-normal {
+  background: rgba(255, 0, 0, 0.15);
+  color: var(--red);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+}
+.card-number {
+  font-family: var(--font-accent);
+  font-size: 14px;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+}
+.card-title {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 17px;
+  line-height: 1.4;
+  margin-bottom: 6px;
+  color: var(--white);
+}
+.card-desc {
+  font-size: 13px;
+  color: var(--text-gray);
+  line-height: 1.5;
+  margin-bottom: 14px;
+}
+.btn-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid #333;
+  color: var(--text-dim);
+  padding: 5px 14px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+.btn-copy:hover {
+  border-color: var(--royal-blue);
+  color: var(--royal-blue);
+}
+.btn-copy .copy-icon {
+  font-size: 13px;
+}
+.copy-toast {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: var(--royal-blue);
+  font-weight: 500;
+  pointer-events: none;
+  animation: copySuccess 0.8s ease forwards;
+  white-space: nowrap;
+}
+
+/* ===== PROMPT PREVIEW ===== */
+.card-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.btn-preview {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid #333;
+  color: var(--text-dim);
+  padding: 5px 14px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.btn-preview:hover {
+  border-color: var(--red);
+  color: var(--red);
+}
+.btn-preview.active {
+  border-color: var(--red);
+  color: var(--red);
+}
+.prompt-preview {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.4s ease;
+  background: #0a0a0a;
+  border-left: 2px solid #333;
+  margin-top: 0;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text-gray);
+  white-space: pre-wrap;
+  word-break: break-word;
+  padding: 0 14px;
+}
+.prompt-preview.open {
+  max-height: 1400px;
+  padding: 14px;
+  margin-top: 12px;
+  border-left-color: var(--red);
+}
+.prompt-body {
+  white-space: pre-wrap;
+}
+.prompt-tone {
+  margin-top: 14px;
+  padding: 12px 14px;
+  background: rgba(255,255,255,0.025);
+  border-left: 3px solid var(--tone-accent, var(--red));
+  border-radius: 0 4px 4px 0;
+  font-size: 12.5px;
+  line-height: 1.65;
+  color: var(--text-gray);
+  animation: toneFadeIn 0.28s ease both;
+}
+.prompt-tone[data-active="false"] { display: none; }
+.prompt-tone-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.prompt-tone-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--tone-a, #000) 0%, var(--tone-a, #000) 50%, var(--tone-b, #fff) 50%, var(--tone-b, #fff) 100%);
+  border: 1px solid rgba(255,255,255,0.18);
+  flex-shrink: 0;
+}
+.prompt-tone-label {
+  font-family: var(--font-accent);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--white);
+}
+.prompt-tone-body { white-space: pre-wrap; }
+@keyframes toneFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.card-slug {
+  display: inline-block;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 11.5px;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--text-gray);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid #2a2a2a;
+  padding: 1px 7px;
+  border-radius: 4px;
+  margin-left: 8px;
+  vertical-align: 2px;
+  cursor: help;
+}
+.prompt-card:hover .card-slug {
+  color: var(--white);
+  border-color: var(--royal-blue);
+}
+.design-color {
+  background: var(--black);
+  padding: 28px 20px 44px;
+  border-top: 1px solid #111;
+  position: relative;
+  z-index: 4;
+}
+.design-color-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.design-color-label {
+  font-family: var(--font-accent);
+  font-size: 16px;
+  letter-spacing: 5px;
+  color: var(--text-gray);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.design-color-label::before,
+.design-color-label::after {
+  content: '';
+  width: 32px;
+  height: 1px;
+  background: var(--text-dim);
+  display: inline-block;
+}
+.design-color-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 22px;
+}
+.palette-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+  padding: 6px 6px 4px;
+  border-radius: 12px;
+  background: transparent;
+  border: none;
+  font-family: var(--font-body);
+  transition: background 0.2s ease;
+}
+.palette-item:hover { background: rgba(255,255,255,0.04); }
+.palette-item:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 2px;
+}
+.palette-swatch {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--c-a) 0%, var(--c-a) 50%, var(--c-b) 50%, var(--c-b) 100%);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  outline: 2px solid transparent;
+  outline-offset: 4px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, outline-color 0.25s ease;
+}
+.palette-item:hover .palette-swatch { transform: scale(1.06); }
+.palette-item.selected .palette-swatch {
+  outline-color: var(--white);
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.15), 0 0 24px rgba(255,255,255,0.22);
+}
+.palette-name {
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: var(--text-gray);
+  transition: color 0.2s ease;
+}
+.palette-item.selected .palette-name { color: var(--white); }
+.design-color-desc {
+  font-size: 13px;
+  color: var(--text-dim);
+  letter-spacing: 0.4px;
+  text-align: center;
+  max-width: 560px;
+  line-height: 1.65;
+}
+.design-color-desc strong { color: var(--white); font-weight: 500; }
+.design-color-desc .active-name { color: var(--red); font-weight: 500; }
+@media (max-width: 480px) {
+  .design-color { padding: 24px 14px 36px; }
+  .design-color-swatches { gap: 14px; }
+  .palette-swatch { width: 48px; height: 48px; }
+  .palette-name { font-size: 11px; letter-spacing: 0.5px; }
+  .design-color-label { font-size: 14px; letter-spacing: 3px; }
+  .design-color-label::before, .design-color-label::after { width: 22px; }
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  text-align: center;
+  padding: 60px 20px 40px;
+  border-top: 1px solid #111;
+}
+.footer-brand {
+  font-family: var(--font-accent);
+  font-size: 24px;
+  letter-spacing: 3px;
+  margin-bottom: 12px;
+}
+.footer-brand span { color: var(--red); }
+.footer-links {
+  font-size: 14px;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+}
+.footer-links a {
+  color: var(--text-gray);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--royal-blue); }
+.footer-copy {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .top-bar { padding: 14px 20px; }
+  .top-bar .brand { font-size: 22px; }
+  .accordion-body-inner {
+    grid-template-columns: 1fr;
+  }
+  .accordion-header { padding: 14px 16px; gap: 12px; }
+  .accordion-title { font-size: 17px; }
+  .sticky-header { padding: 10px 20px; }
+  .sticky-header .title { display: none; }
+  .modal { padding: 30px; }
+  .hero { padding: 70px 16px 40px; }
+}
+@media (max-width: 480px) {
+  .top-bar .brand { font-size: 18px; letter-spacing: 1px; }
+  .btn-guide { padding: 6px 12px; font-size: 12px; }
+  .prompt-card { padding: 16px; }
+  .card-title { font-size: 15px; }
+  .sticky-header .brand { font-size: 16px; }
+}
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .hero-line .char { opacity: 1; }
+  .hero-sub, .hero-sub-small, .scroll-cta,
+  .top-bar .brand, .btn-guide { opacity: 1; }
+  .prompt-card { opacity: 1; }
 }
 </style>
 </head>
 <body>
-<div id="root"></div>
-<script type="text/babel">
-const {useState,useEffect,useRef,useCallback}=React;
 
-/* ══════════════════════════════════════
-   CONFIG
-══════════════════════════════════════ */
-const ADMIN_PW="myway75";
-const SITE_URL="https://design-infographic.netlify.app/";
-const EDITS_KEY="myway75-edits";
-const FAVS_KEY="myway75-favs";
-const MIG_FLAG="myway75-idb-v1";
-const DB_NAME="myway75-imgdb";
-const DB_STORE="images";
+<!-- INTRO OVERLAY -->
+<div class="intro-overlay" id="introOverlay">
+  <div class="intro-counter" id="introCounter">100</div>
+  <div class="intro-text">VIBE CODING PROMPTS</div>
+  <div class="intro-bar"><div class="intro-bar-fill" id="introBarFill"></div></div>
+</div>
 
-const CATS=["ALL","FAVORITES","TECHNICAL","DIGITAL","GRAPHIC","ARTISTIC","3D","COMICS","CONCEPT","CRAFT","VINTAGE"];
-const CAT_IN=["TECHNICAL","DIGITAL","GRAPHIC","ARTISTIC","3D","COMICS","CONCEPT","CRAFT","VINTAGE"];
-const CC={TECHNICAL:"#6366f1",DIGITAL:"#3b82f6",GRAPHIC:"#8b5cf6",ARTISTIC:"#ec4899","3D":"#14b8a6",COMICS:"#f97316",CONCEPT:"#818cf8",CRAFT:"#a855f7",VINTAGE:"#d97706"};
-const CAT_KO={TECHNICAL:"테크니컬",DIGITAL:"디지털",GRAPHIC:"그래픽",ARTISTIC:"아티스틱","3D":"3D",COMICS:"코믹스",CONCEPT:"컨셉",CRAFT:"크래프트",VINTAGE:"빈티지"};
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="brand">AIC<span>L</span>AB</div>
+  <button class="btn-guide" onclick="openModal()">사용법</button>
+</div>
 
-/* ══════════════════════════════════════
-   IndexedDB
-══════════════════════════════════════ */
-let _db=null;
-function openDB(){
-  if(_db)return Promise.resolve(_db);
-  return new Promise((res,rej)=>{
-    const r=indexedDB.open(DB_NAME,1);
-    r.onupgradeneeded=e=>e.target.result.createObjectStore(DB_STORE);
-    r.onsuccess=e=>{_db=e.target.result;res(_db);};
-    r.onerror=()=>rej(r.error);
-  });
-}
-function idbSet(id,val){return openDB().then(db=>new Promise((res,rej)=>{const tx=db.transaction(DB_STORE,'readwrite');tx.objectStore(DB_STORE).put(val,'img-'+id);tx.oncomplete=res;tx.onerror=()=>rej(tx.error);}));}
-function idbGet(id){return openDB().then(db=>new Promise(res=>{const r=db.transaction(DB_STORE,'readonly').objectStore(DB_STORE).get('img-'+id);r.onsuccess=()=>res(r.result||null);r.onerror=()=>res(null);}));}
-function idbDel(id){return openDB().then(db=>new Promise(res=>{const tx=db.transaction(DB_STORE,'readwrite');tx.objectStore(DB_STORE).delete('img-'+id);tx.oncomplete=res;tx.onerror=res;}));}
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-canvas-wrap">
+    <canvas id="spiralCanvas"></canvas>
+  </div>
+  <div class="hero-img-overlay"></div>
+  <h1 class="hero-title">
+    <span class="hero-line" data-text="혼자 가게 보지 마세요."></span>
+    <span class="hero-line" data-text="복사 한 번이면"></span>
+    <span class="hero-line accent" data-text="내 가게 도구가 됩니다."></span>
+  </h1>
+  <p class="hero-sub">소상공인 바이브코딩 시작 PRD 100선</p>
+  <p class="hero-sub-small">AI 시대, 모든 사장님의 첫 코딩 &mdash; AICLab</p>
+  <div class="scroll-cta">
+    <a href="#content">
+      프롬프트 둘러보기
+      <span class="arrow">&#9660;</span>
+    </a>
+  </div>
+</section>
 
-/* ══════════════════════════════════════
-   Migration: localStorage base64 → IndexedDB
-══════════════════════════════════════ */
-async function migrate(onP){
-  if(localStorage.getItem(MIG_FLAG)==='1')return{skip:true};
-  const raw=localStorage.getItem(EDITS_KEY);
-  if(!raw){localStorage.setItem(MIG_FLAG,'1');return{skip:true};}
-  let styles;
-  try{styles=JSON.parse(raw);}catch(e){localStorage.setItem(MIG_FLAG,'1');return{skip:true};}
-  const toMove=styles.filter(s=>s.image&&s.image.startsWith('data:'));
-  if(!toMove.length){localStorage.setItem(MIG_FLAG,'1');return{skip:true};}
-  onP&&onP(0,toMove.length);
-  const cleaned=styles.map(s=>s.image&&s.image.startsWith('data:')?{...s,image:'__idb__'+s.id}:s);
-  for(let i=0;i<toMove.length;i++){
-    try{await idbSet(toMove[i].id,toMove[i].image);}catch(e){console.warn('idb fail',e);}
-    onP&&onP(i+1,toMove.length);
-    await new Promise(r=>setTimeout(r,0));
+<!-- DESIGN COLOR PICKER -->
+<section class="design-color" id="designColor" aria-labelledby="designColorLabel">
+  <div class="design-color-wrap">
+    <div class="design-color-label" id="designColorLabel">DESIGN COLOR</div>
+    <div class="design-color-swatches" id="paletteSwatches" role="radiogroup" aria-label="결과물 컬러 톤 선택"></div>
+    <div class="design-color-desc" id="paletteDesc">
+      컬러를 고른 뒤 프롬프트를 복사하면 <strong>선택한 컬러 톤이 결과물에 반영</strong>됩니다.
+      <span class="palette-current" id="paletteCurrent"></span>
+    </div>
+  </div>
+</section>
+
+<!-- STICKY HEADER -->
+<div class="sticky-header" id="stickyHeader">
+  <div class="brand">AIC<span>L</span>AB</div>
+  <div class="title">내 가게 PRD 100선</div>
+  <button class="btn-toggle-all" id="btnToggleAll" onclick="toggleAll()">전체 펼치기</button>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <h2>사용<span>법</span></h2>
+    <div class="modal-step">
+      <div class="modal-step-num">1</div>
+      <div class="modal-step-text">상단 <strong>DESIGN COLOR</strong>에서 컬러 톤 선택 <em style="color:var(--text-dim);font-style:normal">(선택사항)</em></div>
+    </div>
+    <div class="modal-step">
+      <div class="modal-step-num">2</div>
+      <div class="modal-step-text">원하는 <strong>분야를 클릭</strong>하여 프롬프트 목록을 펼치세요</div>
+    </div>
+    <div class="modal-step">
+      <div class="modal-step-num">3</div>
+      <div class="modal-step-text">마음에 드는 프롬프트의 <strong>복사 버튼</strong>을 누르세요</div>
+    </div>
+    <div class="modal-step">
+      <div class="modal-step-num">4</div>
+      <div class="modal-step-text">AI 채팅창에 <strong>붙여넣기 → 한 페이지 PRD 받기!</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<main class="main-content" id="content">
+  <div class="section-count" id="sectionCount">
+    <span>14</span> CATEGORIES &middot; <span>100</span> PROMPTS
+  </div>
+  <div id="accordionContainer"></div>
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-brand">AIC<span>L</span>AB</div>
+  <div class="footer-links">
+    <a href="mailto:info@aiclab2020.com">info@aiclab2020.com</a>
+    &nbsp;&middot;&nbsp;
+    <a href="https://kimjinsoo.aiclab.kr/" target="_blank" rel="noopener">kimjinsoo.aiclab.kr</a>
+  </div>
+  <div class="footer-copy">&copy; 2026 KAEA &amp; AICLab. 김진수</div>
+  <div class="footer-copy">시리즈: 직장인 &check; &middot; 강사 &check; &middot; 소상공인 &middot; GEO마케팅 &middot; 1인저자 &middot; 크리에이터 (예정)</div>
+</footer>
+
+<script>
+// ===== PROMPT DATA =====
+const categories = [
+  {
+    name: '매출·정산 관리',
+    count: 7,
+    prompts: [
+      { id: 1,  level: '쉬움', title: '일매출 마감 계산기',     desc: '오늘 매출·카드·현금·잔돈을 한 화면에 정리' },
+      { id: 2,  level: '쉬움', title: '주간 매출 그래프',       desc: '7일치 매출을 입력하면 막대 그래프로 시각화' },
+      { id: 3,  level: '보통', title: '시간대별 매출 히트맵',   desc: '요일·시간대 매출을 색으로 보여주는 표' },
+      { id: 4,  level: '쉬움', title: '카드사 정산 대조표',     desc: '카드사 입금액과 POS 매출을 줄별로 비교' },
+      { id: 5,  level: '쉬움', title: '잔돈 시재 점검표',       desc: '권종별 시재를 입력해 부족·과잉을 즉시 계산' },
+      { id: 6,  level: '보통', title: '월말 손익 요약기',       desc: '매출·재료비·임대료를 넣으면 순이익 한 줄로' },
+      { id: 7,  level: '쉬움', title: '배달앱 수수료 계산기',   desc: '배달앱별 수수료를 빼고 실수령액을 표시' }
+    ]
+  },
+  {
+    name: '재고·발주',
+    count: 7,
+    prompts: [
+      { id: 8,  level: '쉬움', title: '재고 알림 도우미',       desc: '품목별 최소 수량을 정해두고 빨간불 표시' },
+      { id: 9,  level: '쉬움', title: '발주 체크리스트',         desc: '거래처별 단골 품목을 클릭으로 발주서 완성' },
+      { id: 10, level: '보통', title: '원두 소진 예측기',         desc: '하루 사용량으로 며칠치 남았는지 자동 계산' },
+      { id: 11, level: '쉬움', title: '유통기한 관리표',           desc: '입고일·유통기한을 넣고 임박 품목을 정렬' },
+      { id: 12, level: '쉬움', title: '재료 원가 계산기',           desc: '메뉴 한 잔·한 접시당 원가를 즉시 산출' },
+      { id: 13, level: '보통', title: '거래처 단가 비교표',         desc: '같은 품목의 거래처별 단가를 한눈에' },
+      { id: 14, level: '쉬움', title: '폐기율 기록장',               desc: '매일 폐기 수량·금액을 누적해 손실 추적' }
+    ]
+  },
+  {
+    name: '예약·일정 관리',
+    count: 7,
+    prompts: [
+      { id: 15, level: '쉬움', title: '간단 예약 장부',           desc: '시간 슬롯 클릭으로 예약자·연락처를 기록' },
+      { id: 16, level: '보통', title: '미용실 예약 캘린더',         desc: '디자이너별 컬럼으로 시간 겹침을 차단' },
+      { id: 17, level: '쉬움', title: '노쇼 방지 안내문',           desc: '예약 정보를 넣으면 확인 문자 문구 자동 생성' },
+      { id: 18, level: '쉬움', title: '과외 시간표 짜기',           desc: '학생·요일·시간을 끌어 놓아 주간표 완성' },
+      { id: 19, level: '쉬움', title: '휴무·영업일 안내판',         desc: '공휴일·휴무일을 표시해 손님에게 공유' },
+      { id: 20, level: '보통', title: '대기줄 번호표',               desc: '클릭으로 번호를 발급·호출해 대기 관리' },
+      { id: 21, level: '쉬움', title: '시술 소요시간 견적기',       desc: '메뉴 조합으로 종료 예상시간을 계산' }
+    ]
+  },
+  {
+    name: '단골·CRM',
+    count: 7,
+    prompts: [
+      { id: 22, level: '쉬움', title: '단골 쿠폰 발급기',           desc: '이름·전화번호로 도장 10개 쿠폰을 발행' },
+      { id: 23, level: '쉬움', title: '생일 손님 알림장',           desc: '단골 생일을 등록해 당월 명단을 자동 추출' },
+      { id: 24, level: '보통', title: '재방문 주기 분석',           desc: '방문 기록으로 평균 재방문 간격을 표시' },
+      { id: 25, level: '쉬움', title: '단골 등급 카드',               desc: '방문·구매액으로 골드·실버 등급을 자동 분류' },
+      { id: 26, level: '쉬움', title: 'VIP 호명 카드',                 desc: '직원이 단골 이름·취향을 빠르게 확인' },
+      { id: 27, level: '보통', title: '휴면 손님 추리기',             desc: '한 달 이상 안 온 단골을 골라 명단 출력' },
+      { id: 28, level: '쉬움', title: '추천인 코드 발급',             desc: '단골에게 코드를 줘서 신규 손님을 추적' }
+    ]
+  },
+  {
+    name: '메뉴·상품 진열',
+    count: 7,
+    prompts: [
+      { id: 29, level: '쉬움', title: '메뉴판 생성기',                 desc: '메뉴·가격·사진을 입력해 인쇄용 메뉴판 출력' },
+      { id: 30, level: '쉬움', title: 'POP 가격표 만들기',             desc: '할인율·기간을 넣으면 매장 부착용 POP 완성' },
+      { id: 31, level: '보통', title: 'QR 메뉴북',                       desc: 'QR 스캔으로 모바일 메뉴판을 보여주는 페이지' },
+      { id: 32, level: '쉬움', title: '오늘의 추천 칠판',                 desc: '추천 메뉴를 입력하면 칠판 느낌 이미지로 변환' },
+      { id: 33, level: '쉬움', title: '세트 구성 미리보기',               desc: '메뉴 조합으로 세트 가격·할인액을 시뮬레이션' },
+      { id: 34, level: '보통', title: '상품 카드 일괄 생성',               desc: '엑셀로 상품 정보를 넣어 카드 이미지 한번에' },
+      { id: 35, level: '쉬움', title: '알러지 표시 라벨',                   desc: '메뉴별 알러지 정보를 라벨 형태로 출력' }
+    ]
+  },
+  {
+    name: 'SNS·홍보',
+    count: 7,
+    prompts: [
+      { id: 36, level: '쉬움', title: '인스타 캡션 생성기',               desc: '메뉴·이벤트 키워드로 감성 캡션 5개 추천' },
+      { id: 37, level: '쉬움', title: '해시태그 추천기',                     desc: '업종·지역을 넣으면 한국형 해시태그 묶음 출력' },
+      { id: 38, level: '보통', title: '오픈 공지 카드',                       desc: '오픈일·시간·주소를 넣어 SNS용 이미지 완성' },
+      { id: 39, level: '쉬움', title: '블로그 글 시작템플릿',                 desc: '메뉴·후기를 넣으면 블로그 초안 한 편 자동' },
+      { id: 40, level: '쉬움', title: '카카오 채널 멘트 생성',                 desc: '이벤트·신메뉴 단어로 알림톡 문구 작성' },
+      { id: 41, level: '보통', title: '릴스 30초 스크립트',                     desc: '메뉴 소개 릴스의 컷·자막·시간표 자동 작성' },
+      { id: 42, level: '쉬움', title: '오늘의 한 줄 카피',                       desc: '날씨·요일로 매일 다른 인스타 한 줄 추천' }
+    ]
+  },
+  {
+    name: '사진·콘텐츠',
+    count: 7,
+    prompts: [
+      { id: 43, level: '쉬움', title: '메뉴 사진 배경 정리',                     desc: '사진 업로드 시 흰배경·정사각으로 자동 변환' },
+      { id: 44, level: '쉬움', title: '워터마크 도장기',                           desc: '매장 로고를 사진 모서리에 일괄 삽입' },
+      { id: 45, level: '보통', title: '비포·애프터 비교판',                         desc: '미용·청소·공방 결과를 좌우 슬라이드로 비교' },
+      { id: 46, level: '쉬움', title: '리뷰 캡처 카드',                               desc: '손님 후기를 입력하면 SNS용 인용 카드로 출력' },
+      { id: 47, level: '쉬움', title: '상품 사진 일괄 리사이즈',                       desc: '쇼핑몰 등록용 규격으로 한번에 크기 조정' },
+      { id: 48, level: '보통', title: '명함·전단 한장 디자인',                         desc: '상호·연락처·로고를 넣어 인쇄용 PDF 출력' },
+      { id: 49, level: '쉬움', title: '오늘의 디저트 보드',                             desc: '메뉴·가격으로 SNS 보드 이미지를 자동 생성' }
+    ]
+  },
+  {
+    name: '고객 응대·후기',
+    count: 7,
+    prompts: [
+      { id: 50, level: '쉬움', title: '리뷰 답글 도우미',                             desc: '별점·키워드로 정중한 답글 3종을 추천' },
+      { id: 51, level: '보통', title: '컴플레인 대응 스크립트',                       desc: '상황별 환불·교환·사과 멘트를 골라쓰는 카드' },
+      { id: 52, level: '쉬움', title: '단골 인사말 메모',                                 desc: '손님별 취향·기념일을 메모해 응대 전 표시' },
+      { id: 53, level: '쉬움', title: '문자 자동 답장 템플릿',                             desc: '예약·문의·휴무 문자에 쓸 답변 묶음' },
+      { id: 54, level: '보통', title: '리뷰 키워드 분석',                                   desc: '리뷰 글을 붙여넣으면 자주 나오는 단어 추출' },
+      { id: 55, level: '쉬움', title: '환불·교환 안내 카드',                                 desc: '규정을 채우면 매장 부착용 안내문 출력' },
+      { id: 56, level: '쉬움', title: '후기 부탁 카드 생성',                                   desc: '영수증·테이크아웃에 끼울 후기 요청 카드' }
+    ]
+  },
+  {
+    name: '직원·근태',
+    count: 7,
+    prompts: [
+      { id: 57, level: '쉬움', title: '주간 근무표 짜기',                                       desc: '직원·요일·시간 조합으로 근무표 자동 배치' },
+      { id: 58, level: '쉬움', title: '간단 출퇴근 기록기',                                       desc: '버튼 하나로 출근·퇴근 시각을 누적 저장' },
+      { id: 59, level: '보통', title: '주휴수당 계산기',                                           desc: '시급·시간 입력으로 주휴 포함 급여를 계산' },
+      { id: 60, level: '쉬움', title: '교대 인수인계 노트',                                         desc: '교대 시 체크할 항목을 정형화한 메모장' },
+      { id: 61, level: '쉬움', title: '아르바이트 시급 명세서',                                       desc: '근무 기록을 모아 월말 명세서 한 장으로' },
+      { id: 62, level: '보통', title: '직원 교육 체크표',                                             desc: '신입에게 가르칠 항목을 단계별로 체크' },
+      { id: 63, level: '쉬움', title: '연차·휴무 신청판',                                               desc: '직원이 휴무를 신청하면 달력에 자동 표시' }
+    ]
+  },
+  {
+    name: '마케팅 자동화',
+    count: 7,
+    prompts: [
+      { id: 64, level: '쉬움', title: '쿠폰 일괄 발송 폼',                                                 desc: '명단을 붙여넣고 카톡·문자 링크를 일괄 생성' },
+      { id: 65, level: '보통', title: '월간 이벤트 캘린더',                                                   desc: '기념일·시즌별 이벤트 아이디어를 자동 배치' },
+      { id: 66, level: '쉬움', title: '신메뉴 사전공지 페이지',                                                 desc: '출시일·가격을 입력해 단일 페이지 랜딩 생성' },
+      { id: 67, level: '쉬움', title: '추첨 이벤트 룰렛',                                                         desc: '참여자 명단을 넣고 룰렛으로 당첨자 추첨' },
+      { id: 68, level: '보통', title: '리타겟 멘트 생성기',                                                       desc: '오래 안 온 손님에게 보낼 맞춤 문자 작성' },
+      { id: 69, level: '쉬움', title: '입소문 카드 만들기',                                                         desc: '추천·소개 이벤트 안내를 카드 이미지로 출력' },
+      { id: 70, level: '쉬움', title: 'SMS 발송 비용 계산',                                                           desc: '명단 수·문자 종류로 캠페인 비용 산정' }
+    ]
+  },
+  {
+    name: '세무·영수증',
+    count: 7,
+    prompts: [
+      { id: 71, level: '쉬움', title: '간이영수증 발행기',                                                             desc: '날짜·품목·금액 입력으로 즉시 영수증 PDF' },
+      { id: 72, level: '쉬움', title: '부가세 미리 계산',                                                                 desc: '분기 매출·매입을 넣어 예상 부가세 산출' },
+      { id: 73, level: '보통', title: '경비 영수증 정리장',                                                                 desc: '사진 영수증을 카테고리별로 누적 합산' },
+      { id: 74, level: '쉬움', title: '세금계산서 항목 도우미',                                                                 desc: '품목·수량·단가로 발행 양식 자동 작성' },
+      { id: 75, level: '쉬움', title: '카드 매입 분류기',                                                                         desc: '카드 명세를 붙여 항목별로 자동 분류' },
+      { id: 76, level: '보통', title: '월별 손익 추이판',                                                                           desc: '매출·매입·순이익 12개월 추이를 그래프로' },
+      { id: 77, level: '쉬움', title: '현금 영수증 안내문',                                                                           desc: '의무발행·소득공제 안내를 부착용으로 출력' }
+    ]
+  },
+  {
+    name: '매장 운영·체크리스트',
+    count: 7,
+    prompts: [
+      { id: 78, level: '쉬움', title: '오픈 마감 체크리스트',                                                                             desc: '매일 해야 할 오픈·마감 업무를 체크 형태로' },
+      { id: 79, level: '쉬움', title: '청소 주기표',                                                                                         desc: '구역별 청소 주기를 정해 마지막 일자 표시' },
+      { id: 80, level: '보통', title: '냉장고 온도 점검표',                                                                                     desc: '하루 2회 온도 기록을 차트로 누적 관리' },
+      { id: 81, level: '쉬움', title: '시설 점검 일지',                                                                                           desc: '기기·전등·수도 점검 결과를 날짜별로 기록' },
+      { id: 82, level: '쉬움', title: '소모품 발주 알람',                                                                                             desc: '휴지·봉투·세제 잔량을 보고 발주 시점 알림' },
+      { id: 83, level: '보통', title: '안전·위생 자가점검',                                                                                             desc: '식약처 점검 항목을 체크해 PDF 보고서 출력' },
+      { id: 84, level: '쉬움', title: '오늘의 매장 일지',                                                                                                 desc: '날씨·이슈·매출 메모를 한 화면에 정리' }
+    ]
+  },
+  {
+    name: 'POS·결제 보조',
+    count: 7,
+    prompts: [
+      { id: 85, level: '쉬움', title: '분할 결제 계산기',                                                                                                   desc: '인원수·금액을 입력하면 1/N 결제액 표시' },
+      { id: 86, level: '쉬움', title: '잔돈 거스름돈 도우미',                                                                                                   desc: '받은 돈·결제액을 넣어 권종별 거스름돈 산출' },
+      { id: 87, level: '보통', title: '메뉴 단축 주문판',                                                                                                         desc: '자주 나가는 메뉴를 큰 버튼으로 빠른 주문' },
+      { id: 88, level: '쉬움', title: '계좌이체 안내 카드',                                                                                                         desc: '상호·계좌·QR을 한 장에 정리해 부착' },
+      { id: 89, level: '쉬움', title: '봉투·포장비 계산기',                                                                                                           desc: '주문 구성으로 포장비를 자동 추가 계산' },
+      { id: 90, level: '보통', title: '카드 단말 점검 로그',                                                                                                           desc: '단말 오류·승인 거절 이슈를 기록·분류' },
+      { id: 91, level: '쉬움', title: '환불 처리 안내판',                                                                                                               desc: '환불 사유별 처리 단계를 카드로 정리' }
+    ]
+  },
+  {
+    name: '트렌드·경쟁 모니터링',
+    count: 9,
+    prompts: [
+      { id: 92, level: '쉬움', title: '경쟁 매장 가격표',                                                                                                                 desc: '주변 매장 가격을 모아 평균·최저가 비교' },
+      { id: 93, level: '보통', title: '동네 키워드 추적기',                                                                                                                 desc: '지역명·업종을 검색해 인기 키워드 누적' },
+      { id: 94, level: '쉬움', title: '시즌 메뉴 아이디어',                                                                                                                     desc: '월·날씨를 넣으면 시즌 메뉴 후보 자동 추천' },
+      { id: 95, level: '쉬움', title: '오픈일 카운트다운',                                                                                                                         desc: '신규 오픈·이벤트까지 남은 날을 시각화' },
+      { id: 96, level: '보통', title: '리뷰 점수 추이판',                                                                                                                           desc: '플랫폼 평점을 입력해 월별 추이 그래프로' },
+      { id: 97, level: '쉬움', title: '주변 상권 인사이트',                                                                                                                             desc: '유동인구·날씨를 메모해 매출 상관관계 기록' },
+      { id: 98, level: '쉬움', title: '경쟁점 SNS 클리핑',                                                                                                                                 desc: '경쟁 매장의 이벤트·메뉴를 카드로 스크랩' },
+      { id: 99, level: '보통', title: '검색 노출 자가 진단',                                                                                                                                 desc: '지도·블로그 노출 상태를 체크리스트로 점검' },
+      { id: 100,level: '쉬움', title: '월간 트렌드 리포트',                                                                                                                                     desc: '한 달 매출·이슈·아이디어를 1장으로 요약' }
+    ]
   }
-  try{localStorage.setItem(EDITS_KEY,JSON.stringify(cleaned));}catch(e){}
-  localStorage.setItem(MIG_FLAG,'1');
-  return{moved:toMove.length};
-}
-
-/* ══════════════════════════════════════
-   Storage helpers
-══════════════════════════════════════ */
-function lsLoad(k){try{const d=localStorage.getItem(k);return d?JSON.parse(d):null;}catch(e){return null;}}
-function lsSave(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){console.warn('lsSave fail',e);}}
-
-/* ══════════════════════════════════════
-   DEFAULT STYLES
-══════════════════════════════════════ */
-const DEFAULTS=[
-  // ── Page 1, Row 1 ──
-  {id:316,cat:"GRAPHIC",ko:"스피드",en:"Speed / Dynamic",prompt:"High-speed dynamic infographic design with bold arrows and motion lines, energetic diagonal composition, speed blur effects, racing aesthetic, strong contrast, vivid accent colors on dark background",grad:"linear-gradient(135deg,#1a1a2e,#e74c3c,#f39c12)",image:null},
-  {id:325,cat:"TECHNICAL",ko:"인포그래픽",en:"Infographic / Clean",prompt:"Clean professional infographic with structured data blocks, pie charts, bar graphs, timeline elements, icon grid, organized sections with clear hierarchy, modern corporate data visualization",grad:"linear-gradient(135deg,#2c3e50,#3498db,#ecf0f1)",image:null},
-  {id:389,cat:"CONCEPT",ko:"제품 소개",en:"Product Showcase / Scene",prompt:"Product showcase scene with lifestyle setting, clean white background product hero shot, feature callouts, spec comparison table, elegant product photography composition, commercial advertisement feel",grad:"linear-gradient(135deg,#f8f9fa,#dee2e6,#adb5bd)",image:null},
-  {id:397,cat:"TECHNICAL",ko:"분석 리포트",en:"Analysis Report / Data",prompt:"Analysis report style with executive summary blocks, KPI dashboard cards, financial charts, trend arrows, percentage indicators, professional business document aesthetic, data-driven visual storytelling",grad:"linear-gradient(135deg,#1a1a2e,#4a4a6a,#8b8baa)",image:null},
-  // ── Page 1, Row 2 ──
-  {id:327,cat:"GRAPHIC",ko:"모노+액센트",en:"Mono + Accent Tone",prompt:"Monochrome design with single bold accent color, high contrast black and white photography base, strategic color pop elements, sophisticated editorial layout, minimal yet impactful visual hierarchy",grad:"linear-gradient(135deg,#1a1a1a,#444,#e74c3c)",image:null},
-  {id:299,cat:"CONCEPT",ko:"미니멀리즘 여백",en:"Minimalism / Void / Essence",prompt:"Ultra-minimal design with generous white space, single focal element, sparse typography, zen-like composition, reduction to essentials, breathing room, contemplative void aesthetic, less is more philosophy",grad:"linear-gradient(135deg,#fafafa,#f0f0f0,#e8e8e8)",image:null},
-  {id:317,cat:"GRAPHIC",ko:"스토리텔링",en:"Storytelling / Narrative",prompt:"Narrative storytelling infographic with sequential flow, chapter-like sections, illustration vignettes, story arc visualization, emotional journey mapping, editorial illustration style, magazine feature layout",grad:"linear-gradient(135deg,#2d3436,#636e72,#b2bec3)",image:null},
-  {id:248,cat:"TECHNICAL",ko:"데이터 비주얼",en:"Data Viz / Graph / Information",prompt:"Data visualization with complex graphs and charts, information density, multi-variable scatter plots, heat maps, network diagrams, statistical infographic, rich data storytelling with annotations",grad:"linear-gradient(135deg,#0c2461,#1e3799,#4a69bd)",image:null},
-  // ── Page 1, Row 3 ──
-  {id:888,cat:"COMICS",ko:"낙서 노트",en:"Doodle / Notebook",prompt:"Hand-drawn doodle notebook style with black ink sketches on lined paper, casual hand-lettering, arrows speech bubbles, simple stick-figure illustrations, margin notes, school notebook aesthetic, spontaneous sketch feel",grad:"linear-gradient(135deg,#f5f0e8,#e8e0d0,#d4c8b0)",image:null},
-  {id:263,cat:"GRAPHIC",ko:"프레피 체크",en:"Preppy / Check / Navy",prompt:"Preppy style with navy and white check patterns, collegiate aesthetic, classic stripe elements, brass button accents, academic crest design, traditional plaid, New England inspired, nautical elements",grad:"linear-gradient(135deg,#1a2a6c,#b21f1f,#fdbb2d)",image:null},
-  {id:223,cat:"CONCEPT",ko:"마블 화이트 골드",en:"Marble / White / Gold",prompt:"Elegant marble and gold design with white marble textures, gold geometric accents, luxury brand aesthetic, premium material study, classical yet modern, high-end product showcase, sophisticated palette",grad:"linear-gradient(135deg,#f5f5f5,#e8e8e8,#d4af37)",image:null},
-  {id:283,cat:"ARTISTIC",ko:"흑백 인물 빛",en:"Black&White / Portrait / Light",prompt:"Black and white portrait photography style with dramatic chiaroscuro lighting, high contrast monochrome, studio portrait aesthetic, rim lighting, moody atmospheric quality, cinematic black and white",grad:"linear-gradient(135deg,#000,#333,#666)",image:null},
-  // ── Page 2, Row 1 ──
-  {id:55,cat:"3D",ko:"클레이모피즘 파스텔",en:"Claymorphism / Pastel / Rounded",prompt:"Claymorphism design with soft pastel clay-like 3D elements, rounded puffy shapes, gentle shadows, playful toy aesthetic, marshmallow texture, warm soft lighting, children's illustration feel",grad:"linear-gradient(135deg,#ffeaa7,#fab1a0,#a29bfe,#55efc4)",image:null},
-  {id:178,cat:"3D",ko:"클레이 스톱모션",en:"Clay / Stopmotion / Cute",prompt:"Clay stop-motion animation style with handcrafted clay figures, visible fingerprint textures, warm studio lighting, miniature set design, Aardman-inspired character design, playful stop-motion aesthetic",grad:"linear-gradient(135deg,#fdcb6e,#e17055,#00b894)",image:null},
-  {id:33,cat:"ARTISTIC",ko:"유화 임파스토 클래식",en:"Oil painting / Impasto / Classical",prompt:"Classical oil painting with heavy impasto technique, rich texture palette knife work, old master glazing, museum-quality fine art, dramatic Rembrandt lighting, warm earth tones, gallery exhibition quality",grad:"linear-gradient(135deg,#2c1810,#6b4423,#c4923a,#e8c87a)",image:null},
-  {id:85,cat:"ARTISTIC",ko:"유화 인상주의 빛",en:"Oil Painting / Impressionism / Light",prompt:"Impressionist oil painting with vibrant light-filled scenes, loose expressive brushwork, plein air outdoor painting, dappled sunlight through leaves, pastel sky, Monet-inspired color harmony, garden paradise",grad:"linear-gradient(135deg,#87ceeb,#98fb98,#dda0dd,#f0e68c)",image:null},
-  // ── Page 2, Row 2 ──
-  {id:240,cat:"CONCEPT",ko:"날씨 구름 비",en:"Weather / Cloud / Rain",prompt:"Weather-themed atmospheric design with dramatic cloud formations, rain droplets, lightning bolts, fog and mist effects, storm aesthetics, meteorological diagram style, nature's power visualization",grad:"linear-gradient(135deg,#2c3e50,#4a6274,#7fb3d3,#bdc3c7)",image:null},
-  {id:76,cat:"ARTISTIC",ko:"스케치 수채화 여행",en:"Sketch / Watercolor / Travel",prompt:"Travel sketchbook style with loose pen and watercolor technique, urban sketching, hand-drawn architecture, casual field notes, stamp and postmark elements, wanderlust journal aesthetic, authentic hand-drawn feel",grad:"linear-gradient(135deg,#f9e4b7,#e8c17a,#7ab8bf,#5a9e8f)",image:null},
-  {id:279,cat:"CRAFT",ko:"핸드리튼 초크 캐주얼",en:"Handwritten / Chalk / Casual",prompt:"Handwritten chalk style on blackboard background, casual hand lettering, chalk dust texture, doodle illustrations, cafe menu board aesthetic, warm friendly handcrafted feel, whiteboard sketch notes",grad:"linear-gradient(135deg,#2d3436,#636e72,#dfe6e9)",image:null},
-  {id:269,cat:"DIGITAL",ko:"사이버 테크웨어 블랙",en:"Cyber / Techwear / Black",prompt:"Dark cyberpunk techwear aesthetic with black technical materials, neon accent lines, HUD interface elements, tactical gear design, dark futuristic urban style, tech-noir atmosphere, matte black with glow",grad:"linear-gradient(135deg,#0a0a0a,#1a1a2e,#2d1b69,#0ff)",image:null},
 ];
 
-/* ══════════════════════════════════════
-   SVG ICONS
-══════════════════════════════════════ */
-const I={
-  copy:<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>,
-  eye:<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>,
-  fire:<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 12c2-2.96 0-7-1-8 0 3.038-1.773 4.741-3 6-1.226 1.26-2 3.24-2 5a6 6 0 1 0 12 0c0-1.532-1.056-3.94-2-5-1.786 3-2.791 3-4 2z"/></svg>,
-  search:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>,
-  edit:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>,
-  del:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>,
-  plus:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>,
-  link:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>,
-  lock:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>,
-  dl:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>,
-  ul:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>,
-  img:<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ccc" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>,
-  check:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>,
+
+// ===== VIBE-CODING PRD CONVERTER =====
+// 시리즈3(강사용) 14개 카테고리에 맞춘 입출력 힌트
+const ioByCategory = {
+  '매출·정산 관리': '입력: 일·주·월 매출 데이터 / 출력: 마감표·정산표·그래프·다운로드',
+  '재고·발주': '입력: 품목·수량·거래처 / 출력: 발주표·재고 알림·소진 예측',
+  '예약·일정 관리': '입력: 시간·인원·서비스 / 출력: 예약 캘린더·확정 SMS·대기 번호',
+  '단골·CRM': '입력: 손님 정보·방문·구매액 / 출력: 등급·쿠폰·휴면 명단·생일 알림',
+  '메뉴·상품 진열': '입력: 메뉴명·가격·사진 / 출력: 메뉴판·POP·QR 메뉴북·세트 시뮬',
+  'SNS·홍보': '입력: 매장 정보·이벤트 키워드 / 출력: 캡션·해시태그·릴스 스크립트·블로그 초안',
+  '사진·콘텐츠': '입력: 사진 업로드·로고 / 출력: 워터마크·리사이즈·비포애프터 카드',
+  '고객 응대·후기': '입력: 리뷰·문의·컴플레인 / 출력: 답글 후보 3종·환불 안내·인사 멘트',
+  '직원·근태': '입력: 직원·근무 시간·시급 / 출력: 근무표·명세서·출퇴근 기록·교대 노트',
+  '마케팅 자동화': '입력: 명단·이벤트·시즌 / 출력: 쿠폰·랜딩·룰렛·맞춤 SMS',
+  '세무·영수증': '입력: 매출·매입·영수증 / 출력: 영수증·부가세 추정·경비 표·세금계산서 양식',
+  '매장 운영·체크리스트': '입력: 오픈/마감 시간·점검 항목 / 출력: 체크리스트·온도 표·시설 일지',
+  'POS·결제 보조': '입력: 결제 금액·인원·메뉴 / 출력: 분할 결제·잔돈·포장비·환불 안내',
+  '트렌드·경쟁 모니터링': '입력: 경쟁 매장·키워드·평점 / 출력: 가격 비교·키워드 추적·SEO 점검표'
 };
 
-/* ══════════════════════════════════════
-   HOOKS
-══════════════════════════════════════ */
-function useImg(image,id){
-  const[src,setSrc]=useState(null);
-  useEffect(()=>{
-    if(!image){setSrc(null);return;}
-    if(image.startsWith('__idb__')){idbGet(id).then(setSrc);}
-    else{setSrc(image);}
-  },[image,id]);
-  return src;
+function makeVibePrd(cat, p) {
+  const io = ioByCategory[cat.name] || '입력: 자유 텍스트 / 출력: 마크다운 결과';
+  return `너는 바이브코딩 첫 도구를 함께 짜는 PM 겸 풀스택 엔지니어야.
+소상공인 사장님이 "${p.title}" 한 페이지 웹 도구를 만들려고 한다. 아래 PRD를 받아 [원하는 출력]을 채워줘.
+
+[한 페이지 PRD]
+- 도구 이름: ${p.title}
+- 폴더·레포명: ${p.slug}
+- 한 줄 컨셉: ${p.desc}
+- 사용 영역: ${cat.name}
+- 누가 쓰나: 본인(사장) 또는 직원 1~2명 (혼자~소수)
+- 입출력 힌트: ${io}
+- 출시 형태: 정적 HTML 1파일 (선택: Vercel 배포)
+
+[원하는 출력 — 순서대로]
+① 한 줄 컨셉 재진술 (12~16자, 명사구)
+② 1주 안에 만들 MVP 기능 3개 (각 1줄)
+③ "v2 이후"로 미루는 기능 2~3개 (각 1줄, 이유 1단어)
+④ 첫 화면 텍스트 와이어프레임 (모바일 360px, 10줄 이내)
+⑤ 파일 구조 (HTML 1파일이면 그대로 명시. 분리 필요 시 이유와 함께)
+⑥ 결정이 필요한 빈칸 3개 (각 1줄 질문, 단순 디자인 취향 말고 진짜 결정)
+
+[제약]
+- 외부 유료 API 금지. 무료 키 필요 시 "키 필요" 명시.
+- 라이브러리는 CDN 1~2개까지.
+- 데이터는 localStorage 또는 다운로드(.json/.csv) 우선.
+- 첫 커밋에 README가 들어가야 한다.
+
+[자체 점검 — 응답 마지막에 별도 블록]
+- MVP 3개가 모두 1주 안에 가능한가
+- 입력·출력 데이터 예시가 한 줄 이상 들어 있는가
+- "v2" 블록이 별도로 정리되어 있는가
+- 빈칸 질문이 진짜 결정이 필요한 것인가`;
 }
 
-/* ══════════════════════════════════════
-   TOAST
-══════════════════════════════════════ */
-function Toast({msg,vis}){
-  return <div className="toast" style={{opacity:vis?1:0,transform:`translateX(-50%) translateY(${vis?0:10}px)`}}>{msg}</div>;
+const slugById = {
+  1: 'sales-closer', 2: 'weekly-chart', 3: 'time-heatmap', 4: 'card-reconcile',
+  5: 'cash-check', 6: 'profit-summary', 7: 'delivery-fee',
+  8: 'stock-alert', 9: 'order-list', 10: 'bean-forecast', 11: 'expiry-tracker',
+  12: 'cost-calc', 13: 'vendor-compare', 14: 'waste-log',
+  15: 'booking-board', 16: 'salon-calendar', 17: 'noshow-sms', 18: 'tutor-schedule',
+  19: 'holiday-board', 20: 'queue-ticket', 21: 'duration-estimate',
+  22: 'stamp-coupon', 23: 'birthday-list', 24: 'visit-cycle', 25: 'tier-card',
+  26: 'vip-memo', 27: 'dormant-finder', 28: 'referral-code',
+  29: 'menu-builder', 30: 'pop-maker', 31: 'qr-menu', 32: 'special-board',
+  33: 'combo-preview', 34: 'card-batch', 35: 'allergy-label',
+  36: 'insta-caption', 37: 'hashtag-pack', 38: 'open-card', 39: 'blog-starter',
+  40: 'kakao-script', 41: 'reels-script', 42: 'daily-copy',
+  43: 'photo-cleaner', 44: 'watermark-stamp', 45: 'before-after', 46: 'review-quote',
+  47: 'photo-resize', 48: 'card-print', 49: 'dessert-board',
+  50: 'reply-helper', 51: 'complaint-kit', 52: 'guest-memo', 53: 'sms-template',
+  54: 'review-keyword', 55: 'refund-card', 56: 'review-ask',
+  57: 'shift-maker', 58: 'punch-log', 59: 'wage-calc', 60: 'handover-note',
+  61: 'payslip-mini', 62: 'training-check', 63: 'leave-board',
+  64: 'coupon-blast', 65: 'event-calendar', 66: 'launch-landing', 67: 'lucky-roulette',
+  68: 'retarget-sms', 69: 'referral-card', 70: 'sms-budget',
+  71: 'receipt-maker', 72: 'vat-preview', 73: 'expense-log', 74: 'tax-invoice',
+  75: 'card-sort', 76: 'pnl-trend', 77: 'cash-notice',
+  78: 'open-close', 79: 'clean-cycle', 80: 'fridge-temp', 81: 'facility-log',
+  82: 'supply-alert', 83: 'safety-audit', 84: 'shop-diary',
+  85: 'split-pay', 86: 'change-helper', 87: 'quick-order', 88: 'transfer-card',
+  89: 'pack-fee', 90: 'pos-log', 91: 'refund-guide',
+  92: 'rival-price', 93: 'local-keyword', 94: 'season-idea', 95: 'opening-countdown',
+  96: 'rating-trend', 97: 'area-insight', 98: 'rival-clip', 99: 'seo-audit',
+  100: 'monthly-report'
+};
+
+// 100개 모두 PRD 시작 프롬프트로 일괄 교체 + 슬러그 주입
+categories.forEach(cat => {
+  cat.prompts.forEach(p => {
+    p.slug = slugById[p.id] || ('tool-' + p.id);
+    p.prompt = makeVibePrd(cat, p);
+  });
+});
+
+
+// ===== DESIGN COLOR PALETTE =====
+const palettes = [
+  { id: 'navy-gold', name: '네이비·골드',
+    hexA: '#0A1F44', hexA_name: '딥 네이비', hexB: '#D4A84B', hexB_name: '클래식 골드',
+    mood: '격식 있고 신중한 톤. 단정한 명사형 종결, 군더더기 없는 한 문장.',
+    usage: '제목·KPI·CTA는 골드, 본문/표 헤더는 네이비, 배경은 흰색. 보조는 연회색(#EEE).' },
+  { id: 'pink-cream', name: '핑크·크림',
+    hexA: '#E8A2B0', hexA_name: '더스티 핑크', hexB: '#FBE9D7', hexB_name: '소프트 크림',
+    mood: '부드럽고 친근한 라이프스타일 톤. 어조는 따뜻하게, 이모지는 최소한.',
+    usage: '주요 강조는 핑크, 배경·카드는 크림, 텍스트는 진한 차콜(#2B2B2B).' },
+  { id: 'mono', name: '모노톤',
+    hexA: '#0A0A0A', hexA_name: '잉크 블랙', hexB: '#F2F2F2', hexB_name: '오프 화이트',
+    mood: '담백한 미니멀·테크 톤. 객관 사실 위주, 형용사 절제, 표/숫자 중심.',
+    usage: '거의 모든 요소는 무채색. 강조는 굵기·여백·라인 두께로만 차등.' },
+  { id: 'forest', name: '포레스트',
+    hexA: '#1E3A2C', hexA_name: '딥 포레스트', hexB: '#E5DBC4', hexB_name: '오트 베이지',
+    mood: 'ESG·지속가능성 톤. 신중하고 사실 중심, 과장된 수식어 자제.',
+    usage: '헤드라인·아이콘은 포레스트, 본문 배경은 베이지, 차트 보조는 머스터드(#C9A23A).' },
+  { id: 'ocean', name: '오션',
+    hexA: '#0C3F5F', hexA_name: '딥 오션', hexB: '#98C4DE', hexB_name: '스카이 라이트',
+    mood: '신뢰감·정돈 톤. 정확한 수치 표현, 모호한 표현 금지, 두 자리 소수 유지.',
+    usage: '강조는 딥 오션, 보조 차트·태그는 스카이 라이트, 위험 표시는 코랄(#E08366) 예외.' },
+  { id: 'cherry', name: '체리',
+    hexA: '#7A1426', hexA_name: '와인 체리', hexB: '#F1D2D5', hexB_name: '블러시 핑크',
+    mood: '활기·강조 톤. CTA는 강한 동사, 헤드라인은 12자 이내, 숫자 강조.',
+    usage: 'CTA·세일 배지·핵심 카피는 체리, 카드 배경은 블러시, 본문은 차콜(#1A1A1A).' }
+];
+
+let selectedPaletteId = null;
+
+function renderPalettes() {
+  const container = document.getElementById('paletteSwatches');
+  if (!container) return;
+  palettes.forEach(p => {
+    const item = document.createElement('button');
+    item.type = 'button';
+    item.className = 'palette-item';
+    item.setAttribute('role', 'radio');
+    item.setAttribute('aria-checked', 'false');
+    item.setAttribute('aria-label', p.name + ' 톤 선택');
+    item.dataset.paletteId = p.id;
+    const swatch = document.createElement('span');
+    swatch.className = 'palette-swatch';
+    swatch.style.setProperty('--c-a', p.hexA);
+    swatch.style.setProperty('--c-b', p.hexB);
+    const nameEl = document.createElement('span');
+    nameEl.className = 'palette-name';
+    nameEl.textContent = p.name;
+    item.appendChild(swatch);
+    item.appendChild(nameEl);
+    item.addEventListener('click', () => selectPalette(p.id));
+    container.appendChild(item);
+  });
 }
 
-/* ══════════════════════════════════════
-   CARD — Redesigned to match PDF style
-══════════════════════════════════════ */
-function Card({s,fav,admin,onFav,onCopy,copied,onView,onEdit,onDel}){
-  const img=useImg(s.image,s.id);
-  const catColor=CC[s.cat]||'#888';
-  return(
-    <div className="style-card" style={{borderRadius:10,overflow:'hidden',background:'#fff',border:'1px solid #e8e8e8',position:'relative'}}>
-      {/* Image area */}
-      <div onClick={()=>onView(s)} style={{width:'100%',height:200,background:img?`url(${img}) center/cover no-repeat`:s.grad,position:'relative',cursor:'pointer'}}>
-        {/* Fav heart - top right */}
-        <button className="fav-btn" onClick={e=>{e.stopPropagation();onFav(s.id);}} style={{position:'absolute',top:10,right:10,width:30,height:30,borderRadius:'50%',background:fav?'rgba(255,255,255,.95)':'rgba(255,255,255,.7)',border:'none',cursor:'pointer',color:fav?'#ef4444':'#ccc',fontSize:16,display:'flex',alignItems:'center',justifyContent:'center',transition:'all .15s',opacity:fav?1:0,boxShadow:'0 1px 4px rgba(0,0,0,.1)'}}>
-          {fav?'♥':'♡'}
-        </button>
-        {/* Admin actions overlay */}
-        {admin&&(
-          <div className="card-actions" style={{position:'absolute',bottom:8,right:8,display:'flex',gap:4,opacity:0,transition:'opacity .15s'}}>
-            <button onClick={e=>{e.stopPropagation();onEdit(s);}} title="편집" style={{width:26,height:26,borderRadius:6,background:'rgba(255,255,255,.92)',border:'none',cursor:'pointer',color:'#555',display:'flex',alignItems:'center',justifyContent:'center',boxShadow:'0 1px 4px rgba(0,0,0,.15)'}}>{I.edit}</button>
-            <button onClick={e=>{e.stopPropagation();onDel(s.id);}} title="삭제" style={{width:26,height:26,borderRadius:6,background:'rgba(239,68,68,.9)',border:'none',cursor:'pointer',color:'#fff',display:'flex',alignItems:'center',justifyContent:'center',boxShadow:'0 1px 4px rgba(0,0,0,.15)'}}>{I.del}</button>
-          </div>
-        )}
-      </div>
-
-      {/* Info area */}
-      <div style={{padding:'10px 12px 8px'}}>
-        {/* ID + Category + PTS row */}
-        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:6}}>
-          <div style={{display:'flex',alignItems:'center',gap:8}}>
-            <span style={{fontSize:12,fontWeight:700,color:catColor,fontFamily:"'IBM Plex Mono',monospace"}}>#{s.id}</span>
-            <span className="cat-pill" style={{background:catColor+'14',color:catColor}}>
-              <span className="cat-dot" style={{background:catColor}}></span>
-              {CAT_KO[s.cat]||s.cat}
-            </span>
-          </div>
-          <span style={{fontSize:10,fontWeight:600,color:'#a1a1aa',fontFamily:"'IBM Plex Mono',monospace",letterSpacing:'.5px'}}>{s.id>100?(Math.floor(s.id/7)%10+40)+' PTS':''}</span>
-        </div>
-
-        {/* Style name */}
-        <div style={{fontWeight:700,fontSize:15,color:'#18181b',marginBottom:2,lineHeight:1.35}}>{s.ko}</div>
-        <div style={{fontSize:11,color:'#a1a1aa',fontFamily:"'IBM Plex Mono',monospace",marginBottom:10,letterSpacing:'-.2px'}}>{s.en}</div>
-
-        {/* Action buttons row */}
-        <div style={{display:'flex',gap:5,borderTop:'1px solid #f4f4f5',paddingTop:8}}>
-          <button className={`act-btn${copied===s.id?' copied':''}`} onClick={()=>onCopy(s)} style={{flex:1,justifyContent:'center'}}>
-            {copied===s.id?I.check:I.copy}
-            <span>{copied===s.id?'복사됨':'프롬프트 복사'}</span>
-          </button>
-          <button className="act-btn" onClick={()=>onView(s)} style={{justifyContent:'center'}}>
-            {I.eye} <span>상세</span>
-          </button>
-          <button className="act-btn" onClick={()=>{window.open&&window.open('https://www.bing.com/images/create','_blank');}} style={{justifyContent:'center',color:'#f97316'}}>
-            {I.fire} <span style={{fontWeight:600}}>BananaNL</span>
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ══════════════════════════════════════
-   DETAIL MODAL
-══════════════════════════════════════ */
-function Detail({s,onClose,onCopy,copied}){
-  const img=useImg(s.image,s.id);
-  return(
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-box" onClick={e=>e.stopPropagation()} style={{width:520,maxWidth:'92vw'}}>
-        {/* Image */}
-        <div style={{width:'100%',height:280,background:img?`url(${img}) center/cover no-repeat`:s.grad,position:'relative',flexShrink:0}}>
-          <button onClick={onClose} style={{position:'absolute',top:12,right:12,width:32,height:32,borderRadius:'50%',background:'rgba(0,0,0,.5)',border:'none',cursor:'pointer',color:'#fff',fontSize:18,display:'flex',alignItems:'center',justifyContent:'center'}}>×</button>
-          <div style={{position:'absolute',bottom:12,left:12,display:'flex',gap:8,alignItems:'center'}}>
-            <span style={{background:'rgba(0,0,0,.6)',color:'#fff',padding:'4px 10px',borderRadius:6,fontSize:12,fontWeight:700,fontFamily:"'IBM Plex Mono',monospace"}}>#{s.id}</span>
-            <span style={{background:(CC[s.cat]||'#888')+'dd',color:'#fff',padding:'4px 10px',borderRadius:6,fontSize:11,fontWeight:600}}>{CAT_KO[s.cat]||s.cat}</span>
-          </div>
-        </div>
-        {/* Content */}
-        <div style={{padding:'20px 24px 24px'}}>
-          <div style={{fontWeight:900,fontSize:22,color:'#18181b',marginBottom:4}}>{s.ko}</div>
-          <div style={{fontSize:13,color:'#a1a1aa',fontFamily:"'IBM Plex Mono',monospace",marginBottom:16}}>{s.en}</div>
-          <div style={{fontSize:13,color:'#52525b',lineHeight:1.7,marginBottom:20,padding:16,background:'#fafafa',borderRadius:10,border:'1px solid #f0f0f0',fontFamily:"'IBM Plex Sans','Noto Sans KR',sans-serif",maxHeight:160,overflow:'auto'}}>{s.prompt}</div>
-          <button onClick={()=>onCopy(s)} style={{width:'100%',padding:'12px 0',borderRadius:10,border:'none',background:copied===s.id?'#16a34a':'#18181b',color:'#fff',fontWeight:700,fontSize:14,cursor:'pointer',transition:'all .2s',display:'flex',alignItems:'center',justifyContent:'center',gap:8}}>
-            {copied===s.id?'✓ 복사 완료!':'📋 프롬프트 전체 복사'}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ══════════════════════════════════════
-   LOGIN MODAL
-══════════════════════════════════════ */
-function Login({onClose,onLogin}){
-  const[pw,setPw]=useState('');
-  const[err,setErr]=useState(false);
-  const go=()=>{if(pw===ADMIN_PW){onLogin();onClose();}else{setErr(true);setTimeout(()=>setErr(false),1500);}};
-  return(
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-box" onClick={e=>e.stopPropagation()} style={{padding:32,width:320}}>
-        <div style={{fontSize:18,fontWeight:900,color:'#18181b',marginBottom:6}}>관리자 로그인</div>
-        <div style={{fontSize:12,color:'#a1a1aa',marginBottom:20}}>비밀번호를 입력하세요</div>
-        <input type="password" value={pw} onChange={e=>setPw(e.target.value)} onKeyDown={e=>e.key==='Enter'&&go()} placeholder="비밀번호" autoFocus
-          style={{width:'100%',padding:'10px 14px',borderRadius:8,border:`1.5px solid ${err?'#ef4444':'#e5e5e5'}`,fontSize:14,outline:'none',marginBottom:err?4:14}}/>
-        {err&&<div style={{fontSize:11,color:'#ef4444',marginBottom:8}}>비밀번호가 틀렸습니다</div>}
-        <button onClick={go} style={{width:'100%',padding:'10px 0',borderRadius:8,border:'none',background:'#18181b',color:'#fff',fontWeight:700,fontSize:14,cursor:'pointer'}}>로그인</button>
-      </div>
-    </div>
-  );
-}
-
-/* ══════════════════════════════════════
-   FORM MODAL (Add/Edit) — URL only
-══════════════════════════════════════ */
-function Form({item,onClose,onSave}){
-  const isEdit=!!item;
-  const existImg=useImg(item?.image,item?.id);
-  const[ko,setKo]=useState(item?.ko||'');
-  const[en,setEn]=useState(item?.en||'');
-  const[cat,setCat]=useState(item?.cat||'ARTISTIC');
-  const[prompt,setPr]=useState(item?.prompt||'');
-  const[imgUrl,setImgUrl]=useState((item?.image&&!item.image.startsWith('__idb__')&&!item.image.startsWith('data:'))?item.image:'');
-  const[preview,setPreview]=useState(null);
-  const[imgMode,setImgMode]=useState('url'); // 'url' or 'file'
-  const[fileData,setFileData]=useState(null); // base64 from file upload
-  const[previewErr,setPreviewErr]=useState(false);
-
-  // Google Drive URL 자동 변환
-  const convertGDriveUrl=(url)=>{
-    if(!url)return url;
-    // https://drive.google.com/file/d/FILE_ID/view?...
-    const m1=url.match(/drive\.google\.com\/file\/d\/([^\/\?]+)/);
-    if(m1)return 'https://drive.google.com/uc?export=view&id='+m1[1];
-    // https://drive.google.com/open?id=FILE_ID
-    const m2=url.match(/drive\.google\.com\/open\?id=([^&]+)/);
-    if(m2)return 'https://drive.google.com/uc?export=view&id='+m2[1];
-    // https://lh3.googleusercontent.com/d/FILE_ID
-    const m3=url.match(/lh3\.googleusercontent\.com\/d\/([^\/\?]+)/);
-    if(m3)return 'https://lh3.googleusercontent.com/d/'+m3[1];
-    return url;
-  };
-
-  const handleUrlChange=(val)=>{
-    setImgUrl(val);
-    setPreviewErr(false);
-    const converted=convertGDriveUrl(val.trim());
-    setPreview(converted);
-  };
-
-  // 파일 업로드 → base64
-  const handleFile=(e)=>{
-    const f=e.target.files[0];
-    if(!f)return;
-    if(f.size>5*1024*1024){alert('⚠️ 5MB 이하 이미지만 가능합니다');return;}
-    const r=new FileReader();
-    r.onload=(ev)=>{
-      setFileData(ev.target.result);
-      setPreview(ev.target.result);
-      setPreviewErr(false);
-    };
-    r.readAsDataURL(f);
-  };
-
-  const save=async()=>{
-    if(!ko.trim()||!prompt.trim())return;
-    let finalImage=item?.image||null;
-
-    if(imgMode==='file'&&fileData){
-      // 파일 업로드: IndexedDB에 저장
-      const newId=item?.id||Date.now();
-      try{await idbSet(newId,fileData);finalImage='__idb__'+newId;}catch(e){console.warn('idb save err',e);}
-    }else if(imgMode==='url'&&imgUrl.trim()){
-      // URL: Google Drive 자동 변환 적용
-      finalImage=convertGDriveUrl(imgUrl.trim());
+function selectPalette(id) {
+  if (selectedPaletteId === id) selectedPaletteId = null;
+  else selectedPaletteId = id;
+  document.querySelectorAll('.palette-item').forEach(el => {
+    const active = el.dataset.paletteId === selectedPaletteId;
+    el.classList.toggle('selected', active);
+    el.setAttribute('aria-checked', active ? 'true' : 'false');
+  });
+  const current = document.getElementById('paletteCurrent');
+  if (current) {
+    current.textContent = '';
+    const p = palettes.find(x => x.id === selectedPaletteId);
+    if (p) {
+      const lead = document.createTextNode(' 현재 선택: ');
+      const name = document.createElement('span');
+      name.className = 'active-name';
+      name.textContent = p.name;
+      current.appendChild(lead);
+      current.appendChild(name);
     }
-
-    const d={
-      id:item?.id||Date.now(),
-      cat,
-      ko:ko.trim(),
-      en:en.trim(),
-      prompt:prompt.trim(),
-      image:finalImage,
-      grad:item?.grad||`linear-gradient(135deg,${CC[cat]||'#888'}22,${CC[cat]||'#888'}88)`
-    };
-    onSave(d);onClose();
-  };
-
-  const labelStyle={fontSize:12,fontWeight:600,color:'#52525b',marginBottom:4,display:'block'};
-  const inputStyle={width:'100%',padding:'8px 12px',borderRadius:8,border:'1.5px solid #e5e5e5',fontSize:13,outline:'none',marginBottom:12};
-  const tabStyle=(active)=>({flex:1,padding:'7px 0',borderRadius:6,border:'1px solid '+(active?'#18181b':'#e5e5e5'),background:active?'#18181b':'#fff',color:active?'#fff':'#666',fontSize:12,fontWeight:600,cursor:'pointer',textAlign:'center'});
-
-  return(
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-box" onClick={e=>e.stopPropagation()} style={{width:440,maxWidth:'92vw',maxHeight:'90vh'}}>
-        <div style={{padding:'20px 24px',borderBottom:'1px solid #f0f0f0',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-          <div style={{fontWeight:900,fontSize:18,color:'#18181b'}}>{isEdit?'스타일 편집':'새 스타일 추가'}</div>
-          <button onClick={onClose} style={{background:'none',border:'none',fontSize:20,cursor:'pointer',color:'#a1a1aa'}}>×</button>
-        </div>
-        <div style={{padding:'16px 24px 24px',overflow:'auto'}}>
-          <label style={labelStyle}>카테고리</label>
-          <select value={cat} onChange={e=>setCat(e.target.value)} style={{...inputStyle,cursor:'pointer'}}>
-            {CAT_IN.map(c=><option key={c} value={c}>{CAT_KO[c]} ({c})</option>)}
-          </select>
-          <label style={labelStyle}>한글 이름</label>
-          <input value={ko} onChange={e=>setKo(e.target.value)} placeholder="예: 수채화 드림" style={inputStyle}/>
-          <label style={labelStyle}>영문 이름</label>
-          <input value={en} onChange={e=>setEn(e.target.value)} placeholder="예: Watercolor / Soft" style={inputStyle}/>
-          <label style={labelStyle}>프롬프트</label>
-          <textarea value={prompt} onChange={e=>setPr(e.target.value)} placeholder="AI 이미지 생성 프롬프트..." rows={4} style={{...inputStyle,resize:'vertical',lineHeight:1.5}}/>
-
-          {/* 이미지 입력 방식 탭 */}
-          <label style={labelStyle}>이미지</label>
-          <div style={{display:'flex',gap:6,marginBottom:10}}>
-            <button onClick={()=>setImgMode('url')} style={tabStyle(imgMode==='url')}>🔗 URL 입력</button>
-            <button onClick={()=>setImgMode('file')} style={tabStyle(imgMode==='file')}>📁 파일 업로드</button>
-          </div>
-
-          {imgMode==='url'?(
-            <>
-              <input value={imgUrl} onChange={e=>handleUrlChange(e.target.value)} placeholder="https://... 또는 Google Drive 공유 링크" style={inputStyle}/>
-              {imgUrl.includes('drive.google.com')&&imgUrl!==convertGDriveUrl(imgUrl)&&(
-                <div style={{fontSize:11,color:'#16a34a',marginBottom:8,marginTop:-8,padding:'4px 8px',background:'#f0fdf4',borderRadius:6}}>
-                  ✅ Google Drive 링크가 자동 변환됩니다
-                </div>
-              )}
-            </>
-          ):(
-            <>
-              <input type="file" accept="image/*" onChange={handleFile} style={{...inputStyle,padding:6,cursor:'pointer'}}/>
-              <div style={{fontSize:11,color:'#a1a1aa',marginBottom:8,marginTop:-8}}>JPG, PNG, WebP · 최대 5MB</div>
-            </>
-          )}
-
-          {/* 미리보기 */}
-          {(preview||existImg)&&(
-            <div style={{position:'relative',marginBottom:12}}>
-              <img
-                src={preview||existImg}
-                onError={()=>setPreviewErr(true)}
-                onLoad={()=>setPreviewErr(false)}
-                style={{width:'100%',height:140,objectFit:'cover',borderRadius:8,border:'1px solid #e5e5e5',display:previewErr?'none':'block'}}
-              />
-              {previewErr&&(
-                <div style={{width:'100%',height:140,borderRadius:8,border:'1px solid #fecaca',background:'#fef2f2',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:4}}>
-                  <span style={{fontSize:20}}>⚠️</span>
-                  <span style={{fontSize:11,color:'#dc2626',fontWeight:600}}>이미지를 불러올 수 없습니다</span>
-                  <span style={{fontSize:10,color:'#999'}}>URL이 올바른지 확인하거나 파일 업로드를 사용하세요</span>
-                </div>
-              )}
-            </div>
-          )}
-
-          <button onClick={save} style={{width:'100%',padding:'11px 0',borderRadius:8,border:'none',background:'#18181b',color:'#fff',fontWeight:700,fontSize:14,cursor:'pointer',marginTop:4}}>
-            {isEdit?'수정 완료':'추가하기'}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
+  }
+  updateToneBoxes();
+  recalcOpenAccordions();
 }
 
-/* ══════════════════════════════════════
-   MAIN APP
-══════════════════════════════════════ */
-function App(){
-  const[styles,setStyles]=useState(null);
-  const[favs,setFavs]=useState(new Set());
-  const[admin,setAdmin]=useState(false);
-  const[q,setQ]=useState('');
-  const[active,setActive]=useState('ALL');
-  const[copied,setCopied]=useState(null);
-  const[detail,setDetail]=useState(null);
-  const[login,setLogin]=useState(false);
-  const[form,setForm]=useState(false);
-  const[editItem,setEditItem]=useState(null);
-  const[toast,setToast]=useState({msg:'',vis:false});
-  const[mig,setMig]=useState(null);
-  const importRef=useRef(null);
+function updateToneBoxes() {
+  const p = palettes.find(x => x.id === selectedPaletteId);
+  document.querySelectorAll('.prompt-tone').forEach(tone => {
+    while (tone.firstChild) tone.removeChild(tone.firstChild);
+    if (!p) { tone.dataset.active = 'false'; return; }
+    tone.dataset.active = 'true';
+    tone.style.setProperty('--tone-accent', p.hexA);
+    tone.style.setProperty('--tone-a', p.hexA);
+    tone.style.setProperty('--tone-b', p.hexB);
+    const head = document.createElement('div');
+    head.className = 'prompt-tone-head';
+    const dot = document.createElement('span');
+    dot.className = 'prompt-tone-dot';
+    const label = document.createElement('span');
+    label.className = 'prompt-tone-label';
+    label.textContent = 'DESIGN TONE — ' + p.name;
+    head.appendChild(dot);
+    head.appendChild(label);
+    const body = document.createElement('div');
+    body.className = 'prompt-tone-body';
+    body.textContent = [
+      '· 팔레트: ' + p.hexA_name + '(' + p.hexA + ') + ' + p.hexB_name + '(' + p.hexB + ')',
+      '· 시각 결과물(차트·표·대시보드·이미지·슬라이드): ' + p.usage,
+      '· 글 결과물(이메일·보고서·카피): ' + p.mood,
+      '· 위 톤이 적용 불가한 텍스트만의 결과물이면 본 가이드는 무시.'
+    ].join('\n');
+    tone.appendChild(head);
+    tone.appendChild(body);
+  });
+}
 
-  const tst=msg=>{setToast({msg,vis:true});setTimeout(()=>setToast(t=>({...t,vis:false})),2200);};
-  const copyText=t=>{navigator.clipboard?navigator.clipboard.writeText(t):(() =>{const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();document.execCommand('copy');document.body.removeChild(a);})();};
+function recalcOpenAccordions() {
+  document.querySelectorAll('.accordion-header.active').forEach(header => {
+    const body = header.nextElementSibling;
+    if (!body) return;
+    const inner = body.querySelector('.accordion-body-inner');
+    if (!inner) return;
+    body.style.maxHeight = (inner.scrollHeight + 40) + 'px';
+  });
+}
 
-  // Load
-  useEffect(()=>{
-    const init=async()=>{
-      // Migration
-      try{
-        const r=await migrate((done,total)=>setMig({done,total}));
-        if(r.moved)setMig({done:r.moved,total:r.moved,complete:true});
-      }catch(e){console.warn('migration err',e);}
-      setTimeout(()=>setMig(null),2000);
+function buildPaletteBlock() {
+  const p = palettes.find(x => x.id === selectedPaletteId);
+  if (!p) return '';
+  return [
+    '', '', '---',
+    `[디자인 톤: ${p.name}]`,
+    `· 팔레트: ${p.hexA_name}(${p.hexA}) + ${p.hexB_name}(${p.hexB})`,
+    `· 시각 결과물(차트·표·대시보드·이미지·슬라이드): ${p.usage}`,
+    `· 글 결과물(이메일·보고서·카피): ${p.mood}`,
+    `· 위 톤이 적용 불가한 텍스트만의 결과물이면 본 가이드는 무시.`
+  ].join('\n');
+}
 
-      // Load styles
-      const saved=lsLoad(EDITS_KEY);
-      setStyles(saved&&Array.isArray(saved)?saved:DEFAULTS);
 
-      // Load favs
-      const f=lsLoad(FAVS_KEY);
-      if(f&&Array.isArray(f))setFavs(new Set(f));
-    };
-    init();
-  },[]);
+// ===== INTRO SEQUENCE =====
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-  // Persist
-  useEffect(()=>{if(styles)lsSave(EDITS_KEY,styles);},[styles]);
-  useEffect(()=>{lsSave(FAVS_KEY,[...favs]);},[favs]);
+async function runIntroSequence() {
+  const overlay = document.getElementById('introOverlay');
+  const counter = document.getElementById('introCounter');
+  const barFill = document.getElementById('introBarFill');
 
-  const toggleFav=id=>setFavs(p=>{const n=new Set(p);n.has(id)?n.delete(id):n.add(id);return n;});
-  const doCopy=s=>{copyText(s.prompt);setCopied(s.id);tst('✓ 프롬프트가 복사되었습니다');setTimeout(()=>setCopied(null),2000);};
-  const doSave=async d=>{
-    const exists=styles.find(s=>s.id===d.id);
-    if(exists){setStyles(p=>p.map(s=>s.id===d.id?{...s,...d}:s));}
-    else{setStyles(p=>[d,...p]);}
-    tst(exists?'✅ 수정되었습니다':'✅ 추가되었습니다');
-  };
-  const doDel=id=>{if(!window.confirm('정말 삭제하시겠습니까?'))return;idbDel(id);setStyles(p=>p.filter(s=>s.id!==id));tst('삭제되었습니다');};
-  const doExport=()=>{const b=new Blob([JSON.stringify(styles,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='design-styles-myway75.json';a.click();URL.revokeObjectURL(a.href);tst('📦 내보내기 완료');};
-  const doImport=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(Array.isArray(d)){setStyles(d);tst('✅ '+d.length+'개 가져오기 완료');}}catch(e){tst('⚠️ JSON 형식 오류');}e.target.value='';};r.readAsText(f);};
+  // Phase 1: 카운트다운 100 → 0 (빠르게)
+  const steps = [100, 87, 73, 60, 48, 35, 21, 10, 5, 3, 1, 0];
+  for (let i = 0; i < steps.length; i++) {
+    counter.textContent = steps[i];
+    barFill.style.width = ((steps.length - 1 - i) / (steps.length - 1) * 100) + '%';
+    await sleep(120);
+  }
+  await sleep(300);
 
-  if(styles===null)return <div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',color:'#a1a1aa',fontSize:14}}>불러오는 중...</div>;
+  // Phase 2: 오버레이 페이드아웃
+  overlay.classList.add('fade-out');
+  await sleep(600);
+  overlay.classList.add('hidden');
 
-  const filtered=styles.filter(s=>{
-    if(active==='FAVORITES'&&!favs.has(s.id))return false;
-    if(active!=='ALL'&&active!=='FAVORITES'&&s.cat!==active)return false;
-    if(q&&!s.ko.includes(q)&&!s.en.toLowerCase().includes(q.toLowerCase())&&!s.prompt.toLowerCase().includes(q.toLowerCase()))return false;
-    return true;
+  // Phase 3: 히어로 글자 하나씩 등장
+  await revealHeroText();
+}
+
+async function revealHeroText() {
+  // 글자 span 준비
+  const lines = document.querySelectorAll('.hero-line');
+  const allChars = [];
+
+  lines.forEach((line) => {
+    const text = line.dataset.text;
+    line.innerHTML = '';
+    for (let i = 0; i < text.length; i++) {
+      const ch = text[i];
+      if (ch === ' ') {
+        const space = document.createTextNode(' ');
+        line.appendChild(space);
+      } else {
+        const span = document.createElement('span');
+        span.className = 'char';
+        span.textContent = ch;
+        line.appendChild(span);
+        allChars.push({ span, line });
+      }
+    }
   });
 
-  return(
-    <div style={{minHeight:'100vh',background:'#f4f4f5'}}>
-      {/* Migration banner */}
-      {mig&&!mig.complete&&(
-        <div className="mig-banner">
-          <span style={{animation:'pulse 1.5s infinite'}}>⏳</span>
-          이미지 마이그레이션 중... {mig.done}/{mig.total}
-          <div className="mig-bar"><div className="mig-fill" style={{width:`${mig.total?(mig.done/mig.total*100):0}%`}}/></div>
-        </div>
-      )}
+  // 한 글자씩 순차 등장
+  for (let i = 0; i < allChars.length; i++) {
+    allChars[i].span.classList.add('show');
+    await sleep(50);
+  }
 
-      {/* HEADER */}
-      <header style={{background:'#fff',borderBottom:'1px solid #e8e8e8',position:'sticky',top:0,zIndex:100}}>
-        <div className="header-inner" style={{maxWidth:1280,margin:'0 auto',padding:'14px 24px',display:'flex',alignItems:'center',justifyContent:'space-between',gap:16}}>
-          {/* Logo */}
-          <div style={{display:'flex',alignItems:'center',gap:10,flexShrink:0}}>
-            <span style={{fontSize:20}}>⚡</span>
-            <div>
-              <div style={{fontWeight:900,fontSize:16,color:'#18181b',letterSpacing:'-0.5px',lineHeight:1}}>DESIGN_INDEX</div>
-              <div style={{fontSize:10,color:'#a1a1aa',fontFamily:"'IBM Plex Mono',monospace",letterSpacing:'.5px'}}>by Myway 75</div>
-            </div>
-          </div>
+  // 모든 글자 안정화 (settled 상태로 전환 → 애니메이션 제거, 고정)
+  await sleep(400);
+  allChars.forEach(({ span }) => {
+    span.classList.remove('show');
+    span.classList.add('settled');
+  });
 
-          {/* Search */}
-          <div className="search-wrap">
-            {I.search}
-            <input value={q} onChange={e=>setQ(e.target.value)} placeholder="스타일 검색..."/>
-          </div>
+  // 레드 라인 글로우 효과
+  const accentLine = document.querySelector('.hero-line.accent');
+  if (accentLine) accentLine.classList.add('glow');
 
-          {/* Right buttons */}
-          <div style={{display:'flex',gap:6,flexShrink:0}}>
-            <button className="admin-btn" onClick={()=>{copyText(SITE_URL);tst('✓ URL 복사: '+SITE_URL);}}>{I.link} URL 복사</button>
-            {admin?(
-              <>
-                <button className="admin-btn" onClick={()=>{setEditItem(null);setForm(true);}}>{I.plus} 추가</button>
-                <button className="admin-btn" onClick={doExport}>{I.dl} 내보내기</button>
-                <label className="admin-btn" style={{cursor:'pointer'}}>{I.ul} 가져오기<input ref={importRef} type="file" accept=".json" onChange={doImport} style={{display:'none'}}/></label>
-                <button className="admin-btn" onClick={()=>setAdmin(false)} style={{color:'#ef4444'}}>🔓 로그아웃</button>
-              </>
-            ):(
-              <button className="admin-btn" onClick={()=>setLogin(true)}>{I.lock} 관리자</button>
-            )}
-          </div>
-        </div>
-
-        {/* Category tabs */}
-        <div style={{maxWidth:1280,margin:'0 auto',padding:'0 24px 12px',display:'flex',gap:6,overflowX:'auto'}} className="tab-row">
-          {CATS.map(c=>(
-            <button key={c} className={`tab-btn${active===c?' active':''}`} onClick={()=>setActive(c)}>
-              {c==='ALL'?`전체 (${styles.length})`:c==='FAVORITES'?`♥ 즐겨찾기 (${[...favs].filter(id=>styles.some(s=>s.id===id)).length})`:(CAT_KO[c]||c)}
-            </button>
-          ))}
-        </div>
-      </header>
-
-      {/* GRID */}
-      <main style={{maxWidth:1280,margin:'0 auto',padding:'20px 24px 40px'}}>
-        {filtered.length===0?(
-          <div style={{textAlign:'center',padding:'80px 0'}}>
-            <div style={{fontSize:40,marginBottom:12,opacity:.15}}>{active==='FAVORITES'?'♡':'🔍'}</div>
-            <div style={{color:'#a1a1aa',fontSize:14}}>{active==='FAVORITES'?'즐겨찾기한 스타일이 없습니다':'검색 결과가 없습니다'}</div>
-          </div>
-        ):(
-          <div className="grid-4" style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(265px,1fr))',gap:18}}>
-            {filtered.map((s,i)=>(
-              <div key={s.id} className="card-enter" style={{animationDelay:`${i*.03}s`}}>
-                <Card s={s} fav={favs.has(s.id)} admin={admin} onFav={toggleFav} onCopy={doCopy} copied={copied} onView={setDetail} onEdit={s=>{setEditItem(s);setForm(true);}} onDel={doDel}/>
-              </div>
-            ))}
-          </div>
-        )}
-      </main>
-
-      {/* FOOTER */}
-      <footer style={{textAlign:'center',padding:'16px 0 28px',borderTop:'1px solid #e8e8e8',color:'#a1a1aa',fontSize:11,fontFamily:"'IBM Plex Mono',monospace",background:'#fff'}}>
-        Design by Myway 75 — {styles.length} styles
-      </footer>
-
-      {/* MODALS */}
-      {detail&&<Detail s={detail} onClose={()=>setDetail(null)} onCopy={doCopy} copied={copied}/>}
-      {login&&<Login onClose={()=>setLogin(false)} onLogin={()=>{setAdmin(true);tst('관리자 모드 활성화');}}/>}
-      {form&&admin&&<Form item={editItem} onClose={()=>{setForm(false);setEditItem(null);}} onSave={doSave}/>}
-      <Toast msg={toast.msg} vis={toast.vis}/>
-    </div>
-  );
+  // Phase 4: 서브타이틀 + UI 요소 순차 등장
+  await sleep(200);
+  document.querySelector('.hero-sub').classList.add('show');
+  await sleep(300);
+  document.querySelector('.hero-sub-small').classList.add('show');
+  await sleep(300);
+  document.querySelector('.top-bar .brand').classList.add('show');
+  await sleep(150);
+  document.querySelector('.btn-guide').classList.add('show');
+  await sleep(150);
+  document.querySelector('.scroll-cta').classList.add('show');
 }
 
-ReactDOM.render(<App/>,document.getElementById('root'));
+// ===== SPIRAL ANIMATION ENGINE =====
+const Spiral = (() => {
+  let canvas, ctx, dpr, W, H, size;
+  let time = 0, animId = null;
+  let stars = [];
+  const NUM_STARS = 5000;
+  const TRAIL = 80;
+  const CAM_Z = -400;
+  const CAM_TRAVEL = 3400;
+  const DOT_Y_OFF = 28;
+  const VIEW_ZOOM = 100;
+  const CHANGE_T = 0.32;
+  let speed = 1;
+  let startTime = null;
+
+  function ease(p, g) {
+    return p < 0.5 ? 0.5 * Math.pow(2 * p, g) : 1 - 0.5 * Math.pow(2 * (1 - p), g);
+  }
+  function easeOutElastic(x) {
+    const c4 = (2 * Math.PI) / 4.5;
+    if (x <= 0) return 0; if (x >= 1) return 1;
+    return Math.pow(2, -8 * x) * Math.sin((x * 8 - 0.75) * c4) + 1;
+  }
+  function map(v, a, b, c, d) { return c + (d - c) * ((v - a) / (b - a)); }
+  function clamp(v, lo, hi) { return Math.min(Math.max(v, lo), hi); }
+  function lerp(a, b, t) { return a * (1 - t) + b * t; }
+
+  function spiralPath(p) {
+    p = clamp(1.2 * p, 0, 1);
+    p = ease(p, 1.8);
+    const turns = 6, theta = 2 * Math.PI * turns * Math.sqrt(p), r = 170 * Math.sqrt(p);
+    return { x: r * Math.cos(theta), y: r * Math.sin(theta) + DOT_Y_OFF };
+  }
+
+  function projectDot(pos3, sf) {
+    const t2 = clamp(map(time, CHANGE_T, 1, 0, 1), 0, 1);
+    const camZ = CAM_Z + ease(Math.pow(t2, 1.2), 1.8) * CAM_TRAVEL;
+    if (pos3.z > camZ) {
+      const depth = pos3.z - camZ;
+      const x = VIEW_ZOOM * pos3.x / depth;
+      const y = VIEW_ZOOM * pos3.y / depth;
+      const sw = 400 * sf / depth;
+      ctx.beginPath();
+      ctx.arc(x, y, Math.max(sw / 2, 0.3), 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  class Star {
+    constructor() {
+      this.angle = Math.random() * Math.PI * 2;
+      this.dist = 30 * Math.random() + 15;
+      this.rotDir = Math.random() > 0.5 ? 1 : -1;
+      this.expRate = 1.2 + Math.random() * 0.8;
+      this.finalScale = 0.7 + Math.random() * 0.6;
+      this.dx = this.dist * Math.cos(this.angle);
+      this.dy = this.dist * Math.sin(this.angle);
+      this.spiralLoc = (1 - Math.pow(1 - Math.random(), 3)) / 1.3;
+      this.z = lerp(
+        CAM_Z * 0.5 + Math.random() * (CAM_TRAVEL + CAM_Z * 0.5),
+        CAM_TRAVEL / 2,
+        0.3 * this.spiralLoc
+      );
+      this.swf = Math.pow(Math.random(), 2);
+    }
+    render() {
+      const sp = spiralPath(this.spiralLoc);
+      const q = time / (1 / speed) - this.spiralLoc;
+      if (q <= 0) return;
+      const dp = clamp(4 * q, 0, 1);
+      const lin = dp, elast = easeOutElastic(dp), pw = dp * dp;
+      let eg;
+      if (dp < 0.3) eg = lerp(lin, pw, dp / 0.3);
+      else if (dp < 0.7) eg = lerp(pw, elast, (dp - 0.3) / 0.4);
+      else eg = elast;
+
+      let sx, sy;
+      if (dp < 0.3) {
+        sx = lerp(sp.x, sp.x + this.dx * 0.3, eg / 0.3);
+        sy = lerp(sp.y, sp.y + this.dy * 0.3, eg / 0.3);
+      } else if (dp < 0.7) {
+        const mp = (dp - 0.3) / 0.4;
+        const cs = Math.sin(mp * Math.PI) * this.rotDir * 1.5;
+        const bx = sp.x + this.dx * 0.3, by = sp.y + this.dy * 0.3;
+        const tx = sp.x + this.dx * 0.7, ty = sp.y + this.dy * 0.7;
+        sx = lerp(bx, tx, mp) + (-this.dy * 0.4 * cs) * mp;
+        sy = lerp(by, ty, mp) + (this.dx * 0.4 * cs) * mp;
+      } else {
+        const fp = (dp - 0.7) / 0.3;
+        const bx = sp.x + this.dx * 0.7, by = sp.y + this.dy * 0.7;
+        const td = this.dist * this.expRate * 1.5;
+        const sa = this.angle + 1.2 * this.rotDir * fp * Math.PI;
+        const tx = sp.x + td * Math.cos(sa), ty = sp.y + td * Math.sin(sa);
+        sx = lerp(bx, tx, fp);
+        sy = lerp(by, ty, fp);
+      }
+
+      const vx = (this.z - CAM_Z) * sx / VIEW_ZOOM;
+      const vy = (this.z - CAM_Z) * sy / VIEW_ZOOM;
+      let sm = dp < 0.6 ? 1 + dp * 0.2 : lerp(1.2, this.finalScale, (dp - 0.6) / 0.4);
+      projectDot({ x: vx, y: vy, z: this.z }, 8.5 * this.swf * sm);
+    }
+  }
+
+  function drawTrail() {
+    const t1 = clamp(map(time, 0, CHANGE_T + 0.25, 0, 1), 0, 1);
+    for (let i = 0; i < TRAIL; i++) {
+      const f = map(i, 0, TRAIL, 1.1, 0.1);
+      const sw = (1.3 * (1 - t1) + 3 * Math.sin(Math.PI * t1)) * f;
+      const pt = t1 - 0.00015 * i;
+      const p = spiralPath(pt);
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, Math.max(sw / 2, 0.3), 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  function render(ts) {
+    if (!startTime) startTime = ts;
+    const elapsed = (ts - startTime) / 1000;
+    time = (elapsed * speed / 15) % 1;
+
+    ctx.fillStyle = 'black';
+    ctx.fillRect(0, 0, size, size);
+    ctx.save();
+    ctx.translate(size / 2, size / 2);
+
+    const t1 = clamp(map(time, 0, CHANGE_T + 0.25, 0, 1), 0, 1);
+    const t2 = clamp(map(time, CHANGE_T, 1, 0, 1), 0, 1);
+    ctx.rotate(-Math.PI * ease(t2, 2.7));
+
+    ctx.fillStyle = 'white';
+    drawTrail();
+    for (const s of stars) s.render();
+
+    // start dot
+    if (time > CHANGE_T) {
+      const dy = CAM_Z * DOT_Y_OFF / VIEW_ZOOM;
+      projectDot({ x: 0, y: dy, z: CAM_TRAVEL }, 2.5);
+    }
+
+    ctx.restore();
+    animId = requestAnimationFrame(render);
+  }
+
+  function init() {
+    canvas = document.getElementById('spiralCanvas');
+    if (!canvas) return;
+    ctx = canvas.getContext('2d');
+    dpr = window.devicePixelRatio || 1;
+    resize();
+
+    // seeded random for stars
+    const origRandom = Math.random;
+    let seed = 1234;
+    Math.random = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
+    for (let i = 0; i < NUM_STARS; i++) stars.push(new Star());
+    Math.random = origRandom;
+
+    animId = requestAnimationFrame(render);
+    window.addEventListener('resize', resize);
+  }
+
+  function resize() {
+    const hero = document.getElementById('hero');
+    W = hero.offsetWidth;
+    H = hero.offsetHeight;
+    size = Math.max(W, H);
+    canvas.width = size * dpr;
+    canvas.height = size * dpr;
+    canvas.style.width = size + 'px';
+    canvas.style.height = size + 'px';
+    if (ctx) ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  function destroy() {
+    if (animId) cancelAnimationFrame(animId);
+    window.removeEventListener('resize', resize);
+  }
+
+  return { init, destroy };
+})();
+
+// ===== STICKY HEADER =====
+function initStickyHeader() {
+  const hero = document.getElementById('hero');
+  const sticky = document.getElementById('stickyHeader');
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      sticky.classList.toggle('visible', !entry.isIntersecting);
+    },
+    { threshold: 0, rootMargin: '-80px 0px 0px 0px' }
+  );
+  observer.observe(hero);
+}
+
+// ===== SECTION COUNT ANIMATION =====
+function initSectionCount() {
+  const el = document.getElementById('sectionCount');
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        el.classList.add('visible');
+        observer.disconnect();
+      }
+    },
+    { threshold: 0.5 }
+  );
+  observer.observe(el);
+}
+
+// ===== ACCORDION =====
+function renderAccordion() {
+  const container = document.getElementById('accordionContainer');
+  categories.forEach((cat, catIdx) => {
+    const item = document.createElement('div');
+    item.className = 'accordion-item';
+
+    const header = document.createElement('div');
+    header.className = 'accordion-header';
+    header.innerHTML = `
+      <div class="accordion-icon"></div>
+      <div class="accordion-title">${cat.name}</div>
+      <div class="accordion-count">${cat.count}</div>
+      <div class="accordion-arrow">&#9654;</div>
+    `;
+
+    const body = document.createElement('div');
+    body.className = 'accordion-body';
+    const inner = document.createElement('div');
+    inner.className = 'accordion-body-inner';
+
+    cat.prompts.forEach((p, pIdx) => {
+      const card = document.createElement('div');
+      card.className = 'prompt-card';
+      card.dataset.level = p.level;
+      const badgeClass = p.level === '쉬움' ? 'badge-easy' : 'badge-normal';
+      const numStr = String(p.id).padStart(2, '0');
+
+      card.innerHTML = `
+        <div class="card-top">
+          <span class="badge ${badgeClass}">${p.level}</span>
+          <span class="card-number">#${numStr}</span>
+        </div>
+        <div class="card-title">${p.title} <span class="card-slug" title="폴더·레포명으로 그대로 사용 가능">${p.slug}</span></div>
+        <div class="card-desc">${p.desc}</div>
+        <div class="card-actions">
+          <button class="btn-preview" onclick="togglePreview(this)">
+            &#9662; 미리보기
+          </button>
+          <button class="btn-copy" onclick="copyPrompt(this, ${catIdx}, ${pIdx})">
+            <span class="copy-icon">&#128203;</span> 복사
+          </button>
+        </div>
+        <div class="prompt-preview">
+          <div class="prompt-body">${p.prompt}</div>
+          <div class="prompt-tone" data-active="false"></div>
+        </div>
+      `;
+      inner.appendChild(card);
+    });
+
+    body.appendChild(inner);
+    item.appendChild(header);
+    item.appendChild(body);
+    container.appendChild(item);
+
+    header.addEventListener('click', () => toggleAccordion(header, body, inner));
+  });
+}
+
+function toggleAccordion(header, body, inner) {
+  const isOpen = header.classList.contains('active');
+
+  if (isOpen) {
+    header.classList.remove('active');
+    body.style.maxHeight = '0';
+  } else {
+    header.classList.add('active');
+    body.style.maxHeight = inner.scrollHeight + 40 + 'px';
+
+    // stagger card reveal
+    const cards = inner.querySelectorAll('.prompt-card');
+    cards.forEach((card, i) => {
+      card.classList.remove('revealed');
+      card.style.animationDelay = `${i * 0.04}s`;
+      // force reflow
+      void card.offsetWidth;
+      card.classList.add('revealed');
+    });
+  }
+}
+
+// ===== TOGGLE ALL =====
+let allOpen = false;
+function toggleAll() {
+  allOpen = !allOpen;
+  const btn = document.getElementById('btnToggleAll');
+  btn.textContent = allOpen ? '전체 접기' : '전체 펼치기';
+
+  document.querySelectorAll('.accordion-item').forEach(item => {
+    const header = item.querySelector('.accordion-header');
+    const body = item.querySelector('.accordion-body');
+    const inner = item.querySelector('.accordion-body-inner');
+
+    if (allOpen) {
+      header.classList.add('active');
+      body.style.maxHeight = inner.scrollHeight + 40 + 'px';
+      inner.querySelectorAll('.prompt-card').forEach((card, i) => {
+        card.classList.remove('revealed');
+        card.style.animationDelay = `${i * 0.02}s`;
+        void card.offsetWidth;
+        card.classList.add('revealed');
+      });
+    } else {
+      header.classList.remove('active');
+      body.style.maxHeight = '0';
+    }
+  });
+}
+
+// ===== PREVIEW =====
+function togglePreview(btn) {
+  const card = btn.closest('.prompt-card');
+  const preview = card.querySelector('.prompt-preview');
+  const isOpen = preview.classList.contains('open');
+
+  if (isOpen) {
+    preview.classList.remove('open');
+    btn.classList.remove('active');
+    btn.innerHTML = '&#9662; 미리보기';
+  } else {
+    preview.classList.add('open');
+    btn.classList.add('active');
+    btn.innerHTML = '&#9652; 접기';
+  }
+
+  // 아코디언 높이 재계산
+  const accordionBody = card.closest('.accordion-body');
+  const inner = accordionBody.querySelector('.accordion-body-inner');
+  if (accordionBody) {
+    setTimeout(() => {
+      accordionBody.style.maxHeight = inner.scrollHeight + 40 + 'px';
+    }, 50);
+  }
+}
+
+// ===== COPY =====
+function copyPrompt(btn, catIdx, pIdx) {
+  const p = categories[catIdx].prompts[pIdx];
+  const text = p.prompt + buildPaletteBlock();
+  navigator.clipboard.writeText(text).then(() => {
+    const toast = document.createElement('span');
+    toast.className = 'copy-toast';
+    toast.textContent = selectedPaletteId ? '복사 완료 (톤 포함)' : '복사 완료!';
+    btn.appendChild(toast);
+    setTimeout(() => toast.remove(), 900);
+  });
+}
+
+// ===== MODAL =====
+function openModal() {
+  document.getElementById('modal').classList.add('active');
+}
+function closeModal() {
+  document.getElementById('modal').classList.remove('active');
+}
+document.getElementById('modal').addEventListener('click', (e) => {
+  if (e.target === e.currentTarget) closeModal();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeModal();
+});
+
+// ===== INIT =====
+document.addEventListener('DOMContentLoaded', () => {
+  initStickyHeader();
+  initSectionCount();
+  renderPalettes();
+  renderAccordion();
+  Spiral.init();
+  runIntroSequence();
+});
 </script>
 </body>
 </html>
