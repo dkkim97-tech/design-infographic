@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="반도체 / 2차전지 및 전자부품 소재 전문기업">
+<meta name="keyword" content="sp-tech, 반도체, 전자부품, 반도체 표면처리, 연성 필름 소재, 정밀화학약품, 2차 전지 소재">
+<title>sp-tech</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ============ RESET ============ */
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans KR',sans-serif;color:#222;line-height:1.4;overflow-x:hidden;background:#fff}
+a{text-decoration:none;color:inherit}
+ul,li{list-style:none}
+img{max-width:100%;display:block}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+:root{
+  --navy:#262262;
+  --navy2:#1b1852;
+  --blue:#2b4fd6;
+  --sky:#3aa0ff;
+  --accent:#00b0ff;
+  --gray:#767676;
+  --line:#e5e5ea;
+}
+
+/* ============ SKIP ============ */
+.skip{position:absolute;left:0;top:-100px;z-index:9999}
+.skip a{position:absolute;padding:8px;background:#000;color:#fff}
+
+/* ============ HEADER ============ */
+.header-wrap{position:fixed;top:0;left:0;width:100%;z-index:1000;transition:.3s;border-bottom:1px solid rgba(255,255,255,.15)}
+.header-wrap.on,.header-wrap:hover{background:#fff;border-bottom:1px solid var(--line)}
+.header-inner{position:relative;display:flex;align-items:center;justify-content:space-between;max-width:1600px;margin:0 auto;height:90px;padding:0 40px}
+.header-logo a{display:flex;align-items:center;gap:10px;font-family:'Montserrat';font-weight:800;font-size:26px;letter-spacing:-1px;color:#fff;transition:.3s}
+.header-logo a::before{content:"";width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,var(--sky),var(--navy));display:inline-block}
+.header-logo a{color:#fff;text-indent:0}
+.header-wrap.on .header-logo a,.header-wrap:hover .header-logo a{color:var(--navy)}
+.header-logo a span{background:linear-gradient(90deg,var(--sky),var(--blue));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+
+/* GNB */
+.gnb{position:absolute;left:50%;top:0;transform:translateX(-50%);height:90px}
+.gnb-inner-util{display:none}
+.gnb-wrap{display:flex;height:100%}
+.gnb-1dep{position:relative}
+.gnb-1dep__link{display:flex;align-items:center;height:90px;padding:0 30px;font-size:18px;font-weight:500;color:#fff;transition:.3s}
+.gnb-1dep__link em{font-style:normal;margin-left:4px;font-weight:300}
+.header-wrap.on .gnb-1dep__link,.header-wrap:hover .gnb-1dep__link{color:#222}
+.gnb-2dep{position:absolute;left:50%;top:90px;transform:translateX(-50%);background:#fff;min-width:180px;padding:12px 0;box-shadow:0 20px 40px rgba(0,0,0,.08);opacity:0;visibility:hidden;transform:translateX(-50%) translateY(10px);transition:.3s;border-top:2px solid var(--navy)}
+.gnb-1dep:hover .gnb-2dep{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+.gnb-2dep li a{display:block;padding:11px 24px;font-size:15px;color:#555;text-align:center;transition:.2s}
+.gnb-2dep li a:hover{color:var(--blue);background:#f5f8ff;font-weight:500}
+
+/* util */
+.top__util{display:flex;align-items:center;gap:22px}
+.top__util-item.language{position:relative}
+.language-link{display:flex;align-items:center;gap:5px;font-family:'Montserrat';font-weight:600;font-size:14px;color:#fff;transition:.3s}
+.language-link::after{content:"▾";font-size:10px}
+.header-wrap.on .language-link,.header-wrap:hover .language-link{color:#222}
+.language-wrap{position:absolute;top:30px;left:50%;transform:translateX(-50%);background:#fff;box-shadow:0 10px 30px rgba(0,0,0,.1);opacity:0;visibility:hidden;transition:.3s;min-width:80px}
+.top__util-item.language:hover .language-wrap{opacity:1;visibility:visible}
+.language-list li a{display:block;padding:9px 0;text-align:center;font-size:13px;font-weight:600;font-family:'Montserrat';color:#555}
+.language-list li a:hover{background:#f5f8ff;color:var(--blue)}
+.allmenu-link{display:flex;flex-direction:column;gap:5px;width:26px}
+.allmenu-link span{display:block;height:2px;width:100%;background:#fff;transition:.3s}
+.header-wrap.on .allmenu-link span,.header-wrap:hover .allmenu-link span{background:#222}
+
+/* ALLMENU */
+.newAllmenu{position:fixed;inset:0;z-index:2000;visibility:hidden;opacity:0;transition:.4s}
+.newAllmenu.on{visibility:visible;opacity:1}
+.newAllmenu-dimmed{position:absolute;inset:0;background:rgba(20,18,50,.6);backdrop-filter:blur(4px)}
+.newAllmenu-wrap{position:absolute;top:0;right:0;width:min(560px,90vw);height:100%;background:#fff;transform:translateX(100%);transition:.45s cubic-bezier(.7,0,.3,1);overflow-y:auto}
+.newAllmenu.on .newAllmenu-wrap{transform:translateX(0)}
+.newAllmenu-inner{padding:110px 60px 60px}
+.newAllmenu-1dep{padding:22px 0;border-bottom:1px solid var(--line)}
+.newAllmenu-1dep>a span{display:block;font-size:26px;font-weight:700;color:var(--navy)}
+.newAllmenu-1dep>a em{display:block;font-style:normal;font-family:'Montserrat';font-size:13px;font-weight:600;color:var(--sky);letter-spacing:1px;margin-bottom:4px;text-transform:uppercase}
+.newAllmenu-2dep{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:16px}
+.newAllmenu-2dep>li>a span{font-size:15px;color:#555;transition:.2s}
+.newAllmenu-2dep>li>a:hover span{color:var(--blue)}
+.newAllmenu-3dep{display:none}
+.newAllmenu-close{position:absolute;top:36px;right:60px;font-family:'Montserrat';font-weight:600;font-size:14px;color:var(--navy);display:flex;align-items:center;gap:8px;z-index:5}
+.newAllmenu-close::after{content:"✕";font-size:18px}
+
+/* ============ MAIN VISUAL ============ */
+.main-container{position:relative}
+.main__visual{position:relative;height:100vh;min-height:640px;overflow:hidden}
+.main__visual-wrap{height:100%}
+.main__visual-item{position:absolute;inset:0;opacity:0;transition:opacity 1.2s ease;pointer-events:none}
+.main__visual-item.on{opacity:1;pointer-events:auto}
+.main__visual-item .bg{position:absolute;inset:0;overflow:hidden}
+.main__visual-img{position:absolute;inset:0;transform:scale(1.12);transition:transform 7s ease}
+.main__visual-item.on .main__visual-img{transform:scale(1)}
+.main__visual-item.nth-1 .main__visual-img{background:linear-gradient(120deg,#0d1b46 0%,#1c2f7a 45%,#2b4fd6 100%)}
+.main__visual-item.nth-2 .main__visual-img{background:linear-gradient(120deg,#101339 0%,#243a86 50%,#0f7bd6 100%)}
+.main__visual-item.nth-3 .main__visual-img{background:linear-gradient(120deg,#111a3d 0%,#1b2c66 45%,#00849e 100%)}
+.main__visual-img::after{content:"";position:absolute;inset:0;background:
+  radial-gradient(circle at 80% 20%,rgba(58,160,255,.35),transparent 45%),
+  radial-gradient(circle at 15% 80%,rgba(43,79,214,.35),transparent 45%),
+  repeating-linear-gradient(90deg,rgba(255,255,255,.04) 0 1px,transparent 1px 60px),
+  repeating-linear-gradient(0deg,rgba(255,255,255,.04) 0 1px,transparent 1px 60px)}
+.main__visual-item .bg::before{content:"";position:absolute;inset:0;background:rgba(10,12,40,.35);z-index:1}
+.main__visual-inner{position:relative;z-index:3;height:100%;display:flex;align-items:center;max-width:1600px;margin:0 auto;padding:0 40px}
+.main__visual-copy .logo{margin-bottom:26px}
+.main__visual-copy .logo img{display:none}
+.main__visual-copy .logo::before{content:"SP-TECH";font-family:'Montserrat';font-weight:800;font-size:22px;letter-spacing:4px;color:rgba(255,255,255,.85)}
+.main__visual-copy .text h2{font-size:clamp(34px,4.6vw,68px);font-weight:700;color:#fff;line-height:1.22;letter-spacing:-1.5px}
+.main__visual-copy .text1{margin-top:22px;font-family:'Montserrat';font-size:clamp(14px,1.4vw,20px);font-weight:500;color:rgba(255,255,255,.75);letter-spacing:.5px}
+.main__visual-copy .text1 span{color:var(--sky)}
+.main__visual-copy .text2{margin-top:26px;font-size:clamp(15px,1.5vw,20px);color:rgba(255,255,255,.9);font-weight:300;line-height:1.6}
+
+/* animations */
+[data-animation]{opacity:0}
+.main__visual-item.on [data-animation]{animation-duration:1s;animation-fill-mode:both}
+.main__visual-item.on [data-animation="fadeIn"]{animation-name:fadeIn}
+.main__visual-item.on [data-animation="fadeInUp"]{animation-name:fadeInUp;animation-delay:.2s}
+.main__visual-item.on [data-animation="fadeInDown"]{animation-name:fadeInDown;animation-delay:.6s}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeInDown{from{opacity:0;transform:translateY(-30px)}to{opacity:1;transform:translateY(0)}}
+
+/* side util */
+.main__side-util{position:absolute;top:50%;right:40px;transform:translateY(-50%);z-index:20}
+.side-util-item a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;width:88px;height:88px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(6px);color:#fff;font-size:12px;font-weight:500;transition:.3s;margin-bottom:10px}
+.side-util-item a:hover{background:#fff;color:var(--navy)}
+.side-util-item .ico{width:26px;height:26px;background:currentColor;-webkit-mask:no-repeat center/contain;mask:no-repeat center/contain}
+.side-util-item.nth-1 .ico{-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M4 3h16a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Zm3 5v2h10V8H7Zm0 4v2h10v-2H7Zm0 4v2h7v-2H7Z'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M4 3h16a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Zm3 5v2h10V8H7Zm0 4v2h10v-2H7Zm0 4v2h7v-2H7Z'/%3E%3C/svg%3E")}
+.side-util-item.nth-2 .ico{-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3Zm-1 14-4-4 1.4-1.4L11 13.2l5.6-5.6L18 9l-7 7Z'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3Zm-1 14-4-4 1.4-1.4L11 13.2l5.6-5.6L18 9l-7 7Z'/%3E%3C/svg%3E")}
+
+/* visual control */
+.main__visual-control{position:absolute;left:40px;bottom:56px;z-index:20;display:flex;align-items:center;gap:16px}
+.main__visual-control .prev,.main__visual-control .next{width:44px;height:44px;border:1px solid rgba(255,255,255,.4);border-radius:50%;position:relative;cursor:pointer;transition:.3s}
+.main__visual-control .prev:hover,.main__visual-control .next:hover{background:rgba(255,255,255,.15)}
+.main__visual-control .prev::before,.main__visual-control .next::before{content:"";position:absolute;top:50%;left:50%;width:8px;height:8px;border-top:2px solid #fff;border-right:2px solid #fff;transform:translate(-50%,-50%) rotate(-135deg)}
+.main__visual-control .next::before{transform:translate(-70%,-50%) rotate(45deg)}
+.main__visual-control-dot{display:flex;gap:10px}
+.main__visual-control-dot button{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.35);transition:.3s}
+.main__visual-control-dot button.on{background:#fff;width:28px;border-radius:5px}
+.main__visual-scroll{position:absolute;left:50%;bottom:40px;transform:translateX(-50%);z-index:20}
+.scroll-btn{display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(255,255,255,.8);font-family:'Montserrat';font-size:11px;letter-spacing:2px}
+.scroll-icon{display:none}
+.scroll-btn::before{content:"SCROLL"}
+.scroll-btn::after{content:"";width:1px;height:46px;background:linear-gradient(rgba(255,255,255,.8),transparent);animation:scrolldown 1.8s infinite}
+@keyframes scrolldown{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ============ COMMON ============ */
+.inner{max-width:1600px;margin:0 auto;padding:0 40px}
+.main-title h2{font-family:'Montserrat';font-size:clamp(38px,4vw,58px);font-weight:800;color:var(--navy);line-height:1.05;letter-spacing:-1px}
+.main-title h2 span{color:var(--blue)}
+.main-title p{margin-top:22px;font-size:clamp(15px,1.3vw,18px);color:#555;line-height:1.7;font-weight:300}
+.main-title p em{font-style:normal;font-weight:500;color:#222}
+.main-title p span em{color:var(--blue)}
+
+/* reveal */
+[data-aos]{opacity:0;transform:translateY(40px);transition:opacity .8s ease,transform .8s ease}
+[data-aos="fade-left"]{transform:translateX(60px)}
+[data-aos].aos-on{opacity:1;transform:none}
+
+/* ============ BUSINESS ============ */
+.main__business{position:relative;padding:130px 0 150px;background:#fff;overflow:hidden}
+.main__business-wrap{position:relative}
+.main__business .main-title{margin-bottom:56px}
+.main__business-box{position:relative;z-index:2}
+.business-list{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.business-img-item{position:relative;border-radius:4px;overflow:hidden;min-height:440px;color:#fff;box-shadow:0 20px 50px rgba(20,20,60,.12)}
+.business-img-item>img{display:none}
+.business-img-item::before{content:"";position:absolute;inset:0;transition:.5s;transform:scale(1)}
+.business-img-item.nth-1::before{background:linear-gradient(160deg,#1c2f7a,#0d1b46)}
+.business-img-item.nth-2::before{background:linear-gradient(160deg,#2b4fd6,#151d55)}
+.business-img-item.nth-3::before{background:linear-gradient(160deg,#0f7bd6,#101d4d)}
+.business-img-item.nth-4::before{background:linear-gradient(160deg,#00a2b0,#0d2150)}
+.business-img-item::after{content:"";position:absolute;inset:0;opacity:.5;background:
+  radial-gradient(circle at 70% 30%,rgba(58,160,255,.5),transparent 55%),
+  repeating-linear-gradient(45deg,rgba(255,255,255,.05) 0 1px,transparent 1px 22px)}
+.business-img-item:hover::before{transform:scale(1.08)}
+.business-img-item .ico{position:absolute;top:26px;left:26px;z-index:3;font-family:'Montserrat';font-weight:800;font-size:15px;width:40px;height:40px;border:1.5px solid rgba(255,255,255,.5);border-radius:50%;display:flex;align-items:center;justify-content:center;font-style:normal}
+.business-text-item{position:absolute;left:0;bottom:0;z-index:3;width:100%;padding:34px 28px;display:flex;flex-direction:column;color:#fff}
+.business-text-item h2{font-size:24px;font-weight:700;line-height:1.3}
+.business-text-item h2 span{display:block;font-family:'Montserrat';font-size:13px;font-weight:600;color:var(--sky);letter-spacing:.5px;margin-bottom:10px;text-transform:uppercase}
+.business-text-item .text{max-height:0;overflow:hidden;opacity:0;transition:.45s;margin-top:0}
+.business-img-item:hover .business-text-item .text{max-height:120px;opacity:1;margin-top:16px}
+.business-text-item .text span{display:flex;align-items:flex-start;gap:6px;font-size:14px;font-weight:300;line-height:1.55;color:rgba(255,255,255,.85)}
+.business-text-item .arrow{margin-top:14px;width:30px;height:30px;border-radius:50%;background:#fff;position:relative;flex:0 0 auto}
+.business-text-item .arrow::before{content:"";position:absolute;top:50%;left:46%;width:7px;height:7px;border-top:2px solid var(--navy);border-right:2px solid var(--navy);transform:translate(-50%,-50%) rotate(45deg)}
+.business-text-item .num{position:absolute;top:30px;right:28px;font-family:'Montserrat';font-weight:800;font-size:60px;color:rgba(255,255,255,.12)}
+.main__business-box .business-text{display:none}
+.main__business__nav{display:none}
+.text-box{margin-top:70px;text-align:center;line-height:1}
+.text-box p{font-family:'Montserrat';font-weight:900;font-size:clamp(60px,13vw,190px);letter-spacing:8px;color:transparent;-webkit-text-stroke:1.5px rgba(38,34,98,.12);text-stroke:1.5px rgba(38,34,98,.12)}
+
+/* ============ MANAGEMENT ============ */
+.main__management{position:relative;padding:130px 0 150px;background:linear-gradient(180deg,#0d1231,#1a1b52);overflow:hidden}
+.main__management::before{content:"";position:absolute;inset:0;background:
+  radial-gradient(circle at 85% 15%,rgba(43,79,214,.4),transparent 50%),
+  radial-gradient(circle at 10% 90%,rgba(0,176,255,.25),transparent 50%);pointer-events:none}
+.main__management-wrap{position:relative;z-index:2}
+.main__management .main-title h2{color:#fff}
+.main__management .main-title h2 span{color:var(--sky)}
+.main__management .main-title p{color:rgba(255,255,255,.75)}
+.main__management .main-title p em{color:#fff}
+.main__management-inner{margin-bottom:60px}
+.management-list{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.management-list-item{position:relative;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:6px;padding:48px 34px;min-height:280px;overflow:hidden;transition:.4s}
+.management-list-item:hover{background:#fff;transform:translateY(-8px)}
+.management-list-item>.ico{width:64px;height:64px;margin-bottom:28px;background:linear-gradient(135deg,var(--sky),var(--blue));-webkit-mask:no-repeat center/60% ;mask:no-repeat center/60%;position:relative}
+.management-list-item>.ico img{display:none}
+.management-list-item>.ico::before{content:"";position:absolute;inset:0;background:rgba(255,255,255,.08);border-radius:50%}
+.management-list-item .ico{--i:'';}
+.management-list-item>p{font-size:22px;font-weight:700;color:#fff;transition:.4s}
+.management-list-item:hover>p{opacity:0}
+.management-list-item:hover>.ico{opacity:0}
+.management-list-item>a{position:absolute;inset:0;padding:48px 34px;display:flex;flex-direction:column;justify-content:center;opacity:0;transition:.4s}
+.management-list-item:hover>a{opacity:1}
+.management-list-item>a .ico{width:56px;height:56px;margin-bottom:24px;background:linear-gradient(135deg,var(--navy),var(--blue));border-radius:14px}
+.management-list-item>a .ico img{display:none}
+.management-list-item>a p{font-size:22px;font-weight:700;color:var(--navy)}
+.management-list-item>a p span{display:block;margin-top:14px;font-size:15px;font-weight:300;color:#555;line-height:1.6}
+/* icon glyphs */
+.management-list-item.nth-1>.ico{-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M3 3h18v4H3V3Zm0 6h18v4H3V9Zm0 6h12v4H3v-4Z'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M3 3h18v4H3V3Zm0 6h18v4H3V9Zm0 6h12v4H3v-4Z'/%3E%3C/svg%3E")}
+.management-list-item.nth-2>.ico{-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3Z'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3Z'/%3E%3C/svg%3E")}
+.management-list-item.nth-3>.ico{-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M9 2h6v2h-1v3.6l5 8.4a2 2 0 0 1-1.7 3H6.7A2 2 0 0 1 5 15l5-8.4V4H9V2Z'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M9 2h6v2h-1v3.6l5 8.4a2 2 0 0 1-1.7 3H6.7A2 2 0 0 1 5 15l5-8.4V4H9V2Z'/%3E%3C/svg%3E")}
+.management-list-item.nth-4>.ico{-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 1 3 5v6c0 5 3.8 9.7 9 11 5.2-1.3 9-6 9-11V5l-9-4Zm4 9-5 5-3-3 1.4-1.4L11 12.2l3.6-3.6L16 10Z'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 1 3 5v6c0 5 3.8 9.7 9 11 5.2-1.3 9-6 9-11V5l-9-4Zm4 9-5 5-3-3 1.4-1.4L11 12.2l3.6-3.6L16 10Z'/%3E%3C/svg%3E")}
+
+/* ============ NEWS / STORY ============ */
+.main__news{padding:130px 0 150px;background:#f5f7fb}
+.main__news .main-title{margin-bottom:56px}
+.main__news-inner{}
+.main__notice-wrap{display:grid;grid-template-columns:1.4fr 1fr;gap:30px}
+.main__notice{background:#fff;border-radius:8px;padding:48px;box-shadow:0 20px 50px rgba(20,20,60,.06)}
+.main__notice .title{font-family:'Montserrat';font-size:26px;font-weight:800;color:var(--navy);margin-bottom:28px}
+.main__notice .title em{font-style:normal}
+.main__notice .list .link{display:flex;flex-direction:column;gap:12px;padding:26px 0;border-top:1px solid var(--line)}
+.main__notice .list>div:first-child .link{border-top:none;padding-top:0}
+.main__notice .list .text{font-size:18px;font-weight:500;color:#222;transition:.2s;line-height:1.5}
+.main__notice .list .link:hover .text{color:var(--blue)}
+.main__notice .list .date{font-family:'Montserrat';font-size:14px;color:var(--gray)}
+.main__notice .nav{display:flex;gap:8px;margin-top:30px}
+.main__notice .nav .prev,.main__notice .nav .next{width:40px;height:40px;border:1px solid var(--line);border-radius:50%;position:relative;cursor:pointer;transition:.2s}
+.main__notice .nav .prev:hover,.main__notice .nav .next:hover{border-color:var(--navy);background:var(--navy)}
+.main__notice .nav .prev::before,.main__notice .nav .next::before{content:"";position:absolute;top:50%;left:50%;width:7px;height:7px;border-top:2px solid #999;border-right:2px solid #999;transition:.2s}
+.main__notice .nav .prev:hover::before,.main__notice .nav .next:hover::before{border-color:#fff}
+.main__notice .nav .prev::before{transform:translate(-30%,-50%) rotate(-135deg)}
+.main__notice .nav .next::before{transform:translate(-70%,-50%) rotate(45deg)}
+.main__story{display:grid;grid-template-columns:1fr 1fr;gap:16px;height:100%}
+.main__story-item a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;height:100%;min-height:130px;background:#fff;border-radius:8px;box-shadow:0 20px 50px rgba(20,20,60,.06);transition:.3s;color:var(--navy);font-size:17px;font-weight:500}
+.main__story-item a:hover{background:var(--navy);color:#fff;transform:translateY(-6px)}
+.main__story-item .ico i{display:block;width:40px;height:40px;background:linear-gradient(135deg,var(--sky),var(--blue));-webkit-mask:no-repeat center/contain;mask:no-repeat center/contain}
+.main__story-item a:hover .ico i{background:#fff}
+.main__story-item.nth-1 .ico i{-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M4 3h16v18H4V3Zm3 4v2h10V7H7Zm0 4v2h10v-2H7Zm0 4v2h7v-2H7Z'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M4 3h16v18H4V3Zm3 4v2h10V7H7Zm0 4v2h10v-2H7Zm0 4v2h7v-2H7Z'/%3E%3C/svg%3E")}
+.main__story-item.nth-2 .ico i{-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm1 5h-2v6l5 3 1-1.7-4-2.3V7Z'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm1 5h-2v6l5 3 1-1.7-4-2.3V7Z'/%3E%3C/svg%3E")}
+.main__story-item.nth-3 .ico i{-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M4 4h16v12H5.2L4 17.2V4Zm4 4v2h8V8H8Zm0 3v2h5v-2H8Z'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M4 4h16v12H5.2L4 17.2V4Zm4 4v2h8V8H8Zm0 3v2h5v-2H8Z'/%3E%3C/svg%3E")}
+.main__story-item.nth-4 .ico i{-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M6 2h9l5 5v15H6V2Zm8 1.5V8h4.5L14 3.5ZM8 12v2h8v-2H8Zm0 4v2h8v-2H8Z'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M6 2h9l5 5v15H6V2Zm8 1.5V8h4.5L14 3.5ZM8 12v2h8v-2H8Zm0 4v2h8v-2H8Z'/%3E%3C/svg%3E")}
+
+/* ============ LOCATION ============ */
+.main__location{position:relative;height:520px}
+.main__location iframe{width:100%;height:100%;border:0;filter:grayscale(.3)}
+.main__location-inner{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:3;background:var(--navy);color:#fff;padding:56px 70px;text-align:center;border-radius:6px;box-shadow:0 30px 60px rgba(0,0,0,.25);transition:.3s}
+.main__location-inner:hover{transform:translate(-50%,-50%) translateY(-6px)}
+.main__location-inner h2{font-family:'Montserrat';font-size:38px;font-weight:800}
+.main__location-inner p{margin-top:8px;font-size:16px;color:rgba(255,255,255,.75)}
+.main__location-inner .plus{width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.4);margin:22px auto 0;position:relative}
+.main__location-inner .plus::before,.main__location-inner .plus::after{content:"";position:absolute;top:50%;left:50%;background:#fff;transform:translate(-50%,-50%)}
+.main__location-inner .plus::before{width:14px;height:2px}
+.main__location-inner .plus::after{width:2px;height:14px}
+
+/* ============ FOOTER ============ */
+.footer{position:relative;background:#0d1026;color:rgba(255,255,255,.6)}
+.footer-top{position:absolute;top:-26px;right:40px;width:52px;height:52px;background:var(--blue);border-radius:50%;text-indent:-9999px;overflow:hidden;box-shadow:0 12px 30px rgba(43,79,214,.4)}
+.footer-top::before{content:"";position:absolute;top:54%;left:50%;width:10px;height:10px;border-top:2px solid #fff;border-right:2px solid #fff;transform:translate(-50%,-50%) rotate(-45deg)}
+.footer-wrap{padding:70px 0}
+.footer .inner{position:relative}
+.footer-logo a{display:inline-block;font-family:'Montserrat';font-weight:800;font-size:24px;color:#fff}
+.footer-menu{margin:24px 0 20px}
+.footer-menu .item{font-size:14px;color:rgba(255,255,255,.7)}
+.footer-menu .item:hover{color:#fff}
+.footer address{font-style:normal;display:flex;flex-wrap:wrap;gap:6px 26px;font-size:14px;line-height:1.7}
+.footer address .title{color:rgba(255,255,255,.85);font-weight:500}
+.footer-copy{margin-top:24px;font-family:'Montserrat';font-size:13px;color:rgba(255,255,255,.35);letter-spacing:.3px}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:1280px){
+  .business-list{grid-template-columns:repeat(2,1fr)}
+  .management-list{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:900px){
+  .header-inner{height:70px;padding:0 20px}
+  .gnb,.top__util-item.language{display:none}
+  .main__notice-wrap{grid-template-columns:1fr}
+  .main__side-util{display:none}
+  .inner{padding:0 20px}
+  .main__visual-inner{padding:0 24px}
+  .main__management,.main__business,.main__news{padding:80px 0 90px}
+}
+@media (max-width:600px){
+  .business-list{grid-template-columns:1fr}
+  .management-list{grid-template-columns:1fr}
+  .main__story{grid-template-columns:1fr 1fr}
+  .newAllmenu-inner{padding:90px 30px 40px}
+  .newAllmenu-close{right:30px}
+  .main__notice{padding:30px}
+}
+</style>
+</head>
+<body class="body-main">
+
+<!-- skip -->
+<div class="skip">
+  <a href="#gnb">메뉴 바로가기</a>
+  <a href="#container">본문 바로가기</a>
+</div>
+
+<div class="wrap">
+<!-- ============ HEADER ============ -->
+<header class="header-wrap" id="top">
+  <div class="header-inner">
+    <h1 class="header-logo"><a href="#top">SP<span>TECH</span></a></h1>
+
+    <nav id="gnb" class="gnb">
+      <ul class="gnb-wrap">
+        <li class="gnb-1dep">
+          <a href="#" class="gnb-1dep__link"><span>회사소개<em></em></span></a>
+          <ul class="gnb-2dep">
+            <li><a href="#">회사개요</a></li>
+            <li><a href="#">미션 &amp; 비전</a></li>
+            <li><a href="#">회사연혁</a></li>
+            <li><a href="#">오시는 길</a></li>
+          </ul>
+        </li>
+        <li class="gnb-1dep">
+          <a href="#" class="gnb-1dep__link"><span>사업분야<em></em></span></a>
+          <ul class="gnb-2dep">
+            <li><a href="#">반도체</a></li>
+            <li><a href="#">이차 전지 소재</a></li>
+            <li><a href="#">연성 필름 소재</a></li>
+            <li><a href="#">정밀화학약품</a></li>
+          </ul>
+        </li>
+        <li class="gnb-1dep">
+          <a href="#" class="gnb-1dep__link"><span>R&amp;D<em>센터</em></span></a>
+          <ul class="gnb-2dep">
+            <li><a href="#">R&amp;D 센터</a></li>
+          </ul>
+        </li>
+        <li class="gnb-1dep">
+          <a href="#" class="gnb-1dep__link"><span>품질관리<em></em></span></a>
+          <ul class="gnb-2dep">
+            <li><a href="#">경영시스템</a></li>
+            <li><a href="#">보증체계</a></li>
+            <li><a href="#">특허 및 인증현황</a></li>
+          </ul>
+        </li>
+        <li class="gnb-1dep">
+          <a href="#" class="gnb-1dep__link"><span>고객센터<em></em></span></a>
+          <ul class="gnb-2dep">
+            <li><a href="#">공지&amp;보도</a></li>
+            <li><a href="#">홍보자료실</a></li>
+            <li><a href="#">채용공고</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+
+    <aside class="top__util">
+      <div class="top__util-item language">
+        <p><a href="#" class="language-link"><span>KOR</span></a></p>
+        <div class="language-wrap">
+          <ul class="language-list">
+            <li><a href="#">KOR</a></li>
+            <li><a href="#">ENG</a></li>
+            <li><a href="#">CHN</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="top__util-item allmenu">
+        <a href="#" class="allmenu-link" id="allmenuOpen"><span></span><span></span><span></span></a>
+      </div>
+    </aside>
+  </div>
+
+  <!-- 전체메뉴 -->
+  <div class="newAllmenu" id="newAllmenu">
+    <div class="newAllmenu-dimmed" id="allmenuDim"></div>
+    <div class="newAllmenu-wrap">
+      <div class="newAllmenu-inner">
+        <ul class="newAllmenu-nav">
+          <li class="newAllmenu-1dep">
+            <a href="#"><span><em>About Company</em>회사소개</span></a>
+            <ul class="newAllmenu-2dep">
+              <li><a href="#"><span>회사개요</span></a></li>
+              <li><a href="#"><span>미션 &amp; 비전</span></a></li>
+              <li><a href="#"><span>회사연혁</span></a></li>
+              <li><a href="#"><span>오시는 길</span></a></li>
+            </ul>
+          </li>
+          <li class="newAllmenu-1dep">
+            <a href="#"><span><em>the Business field</em>사업분야</span></a>
+            <ul class="newAllmenu-2dep">
+              <li><a href="#"><span>반도체</span></a></li>
+              <li><a href="#"><span>이차 전지 소재</span></a></li>
+              <li><a href="#"><span>연성 필름 소재</span></a></li>
+              <li><a href="#"><span>정밀화학약품</span></a></li>
+            </ul>
+          </li>
+          <li class="newAllmenu-1dep">
+            <a href="#"><span><em>R&amp;D Center</em>R&amp;D센터</span></a>
+            <ul class="newAllmenu-2dep">
+              <li><a href="#"><span>R&amp;D 센터</span></a></li>
+            </ul>
+          </li>
+          <li class="newAllmenu-1dep">
+            <a href="#"><span><em>Quality control</em>품질관리</span></a>
+            <ul class="newAllmenu-2dep">
+              <li><a href="#"><span>경영시스템</span></a></li>
+              <li><a href="#"><span>보증체계</span></a></li>
+              <li><a href="#"><span>특허 및 인증현황</span></a></li>
+            </ul>
+          </li>
+          <li class="newAllmenu-1dep">
+            <a href="#"><span><em>Customer Center</em>고객센터</span></a>
+            <ul class="newAllmenu-2dep">
+              <li><a href="#"><span>공지&amp;보도</span></a></li>
+              <li><a href="#"><span>홍보자료실</span></a></li>
+              <li><a href="#"><span>채용공고</span></a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <a href="#" class="newAllmenu-close" id="allmenuClose"><span>CLOSE</span></a>
+  </div>
+</header>
+
+<!-- ============ CONTAINER ============ -->
+<div id="container" class="main-container">
+
+  <!-- Section01 Visual -->
+  <section class="main__visual" id="section01">
+    <div class="main__side-util">
+      <ul class="side-util">
+        <li class="side-util-item nth-1"><a href="#"><p><i class="ico"></i><span>e-Catalog</span></p></a></li>
+        <li class="side-util-item nth-2"><a href="#"><p><i class="ico"></i><span>특허현황</span></p></a></li>
+      </ul>
+    </div>
+
+    <div class="main__visual-wrap">
+      <div class="main__visual-item nth-1 on">
+        <div class="bg"><p class="main__visual-img"></p></div>
+        <div class="main__visual-inner">
+          <div class="main__visual-copy">
+            <div class="logo"><img src="" alt="에스피텍 로고" data-animation="fadeIn"></div>
+            <div class="text">
+              <h2 data-animation="fadeInUp">반도체, 2차전지 및<br>전자부품 소재 전문기업</h2>
+              <p class="text1"><span>Semiconductor</span> / <span>2ndary Battery</span> /<br><span>Fine Chemical</span> / <span>Electronic component</span></p>
+              <p class="text2" data-animation="fadeInDown">고객 맞춤형 기술 개발과 서비스로 <br>고객과 함께 성장하는 든든한 동반자</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="main__visual-item nth-2">
+        <div class="bg"><p class="main__visual-img"></p></div>
+        <div class="main__visual-inner">
+          <div class="main__visual-copy">
+            <div class="logo"><img src="" alt="에스피텍 로고" data-animation="fadeIn"></div>
+            <div class="text">
+              <h2 data-animation="fadeInUp">반도체, 2차전지 및<br>전자부품 소재 전문기업</h2>
+              <p class="text1"><span>Semiconductor</span> / <span>2ndary Battery</span> /<br><span>Fine Chemical</span> / <span>Electronic component</span></p>
+              <p class="text2" data-animation="fadeInDown">고객 맞춤형 기술 개발과 서비스로 <br>고객과 함께 성장하는 든든한 동반자</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="main__visual-item nth-3">
+        <div class="bg"><p class="main__visual-img"></p></div>
+        <div class="main__visual-inner">
+          <div class="main__visual-copy">
+            <div class="logo"><img src="" alt="에스피텍 로고" data-animation="fadeIn"></div>
+            <div class="text">
+              <h2 data-animation="fadeInUp">반도체, 2차전지 및<br>전자부품 소재 전문기업</h2>
+              <p class="text1"><span>Semiconductor</span> / <span>2ndary Battery</span> /<br><span>Fine Chemical</span> / <span>Electronic component</span></p>
+              <p class="text2" data-animation="fadeInDown">고객 맞춤형 기술 개발과 서비스로 <br>고객과 함께 성장하는 든든한 동반자</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="main__visual-control">
+      <div class="prev" id="visualPrev"></div>
+      <div class="main__visual-control-dot" id="visualDots"></div>
+      <div class="next" id="visualNext"></div>
+    </div>
+
+    <p class="main__visual-scroll"><a href="#section02" class="scroll-btn"><img src="" alt="Scroll Down" class="scroll-icon"></a></p>
+  </section>
+
+  <!-- Section02 business -->
+  <section class="main__business" id="section02">
+    <div class="main__business-wrap inner">
+      <div class="main-title" data-aos="fade-up">
+        <h2>Our <br><span>Business</span></h2>
+        <p><span><em>에스피텍(주)</em>은</span> <br>최고의 기술과 솔루션을 보유한 전자부품 소재 글로벌 선도기업 입니다.</p>
+      </div>
+
+      <div class="main__business-box" data-aos="fade-left">
+        <div class="business-list">
+          <div class="business-img-item nth-1">
+            <i class="ico">1</i>
+            <a href="#" class="business-text-item">
+              <h2><span>Semiconductor</span>반도체 표면처리</h2>
+              <p class="text"><span>전자제품 실장성 향상 &amp; 산화방지를 통한 부품의 수명향상<i class="arrow"></i></span></p>
+              <p class="num">01</p>
+            </a>
+          </div>
+          <div class="business-img-item nth-2">
+            <i class="ico">2</i>
+            <a href="#" class="business-text-item">
+              <h2><span>Flexible Film Material</span>연성 필름 소재</h2>
+              <p class="text"><span>PI or PET 원소재 위에 Cu층 또는 Cu+Sn층을 고객이 요구하는...<i class="arrow"></i></span></p>
+              <p class="num">02</p>
+            </a>
+          </div>
+          <div class="business-img-item nth-3">
+            <i class="ico">3</i>
+            <a href="#" class="business-text-item">
+              <h2><span>Fine Chemical</span>정밀화학약품</h2>
+              <p class="text"><span>3% 이하의 저농도에서도 탁월한 세정효과를 발휘하고 세정 후...<i class="arrow"></i></span></p>
+              <p class="num">03</p>
+            </a>
+          </div>
+          <div class="business-img-item nth-4">
+            <i class="ico">4</i>
+            <a href="#" class="business-text-item">
+              <h2><span>Secondary Battery</span>2차 전지 소재</h2>
+              <p class="text"><span>리드탭은 전지 내부의 양극과 음극에 각각 용접되고 외부로 돌출되어...<i class="arrow"></i></span></p>
+              <p class="num">04</p>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="text-box">
+        <p><span>S</span><span>P</span><span>T</span><span>E</span><span>C</span><span>H</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section03 management -->
+  <section class="main__management" id="section03">
+    <div class="main__management-wrap inner" data-aos="fade-up">
+      <div class="main__management-inner">
+        <div class="main-title">
+          <h2>Quality <br><span>Management</span></h2>
+          <p><span><em>끊임없는 연구개발과 관리를 통해 </em></span> <br>최고의 제품과 서비스를 <br>제공하고자 노력하고 있습니다.</p>
+        </div>
+      </div>
+      <div class="main__management-list">
+        <ul class="management-list" data-aos="fade-up">
+          <li class="management-list-item nth-1">
+            <i class="ico"></i>
+            <p>경영시스템</p>
+            <a href="#"><i class="ico"></i><p>경영시스템<span>고객과 함께 성장하는 <br>든든한 동반자</span></p></a>
+          </li>
+          <li class="management-list-item nth-2">
+            <i class="ico"></i>
+            <p>보증체계</p>
+            <a href="#"><i class="ico"></i><p>보증체계<span>제품보증, 신뢰성 보증 <br>분석용</span></p></a>
+          </li>
+          <li class="management-list-item nth-3">
+            <i class="ico"></i>
+            <p>R&amp;D 센터</p>
+            <a href="#"><i class="ico"></i><p>R&amp;D 센터<span>끊임없이 연구개발하는 <br>에스피텍</span></p></a>
+          </li>
+          <li class="management-list-item nth-4">
+            <i class="ico"></i>
+            <p>특허 및 인증현황</p>
+            <a href="#"><i class="ico"></i><p>특허 및 인증현황<span>고객 맞춤형 <br>기술 개발과 서비스</span></p></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section04 News -->
+  <section class="main__news" id="section04">
+    <div class="main__news-wrap inner">
+      <div class="main-title" data-aos="fade-up">
+        <h2>SPTech <br><span>Story</span></h2>
+        <p><span><em>전자제품 소재 글로벌 선도기업 </em></span> <br>에스피텍의 소식입니다.</p>
+      </div>
+      <div class="main__news-inner">
+        <div class="main__notice-wrap" data-aos="fade-up">
+          <div class="main__notice">
+            <h3 class="title"><em>News</em></h3>
+            <div class="list">
+              <div>
+                <a href="#" class="link">
+                  <span class="text">'반도체 표면처리' 에스피텍, KB증권과 IPO 주관계약 체결</span>
+                  <span class="date">2023-02-14</span>
+                </a>
+              </div>
+              <div>
+                <a href="#" class="link">
+                  <span class="text">에스피텍(주) 충북 스타기업 선정</span>
+                  <span class="date">2022-12-07</span>
+                </a>
+              </div>
+            </div>
+            <div class="nav">
+              <div class="prev"></div>
+              <div class="next"></div>
+            </div>
+          </div>
+          <div class="main__story-wrap">
+            <ul class="main__story">
+              <li class="main__story-item nth-1"><a href="#"><p class="ico"><i></i></p><p>회사개요</p></a></li>
+              <li class="main__story-item nth-2"><a href="#"><p class="ico"><i></i></p><p>회사연혁</p></a></li>
+              <li class="main__story-item nth-3"><a href="#"><p class="ico"><i></i></p><p>홍보자료실</p></a></li>
+              <li class="main__story-item nth-4"><a href="#"><p class="ico"><i></i></p><p>e-Catalog</p></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section05 Location -->
+  <section class="main__location" id="section05">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3199.181309763635!2d127.41009641563106!3d36.694180781359485!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x356529d888de4719%3A0xc99d1c379618aee0!2z7JeQ7Iqk7ZS87YWNKOyjvCk!5e0!3m2!1sko!2skr!4v1655872095035!5m2!1sko!2skr" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    <a href="#" class="main__location-inner">
+      <div class="text">
+        <h2>Location</h2>
+        <p>오시는 길</p>
+        <div class="plus"></div>
+      </div>
+    </a>
+  </section>
+
+</div>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <a class="footer-top" href="#top">맨 위로 가기</a>
+  <div class="footer-wrap">
+    <div class="inner">
+      <h1 class="footer-logo"><a href="#top">SPTECH</a></h1>
+      <div class="footer-menu">
+        <a href="#" class="item"><span>이메일무단수집거부</span></a>
+      </div>
+      <address>
+        <p class="footer-item"><span class="text">28122) 충청북도 청주시 흥덕구 옥산면 과학산업 1로 38 (오창과학산업단지 내)</span></p>
+        <p class="footer-item"><span class="title">TEL : </span><span class="text">043-219-0114</span></p>
+        <p class="footer-item"><span class="title">FAX : </span><span class="text">043-218-0031</span></p>
+      </address>
+      <p class="footer-copy">Copyright (c) 2022 SPTECH Co., Ltd. All Rights Reserved.</p>
+    </div>
+  </div>
+</footer>
+
+</div><!-- //wrap -->
+
+<script>
+// ===== Header scroll state =====
+var header = document.querySelector('.header-wrap');
+function onScrollHeader(){
+  if(window.scrollY > 60) header.classList.add('on');
+  else header.classList.remove('on');
+}
+window.addEventListener('scroll', onScrollHeader);
+onScrollHeader();
+
+// ===== All menu =====
+var allmenu = document.getElementById('newAllmenu');
+document.getElementById('allmenuOpen').addEventListener('click', function(e){ e.preventDefault(); allmenu.classList.add('on'); });
+document.getElementById('allmenuClose').addEventListener('click', function(e){ e.preventDefault(); allmenu.classList.remove('on'); });
+document.getElementById('allmenuDim').addEventListener('click', function(){ allmenu.classList.remove('on'); });
+
+// ===== Visual slider =====
+(function(){
+  var items = document.querySelectorAll('.main__visual-item');
+  var dotsWrap = document.getElementById('visualDots');
+  var cur = 0, timer;
+  items.forEach(function(_,i){
+    var b = document.createElement('button');
+    if(i===0) b.classList.add('on');
+    b.addEventListener('click', function(){ go(i); reset(); });
+    dotsWrap.appendChild(b);
+  });
+  var dots = dotsWrap.querySelectorAll('button');
+  function go(n){
+    items[cur].classList.remove('on');
+    dots[cur].classList.remove('on');
+    cur = (n+items.length)%items.length;
+    items[cur].classList.add('on');
+    dots[cur].classList.add('on');
+  }
+  function next(){ go(cur+1); }
+  function prev(){ go(cur-1); }
+  function reset(){ clearInterval(timer); timer = setInterval(next, 5500); }
+  document.getElementById('visualNext').addEventListener('click', function(){ next(); reset(); });
+  document.getElementById('visualPrev').addEventListener('click', function(){ prev(); reset(); });
+  reset();
+})();
+
+// ===== Scroll reveal (AOS-like) =====
+(function(){
+  var els = document.querySelectorAll('[data-aos]');
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){ en.target.classList.add('aos-on'); io.unobserve(en.target); }
+    });
+  }, { threshold:0.15 });
+  els.forEach(function(el){ io.observe(el); });
+})();
+</script>
+</body>
+</html>
