@@ -579,23 +579,33 @@ footer{text-align:center;padding:26px 16px 40px;color:var(--ink-soft);font-size:
     else{const empty=SLOTS.find(s=>!items[s.key].img);if(empty){loadImage(f).then(d=>setItem(empty.key,d)).catch(err=>toast("⚠ "+err.message));toast("📋 "+empty.name+"에 붙여넣기");}else toast("모든 슬롯이 채워져 있어요");}
   });
 
-  /* ---- api key ---- */
+  /* ---- api key (memory-first, so it works even when storage is blocked) ---- */
+  const DEF_EP="fal-ai/fashn/tryon/v1.6";
   const apiKeyEl=$("#apiKey"), endpointEl=$("#endpoint");
-  function refreshKey(){const k=store.get(LS.key).trim();$("#keyPill").textContent=k?"저장됨":"키 없음";$("#keyPill").className="pill "+(k?"ok":"no");updateRun();}
-  apiKeyEl.value=store.get(LS.key);
-  endpointEl.value=store.get(LS.ep)||"fal-ai/fashn/tryon/v1.6";
-  refreshKey();
+  let memKey=store.get(LS.key), memEp=store.get(LS.ep)||DEF_EP;
+  function keyVal(){return (memKey||"").trim();}
+  function epVal(){return (memEp||DEF_EP).trim().replace(/^\/+|\/+$/g,"")||DEF_EP;}
+  function storageOK(){try{localStorage.setItem("__vto_probe","1");localStorage.removeItem("__vto_probe");return true;}catch(_){return false;}}
+  function refreshKey(){const k=keyVal();$("#keyPill").textContent=k?"입력됨":"키 없음";$("#keyPill").className="pill "+(k?"ok":"no");updateRun();}
+  apiKeyEl.value=memKey; endpointEl.value=memEp; refreshKey();
   $("#keyToggle").addEventListener("click",()=>$("#keybar").classList.toggle("open"));
-  if(!apiKeyEl.value)$("#keybar").classList.add("open");
+  if(!keyVal())$("#keybar").classList.add("open");
   $("#visKey").addEventListener("click",()=>{const p=apiKeyEl.type==="password";apiKeyEl.type=p?"text":"password";$("#visKey").textContent=p?"숨김":"보기";});
-  $("#saveKey").addEventListener("click",()=>{store.set(LS.key,apiKeyEl.value.trim());store.set(LS.ep,endpointEl.value.trim()||"fal-ai/fashn/tryon/v1.6");refreshKey();toast("✓ 저장되었습니다");});
-  endpointEl.addEventListener("change",()=>store.set(LS.ep,endpointEl.value.trim()||"fal-ai/fashn/tryon/v1.6"));
+  /* typing applies immediately for this session */
+  apiKeyEl.addEventListener("input",()=>{memKey=apiKeyEl.value;refreshKey();});
+  endpointEl.addEventListener("input",()=>{memEp=endpointEl.value;});
+  $("#saveKey").addEventListener("click",()=>{
+    memKey=apiKeyEl.value.trim(); memEp=endpointEl.value.trim()||DEF_EP;
+    const ok = storageOK() && (store.set(LS.key,memKey), store.set(LS.ep,memEp), true);
+    refreshKey();
+    toast(ok ? "✓ 저장되었습니다" : "✓ 적용됨 — 이 브라우저는 저장이 제한돼 이번 세션에만 유지됩니다");
+  });
 
   /* ---- run enable ---- */
   const runBtns=[$("#runBtn"),$("#runBtn2")];
   function activeItems(){return SLOTS.filter(s=>items[s.key].on&&items[s.key].img);}
   function updateRun(){
-    const ok = !state.busy && !!state.person && activeItems().length>0 && !!store.get(LS.key).trim();
+    const ok = !state.busy && !!state.person && activeItems().length>0 && !!keyVal();
     runBtns.forEach(b=>b.disabled=!ok);
   }
 
@@ -629,8 +639,8 @@ footer{text-align:center;padding:26px 16px 40px;color:var(--ink-soft);font-size:
     if(!u)throw new Error("결과 이미지를 찾지 못했습니다.");return u;
   }
   async function tryonStep(personData, garmentData, category){
-    const key=store.get(LS.key).trim();
-    const ep=(store.get(LS.ep)||"fal-ai/fashn/tryon/v1.6").trim().replace(/^\/+|\/+$/g,"");
+    const key=keyVal();
+    const ep=epVal();
     const headers={"Authorization":"Key "+key,"Content-Type":"application/json"};
     const body={model_image:personData,garment_image:garmentData,category:category,mode:$("#mode").value,num_samples:1,output_format:$("#outFmt").value};
     const sub=await fetch("https://queue.fal.run/"+ep,{method:"POST",headers,body:JSON.stringify(body)});
@@ -651,8 +661,8 @@ footer{text-align:center;padding:26px 16px 40px;color:var(--ink-soft);font-size:
   async function toDataURL(url){const r=await fetch(url);const b=await r.blob();return await new Promise(res=>{const fr=new FileReader();fr.onload=()=>res(fr.result);fr.readAsDataURL(b);});}
 
   async function run(){
-    const key=store.get(LS.key).trim();
-    if(!key){$("#keybar").classList.add("open");toast("먼저 fal.ai API 키를 저장하세요");return;}
+    const key=keyVal();
+    if(!key){$("#keybar").classList.add("open");apiKeyEl.focus();toast("먼저 fal.ai API 키를 입력하세요");return;}
     if(!state.person)return toast("인물 사진을 올려주세요");
     const list=activeItems();
     if(!list.length)return toast("합성할 아이템을 하나 이상 켜주세요");
