@@ -606,7 +606,8 @@ footer{text-align:center;padding:26px 16px 40px;color:var(--ink-soft);font-size:
   function activeItems(){return SLOTS.filter(s=>items[s.key].on&&items[s.key].img);}
   function updateRun(){
     const ok = !state.busy && !!state.person && activeItems().length>0 && !!keyVal();
-    runBtns.forEach(b=>b.disabled=!ok);
+    /* look buttons up at call time so this never depends on init order */
+    [document.getElementById("runBtn"),document.getElementById("runBtn2")].forEach(b=>{if(b)b.disabled=!ok;});
   }
 
   /* ---- stage ---- */
