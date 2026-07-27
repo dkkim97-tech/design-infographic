@@ -143,6 +143,7 @@ a{color:var(--accent)}
 .brand b{font-size:15.5px;font-weight:800;letter-spacing:-.02em;white-space:nowrap}
 .brand small{display:block;font-size:11px;color:var(--ink-soft);font-weight:600}
 .spacer{flex:1}
+@media (max-width:560px){#saveApp .lbl{display:none}#saveApp{padding:10px;width:42px;height:42px;border-radius:14px}}
 
 .hero{text-align:center;padding:34px 0 6px}
 .hero .eyebrow{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;font-size:12px;font-weight:700;
@@ -292,6 +293,10 @@ footer{text-align:center;padding:26px 16px 40px;color:var(--ink-soft);font-size:
       <span><b>style Ai</b><small>AI 가상 피팅 스튜디오</small></span>
     </div>
     <span class="spacer"></span>
+    <button class="btn sm" id="saveApp" title="앱을 HTML 파일로 저장">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+      <span class="lbl">앱 저장</span>
+    </button>
     <button class="btn icon" id="themeBtn" title="주간·야간 전환" aria-label="주간·야간 전환">
       <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg>
     </button>
@@ -419,6 +424,7 @@ footer{text-align:center;padding:26px 16px 40px;color:var(--ink-soft);font-size:
   <footer>
     <div>👗 <b>style Ai</b> — 단일 HTML · 의존성 없음 · 오프라인에서도 UI 동작</div>
     <div>만든사람 · 김동규 강사</div>
+    <div>💾 상단 <b>앱 저장</b>으로 이 앱을 내려받아 두면 인터넷 없이도 열 수 있고, 휴대폰은 브라우저 메뉴의 <b>홈 화면에 추가</b>로 앱처럼 설치됩니다.</div>
     <div>Powered by <a href="https://fal.ai" target="_blank" rel="noopener">fal.ai</a> · <a href="https://fashn.ai" target="_blank" rel="noopener">FASHN</a></div>
   </footer>
 </main>
@@ -455,6 +461,22 @@ footer{text-align:center;padding:26px 16px 40px;color:var(--ink-soft);font-size:
 
   const store={get(k){try{return localStorage.getItem(k)||"";}catch(_){return"";}},set(k,v){try{localStorage.setItem(k,v);}catch(_){}}};
   let toastT; function toast(m){const el=$("#toast");el.textContent=m;el.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove("show"),2300);}
+
+  /* ---- save the app itself as a standalone HTML file ---- */
+  function saveApp(){
+    try{
+      const src = (typeof window.__APP_SRC__==="string" && window.__APP_SRC__)
+        ? window.__APP_SRC__
+        : "<!doctype html>\n"+document.documentElement.outerHTML;
+      const blob=new Blob([src],{type:"text/html;charset=utf-8"});
+      const u=URL.createObjectURL(blob);
+      const a=document.createElement("a");a.href=u;a.download="style-ai.html";
+      document.body.appendChild(a);a.click();a.remove();
+      setTimeout(()=>URL.revokeObjectURL(u),1000);
+      toast("⬇ 앱을 저장했습니다 · style-ai.html");
+    }catch(_){toast("⚠ 저장에 실패했습니다");}
+  }
+  $("#saveApp").addEventListener("click",saveApp);
 
   /* ---- state ---- */
   const state={person:null, busy:false, result:null, showingOriginal:false};
