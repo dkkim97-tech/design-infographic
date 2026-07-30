@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>사이트 개발 개념 정리 | 실무자를 위한 웹 개발 이해 가이드</title>
-<meta name="description" content="반응형 웹, 모바일 최적화, 관리자 모드, 권한 관리, 대시보드, 프론트엔드·백엔드·데이터베이스, 서버·호스팅·도메인·SSL 등 웹사이트 개발 발주·관리에 필요한 7가지 핵심 개념을 정리한 교육 자료입니다. 작성: 김동규 상무." />
+<meta name="description" content="반응형 웹, 모바일 최적화, 관리자 모드, 권한 관리, 대시보드, 프론트엔드·백엔드·데이터베이스, 서버·호스팅·도메인·SSL 등 웹사이트 개발 발주·관리에 필요한 7가지 핵심 개념을 그림과 비유로 쉽게 정리한 교육 자료입니다. 작성: 김동규 상무." />
 <meta name="author" content="김동규 상무" />
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%230e2a47'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='%23ffffff' font-family='sans-serif' font-weight='700'>웹</text></svg>" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -27,7 +27,6 @@
   --surface-2:#f6f8fc;
   --ink:#0f1c2e;
   --ink-2:#3a4a5f;
-  --ink-3:#61708440;
   --muted:#5a6b80;
   --line:#d7e0ea;
   --line-strong:#c2cede;
@@ -40,10 +39,17 @@
 
   --shadow-sm:0 1px 2px rgba(14,42,71,.06),0 2px 6px rgba(14,42,71,.05);
   --shadow-md:0 6px 22px rgba(14,42,71,.10);
-  --radius:14px;
-  --radius-sm:9px;
+  --radius:16px;
+  --radius-sm:11px;
   --maxw:1160px;
   --header-h:60px;
+
+  /* Glass (glassmorphism) tokens */
+  --glass-bg:rgba(255,255,255,.55);
+  --glass-border:rgba(255,255,255,.75);
+  --glass-ink:var(--ink);
+  --glass-hi:rgba(255,255,255,.65);
+  --glass-shadow:0 6px 20px rgba(14,42,71,.14);
 }
 :root[data-theme="dark"]{
   --navy:#0a1524;
@@ -72,6 +78,12 @@
 
   --shadow-sm:0 1px 2px rgba(0,0,0,.4);
   --shadow-md:0 10px 30px rgba(0,0,0,.5);
+
+  --glass-bg:rgba(255,255,255,.08);
+  --glass-border:rgba(255,255,255,.18);
+  --glass-ink:var(--ink);
+  --glass-hi:rgba(255,255,255,.18);
+  --glass-shadow:0 8px 24px rgba(0,0,0,.45);
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
@@ -88,12 +100,58 @@ body{
 }
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
-:focus-visible{outline:3px solid var(--sky);outline-offset:2px;border-radius:4px}
+:focus-visible{outline:3px solid var(--sky);outline-offset:3px;border-radius:6px}
 
 .skip{position:absolute;left:-999px;top:0;background:var(--navy);color:#fff;padding:10px 16px;z-index:200;border-radius:0 0 8px 0}
 .skip:focus{left:0}
 
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(16px,4vw,32px)}
+
+/* ============ GLASS BEAD BUTTON SYSTEM (responsive) ============ */
+.glass-btn{
+  position:relative;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:44px;                              /* touch target */
+  padding:clamp(9px,1.3vw,12px) clamp(15px,2vw,22px);
+  font-family:inherit;font-size:clamp(13px,1.4vw,14.5px);font-weight:600;
+  line-height:1;letter-spacing:-.01em;
+  color:var(--glass-ink);
+  background:var(--glass-bg);
+  border:1px solid var(--glass-border);
+  border-radius:999px;cursor:pointer;
+  -webkit-backdrop-filter:blur(14px) saturate(1.5);
+  backdrop-filter:blur(14px) saturate(1.5);
+  box-shadow:var(--glass-shadow), inset 0 1px 0 var(--glass-hi), inset 0 -6px 14px rgba(14,42,71,.05);
+  transition:transform .22s cubic-bezier(.2,.8,.2,1), box-shadow .22s ease, background .22s ease, color .2s;
+  overflow:hidden;
+  -webkit-tap-highlight-color:transparent;
+}
+.glass-btn::before{ /* glossy bead highlight */
+  content:"";position:absolute;left:0;right:0;top:0;height:52%;border-radius:999px 999px 40% 40%;
+  background:linear-gradient(180deg,var(--glass-hi),rgba(255,255,255,0) 90%);
+  opacity:.9;pointer-events:none;
+}
+.glass-btn > *{position:relative;z-index:1}
+.glass-btn svg{width:17px;height:17px;flex:none}
+.glass-btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(14,42,71,.22), inset 0 1px 0 var(--glass-hi)}
+.glass-btn:active{transform:translateY(0) scale(.98)}
+/* glass over dark backgrounds (hero / closing / footer) */
+.glass-btn.on-dark{
+  --glass-bg:rgba(255,255,255,.13);
+  --glass-border:rgba(255,255,255,.30);
+  --glass-ink:#ffffff;
+  --glass-hi:rgba(255,255,255,.35);
+  --glass-shadow:0 8px 24px rgba(0,0,0,.28);
+}
+/* small pill variant (nav) */
+.glass-pill{min-height:40px;padding:8px clamp(12px,1.6vw,16px);font-size:13px}
+/* accent (filled) glass */
+.glass-btn.is-accent{
+  --glass-bg:linear-gradient(180deg,color-mix(in srgb,var(--accent) 78%,#fff 6%),var(--accent));
+  --glass-border:color-mix(in srgb,var(--accent) 55%,#fff);
+  --glass-ink:#fff;--glass-hi:rgba(255,255,255,.45);
+  box-shadow:0 8px 22px color-mix(in srgb,var(--accent) 40%,transparent), inset 0 1px 0 rgba(255,255,255,.4);
+}
 
 /* ============ Top utility bar ============ */
 .utility{background:var(--navy);color:#dbe6f2;font-size:12.5px}
@@ -106,14 +164,14 @@ a{color:inherit;text-decoration:none}
 /* ============ Header ============ */
 .site-header{
   position:sticky;top:0;z-index:100;
-  background:color-mix(in srgb,var(--surface) 88%,transparent);
-  backdrop-filter:saturate(1.4) blur(10px);
+  background:color-mix(in srgb,var(--surface) 82%,transparent);
+  backdrop-filter:saturate(1.4) blur(12px);-webkit-backdrop-filter:saturate(1.4) blur(12px);
   border-bottom:1px solid var(--line);
 }
 .site-header .wrap{display:flex;align-items:center;justify-content:space-between;height:var(--header-h);gap:14px}
 .brand{display:flex;align-items:center;gap:12px;min-width:0}
 .emblem{
-  width:40px;height:40px;border-radius:11px;flex:none;
+  width:40px;height:40px;border-radius:12px;flex:none;
   background:linear-gradient(150deg,var(--navy),var(--blue));
   display:grid;place-items:center;color:#fff;font-weight:900;font-size:15px;
   box-shadow:var(--shadow-sm);letter-spacing:-.02em;
@@ -122,15 +180,6 @@ a{color:inherit;text-decoration:none}
 .brand-txt strong{font-size:15px;color:var(--ink);letter-spacing:-.01em}
 .brand-txt small{font-size:11px;color:var(--muted);font-family:'Lexend',sans-serif;letter-spacing:.04em}
 .header-actions{display:flex;align-items:center;gap:10px}
-
-.theme-toggle{
-  display:inline-flex;align-items:center;gap:8px;
-  border:1px solid var(--line-strong);background:var(--surface);color:var(--ink-2);
-  border-radius:999px;padding:7px 13px;cursor:pointer;font-size:13px;font-weight:500;
-  transition:background .2s,border-color .2s,color .2s;font-family:inherit;
-}
-.theme-toggle:hover{border-color:var(--accent);color:var(--accent)}
-.theme-toggle svg{width:17px;height:17px}
 .theme-toggle .i-sun{display:none}
 :root[data-theme="dark"] .theme-toggle .i-sun{display:block}
 :root[data-theme="dark"] .theme-toggle .i-moon{display:none}
@@ -146,7 +195,7 @@ a{color:inherit;text-decoration:none}
 .hero::after{
   content:"";position:absolute;inset:0;pointer-events:none;
   background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
-  background-size:34px 34px;mask-image:radial-gradient(760px 420px at 78% 30%,#000,transparent 75%);opacity:.5;
+  background-size:34px 34px;-webkit-mask-image:radial-gradient(760px 420px at 78% 30%,#000,transparent 75%);mask-image:radial-gradient(760px 420px at 78% 30%,#000,transparent 75%);opacity:.5;
 }
 .hero .wrap{position:relative;z-index:1;padding:clamp(38px,7vw,74px) clamp(16px,4vw,32px) clamp(44px,7vw,66px)}
 .hero-grid{display:grid;grid-template-columns:1.5fr .9fr;gap:36px;align-items:center}
@@ -156,12 +205,15 @@ a{color:inherit;text-decoration:none}
 .hero h1 em{font-style:normal;color:var(--gold)}
 .hero .lead{margin-top:18px;font-size:clamp(15px,1.9vw,17.5px);color:#cdddef;max-width:44ch;line-height:1.75}
 .hero-meta{margin-top:26px;display:flex;flex-wrap:wrap;gap:10px}
-.chip{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.18);color:#e4eefb;font-size:12.5px;padding:7px 13px;border-radius:999px;backdrop-filter:blur(2px)}
-.chip svg{width:14px;height:14px}
+.hero-meta .glass-btn{cursor:default}
+.hero-meta .glass-btn:hover{transform:none}
 
 .author-card{
-  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);
-  border-radius:16px;padding:22px;backdrop-filter:blur(6px);box-shadow:0 12px 40px rgba(0,0,0,.25)
+  background:var(--glass-bg);border:1px solid var(--glass-border);
+  border-radius:18px;padding:24px;
+  -webkit-backdrop-filter:blur(16px) saturate(1.4);backdrop-filter:blur(16px) saturate(1.4);
+  box-shadow:0 14px 44px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.3);
+  --glass-bg:rgba(255,255,255,.10);--glass-border:rgba(255,255,255,.22);
 }
 .author-card .ac-label{font-family:'Lexend',sans-serif;font-size:11px;letter-spacing:.16em;color:#9dc0e6;text-transform:uppercase}
 .author-card .ac-name{margin-top:8px;font-size:24px;font-weight:900;color:#fff;display:flex;align-items:baseline;gap:9px}
@@ -170,18 +222,20 @@ a{color:inherit;text-decoration:none}
 .author-card hr{border:none;border-top:1px solid rgba(255,255,255,.15);margin:16px 0}
 .author-card .ac-note{font-size:12.5px;color:#a9c1da;line-height:1.6}
 
-/* ============ Table of contents (sticky) ============ */
-.toc{position:sticky;top:var(--header-h);z-index:90;background:var(--bg-band);border-bottom:1px solid var(--line)}
-.toc .wrap{display:flex;align-items:center;gap:12px;height:auto;min-height:56px;padding-top:8px;padding-bottom:8px}
+/* ============ Table of contents (sticky, glass pills) ============ */
+.toc{position:sticky;top:var(--header-h);z-index:90;background:color-mix(in srgb,var(--bg-band) 78%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.toc .wrap{display:flex;align-items:center;gap:12px;min-height:60px;padding-top:9px;padding-bottom:9px}
 .toc-label{flex:none;font-family:'Lexend',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;border-right:1px solid var(--line-strong);padding-right:14px}
-.toc-list{display:flex;gap:6px;overflow-x:auto;scrollbar-width:thin;padding-bottom:2px;-webkit-overflow-scrolling:touch}
+.toc-list{display:flex;gap:9px;overflow-x:auto;scrollbar-width:thin;padding:4px 2px;-webkit-overflow-scrolling:touch}
 .toc-list::-webkit-scrollbar{height:5px}
 .toc-list::-webkit-scrollbar-thumb{background:var(--line-strong);border-radius:3px}
-.toc-list a{flex:none;display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--ink-2);padding:7px 12px;border-radius:999px;border:1px solid transparent;transition:.2s;white-space:nowrap}
-.toc-list a b{font-family:'Lexend',sans-serif;color:var(--accent);font-size:12px}
-.toc-list a:hover{background:var(--surface);border-color:var(--line)}
-.toc-list a.active{background:var(--accent);color:var(--accent-ink);box-shadow:var(--shadow-sm)}
-.toc-list a.active b{color:var(--accent-ink)}
+.toc-list .glass-btn{flex:none}
+.toc-list .glass-btn b{font-family:'Lexend',sans-serif;color:var(--accent);font-size:12px}
+.toc-list .glass-btn.active{
+  --glass-bg:linear-gradient(180deg,color-mix(in srgb,var(--accent) 82%,#fff 8%),var(--accent));
+  --glass-ink:#fff;--glass-border:color-mix(in srgb,var(--accent) 55%,#fff);--glass-hi:rgba(255,255,255,.4);
+}
+.toc-list .glass-btn.active b{color:#fff}
 
 /* ============ Intro / notice ============ */
 .intro{padding:clamp(40px,6vw,64px) 0 6px}
@@ -208,13 +262,13 @@ a{color:inherit;text-decoration:none}
 
 .concept{
   background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
-  box-shadow:var(--shadow-sm);overflow:hidden;margin-bottom:26px;scroll-margin-top:130px;
-  transition:box-shadow .25s ease,transform .25s ease,border-color .25s ease;
+  box-shadow:var(--shadow-sm);overflow:hidden;margin-bottom:26px;scroll-margin-top:132px;
+  transition:box-shadow .25s ease,border-color .25s ease;
 }
 .concept:hover{box-shadow:var(--shadow-md);border-color:var(--line-strong)}
 .c-head{display:flex;align-items:flex-start;gap:18px;padding:24px clamp(20px,3vw,30px);background:linear-gradient(180deg,var(--surface-2),transparent);border-bottom:1px solid var(--line)}
 .c-no{
-  flex:none;width:54px;height:54px;border-radius:14px;display:grid;place-items:center;
+  flex:none;width:54px;height:54px;border-radius:15px;display:grid;place-items:center;
   background:linear-gradient(150deg,var(--navy),var(--blue));color:#fff;
   font-family:'Lexend',sans-serif;font-weight:700;font-size:22px;box-shadow:var(--shadow-sm)
 }
@@ -228,7 +282,8 @@ a{color:inherit;text-decoration:none}
 .c-left{padding:24px clamp(20px,3vw,30px)}
 .c-right{padding:24px clamp(20px,3vw,30px);background:var(--surface-2);border-left:1px solid var(--line)}
 .def-label{font-size:12px;font-weight:700;color:var(--accent);letter-spacing:.03em;margin-bottom:8px}
-.def{color:var(--ink-2);font-size:14.5px;line-height:1.75}
+.def{color:var(--ink-2);font-size:14.5px;line-height:1.78}
+.def b{color:var(--ink)}
 
 .points{list-style:none;margin-top:18px;display:grid;gap:10px}
 .points li{display:flex;gap:11px;font-size:14px;color:var(--ink-2)}
@@ -239,61 +294,100 @@ a{color:inherit;text-decoration:none}
   background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-sm);
   padding:16px;margin-bottom:18px;
 }
-.viz-title{font-size:11.5px;font-weight:700;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;font-family:'Lexend',sans-serif;margin-bottom:12px;display:flex;align-items:center;gap:7px}
+.viz-title{font-size:11.5px;font-weight:700;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;font-family:'Lexend',sans-serif;margin-bottom:14px;display:flex;align-items:center;gap:7px}
 .viz-title::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold)}
+.viz-cap{margin-top:10px;font-size:12px;color:var(--muted);text-align:center;line-height:1.5}
 
-/* device row (responsive concept) */
-.devices{display:flex;align-items:flex-end;justify-content:space-around;gap:10px;padding:6px 4px}
-.dev{border:2px solid var(--accent);border-radius:8px;background:var(--blue-soft);position:relative;flex:none}
-.dev::before{content:"";position:absolute;top:6px;left:8px;right:8px;height:5px;border-radius:3px;background:var(--accent);opacity:.5}
-.dev.pc{width:96px;height:66px}
-.dev.tab{width:52px;height:70px}
-.dev.mob{width:32px;height:60px}
-.dev small{position:absolute;bottom:-19px;left:0;right:0;text-align:center;font-size:10.5px;color:var(--muted)}
+/* --- Analogy strip (metaphor illustration) --- */
+.analogy{display:flex;align-items:stretch;justify-content:center;gap:6px;flex-wrap:wrap}
+.a-item{flex:1 1 76px;min-width:72px;max-width:130px;background:var(--surface-2);border:1px solid var(--line);border-radius:13px;padding:12px 8px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:7px}
+.a-ic{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--blue-soft);color:var(--accent)}
+.a-ic svg{width:21px;height:21px}
+.a-item strong{font-size:13px;color:var(--ink);line-height:1.2}
+.a-item small{font-size:11px;color:var(--muted)}
+.a-arrow{align-self:center;color:var(--accent);flex:none;display:grid;place-items:center}
+.a-arrow svg{width:20px;height:20px}
 
-/* checklist */
-.checklist{list-style:none;display:grid;gap:9px}
-.checklist li{display:flex;gap:10px;font-size:13.5px;color:var(--ink-2);align-items:flex-start}
-.checklist li svg{flex:none;width:18px;height:18px;color:var(--ok);margin-top:1px}
+/* --- Good/Bad compare --- */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cmp{border-radius:13px;padding:12px 10px 14px;border:1px solid var(--line);text-align:center}
+.cmp.bad{border-color:color-mix(in srgb,var(--danger) 45%,var(--line));background:color-mix(in srgb,var(--danger) 7%,var(--surface))}
+.cmp.good{border-color:color-mix(in srgb,var(--ok) 50%,var(--line));background:color-mix(in srgb,var(--ok) 8%,var(--surface))}
+.cmp-tag{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;margin-bottom:4px}
+.cmp.bad .cmp-tag{color:var(--danger);background:color-mix(in srgb,var(--danger) 14%,transparent)}
+.cmp.good .cmp-tag{color:var(--ok);background:color-mix(in srgb,var(--ok) 16%,transparent)}
+.mini-phone{width:66px;height:106px;margin:8px auto 0;border:2px solid var(--line-strong);border-radius:12px;background:var(--surface);padding:8px 7px;display:flex;flex-direction:column}
+.mini-phone .tap{background:var(--accent);border-radius:5px;width:100%}
+.mini-phone.tight{gap:3px;justify-content:flex-start}
+.mini-phone.tight .tap{height:7px;opacity:.75}
+.mini-phone.roomy{gap:9px;justify-content:center}
+.mini-phone.roomy .tap{height:20px}
 
-/* permission table */
+/* --- Split screen (visitor vs admin) --- */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.scr{border:1px solid var(--line);border-radius:11px;overflow:hidden;background:var(--surface)}
+.scr-top{height:16px;background:var(--surface-2);display:flex;align-items:center;gap:4px;padding:0 7px;border-bottom:1px solid var(--line)}
+.scr-top i{width:6px;height:6px;border-radius:50%;background:var(--line-strong);display:block}
+.scr-body{padding:9px;display:flex;flex-direction:column;gap:5px;min-height:74px}
+.scr-body .ln{height:6px;border-radius:3px;background:var(--line)}
+.scr-body .ln.w70{width:70%}.scr-body .ln.w90{width:90%}.scr-body .ln.w50{width:50%}
+.scr-body .block{height:26px;border-radius:5px;background:var(--blue-soft);border:1px solid color-mix(in srgb,var(--accent) 20%,var(--line))}
+.scr.admin .scr-body{gap:4px}
+.scr.admin .row{display:flex;align-items:center;justify-content:space-between;gap:6px;background:var(--surface-2);border:1px solid var(--line);border-radius:5px;padding:4px 6px}
+.scr.admin .row .rl{height:5px;width:46%;border-radius:3px;background:var(--line-strong)}
+.scr.admin .row .sw{width:18px;height:10px;border-radius:999px;background:var(--accent);position:relative;flex:none}
+.scr.admin .row .sw::after{content:"";position:absolute;top:1px;right:1px;width:8px;height:8px;border-radius:50%;background:#fff}
+.scr-cap{display:block;font-size:11px;text-align:center;padding:5px;color:var(--muted);background:var(--surface-2);border-top:1px solid var(--line);font-weight:600}
+.scr.admin .scr-cap{color:var(--accent)}
+
+/* --- Permission matrix --- */
 .perm-table{width:100%;border-collapse:collapse;font-size:12px}
-.perm-table th,.perm-table td{border:1px solid var(--line);padding:6px 4px;text-align:center}
+.perm-table th,.perm-table td{border:1px solid var(--line);padding:7px 4px;text-align:center}
 .perm-table th{background:var(--navy);color:#fff;font-weight:500;font-size:11px}
 .perm-table td:first-child{background:var(--surface-2);font-weight:700;color:var(--ink)}
 .perm-table .y{color:var(--ok);font-weight:700}
 .perm-table .n{color:var(--danger);opacity:.55}
 .perm-table .p{color:var(--warn);font-weight:700}
 
-/* dashboard viz */
-.dash{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
-.kpi{background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:9px 10px}
+/* --- Dashboard viz --- */
+.dash{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.kpi{background:var(--surface-2);border:1px solid var(--line);border-radius:9px;padding:9px 10px}
 .kpi small{font-size:10px;color:var(--muted);display:block}
 .kpi b{font-family:'Lexend',sans-serif;font-size:16px;color:var(--ink)}
 .kpi.up b{color:var(--ok)} .kpi.dn b{color:var(--danger)}
-.bars{display:flex;align-items:flex-end;gap:7px;height:60px;padding:6px 2px 0}
+.dash-row{display:flex;align-items:center;gap:14px}
+.bars{flex:1;display:flex;align-items:flex-end;gap:7px;height:66px;padding:6px 2px 0}
 .bars i{flex:1;background:linear-gradient(180deg,var(--sky),var(--blue));border-radius:4px 4px 0 0;min-width:8px}
+.gauge{flex:none;width:70px;height:70px;border-radius:50%;display:grid;place-items:center;
+  background:conic-gradient(var(--accent) 0 72%,var(--line) 72% 100%)}
+.gauge span{width:52px;height:52px;border-radius:50%;background:var(--surface);display:grid;place-items:center;font-family:'Lexend',sans-serif;font-weight:700;font-size:14px;color:var(--ink)}
 
-/* stack (fe/be/db) */
+/* --- Stack (fe/be/db) flow --- */
 .stack{display:flex;flex-direction:column;gap:8px}
-.layer{display:flex;align-items:center;gap:11px;background:var(--surface-2);border:1px solid var(--line);border-radius:9px;padding:10px 12px}
-.layer .lz{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;color:#fff;flex:none}
-.layer .lz svg{width:16px;height:16px}
+.layer{display:flex;align-items:center;gap:11px;background:var(--surface-2);border:1px solid var(--line);border-radius:11px;padding:11px 12px}
+.layer .lz{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;color:#fff;flex:none}
+.layer .lz svg{width:17px;height:17px}
 .layer.fe .lz{background:#1479d6}
 .layer.be .lz{background:#0e7c66}
 .layer.db .lz{background:#7a4bc8}
 .layer .lt strong{display:block;font-size:13px}
 .layer .lt small{font-size:11.5px;color:var(--muted)}
-.stack-arrow{text-align:center;color:var(--muted);font-size:12px;line-height:.6}
+.stack-arrow{display:flex;align-items:center;justify-content:center;gap:14px;color:var(--muted);font-size:10.5px}
+.stack-arrow svg{width:16px;height:16px;color:var(--accent)}
 
-/* infra (server/hosting/domain/ssl) */
-.infra{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-.infra .box{background:var(--surface-2);border:1px solid var(--line);border-radius:9px;padding:11px 12px;display:flex;gap:10px;align-items:center}
-.infra .box svg{width:22px;height:22px;color:var(--accent);flex:none}
+/* --- Infra grid + url bar --- */
+.infra{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px}
+.infra .box{background:var(--surface-2);border:1px solid var(--line);border-radius:11px;padding:12px;display:flex;gap:11px;align-items:center}
+.infra .box .bi{width:34px;height:34px;border-radius:10px;background:var(--blue-soft);color:var(--accent);display:grid;place-items:center;flex:none}
+.infra .box .bi svg{width:19px;height:19px}
 .infra .box strong{display:block;font-size:12.5px}
 .infra .box small{font-size:11px;color:var(--muted)}
+.urlbar{display:flex;align-items:center;gap:9px;background:var(--surface);border:1px solid var(--line-strong);border-radius:999px;padding:9px 15px;font-family:'Lexend',sans-serif;font-size:12.5px;color:var(--ink-2)}
+.urlbar .lock{color:var(--ok);display:grid;place-items:center;flex:none}
+.urlbar .lock svg{width:15px;height:15px}
+.urlbar .https{color:var(--ok);font-weight:700}
 
-/* takeaway */
+/* --- Takeaway --- */
 .takeaway{
   margin:0 clamp(20px,3vw,30px) 24px;
   display:flex;align-items:center;gap:14px;
@@ -304,13 +398,20 @@ a{color:inherit;text-decoration:none}
 .takeaway .tk-txt{font-size:15px;font-weight:700;color:#fff;letter-spacing:-.01em}
 
 /* ============ Closing ============ */
-.closing{background:linear-gradient(158deg,var(--navy),var(--navy-2));color:#e9f1fa;margin-top:20px}
-.closing .wrap{padding:clamp(46px,7vw,72px) clamp(16px,4vw,32px);display:grid;grid-template-columns:1.4fr 1fr;gap:36px;align-items:center}
+.closing{background:linear-gradient(158deg,var(--navy),var(--navy-2));color:#e9f1fa;margin-top:20px;position:relative;overflow:hidden}
+.closing::after{content:"";position:absolute;inset:0;background:radial-gradient(700px 300px at 85% 10%,rgba(20,121,214,.35),transparent 60%);pointer-events:none}
+.closing .wrap{position:relative;z-index:1;padding:clamp(46px,7vw,72px) clamp(16px,4vw,32px);display:grid;grid-template-columns:1.4fr 1fr;gap:36px;align-items:center}
 .closing .cl-label{font-family:'Lexend',sans-serif;font-size:12px;letter-spacing:.14em;color:#9dc0e6;text-transform:uppercase}
 .closing h2{font-size:clamp(24px,4vw,38px);margin-top:14px;color:#fff;line-height:1.3;letter-spacing:-.02em}
 .closing h2 em{font-style:normal;color:var(--gold)}
 .closing p{margin-top:16px;color:#c6d8ec;font-size:15.5px;max-width:46ch}
-.speaker{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:16px;padding:26px;text-align:left}
+.closing .cl-actions{margin-top:24px;display:flex;flex-wrap:wrap;gap:10px}
+.speaker{
+  background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:18px;padding:26px;text-align:left;
+  -webkit-backdrop-filter:blur(16px) saturate(1.4);backdrop-filter:blur(16px) saturate(1.4);
+  box-shadow:0 14px 44px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.28);
+  --glass-bg:rgba(255,255,255,.10);--glass-border:rgba(255,255,255,.22);
+}
 .speaker .sp-label{font-family:'Lexend',sans-serif;font-size:11px;letter-spacing:.16em;color:#9dc0e6;text-transform:uppercase}
 .speaker .sp-name{margin-top:10px;font-size:27px;font-weight:900;color:#fff;display:flex;align-items:baseline;gap:10px}
 .speaker .sp-name span{font-size:15px;font-weight:500;color:var(--gold)}
@@ -325,8 +426,6 @@ footer .wrap{padding:30px clamp(16px,4vw,32px);display:flex;flex-wrap:wrap;align
 .f-brand div strong{display:block;color:#e6eef8;font-size:14px}
 .f-brand div small{font-size:12px;color:#8ba5c0}
 .f-meta{font-size:12.5px;color:#8ba5c0;text-align:right}
-.to-top{display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(255,255,255,.22);color:#cfe0f2;border-radius:999px;padding:9px 15px;font-size:13px;transition:.2s}
-.to-top:hover{background:rgba(255,255,255,.1)}
 
 /* ============ Responsive ============ */
 @media (max-width:900px){
@@ -340,7 +439,7 @@ footer .wrap{padding:30px clamp(16px,4vw,32px);display:flex;flex-wrap:wrap;align
 @media (max-width:600px){
   .utility .u-right{display:none}
   .toggle-label{display:none}
-  .theme-toggle{padding:8px}
+  .theme-toggle{padding:0;width:44px}
   .brand-txt small{display:none}
   .dash{grid-template-columns:1fr 1fr}
   .takeaway{flex-direction:column;align-items:flex-start;gap:8px}
@@ -351,6 +450,7 @@ footer .wrap{padding:30px clamp(16px,4vw,32px);display:flex;flex-wrap:wrap;align
 
 @media (prefers-reduced-motion:reduce){
   *{scroll-behavior:auto !important;transition:none !important;animation:none !important}
+  .glass-btn:hover{transform:none}
 }
 
 /* reveal on scroll */
@@ -388,7 +488,7 @@ footer .wrap{padding:30px clamp(16px,4vw,32px);display:flex;flex-wrap:wrap;align
       </span>
     </a>
     <div class="header-actions">
-      <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false" aria-label="주간/야간 모드 전환">
+      <button class="glass-btn theme-toggle" id="themeToggle" type="button" aria-pressed="false" aria-label="주간/야간 모드 전환">
         <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
         <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.2M12 19.8V22M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2 12h2.2M19.8 12H22M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6"/></svg>
         <span class="toggle-label" id="toggleLabel">야간 모드</span>
@@ -407,11 +507,11 @@ footer .wrap{padding:30px clamp(16px,4vw,32px);display:flex;flex-wrap:wrap;align
       <div>
         <span class="eyebrow">Site Development · Lecture Guide</span>
         <h1>개발자가 아니어도<br/><em>개발을 제대로 관리</em>할 수 있습니다</h1>
-        <p class="lead">웹사이트·웹앱 제작을 발주하고 운영·관리할 때 반드시 알아야 할 7가지 핵심 개념을, 비전공 실무자의 눈높이에 맞추어 정리했습니다.</p>
+        <p class="lead">웹사이트·웹앱 제작을 발주하고 운영·관리할 때 반드시 알아야 할 7가지 핵심 개념을, 그림과 비유로 쉽게 풀어 정리했습니다.</p>
         <div class="hero-meta">
-          <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>7가지 핵심 개념</span>
-          <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>실무 체크리스트 포함</span>
-          <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>비전공 실무자 대상</span>
+          <span class="glass-btn on-dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>7가지 핵심 개념</span>
+          <span class="glass-btn on-dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.5 5 5.5.8-4 3.9 1 5.5L12 21l-4.9 2.6 1-5.5-4-3.9 5.5-.8z" transform="translate(0 -1)"/></svg>그림·비유로 설명</span>
+          <span class="glass-btn on-dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>비전공 실무자 대상</span>
         </div>
       </div>
       <aside class="author-card" aria-label="작성자 정보">
@@ -425,18 +525,18 @@ footer .wrap{padding:30px clamp(16px,4vw,32px);display:flex;flex-wrap:wrap;align
   </div>
 </section>
 
-<!-- Sticky TOC -->
+<!-- Sticky TOC (glass pills) -->
 <nav class="toc" aria-label="목차 바로가기">
   <div class="wrap">
     <span class="toc-label">목차</span>
     <div class="toc-list" id="tocList">
-      <a href="#c1"><b>01</b>반응형 웹 디자인</a>
-      <a href="#c2"><b>02</b>모바일 최적화</a>
-      <a href="#c3"><b>03</b>관리자 모드</a>
-      <a href="#c4"><b>04</b>권한 관리</a>
-      <a href="#c5"><b>05</b>대시보드</a>
-      <a href="#c6"><b>06</b>프론트엔드·백엔드·DB</a>
-      <a href="#c7"><b>07</b>서버·호스팅·도메인·SSL</a>
+      <a class="glass-btn glass-pill" href="#c1"><b>01</b>반응형 웹</a>
+      <a class="glass-btn glass-pill" href="#c2"><b>02</b>모바일 최적화</a>
+      <a class="glass-btn glass-pill" href="#c3"><b>03</b>관리자 모드</a>
+      <a class="glass-btn glass-pill" href="#c4"><b>04</b>권한 관리</a>
+      <a class="glass-btn glass-pill" href="#c5"><b>05</b>대시보드</a>
+      <a class="glass-btn glass-pill" href="#c6"><b>06</b>FE·BE·DB</a>
+      <a class="glass-btn glass-pill" href="#c7"><b>07</b>서버·도메인·SSL</a>
     </div>
   </div>
 </nav>
@@ -448,11 +548,11 @@ footer .wrap{padding:30px clamp(16px,4vw,32px);display:flex;flex-wrap:wrap;align
       <div class="notice">
         <span class="n-tag">이 자료의 목적</span>
         <h2>“대충 알아서 해주세요”가 가장 위험한 요구사항입니다</h2>
-        <p>개발 지식이 없어도 사업 담당자는 요구사항을 정의하고, 진행 상황을 점검하며, 결과물을 검수해야 합니다. 이 자료는 기술을 직접 다루기 위한 것이 아니라, <b>외주·협업 과정에서 정확히 소통하고 판단하기 위한 최소한의 공통 언어</b>를 갖추도록 돕습니다.</p>
+        <p>개발 지식이 없어도 사업 담당자는 요구사항을 정의하고, 진행 상황을 점검하며, 결과물을 검수해야 합니다. 이 자료는 기술을 직접 다루기 위한 것이 아니라, <b>외주·협업 과정에서 정확히 소통하고 판단하기 위한 최소한의 공통 언어</b>를 그림과 비유로 익히도록 돕습니다.</p>
       </div>
       <div class="intro-stats">
         <div class="stat"><span class="s-num">7</span><span class="s-txt"><strong>핵심 개념</strong><small>화면부터 서버까지 전 과정</small></span></div>
-        <div class="stat"><span class="s-num">3</span><span class="s-txt"><strong>구성 요소</strong><small>정의 · 실무 체크 · 한 줄 정리</small></span></div>
+        <div class="stat"><span class="s-num">3</span><span class="s-txt"><strong>구성 요소</strong><small>정의 · 그림 설명 · 한 줄 정리</small></span></div>
         <div class="stat"><span class="s-num">0</span><span class="s-txt"><strong>전공 지식 전제</strong><small>비개발자도 이해할 수 있는 설명</small></span></div>
       </div>
     </div>
@@ -473,27 +573,30 @@ footer .wrap{padding:30px clamp(16px,4vw,32px);display:flex;flex-wrap:wrap;align
       </div>
       <div class="c-body">
         <div class="c-left">
-          <div class="def-label">개념 정의</div>
-          <p class="def">하나의 웹사이트가 PC·태블릿·스마트폰 등 서로 다른 화면 크기에 맞춰 <b>스스로 배치를 바꾸는</b> 설계 방식입니다. 단순히 화면을 축소하는 것이 아니라 글자 크기, 이미지, 메뉴, 버튼의 위치와 간격까지 기기에 맞게 재구성하는 것이 핵심입니다.</p>
+          <div class="def-label">쉽게 말하면</div>
+          <p class="def">옷 한 벌이 사람 체형에 맞춰 늘었다 줄었다 하듯, <b>하나의 웹사이트가 PC·태블릿·스마트폰 화면 크기에 맞춰 스스로 배치를 바꾸는</b> 설계 방식입니다. 화면을 그냥 축소하는 게 아니라 글자·이미지·메뉴·버튼의 위치와 간격까지 기기에 맞게 다시 배열합니다.</p>
           <ul class="points">
-            <li><b>하나의 소스</b> — 주소가 같고 관리도 한 번에 이뤄집니다.</li>
-            <li><b>레이아웃 재구성</b> — 3단 메뉴가 모바일에서는 접이식 메뉴로 바뀝니다.</li>
-            <li><b>검색·운영 효율</b> — 별도 모바일 사이트를 따로 만들 필요가 없습니다.</li>
+            <li><b>하나의 소스</b> — 주소가 같고, 수정도 한 번이면 전 기기에 반영됩니다.</li>
+            <li><b>레이아웃 재배열</b> — PC의 가로 3단 메뉴가 모바일에선 접이식 메뉴로 바뀝니다.</li>
+            <li><b>운영 효율</b> — 모바일용 사이트를 따로 만들 필요가 없습니다.</li>
           </ul>
         </div>
         <div class="c-right">
           <div class="viz">
-            <div class="viz-title">화면 크기에 따른 자동 재배치</div>
-            <div class="devices">
-              <div class="dev pc"><small>PC</small></div>
-              <div class="dev tab"><small>태블릿</small></div>
-              <div class="dev mob"><small>모바일</small></div>
+            <div class="viz-title">그림으로 보기 · 하나의 디자인이 기기에 맞게</div>
+            <div class="analogy">
+              <div class="a-item"><span class="a-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v4M8 5l4 2 4-2M4 9h16v9H4z"/><path d="M9 21h6"/></svg></span><strong>1개 디자인</strong><small>원본</small></div>
+              <span class="a-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+              <div class="a-item"><span class="a-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M9 20h6M12 16v4"/></svg></span><strong>PC</strong><small>넓게 3단</small></div>
+              <div class="a-item"><span class="a-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M11 18h2"/></svg></span><strong>태블릿</strong><small>2단</small></div>
+              <div class="a-item"><span class="a-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg></span><strong>모바일</strong><small>1단 세로</small></div>
             </div>
+            <p class="viz-cap">같은 내용이 화면 폭에 따라 3단 → 2단 → 1단으로 자동 재배열됩니다.</p>
           </div>
           <div class="def-label">실무에서 확인할 점</div>
-          <ul class="checklist">
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>“반응형으로 해주세요”로 끝내지 말고 기기별 화면을 함께 정의합니다.</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>표·이미지·메뉴가 모바일에서 어떻게 보일지 사전에 합의합니다.</li>
+          <ul class="points">
+            <li>“반응형으로 해주세요”로 끝내지 말고 <b>기기별 화면</b>을 함께 정의합니다.</li>
+            <li>표·이미지·메뉴가 모바일에서 어떻게 보일지 <b>사전에 합의</b>합니다.</li>
           </ul>
         </div>
       </div>
@@ -509,28 +612,33 @@ footer .wrap{padding:30px clamp(16px,4vw,32px);display:flex;flex-wrap:wrap;align
       </div>
       <div class="c-body">
         <div class="c-left">
-          <div class="def-label">개념 정의</div>
-          <p class="def">스마트폰 사용자가 작은 화면에서도 <b>불편 없이 사용할 수 있도록</b> 다듬는 작업입니다. 글자가 또렷하게 보이고, 버튼을 손가락으로 쉽게 누를 수 있으며, 화면이 옆으로 밀리거나 이미지가 잘리지 않아야 합니다. 반응형이 ‘보이게’ 하는 것이라면, 최적화는 ‘잘 쓰이게’ 하는 것입니다.</p>
+          <div class="def-label">쉽게 말하면</div>
+          <p class="def">반응형이 화면에 ‘보이게’ 하는 것이라면, 최적화는 스마트폰에서 <b>실제로 편하게 쓰이게</b> 다듬는 작업입니다. 글자가 또렷하고, 버튼을 손가락으로 쉽게 누를 수 있고, 화면이 옆으로 밀리거나 이미지가 잘리지 않아야 합니다.</p>
           <ul class="points">
             <li><b>속도</b> — 3초 안에 열리지 않으면 상당수 이용자가 이탈합니다.</li>
-            <li><b>터치 사용성</b> — 버튼은 최소 44px, 간격도 충분해야 합니다.</li>
-            <li><b>가독성</b> — 본문 글자 확대 없이도 읽히는 크기를 확보합니다.</li>
+            <li><b>터치 사용성</b> — 버튼은 최소 44px, 간격도 넉넉해야 합니다.</li>
+            <li><b>가독성</b> — 확대하지 않아도 읽히는 글자 크기를 확보합니다.</li>
           </ul>
         </div>
         <div class="c-right">
           <div class="viz">
-            <div class="viz-title">최적화 점검 항목</div>
-            <div class="dash" style="grid-template-columns:1fr 1fr;">
-              <div class="kpi up"><small>로딩 속도</small><b>3초 ↓</b></div>
-              <div class="kpi"><small>터치 영역</small><b>44px+</b></div>
-              <div class="kpi"><small>가로 넘침</small><b>없음</b></div>
-              <div class="kpi"><small>본문 글자</small><b>16px+</b></div>
+            <div class="viz-title">그림으로 보기 · 이렇게 vs 저렇게</div>
+            <div class="compare">
+              <div class="cmp bad">
+                <span class="cmp-tag"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>불편한 화면</span>
+                <div class="mini-phone tight"><span class="tap"></span><span class="tap"></span><span class="tap"></span><span class="tap"></span><span class="tap"></span><span class="tap"></span></div>
+              </div>
+              <div class="cmp good">
+                <span class="cmp-tag"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>최적화된 화면</span>
+                <div class="mini-phone roomy"><span class="tap"></span><span class="tap"></span><span class="tap"></span></div>
+              </div>
             </div>
+            <p class="viz-cap">작고 촘촘한 버튼은 오탭을 부릅니다. 크고 여유 있는 터치 영역이 정답입니다.</p>
           </div>
           <div class="def-label">실무에서 확인할 점</div>
-          <ul class="checklist">
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>‘반응형 적용’ 확인에 그치지 말고 실제 스마트폰에서 직접 테스트합니다.</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>로딩 속도·버튼 크기·입력창·가로 넘침·메뉴 작동을 점검합니다.</li>
+          <ul class="points">
+            <li>‘반응형 적용’ 확인에 그치지 말고 <b>실제 스마트폰으로 직접</b> 눌러봅니다.</li>
+            <li>로딩 속도·버튼 크기·입력창·가로 넘침·메뉴 작동을 점검합니다.</li>
           </ul>
         </div>
       </div>
@@ -546,30 +654,35 @@ footer .wrap{padding:30px clamp(16px,4vw,32px);display:flex;flex-wrap:wrap;align
       </div>
       <div class="c-body">
         <div class="c-left">
-          <div class="def-label">개념 정의</div>
-          <p class="def">일반 방문자에게 보이는 화면이 아니라, 사이트 운영자가 <b>콘텐츠·회원·주문·일정·통계 등을 관리하는 별도의 운영 공간</b>입니다. 사이트의 목적에 따라 필요한 관리 기능이 크게 달라지므로, 처음부터 관리 항목을 구체적으로 정해야 합니다.</p>
+          <div class="def-label">쉽게 말하면</div>
+          <p class="def">매장에 손님용 ‘매장 앞’과 직원용 ‘사무실’이 따로 있듯, 사이트에도 방문자가 보는 화면과 <b>운영자가 콘텐츠·회원·주문·통계를 관리하는 별도의 공간</b>이 있습니다. 이 뒷공간이 관리자 모드입니다. 사이트 목적에 따라 필요한 기능이 크게 달라집니다.</p>
           <ul class="points">
-            <li><b>운영의 중심</b> — 사이트를 ‘만드는 것’이 아니라 ‘운영하는’ 공간입니다.</li>
+            <li><b>운영의 중심</b> — ‘만드는’ 곳이 아니라 매일 ‘운영하는’ 공간입니다.</li>
             <li><b>맞춤 설계</b> — 쇼핑몰·예약·커뮤니티마다 필요한 기능이 다릅니다.</li>
             <li><b>업무 효율</b> — 반복 업무를 얼마나 쉽게 처리하느냐가 관건입니다.</li>
           </ul>
         </div>
         <div class="c-right">
           <div class="viz">
-            <div class="viz-title">관리자가 다루는 대표 항목</div>
-            <div class="dash">
-              <div class="kpi"><small>회원</small><b>승인·관리</b></div>
-              <div class="kpi"><small>콘텐츠</small><b>등록·수정</b></div>
-              <div class="kpi"><small>주문</small><b>상태 변경</b></div>
-              <div class="kpi"><small>공지</small><b>게시</b></div>
-              <div class="kpi"><small>통계</small><b>집계</b></div>
-              <div class="kpi"><small>설정</small><b>운영값</b></div>
+            <div class="viz-title">그림으로 보기 · 앞과 뒤가 다르다</div>
+            <div class="split">
+              <div class="scr">
+                <div class="scr-top"><i></i><i></i><i></i></div>
+                <div class="scr-body"><div class="block"></div><span class="ln w90"></span><span class="ln w70"></span><span class="ln w50"></span></div>
+                <span class="scr-cap">방문자 화면 (앞)</span>
+              </div>
+              <div class="scr admin">
+                <div class="scr-top"><i></i><i></i><i></i></div>
+                <div class="scr-body"><div class="row"><span class="rl"></span><span class="sw"></span></div><div class="row"><span class="rl"></span><span class="sw"></span></div><div class="row"><span class="rl"></span><span class="sw"></span></div></div>
+                <span class="scr-cap">관리자 화면 (뒤)</span>
+              </div>
             </div>
+            <p class="viz-cap">회원 승인·콘텐츠 등록·주문 상태 변경 등 운영 업무가 뒷화면에서 이뤄집니다.</p>
           </div>
           <div class="def-label">실무에서 확인할 점</div>
-          <ul class="checklist">
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>운영자가 반복 처리할 업무를 먼저 목록으로 정리합니다.</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>그 목록이 관리자 화면에 그대로 반영됐는지 검수합니다.</li>
+          <ul class="points">
+            <li>운영자가 <b>반복 처리할 업무</b>를 먼저 목록으로 정리합니다.</li>
+            <li>그 목록이 관리자 화면에 그대로 반영됐는지 검수합니다.</li>
           </ul>
         </div>
       </div>
@@ -585,13 +698,16 @@ footer .wrap{padding:30px clamp(16px,4vw,32px);display:flex;flex-wrap:wrap;align
       </div>
       <div class="c-body">
         <div class="c-left">
-          <div class="def-label">개념 정의</div>
-          <p class="def">사용자 등급에 따라 <b>볼 수 있는 정보와 사용할 수 있는 기능을 다르게</b> 설정하는 것입니다. 관리자는 모든 데이터를 관리하고, 담당자는 자신의 자료만 수정하며, 일반 사용자는 공개된 내용만 열람하도록 나눌 수 있습니다. 개인정보 보호와 사고 예방의 출발점입니다.</p>
-          <ul class="points">
-            <li><b>보안</b> — 권한 분리가 곧 정보 유출·오조작 방지책입니다.</li>
-            <li><b>책임 소재</b> — 누가 무엇을 할 수 있는지 명확해집니다.</li>
-            <li><b>확장성</b> — 조직이 커져도 역할별로 손쉽게 늘릴 수 있습니다.</li>
-          </ul>
+          <div class="def-label">쉽게 말하면</div>
+          <p class="def">건물에서 사람마다 열 수 있는 문과 쥐어주는 열쇠가 다르듯, <b>사용자 등급에 따라 볼 수 있는 정보와 쓸 수 있는 기능을 다르게</b> 정하는 것입니다. 관리자는 마스터키(모든 문), 담당자는 부분키(자기 자료), 일반 사용자는 출입증(공개된 곳만) — 개인정보 보호와 사고 예방의 출발점입니다.</p>
+          <div class="viz" style="margin-top:16px">
+            <div class="viz-title">그림으로 보기 · 열쇠가 다르다</div>
+            <div class="analogy">
+              <div class="a-item"><span class="a-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="8" cy="15" r="4"/><path d="M11 12l8-8M17 4l3 3M15 6l2 2"/></svg></span><strong>관리자</strong><small>마스터키</small></div>
+              <div class="a-item"><span class="a-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="8" cy="15" r="3.2"/><path d="M10.5 12.5 18 5M18 5l2.5 2"/></svg></span><strong>담당자</strong><small>부분키</small></div>
+              <div class="a-item"><span class="a-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="5" y="3" width="14" height="18" rx="2"/><circle cx="12" cy="9" r="2.4"/><path d="M8.5 17c.5-2 2-3 3.5-3s3 1 3.5 3"/></svg></span><strong>일반</strong><small>출입증</small></div>
+            </div>
+          </div>
         </div>
         <div class="c-right">
           <div class="viz">
@@ -604,11 +720,12 @@ footer .wrap{padding:30px clamp(16px,4vw,32px);display:flex;flex-wrap:wrap;align
                 <tr><td>일반</td><td class="y">●</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
               </tbody>
             </table>
+            <p class="viz-cap">● 가능 · ◐ 일부(본인 자료만) · — 불가</p>
           </div>
           <div class="def-label">실무에서 확인할 점</div>
-          <ul class="checklist">
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>‘누가·어떤 정보를·어디까지’ 다룰 수 있는지 표로 정리합니다.</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>표대로 실제 화면에서 권한이 걸려 있는지 계정별로 확인합니다.</li>
+          <ul class="points">
+            <li>‘누가·어떤 정보를·어디까지’ 다룰 수 있는지 <b>표로 정리</b>합니다.</li>
+            <li>표대로 실제 화면에서 권한이 걸려 있는지 <b>계정별로</b> 확인합니다.</li>
           </ul>
         </div>
       </div>
@@ -624,28 +741,32 @@ footer .wrap{padding:30px clamp(16px,4vw,32px);display:flex;flex-wrap:wrap;align
       </div>
       <div class="c-body">
         <div class="c-left">
-          <div class="def-label">개념 정의</div>
-          <p class="def">여러 곳에 흩어진 데이터를 <b>한 화면에서 빠르게 파악</b>할 수 있도록 숫자·표·그래프로 정리한 화면입니다. 중요한 것은 그래프의 개수가 아니라, 이용자가 현재 상황을 이해하고 <b>다음 행동을 결정할 수 있게</b> 만드는 것입니다.</p>
+          <div class="def-label">쉽게 말하면</div>
+          <p class="def">자동차 계기판이 속도·연료·경고등을 한눈에 보여주듯, <b>여러 곳에 흩어진 데이터를 한 화면에서 빠르게 파악</b>하도록 숫자·표·그래프로 정리한 화면입니다. 중요한 건 그래프 개수가 아니라, 보는 사람이 상황을 이해하고 <b>다음 행동을 결정</b>할 수 있게 하는 것입니다.</p>
           <ul class="points">
             <li><b>요약</b> — 핵심 지표를 한눈에 보여줍니다.</li>
-            <li><b>맥락</b> — 목표 대비, 전월 대비 등 비교 기준이 있어야 합니다.</li>
+            <li><b>맥락</b> — 목표 대비, 전월 대비 같은 비교 기준이 있어야 합니다.</li>
             <li><b>행동</b> — “그래서 무엇을 할지”가 보여야 좋은 대시보드입니다.</li>
           </ul>
         </div>
         <div class="c-right">
           <div class="viz">
-            <div class="viz-title">상황판 예시</div>
+            <div class="viz-title">그림으로 보기 · 상황판 예시</div>
             <div class="dash">
               <div class="kpi up"><small>매출</small><b>▲ 12%</b></div>
-              <div class="kpi"><small>방문</small><b>8,420</b></div>
-              <div class="kpi dn"><small>이탈</small><b>▼ 4%</b></div>
+              <div class="kpi"><small>방문자</small><b>8,420</b></div>
+              <div class="kpi dn"><small>이탈률</small><b>▼ 4%</b></div>
             </div>
-            <div class="bars"><i style="height:40%"></i><i style="height:62%"></i><i style="height:50%"></i><i style="height:78%"></i><i style="height:66%"></i><i style="height:90%"></i></div>
+            <div class="dash-row">
+              <div class="bars"><i style="height:40%"></i><i style="height:62%"></i><i style="height:50%"></i><i style="height:78%"></i><i style="height:66%"></i><i style="height:90%"></i></div>
+              <div class="gauge" title="목표 달성률 72%"><span>72%</span></div>
+            </div>
+            <p class="viz-cap">추세(막대) + 목표 달성률(원형)을 함께 보여 ‘무엇을 할지’ 판단을 돕습니다.</p>
           </div>
           <div class="def-label">실무에서 확인할 점</div>
-          <ul class="checklist">
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>단순 현황 나열에 그치지 말고 판단 기준을 함께 요청합니다.</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>목표 대비 실적, 이상 징후, 담당자별 성과를 함께 배치합니다.</li>
+          <ul class="points">
+            <li>단순 현황 나열이 아니라 <b>판단 기준</b>을 함께 요청합니다.</li>
+            <li>목표 대비 실적·이상 징후·담당자별 성과를 함께 배치합니다.</li>
           </ul>
         </div>
       </div>
@@ -661,11 +782,17 @@ footer .wrap{padding:30px clamp(16px,4vw,32px);display:flex;flex-wrap:wrap;align
       </div>
       <div class="c-body">
         <div class="c-left">
-          <div class="def-label">개념 정의</div>
-          <p class="def"><b>프론트엔드</b>는 사용자가 직접 보고 누르는 화면, <b>백엔드</b>는 화면 뒤에서 요청을 처리하는 기능, <b>데이터베이스</b>는 회원·주문·게시물 같은 정보를 저장하는 공간입니다. 세 영역이 연결되어야 로그인·신청·결제·조회 같은 서비스가 정상 작동합니다.</p>
+          <div class="def-label">쉽게 말하면 · 식당에 비유하면</div>
+          <p class="def">주문 하나가 완성되려면 <b>매장(진열)·직원(처리)·창고(보관)</b>가 함께 움직여야 합니다. 웹도 똑같습니다. <b>프론트엔드</b>는 손님이 보는 매장 화면, <b>백엔드</b>는 주문을 처리하는 직원, <b>데이터베이스</b>는 재료를 보관하는 창고입니다. 셋이 연결돼야 로그인·신청·결제·조회가 정상 작동합니다.</p>
           <div class="viz" style="margin-top:16px">
-            <div class="viz-title">한눈에 보는 비유</div>
-            <p class="def" style="font-size:13.5px">프론트엔드는 <b>매장(진열대)</b>, 백엔드는 <b>직원(주문 처리)</b>, 데이터베이스는 <b>창고(보관)</b>. 셋이 함께 움직여야 주문이 완성됩니다.</p>
+            <div class="viz-title">그림으로 보기 · 세 역할</div>
+            <div class="analogy">
+              <div class="a-item"><span class="a-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 9l1-4h14l1 4M4 9h16v2a3 3 0 0 1-6 0 3 3 0 0 1-6 0 3 3 0 0 1-4 0V9zM5 12v8h14v-8"/></svg></span><strong>매장</strong><small>프론트엔드</small></div>
+              <span class="a-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+              <div class="a-item"><span class="a-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.5 3-5.5 7-5.5s7 2 7 5.5"/></svg></span><strong>직원</strong><small>백엔드</small></div>
+              <span class="a-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+              <div class="a-item"><span class="a-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.6 3.1 3 7 3s7-1.4 7-3V6"/></svg></span><strong>창고</strong><small>데이터베이스</small></div>
+            </div>
           </div>
         </div>
         <div class="c-right">
@@ -673,16 +800,16 @@ footer .wrap{padding:30px clamp(16px,4vw,32px);display:flex;flex-wrap:wrap;align
             <div class="viz-title">요청이 흐르는 구조</div>
             <div class="stack">
               <div class="layer fe"><span class="lz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 20h8"/></svg></span><span class="lt"><strong>프론트엔드</strong><small>사용자가 보는 화면 · 버튼</small></span></div>
-              <div class="stack-arrow">▲ ▼</div>
+              <div class="stack-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6M6 11l6-6 6 6"/></svg> 요청 ↔ 응답</div>
               <div class="layer be"><span class="lz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 6l8 6 8-6M4 6v12h16V6"/></svg></span><span class="lt"><strong>백엔드</strong><small>요청 처리 · 계산 · 검증</small></span></div>
-              <div class="stack-arrow">▲ ▼</div>
+              <div class="stack-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6M6 11l6-6 6 6"/></svg> 저장 ↔ 조회</div>
               <div class="layer db"><span class="lz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/></svg></span><span class="lt"><strong>데이터베이스</strong><small>정보 저장 · 보관</small></span></div>
             </div>
           </div>
           <div class="def-label">실무에서 확인할 점</div>
-          <ul class="checklist">
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>화면이 예쁘다고 기능이 완성된 것은 아닙니다.</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>버튼을 눌렀을 때 저장되고, 다시 접속해도 남아 있는지 확인합니다.</li>
+          <ul class="points">
+            <li>화면이 예쁘다고 <b>기능이 완성된 것은 아닙니다.</b></li>
+            <li>버튼을 눌렀을 때 저장되고, <b>다시 접속해도 남아 있는지</b> 확인합니다.</li>
           </ul>
         </div>
       </div>
@@ -698,8 +825,8 @@ footer .wrap{padding:30px clamp(16px,4vw,32px);display:flex;flex-wrap:wrap;align
       </div>
       <div class="c-body">
         <div class="c-left">
-          <div class="def-label">개념 정의</div>
-          <p class="def"><b>서버</b>는 사이트의 파일과 기능이 실행되는 컴퓨터, <b>호스팅</b>은 그 서버 공간을 빌려 운영하는 서비스입니다. <b>도메인</b>은 이용자가 입력하는 인터넷 주소이며, <b>SSL</b>은 이용자와 사이트 사이의 정보를 암호화해 안전하게 주고받는 보안 장치입니다.</p>
+          <div class="def-label">쉽게 말하면 · 가게에 비유하면</div>
+          <p class="def"><b>서버</b>는 사이트가 실제로 돌아가는 ‘건물’, <b>호스팅</b>은 그 건물 공간을 빌리는 ‘임대’, <b>도메인</b>은 손님이 찾아오는 ‘주소(간판)’, <b>SSL</b>은 오가는 정보를 지키는 ‘보안 자물쇠’입니다. 네 가지가 갖춰져야 안전하게 접속되는 사이트가 됩니다.</p>
           <ul class="points">
             <li><b>소유권</b> — 도메인·호스팅 명의가 누구인지가 가장 중요합니다.</li>
             <li><b>신뢰</b> — SSL(자물쇠·https)이 없으면 ‘안전하지 않음’으로 표시됩니다.</li>
@@ -708,18 +835,23 @@ footer .wrap{padding:30px clamp(16px,4vw,32px);display:flex;flex-wrap:wrap;align
         </div>
         <div class="c-right">
           <div class="viz">
-            <div class="viz-title">네 가지 구성 요소</div>
+            <div class="viz-title">그림으로 보기 · 네 가지 구성 요소</div>
             <div class="infra">
-              <div class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="6" rx="1.5"/><rect x="3" y="14" width="18" height="6" rx="1.5"/></svg><span><strong>서버</strong><small>실행되는 건물</small></span></div>
-              <div class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/></svg><span><strong>호스팅</strong><small>공간 임대</small></span></div>
-              <div class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg><span><strong>도메인</strong><small>인터넷 주소</small></span></div>
-              <div class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><span><strong>SSL</strong><small>보안 자물쇠</small></span></div>
+              <div class="box"><span class="bi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="6" rx="1.5"/><rect x="3" y="14" width="18" height="6" rx="1.5"/><path d="M7 7h.01M7 17h.01"/></svg></span><span><strong>서버</strong><small>건물 (실행)</small></span></div>
+              <div class="box"><span class="bi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/></svg></span><span><strong>호스팅</strong><small>공간 임대</small></span></div>
+              <div class="box"><span class="bi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg></span><span><strong>도메인</strong><small>인터넷 주소</small></span></div>
+              <div class="box"><span class="bi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span><span><strong>SSL</strong><small>보안 자물쇠</small></span></div>
             </div>
+            <div class="urlbar" aria-label="SSL이 적용된 주소창 예시">
+              <span class="lock" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span>
+              <span><span class="https">https://</span>www.example.co.kr</span>
+            </div>
+            <p class="viz-cap">주소창의 자물쇠와 <b>https</b>가 SSL 적용 여부를 알려줍니다.</p>
           </div>
           <div class="def-label">실무에서 확인할 점</div>
-          <ul class="checklist">
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>인수인계 시 도메인 소유자·호스팅 결제 계정·갱신일을 반드시 확인합니다.</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>외주사 명의로만 등록되지 않도록 자사 명의 확보를 요구합니다.</li>
+          <ul class="points">
+            <li>인수인계 시 <b>도메인 소유자·호스팅 결제 계정·갱신일</b>을 반드시 확인합니다.</li>
+            <li>외주사 명의로만 등록되지 않도록 <b>자사 명의 확보</b>를 요구합니다.</li>
           </ul>
         </div>
       </div>
@@ -736,6 +868,10 @@ footer .wrap{padding:30px clamp(16px,4vw,32px);display:flex;flex-wrap:wrap;align
       <div class="cl-label">Wrap-up · 맺음말</div>
       <h2>개념을 알면 <em>요구사항이 선명</em>해지고,<br/>결과물의 완성도가 달라집니다</h2>
       <p>직접 코딩하지 않아도 좋습니다. 무엇을 물어야 하는지, 무엇을 검수해야 하는지 아는 것만으로 프로젝트의 방향과 품질이 바뀝니다. 이 일곱 가지 개념이 그 기준선이 되어줄 것입니다.</p>
+      <div class="cl-actions">
+        <a class="glass-btn on-dark is-accent" href="#top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 15 6-6 6 6"/></svg>처음부터 다시 보기</a>
+        <a class="glass-btn on-dark" href="#c1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>7가지 개념 목차</a>
+      </div>
     </div>
     <aside class="speaker" aria-label="작성자">
       <div class="sp-label">Lecturer / Author</div>
@@ -759,8 +895,8 @@ footer .wrap{padding:30px clamp(16px,4vw,32px);display:flex;flex-wrap:wrap;align
       </div>
     </div>
     <div class="f-meta">작성 · 김동규 상무 &nbsp;|&nbsp; 비전공 실무자 교육용 자료 &nbsp;|&nbsp; 2025 개정판</div>
-    <a class="to-top" href="#top" aria-label="페이지 맨 위로 이동">맨 위로
-      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg>
+    <a class="glass-btn on-dark" href="#top" aria-label="페이지 맨 위로 이동">맨 위로
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg>
     </a>
   </div>
 </footer>
@@ -778,7 +914,6 @@ footer .wrap{padding:30px clamp(16px,4vw,32px);display:flex;flex-wrap:wrap;align
     label.textContent=dark?'주간 모드':'야간 모드';
     toggle.setAttribute('aria-label',dark?'주간 모드로 전환':'야간 모드로 전환');
   }
-  // initial: saved > system preference
   var saved=null;
   try{saved=localStorage.getItem('sdg-theme');}catch(e){}
   if(saved==='dark'||saved==='light'){apply(saved);}
@@ -791,7 +926,6 @@ footer .wrap{padding:30px clamp(16px,4vw,32px);display:flex;flex-wrap:wrap;align
     try{localStorage.setItem('sdg-theme',next);}catch(e){}
   });
 
-  // follow system change only if user hasn't chosen
   if(window.matchMedia){
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',function(e){
       var s=null;try{s=localStorage.getItem('sdg-theme');}catch(err){}
@@ -799,7 +933,7 @@ footer .wrap{padding:30px clamp(16px,4vw,32px);display:flex;flex-wrap:wrap;align
     });
   }
 
-  // TOC active state via scroll spy
+  // TOC active state (scroll spy)
   var links=Array.prototype.slice.call(document.querySelectorAll('#tocList a'));
   var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
   if('IntersectionObserver' in window){
@@ -808,9 +942,7 @@ footer .wrap{padding:30px clamp(16px,4vw,32px);display:flex;flex-wrap:wrap;align
         if(en.isIntersecting){
           links.forEach(function(a){a.classList.remove('active');});
           var a=map[en.target.id];
-          if(a){a.classList.add('active');
-            a.scrollIntoView({block:'nearest',inline:'center'});
-          }
+          if(a){a.classList.add('active');a.scrollIntoView({block:'nearest',inline:'center'});}
         }
       });
     },{rootMargin:'-45% 0px -50% 0px',threshold:0});
