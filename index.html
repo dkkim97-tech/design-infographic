@@ -1,641 +1,831 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-theme="light">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Design by Myway 75 — Style Library</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>"/>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet"/>
-<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-<script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<meta name="author" content="김동규 상무"/>
+<meta name="description" content="AI 이미지 생성을 위한 디자인 스타일 & 프롬프트 실무 가이드 — 김동규 상무 집필. 카테고리 9종, 스타일 20종의 활용 원리와 복사용 프롬프트를 담은 교육 자료."/>
+<title>AI 이미지 디자인 스타일 가이드 · 김동규 상무 집필</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+KR:wght@500;600;700;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
-body{background:#f4f4f5;font-family:'Noto Sans KR','IBM Plex Sans',sans-serif;color:#1a1a1a;min-height:100vh}
-input,button,textarea,select{font-family:inherit}
-::selection{background:#e0e7ff;color:#3730a3}
-
-/* Scrollbar */
-::-webkit-scrollbar{width:6px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:#d1d5db;border-radius:3px}
-::-webkit-scrollbar-thumb:hover{background:#9ca3af}
-
-/* Animations */
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
-
-.card-enter{animation:fadeIn .35s ease both}
-
-/* Card hover */
-.style-card{transition:box-shadow .22s ease,transform .22s ease}
-.style-card:hover{box-shadow:0 8px 32px rgba(0,0,0,.1)!important;transform:translateY(-3px)}
-.style-card:hover .card-actions{opacity:1!important}
-.style-card:hover .fav-btn{opacity:1!important}
-
-/* Category pills */
-.cat-pill{display:inline-flex;align-items:center;gap:4px;padding:2px 8px 2px 6px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:-.2px;white-space:nowrap}
-.cat-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
-
-/* Action buttons */
-.act-btn{display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border:1px solid #e5e5e5;border-radius:6px;background:#fff;color:#666;font-size:11px;font-weight:500;cursor:pointer;transition:all .15s;white-space:nowrap}
-.act-btn:hover{background:#f9fafb;border-color:#d1d5db;color:#333}
-.act-btn.copied{background:#f0fdf4;border-color:#86efac;color:#16a34a}
-.act-btn svg{width:13px;height:13px;flex-shrink:0}
-
-/* Tab buttons */
-.tab-btn{padding:6px 14px;border-radius:20px;border:1px solid transparent;background:transparent;color:#71717a;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap}
-.tab-btn:hover{background:#e4e4e7;color:#3f3f46}
-.tab-btn.active{background:#18181b;color:#fff;border-color:#18181b}
-
-/* Admin buttons */
-.admin-btn{padding:5px 10px;border-radius:6px;border:1px solid #e5e5e5;background:#fff;color:#666;font-size:11px;font-weight:500;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:4px}
-.admin-btn:hover{background:#fafafa;border-color:#d1d5db}
-
-/* Toast */
-.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#18181b;color:#fff;padding:10px 24px;border-radius:10px;font-size:13px;font-weight:600;z-index:9999;pointer-events:none;box-shadow:0 8px 30px rgba(0,0,0,.2);white-space:nowrap;transition:all .3s ease}
-
-/* Modal overlay */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:8000;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
-.modal-box{background:#fff;border-radius:16px;box-shadow:0 24px 80px rgba(0,0,0,.18);animation:slideUp .25s ease;max-height:90vh;overflow:hidden;display:flex;flex-direction:column}
-
-/* Search input */
-.search-wrap{position:relative;flex:1;max-width:320px}
-.search-wrap input{width:100%;padding:8px 12px 8px 34px;border:1px solid #e5e5e5;border-radius:8px;font-size:13px;outline:none;background:#fff;transition:border-color .15s}
-.search-wrap input:focus{border-color:#a5b4fc}
-.search-wrap svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#a1a1aa}
-
-/* Migration banner */
-.mig-banner{position:fixed;top:0;left:0;right:0;z-index:9999;background:#18181b;color:#fff;padding:14px 24px;display:flex;align-items:center;justify-content:center;gap:14px;font-size:13px;font-weight:600}
-.mig-bar{width:180px;height:5px;background:rgba(255,255,255,.2);border-radius:3px;overflow:hidden}
-.mig-fill{height:100%;background:#a5b4fc;border-radius:3px;transition:width .3s}
-
-/* Responsive */
-@media(max-width:900px){
-  .grid-4{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))!important}
+/* ══════════════════════════════════════════════════
+   DESIGN TOKENS  (ui-ux-pro-max: AI purple #7C3AED × generation pink #EC4899)
+══════════════════════════════════════════════════ */
+:root{
+  --primary:#7C3AED; --primary-strong:#6D28D9; --accent:#EC4899;
+  --bg:#FAF7FF; --bg-2:#F3EDFB; --surface:#FFFFFF; --surface-2:#FBF9FE;
+  --fg:#1A1526; --fg-soft:#413A52; --muted:#6B6580; --faint:#9A93AB;
+  --border:#ECE6F5; --border-strong:#DED4EE;
+  --code-bg:#F6F2FC; --code-fg:#4C3A6B;
+  --shadow-sm:0 1px 3px rgba(60,30,110,.06),0 1px 2px rgba(60,30,110,.04);
+  --shadow-md:0 8px 30px rgba(80,40,130,.10);
+  --shadow-lg:0 24px 60px rgba(70,30,120,.16);
+  --ring:rgba(124,58,237,.35);
+  /* category hues */
+  --c-technical:#6366F1; --c-digital:#3B82F6; --c-graphic:#8B5CF6; --c-artistic:#EC4899;
+  --c-3d:#14B8A6; --c-comics:#F97316; --c-concept:#818CF8; --c-craft:#A855F7; --c-vintage:#D97706;
+  --header-h:60px;
 }
-@media(max-width:600px){
-  .grid-4{grid-template-columns:1fr 1fr!important;gap:12px!important}
-  .header-inner{flex-direction:column;gap:10px!important}
-  .tab-row{flex-wrap:wrap}
+[data-theme="dark"]{
+  --primary:#A78BFA; --primary-strong:#8B5CF6; --accent:#F472B6;
+  --bg:#0E0B16; --bg-2:#150F20; --surface:#171221; --surface-2:#1C1529;
+  --fg:#EDEAF2; --fg-soft:#CFC9DB; --muted:#A29DB0; --faint:#736C82;
+  --border:#2A2338; --border-strong:#372E48;
+  --code-bg:#1E1730; --code-fg:#C9BCE6;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.4);
+  --shadow-md:0 10px 34px rgba(0,0,0,.5);
+  --shadow-lg:0 24px 60px rgba(0,0,0,.6);
+  --ring:rgba(167,139,250,.45);
+  --c-technical:#818CF8; --c-digital:#60A5FA; --c-graphic:#A78BFA; --c-artistic:#F472B6;
+  --c-3d:#2DD4BF; --c-comics:#FB923C; --c-concept:#A5B4FC; --c-craft:#C084FC; --c-vintage:#FBBF24;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+body{
+  font-family:'Inter','Noto Sans KR',sans-serif;
+  background:var(--bg); color:var(--fg);
+  line-height:1.7; font-size:16px;
+  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  transition:background .3s ease,color .3s ease;
+}
+::selection{background:color-mix(in srgb,var(--primary) 26%,transparent);color:var(--fg)}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:6px;border:2px solid var(--bg)}
+::-webkit-scrollbar-thumb:hover{background:var(--muted)}
+a{color:inherit}
+:focus-visible{outline:2.5px solid var(--primary);outline-offset:3px;border-radius:4px}
+
+/* ── reading progress ── */
+.progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:200;
+  background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .1s linear}
+
+/* ══════════════════════════════════════════════════ HEADER ══ */
+.topbar{position:sticky;top:0;z-index:150;height:var(--header-h);
+  background:color-mix(in srgb,var(--surface) 82%,transparent);
+  backdrop-filter:saturate(160%) blur(14px);-webkit-backdrop-filter:saturate(160%) blur(14px);
+  border-bottom:1px solid var(--border);display:flex;align-items:center}
+.topbar-inner{width:100%;max-width:1240px;margin:0 auto;padding:0 22px;
+  display:flex;align-items:center;justify-content:space-between;gap:14px}
+.brand{display:flex;align-items:center;gap:11px;min-width:0}
+.brand-mark{width:34px;height:34px;border-radius:10px;flex-shrink:0;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;font-size:17px;
+  box-shadow:0 4px 14px color-mix(in srgb,var(--primary) 40%,transparent)}
+.brand-txt{min-width:0}
+.brand-txt b{display:block;font-size:14px;font-weight:800;letter-spacing:-.3px;line-height:1.15;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand-txt span{display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--faint);letter-spacing:.4px}
+.topbar-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.icon-btn{width:40px;height:40px;border-radius:11px;border:1px solid var(--border-strong);
+  background:var(--surface);color:var(--fg-soft);cursor:pointer;display:grid;place-items:center;
+  transition:background .2s,border-color .2s,transform .2s}
+.icon-btn:hover{background:var(--bg-2);border-color:var(--primary);transform:translateY(-1px)}
+.icon-btn svg{width:19px;height:19px}
+.theme-btn .moon{display:none}.theme-btn .sun{display:block}
+[data-theme="dark"] .theme-btn .moon{display:block}[data-theme="dark"] .theme-btn .sun{display:none}
+
+/* ══════════════════════════════════════════════════ LAYOUT ══ */
+.wrap{max-width:1240px;margin:0 auto;padding:0 22px}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:46px;
+  max-width:1240px;margin:0 auto;padding:0 22px 90px;align-items:start}
+
+/* ── TOC sidebar ── */
+.toc{position:sticky;top:calc(var(--header-h) + 24px);align-self:start;
+  max-height:calc(100vh - var(--header-h) - 48px);overflow-y:auto;padding-right:6px}
+.toc-title{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--faint);margin-bottom:14px;font-weight:600}
+.toc a{display:block;padding:7px 12px;border-radius:9px;font-size:13.5px;font-weight:500;
+  color:var(--muted);text-decoration:none;border-left:2px solid transparent;margin-bottom:2px;
+  transition:color .18s,background .18s,border-color .18s}
+.toc a:hover{color:var(--fg);background:var(--bg-2)}
+.toc a.active{color:var(--primary);background:color-mix(in srgb,var(--primary) 9%,transparent);
+  border-left-color:var(--primary);font-weight:700}
+.toc a .idx{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--faint);margin-right:8px}
+.toc a.active .idx{color:var(--primary)}
+
+.content{min-width:0}
+
+/* ══════════════════════════════════════════════════ HERO ══ */
+.hero{padding:64px 0 42px;position:relative}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;
+  background:color-mix(in srgb,var(--primary) 11%,transparent);color:var(--primary);
+  font-size:12.5px;font-weight:700;letter-spacing:-.1px;margin-bottom:22px;
+  border:1px solid color-mix(in srgb,var(--primary) 22%,transparent)}
+.hero-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:blink 2.4s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+.hero h1{font-family:'Noto Serif KR',serif;font-weight:900;letter-spacing:-1.2px;
+  font-size:clamp(32px,5.4vw,54px);line-height:1.14;margin-bottom:22px}
+.hero h1 .grad{background:linear-gradient(120deg,var(--primary),var(--accent));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero-lead{font-size:clamp(16px,2vw,19px);color:var(--fg-soft);max-width:660px;line-height:1.75;margin-bottom:34px}
+.byline{display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:16px;
+  background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow-sm);max-width:460px}
+.byline-avatar{width:50px;height:50px;border-radius:50%;flex-shrink:0;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;
+  font-family:'Noto Serif KR',serif;font-weight:700;font-size:20px}
+.byline-info b{display:block;font-size:15px;font-weight:800}
+.byline-info b em{font-style:normal;font-size:12px;font-weight:600;color:var(--primary);margin-left:7px}
+.byline-info span{display:block;font-size:12.5px;color:var(--muted)}
+
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:38px}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px 18px;
+  box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
+.stat::before{content:"";position:absolute;top:0;left:0;width:100%;height:3px;
+  background:linear-gradient(90deg,var(--primary),var(--accent))}
+.stat b{display:block;font-family:'Inter',sans-serif;font-size:34px;font-weight:800;letter-spacing:-1px;
+  line-height:1;background:linear-gradient(120deg,var(--primary),var(--accent));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.stat span{display:block;font-size:12.5px;color:var(--muted);margin-top:8px;font-weight:500}
+
+/* ══════════════════════════════════════════════════ SECTIONS ══ */
+section{scroll-margin-top:calc(var(--header-h) + 20px)}
+.chapter{padding:52px 0 8px}
+.chapter-head{margin-bottom:26px}
+.chapter-kicker{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:10px}
+.chapter-kicker::before{content:"";width:26px;height:2px;background:var(--accent)}
+.chapter h2{font-family:'Noto Serif KR',serif;font-weight:800;font-size:clamp(24px,3.6vw,34px);
+  letter-spacing:-.7px;line-height:1.25;margin-bottom:16px}
+.chapter h3{font-size:19px;font-weight:800;letter-spacing:-.3px;margin:34px 0 14px}
+.chapter p{color:var(--fg-soft);margin-bottom:16px;max-width:720px}
+.chapter p a{color:var(--primary);font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.lead-p{font-size:17.5px;color:var(--fg);line-height:1.8}
+mark{background:color-mix(in srgb,var(--accent) 24%,transparent);color:inherit;padding:1px 5px;border-radius:5px;font-weight:600}
+strong{color:var(--fg);font-weight:700}
+
+.divider{height:1px;background:linear-gradient(90deg,var(--border),transparent);margin:8px 0 0;border:0}
+
+/* ── author note (김동규 상무의 한마디) ── */
+.note{position:relative;margin:26px 0;padding:22px 24px 22px 26px;border-radius:16px;
+  background:linear-gradient(135deg,color-mix(in srgb,var(--primary) 8%,var(--surface)),var(--surface));
+  border:1px solid color-mix(in srgb,var(--primary) 20%,var(--border));box-shadow:var(--shadow-sm)}
+.note::before{content:"";position:absolute;left:0;top:16px;bottom:16px;width:4px;border-radius:4px;
+  background:linear-gradient(180deg,var(--primary),var(--accent))}
+.note-label{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:800;
+  color:var(--primary);margin-bottom:9px;letter-spacing:-.2px}
+.note-label svg{width:15px;height:15px}
+.note p{margin:0;color:var(--fg-soft);font-size:15px;line-height:1.72}
+
+/* ── generic cards / grids ── */
+.grid{display:grid;gap:16px}
+.grid-2{grid-template-columns:repeat(2,1fr)}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+.info-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px 20px;
+  box-shadow:var(--shadow-sm);transition:transform .22s,box-shadow .22s,border-color .22s}
+.info-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:var(--border-strong)}
+.info-card .ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;margin-bottom:14px;
+  background:color-mix(in srgb,var(--primary) 12%,transparent);color:var(--primary)}
+.info-card .ic svg{width:22px;height:22px}
+.info-card h4{font-size:16px;font-weight:800;margin-bottom:7px;letter-spacing:-.3px}
+.info-card p{font-size:14px;color:var(--muted);margin:0;line-height:1.65}
+.info-card .num{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--accent);margin-bottom:10px}
+
+/* ── prompt anatomy ── */
+.anatomy{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 6px}
+.anatomy .seg{padding:8px 12px;border-radius:10px;font-size:13px;font-weight:600;line-height:1.4;
+  border:1px solid transparent}
+.seg-1{background:color-mix(in srgb,var(--c-technical) 15%,transparent);color:var(--c-technical);border-color:color-mix(in srgb,var(--c-technical) 30%,transparent)}
+.seg-2{background:color-mix(in srgb,var(--c-3d) 15%,transparent);color:var(--c-3d);border-color:color-mix(in srgb,var(--c-3d) 30%,transparent)}
+.seg-3{background:color-mix(in srgb,var(--c-comics) 15%,transparent);color:var(--c-comics);border-color:color-mix(in srgb,var(--c-comics) 30%,transparent)}
+.seg-4{background:color-mix(in srgb,var(--c-artistic) 15%,transparent);color:var(--c-artistic);border-color:color-mix(in srgb,var(--c-artistic) 30%,transparent)}
+.anatomy-legend{display:flex;flex-wrap:wrap;gap:14px 22px;margin-top:14px;font-size:13px}
+.anatomy-legend div{display:flex;align-items:center;gap:8px;color:var(--muted)}
+.anatomy-legend .sw{width:12px;height:12px;border-radius:4px;flex-shrink:0}
+
+/* ══════════════════════════════════════════════════ CATEGORY MAP ══ */
+.cat-map{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:8px}
+.cat-tile{position:relative;background:var(--surface);border:1px solid var(--border);border-radius:14px;
+  padding:16px 16px 15px;overflow:hidden;transition:transform .2s,box-shadow .2s}
+.cat-tile:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.cat-tile::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--cc)}
+.cat-tile .cat-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
+.cat-tile .cat-name{display:flex;align-items:center;gap:9px;font-size:15px;font-weight:800;letter-spacing:-.3px}
+.cat-tile .cat-name .cdot{width:10px;height:10px;border-radius:50%;background:var(--cc);flex-shrink:0;
+  box-shadow:0 0 0 4px color-mix(in srgb,var(--cc) 18%,transparent)}
+.cat-tile .cat-count{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;color:var(--cc);
+  background:color-mix(in srgb,var(--cc) 13%,transparent);padding:3px 9px;border-radius:20px}
+.cat-tile .cat-en{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--faint);margin-bottom:6px}
+.cat-tile p{font-size:13px;color:var(--muted);margin:0;line-height:1.55}
+
+/* ══════════════════════════════════════════════════ STYLE ENTRIES ══ */
+.filter-bar{display:flex;flex-wrap:wrap;gap:7px;margin:6px 0 26px;position:sticky;
+  top:calc(var(--header-h) + 6px);z-index:80;padding:10px 0;
+  background:linear-gradient(var(--bg),var(--bg) 70%,transparent)}
+.chip{padding:7px 13px;border-radius:20px;border:1px solid var(--border-strong);background:var(--surface);
+  color:var(--muted);font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap;
+  transition:all .16s;display:inline-flex;align-items:center;gap:7px}
+.chip:hover{border-color:var(--cc,var(--primary));color:var(--fg)}
+.chip .cdot{width:8px;height:8px;border-radius:50%;background:var(--cc,var(--primary))}
+.chip.active{background:var(--cc,var(--primary));color:#fff;border-color:var(--cc,var(--primary))}
+.chip.active .cdot{background:#fff}
+.chip.all.active{background:var(--fg);border-color:var(--fg)}
+[data-theme="dark"] .chip.all.active{color:var(--bg)}
+
+.style-list{display:grid;gap:16px}
+.style{--cc:var(--c-technical);background:var(--surface);border:1px solid var(--border);
+  border-radius:18px;overflow:hidden;box-shadow:var(--shadow-sm);
+  transition:transform .22s,box-shadow .22s,border-color .22s}
+.style:hover{box-shadow:var(--shadow-md);border-color:color-mix(in srgb,var(--cc) 40%,var(--border))}
+.style-top{display:grid;grid-template-columns:118px 1fr;gap:0}
+.swatch{position:relative;min-height:118px}
+.swatch::after{content:"";position:absolute;inset:0;background:var(--g);opacity:.95}
+.swatch .sid{position:absolute;left:10px;bottom:9px;z-index:2;font-family:'IBM Plex Mono',monospace;
+  font-size:11px;font-weight:600;color:#fff;background:rgba(0,0,0,.42);padding:3px 8px;border-radius:7px;
+  backdrop-filter:blur(3px)}
+.style-body{padding:18px 20px 20px}
+.style-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.style-head-l{min-width:0}
+.style-cat{display:inline-flex;align-items:center;gap:7px;padding:3px 10px;border-radius:20px;
+  font-size:11px;font-weight:800;margin-bottom:9px;
+  background:color-mix(in srgb,var(--cc) 14%,transparent);color:var(--cc)}
+.style-cat .cdot{width:7px;height:7px;border-radius:50%;background:var(--cc)}
+.style-body h4{font-size:19px;font-weight:800;letter-spacing:-.4px;line-height:1.25}
+.style-body .en{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--faint);margin-top:3px}
+.style-desc{color:var(--fg-soft);font-size:14.5px;margin:13px 0 14px;line-height:1.7}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:15px}
+.tag{font-size:11.5px;font-weight:600;color:var(--muted);background:var(--bg-2);
+  border:1px solid var(--border);padding:3px 9px;border-radius:7px}
+.usecase{display:flex;gap:9px;align-items:flex-start;font-size:13.5px;color:var(--muted);margin-bottom:16px}
+.usecase svg{width:16px;height:16px;flex-shrink:0;margin-top:2px;color:var(--cc)}
+.usecase b{color:var(--fg-soft);font-weight:700}
+.prompt-box{background:var(--code-bg);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.prompt-head{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;
+  border-bottom:1px solid var(--border)}
+.prompt-head span{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;color:var(--faint);
+  letter-spacing:.5px;display:flex;align-items:center;gap:7px}
+.prompt-head span svg{width:13px;height:13px}
+.copy-btn{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:8px;
+  border:1px solid var(--border-strong);background:var(--surface);color:var(--fg-soft);
+  font-size:11.5px;font-weight:700;cursor:pointer;transition:all .16s}
+.copy-btn:hover{border-color:var(--primary);color:var(--primary)}
+.copy-btn.done{background:color-mix(in srgb,var(--c-3d) 16%,transparent);border-color:var(--c-3d);color:var(--c-3d)}
+.copy-btn svg{width:13px;height:13px}
+.prompt-box code{display:block;padding:13px 14px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;
+  line-height:1.72;color:var(--code-fg);white-space:pre-wrap;word-break:break-word}
+.style.hidden{display:none}
+
+/* ══════════════════════════════════════════════════ CHECKLIST ══ */
+.checklist{list-style:none;display:grid;gap:11px;margin:8px 0 6px}
+.checklist li{display:flex;gap:13px;align-items:flex-start;background:var(--surface);
+  border:1px solid var(--border);border-radius:14px;padding:15px 17px;box-shadow:var(--shadow-sm)}
+.checklist .ck{width:26px;height:26px;border-radius:8px;flex-shrink:0;display:grid;place-items:center;
+  background:color-mix(in srgb,var(--c-3d) 15%,transparent);color:var(--c-3d)}
+.checklist .ck svg{width:16px;height:16px}
+.checklist b{display:block;font-size:15px;font-weight:800;margin-bottom:3px}
+.checklist p{font-size:13.5px;color:var(--muted);margin:0}
+
+.step-list{counter-reset:step;display:grid;gap:14px;margin:8px 0}
+.step{display:grid;grid-template-columns:44px 1fr;gap:16px;align-items:start;
+  background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px 20px;box-shadow:var(--shadow-sm)}
+.step .n{counter-increment:step;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;
+  font-family:'Inter';font-weight:800;font-size:18px;color:#fff;
+  background:linear-gradient(135deg,var(--primary),var(--accent))}
+.step .n::before{content:counter(step)}
+.step h4{font-size:16px;font-weight:800;margin-bottom:5px}
+.step p{font-size:14px;color:var(--muted);margin:0}
+
+/* ══════════════════════════════════════════════════ CLOSING / FOOTER ══ */
+.closing{margin:56px 0 0;padding:44px 40px;border-radius:24px;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;box-shadow:var(--shadow-lg)}
+.closing::before{content:"";position:absolute;inset:0;opacity:.16;
+  background:radial-gradient(circle at 82% 18%,#fff 0,transparent 42%),radial-gradient(circle at 12% 88%,#fff 0,transparent 38%)}
+.closing-inner{position:relative;z-index:1}
+.closing .qmark{font-family:'Noto Serif KR',serif;font-size:60px;line-height:.6;opacity:.5;margin-bottom:6px}
+.closing p{font-family:'Noto Serif KR',serif;font-size:clamp(18px,2.6vw,24px);font-weight:600;
+  line-height:1.6;max-width:640px;margin-bottom:24px;color:#fff}
+.closing .sign{display:flex;align-items:center;gap:13px}
+.closing .sign .av{width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.2);
+  display:grid;place-items:center;font-family:'Noto Serif KR',serif;font-weight:700;font-size:18px;
+  border:1.5px solid rgba(255,255,255,.5)}
+.closing .sign b{display:block;font-size:15px;font-weight:800}
+.closing .sign span{display:block;font-size:12.5px;opacity:.85}
+
+.site-footer{border-top:1px solid var(--border);margin-top:30px}
+.site-footer .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;
+  padding-top:26px;padding-bottom:40px}
+.site-footer .fl{display:flex;align-items:center;gap:11px}
+.site-footer .fl .brand-mark{width:30px;height:30px;font-size:15px}
+.site-footer .fl b{font-size:14px;font-weight:800}
+.site-footer .fl span{display:block;font-size:11.5px;color:var(--faint);font-family:'IBM Plex Mono',monospace}
+.site-footer .fr{font-size:12px;color:var(--faint);font-family:'IBM Plex Mono',monospace;text-align:right}
+
+/* ── back-to-top ── */
+.totop{position:fixed;right:22px;bottom:22px;z-index:120;width:46px;height:46px;border-radius:14px;
+  border:1px solid var(--border-strong);background:var(--surface);color:var(--fg-soft);cursor:pointer;
+  display:grid;place-items:center;box-shadow:var(--shadow-md);opacity:0;transform:translateY(12px);
+  pointer-events:none;transition:opacity .25s,transform .25s,border-color .2s,color .2s}
+.totop.show{opacity:1;transform:translateY(0);pointer-events:auto}
+.totop:hover{border-color:var(--primary);color:var(--primary)}
+.totop svg{width:20px;height:20px}
+
+/* ── toast ── */
+.toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(14px);z-index:300;
+  background:var(--fg);color:var(--bg);padding:11px 20px;border-radius:12px;font-size:13.5px;font-weight:700;
+  box-shadow:var(--shadow-lg);opacity:0;pointer-events:none;transition:opacity .28s,transform .28s;
+  display:flex;align-items:center;gap:9px}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast svg{width:16px;height:16px}
+
+/* ══════════════════════════════════════════════════ RESPONSIVE ══ */
+@media (max-width:980px){
+  .layout{grid-template-columns:1fr;gap:0;padding-bottom:70px}
+  .toc{display:none}
+  .cat-map{grid-template-columns:repeat(2,1fr)}
+  .hero{padding-top:44px}
+}
+@media (max-width:680px){
+  body{font-size:15.5px}
+  .wrap,.layout{padding-left:16px;padding-right:16px}
+  .hero-stats{grid-template-columns:1fr;gap:11px}
+  .grid-2,.grid-3{grid-template-columns:1fr}
+  .cat-map{grid-template-columns:1fr}
+  .style-top{grid-template-columns:1fr}
+  .swatch{min-height:88px}
+  .swatch .sid{bottom:auto;top:9px}
+  .closing{padding:34px 22px}
+  .filter-bar{gap:6px}
+  .anatomy-legend{gap:10px 16px}
+  .step{grid-template-columns:38px 1fr;gap:12px;padding:15px 16px}
+  .step .n{width:38px;height:38px;font-size:16px}
+}
+@media (max-width:400px){
+  .brand-txt span{display:none}
 }
 </style>
 </head>
 <body>
-<div id="root"></div>
-<script type="text/babel">
-const {useState,useEffect,useRef,useCallback}=React;
+<div class="progress" id="progress"></div>
 
-/* ══════════════════════════════════════
-   CONFIG
-══════════════════════════════════════ */
-const ADMIN_PW="myway75";
-const SITE_URL="https://design-infographic.netlify.app/";
-const EDITS_KEY="myway75-edits";
-const FAVS_KEY="myway75-favs";
-const MIG_FLAG="myway75-idb-v1";
-const DB_NAME="myway75-imgdb";
-const DB_STORE="images";
+<!-- ═══════════════ HEADER ═══════════════ -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="brand-mark">🎨</div>
+      <div class="brand-txt">
+        <b>AI 이미지 디자인 스타일 가이드</b>
+        <span>edited by K.D.KIM</span>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <button class="icon-btn theme-btn" id="themeToggle" aria-label="주간/야간 모드 전환" title="주간·야간 모드 전환">
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M2 12h2.5M19.5 12H22M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
 
-const CATS=["ALL","FAVORITES","TECHNICAL","DIGITAL","GRAPHIC","ARTISTIC","3D","COMICS","CONCEPT","CRAFT","VINTAGE"];
-const CAT_IN=["TECHNICAL","DIGITAL","GRAPHIC","ARTISTIC","3D","COMICS","CONCEPT","CRAFT","VINTAGE"];
-const CC={TECHNICAL:"#6366f1",DIGITAL:"#3b82f6",GRAPHIC:"#8b5cf6",ARTISTIC:"#ec4899","3D":"#14b8a6",COMICS:"#f97316",CONCEPT:"#818cf8",CRAFT:"#a855f7",VINTAGE:"#d97706"};
-const CAT_KO={TECHNICAL:"테크니컬",DIGITAL:"디지털",GRAPHIC:"그래픽",ARTISTIC:"아티스틱","3D":"3D",COMICS:"코믹스",CONCEPT:"컨셉",CRAFT:"크래프트",VINTAGE:"빈티지"};
+<div class="layout">
+  <!-- ═══════════════ TOC ═══════════════ -->
+  <nav class="toc" id="toc" aria-label="목차">
+    <div class="toc-title">목차 · Contents</div>
+    <a href="#intro"><span class="idx">00</span>들어가며</a>
+    <a href="#basics"><span class="idx">01</span>디자인 스타일이란</a>
+    <a href="#prompt"><span class="idx">02</span>프롬프트 작성 원리</a>
+    <a href="#categories"><span class="idx">03</span>카테고리 9종 지도</a>
+    <a href="#library"><span class="idx">04</span>스타일 20종 레퍼런스</a>
+    <a href="#workflow"><span class="idx">05</span>실전 5단계 워크플로우</a>
+    <a href="#checklist"><span class="idx">06</span>품질 체크리스트</a>
+    <a href="#closing"><span class="idx">07</span>맺으며</a>
+  </nav>
 
-/* ══════════════════════════════════════
-   IndexedDB
-══════════════════════════════════════ */
-let _db=null;
-function openDB(){
-  if(_db)return Promise.resolve(_db);
-  return new Promise((res,rej)=>{
-    const r=indexedDB.open(DB_NAME,1);
-    r.onupgradeneeded=e=>e.target.result.createObjectStore(DB_STORE);
-    r.onsuccess=e=>{_db=e.target.result;res(_db);};
-    r.onerror=()=>rej(r.error);
-  });
-}
-function idbSet(id,val){return openDB().then(db=>new Promise((res,rej)=>{const tx=db.transaction(DB_STORE,'readwrite');tx.objectStore(DB_STORE).put(val,'img-'+id);tx.oncomplete=res;tx.onerror=()=>rej(tx.error);}));}
-function idbGet(id){return openDB().then(db=>new Promise(res=>{const r=db.transaction(DB_STORE,'readonly').objectStore(DB_STORE).get('img-'+id);r.onsuccess=()=>res(r.result||null);r.onerror=()=>res(null);}));}
-function idbDel(id){return openDB().then(db=>new Promise(res=>{const tx=db.transaction(DB_STORE,'readwrite');tx.objectStore(DB_STORE).delete('img-'+id);tx.oncomplete=res;tx.onerror=res;}));}
+  <!-- ═══════════════ CONTENT ═══════════════ -->
+  <main class="content">
 
-/* ══════════════════════════════════════
-   Migration: localStorage base64 → IndexedDB
-══════════════════════════════════════ */
-async function migrate(onP){
-  if(localStorage.getItem(MIG_FLAG)==='1')return{skip:true};
-  const raw=localStorage.getItem(EDITS_KEY);
-  if(!raw){localStorage.setItem(MIG_FLAG,'1');return{skip:true};}
-  let styles;
-  try{styles=JSON.parse(raw);}catch(e){localStorage.setItem(MIG_FLAG,'1');return{skip:true};}
-  const toMove=styles.filter(s=>s.image&&s.image.startsWith('data:'));
-  if(!toMove.length){localStorage.setItem(MIG_FLAG,'1');return{skip:true};}
-  onP&&onP(0,toMove.length);
-  const cleaned=styles.map(s=>s.image&&s.image.startsWith('data:')?{...s,image:'__idb__'+s.id}:s);
-  for(let i=0;i<toMove.length;i++){
-    try{await idbSet(toMove[i].id,toMove[i].image);}catch(e){console.warn('idb fail',e);}
-    onP&&onP(i+1,toMove.length);
-    await new Promise(r=>setTimeout(r,0));
-  }
-  try{localStorage.setItem(EDITS_KEY,JSON.stringify(cleaned));}catch(e){}
-  localStorage.setItem(MIG_FLAG,'1');
-  return{moved:toMove.length};
-}
+    <!-- HERO -->
+    <section class="hero" id="intro">
+      <span class="hero-badge"><span class="dot"></span>사내 디자인 실무 교육 자료 · 2026</span>
+      <h1>AI 이미지 생성을 위한<br><span class="grad">디자인 스타일 실무 가이드</span></h1>
+      <p class="hero-lead">
+        같은 주제라도 <mark>어떤 시각 언어로 표현하느냐</mark>에 따라 결과물의 설득력은 완전히 달라집니다.
+        이 자료는 우리가 자주 쓰는 디자인 스타일 20종을 9개 카테고리로 정리하고,
+        각 스타일을 실제로 재현할 수 있는 <strong>복사용 프롬프트</strong>와 활용 맥락까지 함께 담았습니다.
+        디자인 비전공자도 오늘 바로 실무에 적용할 수 있도록 구성했습니다.
+      </p>
+      <div class="byline">
+        <div class="byline-avatar">金</div>
+        <div class="byline-info">
+          <b>김동규<em>집필 · 상무</em></b>
+          <span>Design &amp; Creative Division</span>
+        </div>
+      </div>
 
-/* ══════════════════════════════════════
-   Storage helpers
-══════════════════════════════════════ */
-function lsLoad(k){try{const d=localStorage.getItem(k);return d?JSON.parse(d):null;}catch(e){return null;}}
-function lsSave(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){console.warn('lsSave fail',e);}}
+      <div class="hero-stats">
+        <div class="stat"><b>20</b><span>실무 디자인 스타일</span></div>
+        <div class="stat"><b>9</b><span>표준 분류 카테고리</span></div>
+        <div class="stat"><b>1‑Click</b><span>복사 즉시 사용 프롬프트</span></div>
+      </div>
+    </section>
 
-/* ══════════════════════════════════════
-   DEFAULT STYLES
-══════════════════════════════════════ */
-const DEFAULTS=[
-  // ── Page 1, Row 1 ──
-  {id:316,cat:"GRAPHIC",ko:"스피드",en:"Speed / Dynamic",prompt:"High-speed dynamic infographic design with bold arrows and motion lines, energetic diagonal composition, speed blur effects, racing aesthetic, strong contrast, vivid accent colors on dark background",grad:"linear-gradient(135deg,#1a1a2e,#e74c3c,#f39c12)",image:null},
-  {id:325,cat:"TECHNICAL",ko:"인포그래픽",en:"Infographic / Clean",prompt:"Clean professional infographic with structured data blocks, pie charts, bar graphs, timeline elements, icon grid, organized sections with clear hierarchy, modern corporate data visualization",grad:"linear-gradient(135deg,#2c3e50,#3498db,#ecf0f1)",image:null},
-  {id:389,cat:"CONCEPT",ko:"제품 소개",en:"Product Showcase / Scene",prompt:"Product showcase scene with lifestyle setting, clean white background product hero shot, feature callouts, spec comparison table, elegant product photography composition, commercial advertisement feel",grad:"linear-gradient(135deg,#f8f9fa,#dee2e6,#adb5bd)",image:null},
-  {id:397,cat:"TECHNICAL",ko:"분석 리포트",en:"Analysis Report / Data",prompt:"Analysis report style with executive summary blocks, KPI dashboard cards, financial charts, trend arrows, percentage indicators, professional business document aesthetic, data-driven visual storytelling",grad:"linear-gradient(135deg,#1a1a2e,#4a4a6a,#8b8baa)",image:null},
-  // ── Page 1, Row 2 ──
-  {id:327,cat:"GRAPHIC",ko:"모노+액센트",en:"Mono + Accent Tone",prompt:"Monochrome design with single bold accent color, high contrast black and white photography base, strategic color pop elements, sophisticated editorial layout, minimal yet impactful visual hierarchy",grad:"linear-gradient(135deg,#1a1a1a,#444,#e74c3c)",image:null},
-  {id:299,cat:"CONCEPT",ko:"미니멀리즘 여백",en:"Minimalism / Void / Essence",prompt:"Ultra-minimal design with generous white space, single focal element, sparse typography, zen-like composition, reduction to essentials, breathing room, contemplative void aesthetic, less is more philosophy",grad:"linear-gradient(135deg,#fafafa,#f0f0f0,#e8e8e8)",image:null},
-  {id:317,cat:"GRAPHIC",ko:"스토리텔링",en:"Storytelling / Narrative",prompt:"Narrative storytelling infographic with sequential flow, chapter-like sections, illustration vignettes, story arc visualization, emotional journey mapping, editorial illustration style, magazine feature layout",grad:"linear-gradient(135deg,#2d3436,#636e72,#b2bec3)",image:null},
-  {id:248,cat:"TECHNICAL",ko:"데이터 비주얼",en:"Data Viz / Graph / Information",prompt:"Data visualization with complex graphs and charts, information density, multi-variable scatter plots, heat maps, network diagrams, statistical infographic, rich data storytelling with annotations",grad:"linear-gradient(135deg,#0c2461,#1e3799,#4a69bd)",image:null},
-  // ── Page 1, Row 3 ──
-  {id:888,cat:"COMICS",ko:"낙서 노트",en:"Doodle / Notebook",prompt:"Hand-drawn doodle notebook style with black ink sketches on lined paper, casual hand-lettering, arrows speech bubbles, simple stick-figure illustrations, margin notes, school notebook aesthetic, spontaneous sketch feel",grad:"linear-gradient(135deg,#f5f0e8,#e8e0d0,#d4c8b0)",image:null},
-  {id:263,cat:"GRAPHIC",ko:"프레피 체크",en:"Preppy / Check / Navy",prompt:"Preppy style with navy and white check patterns, collegiate aesthetic, classic stripe elements, brass button accents, academic crest design, traditional plaid, New England inspired, nautical elements",grad:"linear-gradient(135deg,#1a2a6c,#b21f1f,#fdbb2d)",image:null},
-  {id:223,cat:"CONCEPT",ko:"마블 화이트 골드",en:"Marble / White / Gold",prompt:"Elegant marble and gold design with white marble textures, gold geometric accents, luxury brand aesthetic, premium material study, classical yet modern, high-end product showcase, sophisticated palette",grad:"linear-gradient(135deg,#f5f5f5,#e8e8e8,#d4af37)",image:null},
-  {id:283,cat:"ARTISTIC",ko:"흑백 인물 빛",en:"Black&White / Portrait / Light",prompt:"Black and white portrait photography style with dramatic chiaroscuro lighting, high contrast monochrome, studio portrait aesthetic, rim lighting, moody atmospheric quality, cinematic black and white",grad:"linear-gradient(135deg,#000,#333,#666)",image:null},
-  // ── Page 2, Row 1 ──
-  {id:55,cat:"3D",ko:"클레이모피즘 파스텔",en:"Claymorphism / Pastel / Rounded",prompt:"Claymorphism design with soft pastel clay-like 3D elements, rounded puffy shapes, gentle shadows, playful toy aesthetic, marshmallow texture, warm soft lighting, children's illustration feel",grad:"linear-gradient(135deg,#ffeaa7,#fab1a0,#a29bfe,#55efc4)",image:null},
-  {id:178,cat:"3D",ko:"클레이 스톱모션",en:"Clay / Stopmotion / Cute",prompt:"Clay stop-motion animation style with handcrafted clay figures, visible fingerprint textures, warm studio lighting, miniature set design, Aardman-inspired character design, playful stop-motion aesthetic",grad:"linear-gradient(135deg,#fdcb6e,#e17055,#00b894)",image:null},
-  {id:33,cat:"ARTISTIC",ko:"유화 임파스토 클래식",en:"Oil painting / Impasto / Classical",prompt:"Classical oil painting with heavy impasto technique, rich texture palette knife work, old master glazing, museum-quality fine art, dramatic Rembrandt lighting, warm earth tones, gallery exhibition quality",grad:"linear-gradient(135deg,#2c1810,#6b4423,#c4923a,#e8c87a)",image:null},
-  {id:85,cat:"ARTISTIC",ko:"유화 인상주의 빛",en:"Oil Painting / Impressionism / Light",prompt:"Impressionist oil painting with vibrant light-filled scenes, loose expressive brushwork, plein air outdoor painting, dappled sunlight through leaves, pastel sky, Monet-inspired color harmony, garden paradise",grad:"linear-gradient(135deg,#87ceeb,#98fb98,#dda0dd,#f0e68c)",image:null},
-  // ── Page 2, Row 2 ──
-  {id:240,cat:"CONCEPT",ko:"날씨 구름 비",en:"Weather / Cloud / Rain",prompt:"Weather-themed atmospheric design with dramatic cloud formations, rain droplets, lightning bolts, fog and mist effects, storm aesthetics, meteorological diagram style, nature's power visualization",grad:"linear-gradient(135deg,#2c3e50,#4a6274,#7fb3d3,#bdc3c7)",image:null},
-  {id:76,cat:"ARTISTIC",ko:"스케치 수채화 여행",en:"Sketch / Watercolor / Travel",prompt:"Travel sketchbook style with loose pen and watercolor technique, urban sketching, hand-drawn architecture, casual field notes, stamp and postmark elements, wanderlust journal aesthetic, authentic hand-drawn feel",grad:"linear-gradient(135deg,#f9e4b7,#e8c17a,#7ab8bf,#5a9e8f)",image:null},
-  {id:279,cat:"CRAFT",ko:"핸드리튼 초크 캐주얼",en:"Handwritten / Chalk / Casual",prompt:"Handwritten chalk style on blackboard background, casual hand lettering, chalk dust texture, doodle illustrations, cafe menu board aesthetic, warm friendly handcrafted feel, whiteboard sketch notes",grad:"linear-gradient(135deg,#2d3436,#636e72,#dfe6e9)",image:null},
-  {id:269,cat:"DIGITAL",ko:"사이버 테크웨어 블랙",en:"Cyber / Techwear / Black",prompt:"Dark cyberpunk techwear aesthetic with black technical materials, neon accent lines, HUD interface elements, tactical gear design, dark futuristic urban style, tech-noir atmosphere, matte black with glow",grad:"linear-gradient(135deg,#0a0a0a,#1a1a2e,#2d1b69,#0ff)",image:null},
+    <!-- CH 01 -->
+    <section class="chapter" id="basics">
+      <div class="chapter-head">
+        <div class="chapter-kicker">Chapter 01</div>
+        <h2>디자인 스타일이란 무엇인가</h2>
+      </div>
+      <p class="lead-p">
+        디자인 스타일은 <strong>정보를 담는 그릇</strong>입니다. 동일한 데이터도 딱딱한 리포트에 담으면 신뢰를,
+        손그림 노트에 담으면 친근함을 전달합니다. AI 이미지 생성 시대에는 이 '그릇'을 말(프롬프트)로 지정할 수 있어야 합니다.
+      </p>
+      <div class="note">
+        <div class="note-label">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+          김동규 상무의 한마디
+        </div>
+        <p>
+          "제가 20년간 현장에서 배운 건 단 하나입니다 — <strong>스타일을 먼저 정하고 콘텐츠를 채워야 한다</strong>는 것.
+          스타일 없이 만든 자료는 방향을 잃습니다. 반대로 스타일이 명확하면 누가 만들어도 톤이 일관됩니다.
+          이 가이드를 팀의 공통 언어로 삼아 주세요."
+        </p>
+      </div>
+      <h3>왜 지금 '스타일 문해력'이 중요한가</h3>
+      <div class="grid grid-3">
+        <div class="info-card">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8Z"/></svg></div>
+          <div class="num">01</div>
+          <h4>속도</h4>
+          <p>스타일을 프롬프트로 지정하면 초안까지 걸리던 반나절이 수 분으로 줄어듭니다.</p>
+        </div>
+        <div class="info-card">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 21V9"/></svg></div>
+          <div class="num">02</div>
+          <h4>일관성</h4>
+          <p>같은 스타일 토큰을 공유하면 부서·담당자가 달라도 브랜드 톤이 흔들리지 않습니다.</p>
+        </div>
+        <div class="info-card">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m9 12 2 2 4-4"/></svg></div>
+          <div class="num">03</div>
+          <h4>설득력</h4>
+          <p>목적(신뢰·감성·재미)에 맞는 스타일을 고르면 같은 메시지도 더 강하게 꽂힙니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CH 02 -->
+    <section class="chapter" id="prompt">
+      <div class="chapter-head">
+        <div class="chapter-kicker">Chapter 02</div>
+        <h2>프롬프트 작성 원리</h2>
+      </div>
+      <p>
+        좋은 프롬프트에는 공통 구조가 있습니다. 이 가이드의 모든 프롬프트는 아래 <strong>4개 블록</strong>을 조합해
+        만들어졌습니다. 구조를 이해하면 수록된 프롬프트를 우리 목적에 맞게 자유롭게 변형할 수 있습니다.
+      </p>
+      <div class="anatomy" aria-hidden="true">
+        <span class="seg seg-1">Clean professional infographic</span>
+        <span class="seg seg-2">structured data blocks, pie charts, timeline</span>
+        <span class="seg seg-3">organized sections, clear hierarchy</span>
+        <span class="seg seg-4">modern corporate data visualization</span>
+      </div>
+      <div class="anatomy-legend">
+        <div><span class="sw" style="background:var(--c-technical)"></span><b style="color:var(--fg-soft)">①&nbsp;주제·형식</b>&nbsp;— 무엇을, 어떤 매체로</div>
+        <div><span class="sw" style="background:var(--c-3d)"></span><b style="color:var(--fg-soft)">②&nbsp;핵심 요소</b>&nbsp;— 화면에 담길 구성물</div>
+        <div><span class="sw" style="background:var(--c-comics)"></span><b style="color:var(--fg-soft)">③&nbsp;레이아웃·구조</b>&nbsp;— 배치와 위계</div>
+        <div><span class="sw" style="background:var(--c-artistic)"></span><b style="color:var(--fg-soft)">④&nbsp;분위기·톤</b>&nbsp;— 무드와 마감 질감</div>
+      </div>
+      <div class="note">
+        <div class="note-label">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+          김동규 상무의 한마디
+        </div>
+        <p>
+          "프롬프트는 <strong>형용사가 아니라 명사와 구조</strong>로 씁니다. '예쁘게'가 아니라 'pie charts, timeline, clear hierarchy'처럼
+          구체적인 구성 요소를 나열하세요. AI는 분위기어보다 사물·배치 지시에 훨씬 정확하게 반응합니다."
+        </p>
+      </div>
+    </section>
+
+    <!-- CH 03 -->
+    <section class="chapter" id="categories">
+      <div class="chapter-head">
+        <div class="chapter-kicker">Chapter 03</div>
+        <h2>카테고리 9종 지도</h2>
+      </div>
+      <p>
+        스타일을 목적에 따라 9개 카테고리로 표준화했습니다. 각 카테고리에는 고유 색상을 부여해
+        아래 레퍼런스에서 한눈에 구분할 수 있도록 했습니다. <strong>색이 곧 분류</strong>입니다.
+      </p>
+      <div class="cat-map" id="catMap"><!-- injected --></div>
+    </section>
+
+    <!-- CH 04 -->
+    <section class="chapter" id="library">
+      <div class="chapter-head">
+        <div class="chapter-kicker">Chapter 04 · Reference</div>
+        <h2>스타일 20종 레퍼런스</h2>
+      </div>
+      <p>
+        아래는 실무에서 검증된 스타일 20종입니다. 각 항목의 <strong>프롬프트 복사</strong> 버튼을 눌러
+        AI 이미지 생성 도구에 그대로 붙여 넣으세요. 카테고리 칩으로 원하는 계열만 골라 볼 수 있습니다.
+      </p>
+      <div class="filter-bar" id="filterBar"><!-- injected --></div>
+      <div class="style-list" id="styleList"><!-- injected --></div>
+    </section>
+
+    <!-- CH 05 -->
+    <section class="chapter" id="workflow">
+      <div class="chapter-head">
+        <div class="chapter-kicker">Chapter 05</div>
+        <h2>실전 5단계 워크플로우</h2>
+      </div>
+      <p>레퍼런스를 실제 결과물로 바꾸는 표준 절차입니다. 이 순서를 지키면 시행착오가 크게 줄어듭니다.</p>
+      <div class="step-list">
+        <div class="step"><div class="n"></div><div><h4>목적 정의</h4><p>이 이미지가 전달할 감정과 핵심 메시지를 한 문장으로 적습니다. (예: "신뢰감 있는 실적 요약")</p></div></div>
+        <div class="step"><div class="n"></div><div><h4>스타일 선택</h4><p>목적에 맞는 카테고리를 고르고, 20종 레퍼런스에서 스타일 1개를 확정합니다.</p></div></div>
+        <div class="step"><div class="n"></div><div><h4>프롬프트 변형</h4><p>복사한 프롬프트의 ①주제·②요소 블록을 우리 내용으로 교체합니다. ③④(구조·톤)는 유지합니다.</p></div></div>
+        <div class="step"><div class="n"></div><div><h4>생성 &amp; 선별</h4><p>AI 도구로 3~4장을 생성한 뒤, 목적 문장에 가장 부합하는 1장을 선택합니다.</p></div></div>
+        <div class="step"><div class="n"></div><div><h4>후편집 마감</h4><p>텍스트·로고·수치를 정확히 얹어 마무리합니다. AI 결과는 '초안'이며 최종 검수는 사람이 합니다.</p></div></div>
+      </div>
+    </section>
+
+    <!-- CH 06 -->
+    <section class="chapter" id="checklist">
+      <div class="chapter-head">
+        <div class="chapter-kicker">Chapter 06</div>
+        <h2>납품 전 품질 체크리스트</h2>
+      </div>
+      <p>결과물을 공유하기 전에 아래 5가지를 반드시 확인하세요.</p>
+      <ul class="checklist">
+        <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11-5-5"/></svg></span><div><b>목적 일치</b><p>1단계에서 정한 감정·메시지가 이미지에서 분명히 읽히는가?</p></div></li>
+        <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11-5-5"/></svg></span><div><b>톤 일관성</b><p>같은 프로젝트 내 다른 이미지들과 스타일·색이 통일되어 있는가?</p></div></li>
+        <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11-5-5"/></svg></span><div><b>가독성</b><p>핵심 텍스트·수치가 배경에 묻히지 않고 명료하게 보이는가?</p></div></li>
+        <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11-5-5"/></svg></span><div><b>사실 검증</b><p>AI가 지어낸 오탈자·잘못된 도표·왜곡된 수치는 없는가? (반드시 육안 확인)</p></div></li>
+        <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11-5-5"/></svg></span><div><b>저작·권리</b><p>특정 작가·브랜드를 모방하지 않았는가? 상업적 사용에 문제가 없는가?</p></div></li>
+      </ul>
+    </section>
+
+    <!-- CLOSING -->
+    <section class="chapter" id="closing" style="padding-bottom:0">
+      <div class="closing">
+        <div class="closing-inner">
+          <div class="qmark">&ldquo;</div>
+          <p>도구는 계속 바뀌지만, <b style="color:#fff">'무엇을 어떤 톤으로 말할 것인가'</b>라는 질문은 변하지 않습니다.
+          이 가이드가 여러분의 그 판단을 돕는 든든한 기준선이 되기를 바랍니다.</p>
+          <div class="sign">
+            <div class="av">金</div>
+            <div>
+              <b>김동규 상무</b>
+              <span>Design &amp; Creative Division</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="fl">
+      <div class="brand-mark">🎨</div>
+      <div>
+        <b>AI 이미지 디자인 스타일 가이드</b>
+        <span>Compiled by K.D.KIM · 2026</span>
+      </div>
+    </div>
+    <div class="fr">디자인 스타일 20종 · 카테고리 9종<br>교육용 사내 자료</div>
+  </div>
+</footer>
+
+<button class="totop" id="toTop" aria-label="맨 위로">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+</button>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ══════════════════════════════════════════════════
+   DATA — 카테고리 & 스타일 (기존 라이브러리에서 재구성)
+══════════════════════════════════════════════════ */
+const CATS=[
+  {key:"TECHNICAL",ko:"테크니컬",en:"Technical",var:"--c-technical",desc:"데이터·리포트·인포그래픽. 신뢰와 정확함을 전달하는 정보 중심 스타일."},
+  {key:"DIGITAL",ko:"디지털",en:"Digital",var:"--c-digital",desc:"사이버·테크웨어·미래지향. 첨단 기술과 세련된 긴장감을 표현."},
+  {key:"GRAPHIC",ko:"그래픽",en:"Graphic",var:"--c-graphic",desc:"편집·타이포·구성 중심. 강한 시각적 임팩트와 서사를 만드는 계열."},
+  {key:"ARTISTIC",ko:"아티스틱",en:"Artistic",var:"--c-artistic",desc:"회화·사진·수채. 감성과 예술적 질감으로 정서를 자극하는 스타일."},
+  {key:"3D",ko:"3D",en:"3D",var:"--c-3d",desc:"클레이·입체 렌더. 친근하고 만질 듯한 입체감으로 호감을 유도."},
+  {key:"COMICS",ko:"코믹스",en:"Comics",var:"--c-comics",desc:"손그림·낙서·노트. 가볍고 친근한 캐주얼 커뮤니케이션에 적합."},
+  {key:"CONCEPT",ko:"컨셉",en:"Concept",var:"--c-concept",desc:"미니멀·제품·무드. 하나의 콘셉트를 절제된 방식으로 각인시키는 계열."},
+  {key:"CRAFT",ko:"크래프트",en:"Craft",var:"--c-craft",desc:"핸드메이드·초크·손글씨. 사람의 손맛과 따뜻함이 느껴지는 스타일."},
+  {key:"VINTAGE",ko:"빈티지",en:"Vintage",var:"--c-vintage",desc:"레트로·클래식 무드. (현재 레퍼런스 준비 중 — 추후 확장 예정)"},
+];
+const CVAR={TECHNICAL:"--c-technical",DIGITAL:"--c-digital",GRAPHIC:"--c-graphic",ARTISTIC:"--c-artistic","3D":"--c-3d",COMICS:"--c-comics",CONCEPT:"--c-concept",CRAFT:"--c-craft",VINTAGE:"--c-vintage"};
+const CKO={TECHNICAL:"테크니컬",DIGITAL:"디지털",GRAPHIC:"그래픽",ARTISTIC:"아티스틱","3D":"3D",COMICS:"코믹스",CONCEPT:"컨셉",CRAFT:"크래프트",VINTAGE:"빈티지"};
+
+const STYLES=[
+  {id:325,cat:"TECHNICAL",ko:"인포그래픽 · 클린",en:"Infographic / Clean",grad:"linear-gradient(135deg,#2c3e50,#3498db,#ecf0f1)",
+    desc:"파이·막대 차트, 타임라인, 아이콘 그리드를 정돈된 위계로 배치하는 기업형 정보 시각화. 실적·현황 보고의 기본기.",
+    tags:["차트","타임라인","위계","기업형"],use:"분기 실적, 사업 현황, 데이터 요약 리포트",
+    prompt:"Clean professional infographic with structured data blocks, pie charts, bar graphs, timeline elements, icon grid, organized sections with clear hierarchy, modern corporate data visualization"},
+  {id:397,cat:"TECHNICAL",ko:"분석 리포트 · 데이터",en:"Analysis Report / Data",grad:"linear-gradient(135deg,#1a1a2e,#4a4a6a,#8b8baa)",
+    desc:"경영 요약 블록, KPI 카드, 재무 차트와 추세 화살표로 구성한 비즈니스 문서 미학. 숫자로 설득하는 자료에 최적.",
+    tags:["KPI","재무","추세","경영보고"],use:"이사회 보고, IR 자료, 성과 대시보드",
+    prompt:"Analysis report style with executive summary blocks, KPI dashboard cards, financial charts, trend arrows, percentage indicators, professional business document aesthetic, data-driven visual storytelling"},
+  {id:248,cat:"TECHNICAL",ko:"데이터 비주얼",en:"Data Viz / Graph / Information",grad:"linear-gradient(135deg,#0c2461,#1e3799,#4a69bd)",
+    desc:"복합 그래프, 산점도, 히트맵, 네트워크 다이어그램으로 정보 밀도를 높인 심화 시각화. 주석으로 인사이트를 짚어준다.",
+    tags:["히트맵","산점도","네트워크","고밀도"],use:"연구·분석 발표, 복잡한 관계 설명",
+    prompt:"Data visualization with complex graphs and charts, information density, multi-variable scatter plots, heat maps, network diagrams, statistical infographic, rich data storytelling with annotations"},
+  {id:269,cat:"DIGITAL",ko:"사이버 · 테크웨어",en:"Cyber / Techwear / Black",grad:"linear-gradient(135deg,#0a0a0a,#1a1a2e,#2d1b69,#0ff)",
+    desc:"매트 블랙 소재에 네온 라인과 HUD 인터페이스를 얹은 다크 사이버펑크. 기술력과 미래감을 강조할 때.",
+    tags:["네온","HUD","매트블랙","미래감"],use:"신기술 런칭, IT 제품, 테크 브랜딩",
+    prompt:"Dark cyberpunk techwear aesthetic with black technical materials, neon accent lines, HUD interface elements, tactical gear design, dark futuristic urban style, tech-noir atmosphere, matte black with glow"},
+  {id:316,cat:"GRAPHIC",ko:"스피드 · 다이내믹",en:"Speed / Dynamic",grad:"linear-gradient(135deg,#1a1a2e,#e74c3c,#f39c12)",
+    desc:"굵은 화살표와 모션 라인, 대각선 구도로 에너지를 폭발시키는 스타일. 강한 대비와 선명한 포인트 컬러가 특징.",
+    tags:["모션라인","대각선","고대비","역동"],use:"이벤트 홍보, 스포츠·자동차, 캠페인 티저",
+    prompt:"High-speed dynamic infographic design with bold arrows and motion lines, energetic diagonal composition, speed blur effects, racing aesthetic, strong contrast, vivid accent colors on dark background"},
+  {id:327,cat:"GRAPHIC",ko:"모노 + 액센트",en:"Mono + Accent Tone",grad:"linear-gradient(135deg,#1a1a1a,#444,#e74c3c)",
+    desc:"흑백 베이스에 단 하나의 강조색만 전략적으로 터뜨리는 세련된 편집 레이아웃. 절제 속의 임팩트.",
+    tags:["흑백","단일강조색","편집","세련"],use:"프리미엄 브랜드, 매거진 표지, 핵심 메시지 강조",
+    prompt:"Monochrome design with single bold accent color, high contrast black and white photography base, strategic color pop elements, sophisticated editorial layout, minimal yet impactful visual hierarchy"},
+  {id:317,cat:"GRAPHIC",ko:"스토리텔링 · 내러티브",en:"Storytelling / Narrative",grad:"linear-gradient(135deg,#2d3436,#636e72,#b2bec3)",
+    desc:"챕터처럼 이어지는 순차 흐름과 일러스트 비네트로 이야기를 엮는 매거진형 레이아웃. 여정·과정을 보여줄 때.",
+    tags:["순차흐름","일러스트","여정","매거진"],use:"브랜드 스토리, 성장 과정, 캠페인 서사",
+    prompt:"Narrative storytelling infographic with sequential flow, chapter-like sections, illustration vignettes, story arc visualization, emotional journey mapping, editorial illustration style, magazine feature layout"},
+  {id:263,cat:"GRAPHIC",ko:"프레피 · 체크",en:"Preppy / Check / Navy",grad:"linear-gradient(135deg,#1a2a6c,#b21f1f,#fdbb2d)",
+    desc:"네이비·화이트 체크 패턴과 클래식 스트라이프, 아카데믹 크레스트를 활용한 전통적 프레피 무드.",
+    tags:["네이비","체크","클래식","아카데믹"],use:"교육·아카데미, 클래식 패션, 정통 브랜드",
+    prompt:"Preppy style with navy and white check patterns, collegiate aesthetic, classic stripe elements, brass button accents, academic crest design, traditional plaid, New England inspired, nautical elements"},
+  {id:283,cat:"ARTISTIC",ko:"흑백 인물 · 빛",en:"Black&White / Portrait / Light",grad:"linear-gradient(135deg,#000,#333,#666)",
+    desc:"극적인 명암(키아로스쿠로)과 림 라이트로 완성한 흑백 인물 사진 미학. 시네마틱한 분위기를 원할 때.",
+    tags:["흑백","명암대비","림라이트","시네마틱"],use:"인물 화보, 감성 광고, 무드 있는 표지",
+    prompt:"Black and white portrait photography style with dramatic chiaroscuro lighting, high contrast monochrome, studio portrait aesthetic, rim lighting, moody atmospheric quality, cinematic black and white"},
+  {id:33,cat:"ARTISTIC",ko:"유화 · 임파스토 클래식",en:"Oil Painting / Impasto / Classical",grad:"linear-gradient(135deg,#2c1810,#6b4423,#c4923a,#e8c87a)",
+    desc:"두꺼운 임파스토 기법과 올드마스터 글레이징으로 완성한 미술관급 고전 유화. 따뜻한 대지색과 렘브란트 조명.",
+    tags:["임파스토","고전","유화질감","렘브란트"],use:"프리미엄 아트워크, 클래식 브랜드, 갤러리 비주얼",
+    prompt:"Classical oil painting with heavy impasto technique, rich texture palette knife work, old master glazing, museum-quality fine art, dramatic Rembrandt lighting, warm earth tones, gallery exhibition quality"},
+  {id:85,cat:"ARTISTIC",ko:"유화 · 인상주의 빛",en:"Oil Painting / Impressionism / Light",grad:"linear-gradient(135deg,#87ceeb,#98fb98,#dda0dd,#f0e68c)",
+    desc:"빛으로 가득 찬 인상주의 유화. 자유로운 붓 터치와 나뭇잎 사이로 부서지는 햇살, 모네풍 색 조화가 특징.",
+    tags:["인상주의","자연광","파스텔","모네풍"],use:"감성 자연 비주얼, 힐링 콘텐츠, 봄·정원 테마",
+    prompt:"Impressionist oil painting with vibrant light-filled scenes, loose expressive brushwork, plein air outdoor painting, dappled sunlight through leaves, pastel sky, Monet-inspired color harmony, garden paradise"},
+  {id:76,cat:"ARTISTIC",ko:"스케치 수채화 · 여행",en:"Sketch / Watercolor / Travel",grad:"linear-gradient(135deg,#f9e4b7,#e8c17a,#7ab8bf,#5a9e8f)",
+    desc:"펜 드로잉과 수채가 어우러진 여행 스케치북 감성. 손그림 건축과 우표·소인 요소로 진정성 있는 아날로그 무드.",
+    tags:["수채","여행","손그림","아날로그"],use:"여행·라이프스타일, 다이어리 콘텐츠, 감성 굿즈",
+    prompt:"Travel sketchbook style with loose pen and watercolor technique, urban sketching, hand-drawn architecture, casual field notes, stamp and postmark elements, wanderlust journal aesthetic, authentic hand-drawn feel"},
+  {id:55,cat:"3D",ko:"클레이모피즘 · 파스텔",en:"Claymorphism / Pastel / Rounded",grad:"linear-gradient(135deg,#ffeaa7,#fab1a0,#a29bfe,#55efc4)",
+    desc:"파스텔 점토 질감의 둥글둥글한 3D 요소. 부드러운 그림자와 마시멜로 질감으로 장난감처럼 친근한 인상.",
+    tags:["파스텔","라운드","말랑","친근"],use:"앱 온보딩, 키즈·라이프 서비스, 밝은 랜딩",
+    prompt:"Claymorphism design with soft pastel clay-like 3D elements, rounded puffy shapes, gentle shadows, playful toy aesthetic, marshmallow texture, warm soft lighting, children's illustration feel"},
+  {id:178,cat:"3D",ko:"클레이 스톱모션",en:"Clay / Stopmotion / Cute",grad:"linear-gradient(135deg,#fdcb6e,#e17055,#00b894)",
+    desc:"손으로 빚은 점토 인형과 지문 질감이 살아있는 스톱모션 애니메이션 스타일. 아드만풍의 따뜻한 수공예감.",
+    tags:["스톱모션","점토인형","수공예","아드만"],use:"캐릭터 IP, 브랜드 마스코트, 따뜻한 광고",
+    prompt:"Clay stop-motion animation style with handcrafted clay figures, visible fingerprint textures, warm studio lighting, miniature set design, Aardman-inspired character design, playful stop-motion aesthetic"},
+  {id:888,cat:"COMICS",ko:"낙서 · 노트",en:"Doodle / Notebook",grad:"linear-gradient(135deg,#f5f0e8,#e8e0d0,#d4c8b0)",
+    desc:"줄노트 위 검정 잉크 스케치와 손글씨, 말풍선·화살표·졸라맨으로 채운 학교 노트 감성. 즉흥적이고 친근하다.",
+    tags:["손글씨","줄노트","말풍선","즉흥"],use:"교육 콘텐츠, SNS 캐주얼 카드, 아이디어 설명",
+    prompt:"Hand-drawn doodle notebook style with black ink sketches on lined paper, casual hand-lettering, arrows speech bubbles, simple stick-figure illustrations, margin notes, school notebook aesthetic, spontaneous sketch feel"},
+  {id:389,cat:"CONCEPT",ko:"제품 소개 · 씬",en:"Product Showcase / Scene",grad:"linear-gradient(135deg,#f8f9fa,#dee2e6,#adb5bd)",
+    desc:"라이프스타일 배경과 순백 히어로샷을 결합한 제품 쇼케이스. 기능 콜아웃과 스펙 비교로 광고 같은 완성도.",
+    tags:["히어로샷","제품","스펙비교","광고톤"],use:"신제품 런칭, 상세페이지, 커머스 배너",
+    prompt:"Product showcase scene with lifestyle setting, clean white background product hero shot, feature callouts, spec comparison table, elegant product photography composition, commercial advertisement feel"},
+  {id:299,cat:"CONCEPT",ko:"미니멀리즘 · 여백",en:"Minimalism / Void / Essence",grad:"linear-gradient(135deg,#fafafa,#f0f0f0,#e8e8e8)",
+    desc:"넉넉한 여백과 단 하나의 초점 요소, 절제된 타이포로 완성한 젠(Zen) 미학. '적을수록 강하다'의 정수.",
+    tags:["여백","단일초점","절제","Zen"],use:"프리미엄 브랜드, 핵심 카피 강조, 표지·인트로",
+    prompt:"Ultra-minimal design with generous white space, single focal element, sparse typography, zen-like composition, reduction to essentials, breathing room, contemplative void aesthetic, less is more philosophy"},
+  {id:223,cat:"CONCEPT",ko:"마블 · 화이트 골드",en:"Marble / White / Gold",grad:"linear-gradient(135deg,#f5f5f5,#e8e8e8,#d4af37)",
+    desc:"화이트 마블 텍스처에 골드 기하 요소를 얹은 럭셔리 미학. 클래식하면서 모던한 하이엔드 감성.",
+    tags:["마블","골드","럭셔리","하이엔드"],use:"뷰티·주얼리, 프리미엄 초대장, 명품 브랜딩",
+    prompt:"Elegant marble and gold design with white marble textures, gold geometric accents, luxury brand aesthetic, premium material study, classical yet modern, high-end product showcase, sophisticated palette"},
+  {id:240,cat:"CONCEPT",ko:"날씨 · 구름 · 비",en:"Weather / Cloud / Rain",grad:"linear-gradient(135deg,#2c3e50,#4a6274,#7fb3d3,#bdc3c7)",
+    desc:"극적인 구름과 빗방울, 번개, 안개 효과로 자연의 힘을 표현한 대기 중심 디자인. 기상 다이어그램 무드.",
+    tags:["구름","비","대기감","자연"],use:"날씨·환경 콘텐츠, 감성 무드, 시즌 캠페인",
+    prompt:"Weather-themed atmospheric design with dramatic cloud formations, rain droplets, lightning bolts, fog and mist effects, storm aesthetics, meteorological diagram style, nature's power visualization"},
+  {id:279,cat:"CRAFT",ko:"핸드리튼 · 초크",en:"Handwritten / Chalk / Casual",grad:"linear-gradient(135deg,#2d3436,#636e72,#dfe6e9)",
+    desc:"칠판 배경 위 분필 손글씨와 분필 가루 질감, 낙서 일러스트로 완성한 카페 메뉴판 감성. 따뜻하고 친근한 수제 느낌.",
+    tags:["칠판","분필","손글씨","카페"],use:"카페·베이커리 메뉴, 이벤트 안내, 감성 공지",
+    prompt:"Handwritten chalk style on blackboard background, casual hand lettering, chalk dust texture, doodle illustrations, cafe menu board aesthetic, warm friendly handcrafted feel, whiteboard sketch notes"},
 ];
 
-/* ══════════════════════════════════════
-   SVG ICONS
-══════════════════════════════════════ */
-const I={
-  copy:<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>,
-  eye:<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>,
-  fire:<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 12c2-2.96 0-7-1-8 0 3.038-1.773 4.741-3 6-1.226 1.26-2 3.24-2 5a6 6 0 1 0 12 0c0-1.532-1.056-3.94-2-5-1.786 3-2.791 3-4 2z"/></svg>,
-  search:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>,
-  edit:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>,
-  del:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>,
-  plus:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>,
-  link:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>,
-  lock:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>,
-  dl:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>,
-  ul:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>,
-  img:<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ccc" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>,
-  check:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>,
-};
+/* ══════════════════════════════════════════════════ THEME ══ */
+const root=document.documentElement, THEME_KEY="ds-guide-theme";
+function applyTheme(t){root.setAttribute("data-theme",t);try{localStorage.setItem(THEME_KEY,t);}catch(e){}}
+(function initTheme(){
+  let saved=null; try{saved=localStorage.getItem(THEME_KEY);}catch(e){}
+  if(saved){applyTheme(saved);}
+  else{applyTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");}
+})();
+document.getElementById("themeToggle").addEventListener("click",()=>{
+  applyTheme(root.getAttribute("data-theme")==="dark"?"light":"dark");
+});
 
-/* ══════════════════════════════════════
-   HOOKS
-══════════════════════════════════════ */
-function useImg(image,id){
-  const[src,setSrc]=useState(null);
-  useEffect(()=>{
-    if(!image){setSrc(null);return;}
-    if(image.startsWith('__idb__')){idbGet(id).then(setSrc);}
-    else{setSrc(image);}
-  },[image,id]);
-  return src;
+/* ══════════════════════════════════════════════════ TOAST ══ */
+const toastEl=document.getElementById("toast");let toastT;
+function toast(msg){
+  toastEl.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11-5-5"/></svg>'+msg;
+  toastEl.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>toastEl.classList.remove("show"),2000);
 }
 
-/* ══════════════════════════════════════
-   TOAST
-══════════════════════════════════════ */
-function Toast({msg,vis}){
-  return <div className="toast" style={{opacity:vis?1:0,transform:`translateX(-50%) translateY(${vis?0:10}px)`}}>{msg}</div>;
-}
-
-/* ══════════════════════════════════════
-   CARD — Redesigned to match PDF style
-══════════════════════════════════════ */
-function Card({s,fav,admin,onFav,onCopy,copied,onView,onEdit,onDel}){
-  const img=useImg(s.image,s.id);
-  const catColor=CC[s.cat]||'#888';
-  return(
-    <div className="style-card" style={{borderRadius:10,overflow:'hidden',background:'#fff',border:'1px solid #e8e8e8',position:'relative'}}>
-      {/* Image area */}
-      <div onClick={()=>onView(s)} style={{width:'100%',height:200,background:img?`url(${img}) center/cover no-repeat`:s.grad,position:'relative',cursor:'pointer'}}>
-        {/* Fav heart - top right */}
-        <button className="fav-btn" onClick={e=>{e.stopPropagation();onFav(s.id);}} style={{position:'absolute',top:10,right:10,width:30,height:30,borderRadius:'50%',background:fav?'rgba(255,255,255,.95)':'rgba(255,255,255,.7)',border:'none',cursor:'pointer',color:fav?'#ef4444':'#ccc',fontSize:16,display:'flex',alignItems:'center',justifyContent:'center',transition:'all .15s',opacity:fav?1:0,boxShadow:'0 1px 4px rgba(0,0,0,.1)'}}>
-          {fav?'♥':'♡'}
-        </button>
-        {/* Admin actions overlay */}
-        {admin&&(
-          <div className="card-actions" style={{position:'absolute',bottom:8,right:8,display:'flex',gap:4,opacity:0,transition:'opacity .15s'}}>
-            <button onClick={e=>{e.stopPropagation();onEdit(s);}} title="편집" style={{width:26,height:26,borderRadius:6,background:'rgba(255,255,255,.92)',border:'none',cursor:'pointer',color:'#555',display:'flex',alignItems:'center',justifyContent:'center',boxShadow:'0 1px 4px rgba(0,0,0,.15)'}}>{I.edit}</button>
-            <button onClick={e=>{e.stopPropagation();onDel(s.id);}} title="삭제" style={{width:26,height:26,borderRadius:6,background:'rgba(239,68,68,.9)',border:'none',cursor:'pointer',color:'#fff',display:'flex',alignItems:'center',justifyContent:'center',boxShadow:'0 1px 4px rgba(0,0,0,.15)'}}>{I.del}</button>
-          </div>
-        )}
-      </div>
-
-      {/* Info area */}
-      <div style={{padding:'10px 12px 8px'}}>
-        {/* ID + Category + PTS row */}
-        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:6}}>
-          <div style={{display:'flex',alignItems:'center',gap:8}}>
-            <span style={{fontSize:12,fontWeight:700,color:catColor,fontFamily:"'IBM Plex Mono',monospace"}}>#{s.id}</span>
-            <span className="cat-pill" style={{background:catColor+'14',color:catColor}}>
-              <span className="cat-dot" style={{background:catColor}}></span>
-              {CAT_KO[s.cat]||s.cat}
-            </span>
-          </div>
-          <span style={{fontSize:10,fontWeight:600,color:'#a1a1aa',fontFamily:"'IBM Plex Mono',monospace",letterSpacing:'.5px'}}>{s.id>100?(Math.floor(s.id/7)%10+40)+' PTS':''}</span>
-        </div>
-
-        {/* Style name */}
-        <div style={{fontWeight:700,fontSize:15,color:'#18181b',marginBottom:2,lineHeight:1.35}}>{s.ko}</div>
-        <div style={{fontSize:11,color:'#a1a1aa',fontFamily:"'IBM Plex Mono',monospace",marginBottom:10,letterSpacing:'-.2px'}}>{s.en}</div>
-
-        {/* Action buttons row */}
-        <div style={{display:'flex',gap:5,borderTop:'1px solid #f4f4f5',paddingTop:8}}>
-          <button className={`act-btn${copied===s.id?' copied':''}`} onClick={()=>onCopy(s)} style={{flex:1,justifyContent:'center'}}>
-            {copied===s.id?I.check:I.copy}
-            <span>{copied===s.id?'복사됨':'프롬프트 복사'}</span>
-          </button>
-          <button className="act-btn" onClick={()=>onView(s)} style={{justifyContent:'center'}}>
-            {I.eye} <span>상세</span>
-          </button>
-          <button className="act-btn" onClick={()=>{window.open&&window.open('https://www.bing.com/images/create','_blank');}} style={{justifyContent:'center',color:'#f97316'}}>
-            {I.fire} <span style={{fontWeight:600}}>BananaNL</span>
-          </button>
-        </div>
-      </div>
+/* ══════════════════════════════════════════════════ RENDER: category map ══ */
+const catCounts={};STYLES.forEach(s=>catCounts[s.cat]=(catCounts[s.cat]||0)+1);
+document.getElementById("catMap").innerHTML=CATS.map(c=>{
+  const n=catCounts[c.key]||0;
+  return `<div class="cat-tile" style="--cc:var(${c.var})">
+    <div class="cat-top">
+      <span class="cat-name"><span class="cdot"></span>${c.ko}</span>
+      <span class="cat-count">${n?n+' 종':'준비중'}</span>
     </div>
-  );
-}
+    <div class="cat-en">${c.en}</div>
+    <p>${c.desc}</p>
+  </div>`;
+}).join("");
 
-/* ══════════════════════════════════════
-   DETAIL MODAL
-══════════════════════════════════════ */
-function Detail({s,onClose,onCopy,copied}){
-  const img=useImg(s.image,s.id);
-  return(
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-box" onClick={e=>e.stopPropagation()} style={{width:520,maxWidth:'92vw'}}>
-        {/* Image */}
-        <div style={{width:'100%',height:280,background:img?`url(${img}) center/cover no-repeat`:s.grad,position:'relative',flexShrink:0}}>
-          <button onClick={onClose} style={{position:'absolute',top:12,right:12,width:32,height:32,borderRadius:'50%',background:'rgba(0,0,0,.5)',border:'none',cursor:'pointer',color:'#fff',fontSize:18,display:'flex',alignItems:'center',justifyContent:'center'}}>×</button>
-          <div style={{position:'absolute',bottom:12,left:12,display:'flex',gap:8,alignItems:'center'}}>
-            <span style={{background:'rgba(0,0,0,.6)',color:'#fff',padding:'4px 10px',borderRadius:6,fontSize:12,fontWeight:700,fontFamily:"'IBM Plex Mono',monospace"}}>#{s.id}</span>
-            <span style={{background:(CC[s.cat]||'#888')+'dd',color:'#fff',padding:'4px 10px',borderRadius:6,fontSize:11,fontWeight:600}}>{CAT_KO[s.cat]||s.cat}</span>
+/* ══════════════════════════════════════════════════ RENDER: filter chips ══ */
+const usedCats=CATS.filter(c=>catCounts[c.key]);
+const fb=document.getElementById("filterBar");
+fb.innerHTML=`<button class="chip all active" data-cat="ALL">전체 <span style="font-family:'IBM Plex Mono',monospace;opacity:.7">${STYLES.length}</span></button>`+
+  usedCats.map(c=>`<button class="chip" data-cat="${c.key}" style="--cc:var(${c.var})"><span class="cdot"></span>${c.ko} <span style="font-family:'IBM Plex Mono',monospace;opacity:.7">${catCounts[c.key]}</span></button>`).join("");
+
+/* ══════════════════════════════════════════════════ RENDER: style list ══ */
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+const list=document.getElementById("styleList");
+list.innerHTML=STYLES.map(s=>{
+  const v=CVAR[s.cat];
+  return `<article class="style" data-cat="${s.cat}" style="--cc:var(${v})">
+    <div class="style-top">
+      <div class="swatch" style="--g:${s.grad}"><span class="sid">#${s.id}</span></div>
+      <div class="style-body">
+        <div class="style-head">
+          <div class="style-head-l">
+            <span class="style-cat"><span class="cdot"></span>${CKO[s.cat]}</span>
+            <h4>${esc(s.ko)}</h4>
+            <div class="en">${esc(s.en)}</div>
           </div>
         </div>
-        {/* Content */}
-        <div style={{padding:'20px 24px 24px'}}>
-          <div style={{fontWeight:900,fontSize:22,color:'#18181b',marginBottom:4}}>{s.ko}</div>
-          <div style={{fontSize:13,color:'#a1a1aa',fontFamily:"'IBM Plex Mono',monospace",marginBottom:16}}>{s.en}</div>
-          <div style={{fontSize:13,color:'#52525b',lineHeight:1.7,marginBottom:20,padding:16,background:'#fafafa',borderRadius:10,border:'1px solid #f0f0f0',fontFamily:"'IBM Plex Sans','Noto Sans KR',sans-serif",maxHeight:160,overflow:'auto'}}>{s.prompt}</div>
-          <button onClick={()=>onCopy(s)} style={{width:'100%',padding:'12px 0',borderRadius:10,border:'none',background:copied===s.id?'#16a34a':'#18181b',color:'#fff',fontWeight:700,fontSize:14,cursor:'pointer',transition:'all .2s',display:'flex',alignItems:'center',justifyContent:'center',gap:8}}>
-            {copied===s.id?'✓ 복사 완료!':'📋 프롬프트 전체 복사'}
-          </button>
+        <p class="style-desc">${esc(s.desc)}</p>
+        <div class="tags">${s.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join("")}</div>
+        <div class="usecase">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l2.5 2.5"/></svg>
+          <span><b>이럴 때 씁니다</b> · ${esc(s.use)}</span>
         </div>
-      </div>
-    </div>
-  );
-}
-
-/* ══════════════════════════════════════
-   LOGIN MODAL
-══════════════════════════════════════ */
-function Login({onClose,onLogin}){
-  const[pw,setPw]=useState('');
-  const[err,setErr]=useState(false);
-  const go=()=>{if(pw===ADMIN_PW){onLogin();onClose();}else{setErr(true);setTimeout(()=>setErr(false),1500);}};
-  return(
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-box" onClick={e=>e.stopPropagation()} style={{padding:32,width:320}}>
-        <div style={{fontSize:18,fontWeight:900,color:'#18181b',marginBottom:6}}>관리자 로그인</div>
-        <div style={{fontSize:12,color:'#a1a1aa',marginBottom:20}}>비밀번호를 입력하세요</div>
-        <input type="password" value={pw} onChange={e=>setPw(e.target.value)} onKeyDown={e=>e.key==='Enter'&&go()} placeholder="비밀번호" autoFocus
-          style={{width:'100%',padding:'10px 14px',borderRadius:8,border:`1.5px solid ${err?'#ef4444':'#e5e5e5'}`,fontSize:14,outline:'none',marginBottom:err?4:14}}/>
-        {err&&<div style={{fontSize:11,color:'#ef4444',marginBottom:8}}>비밀번호가 틀렸습니다</div>}
-        <button onClick={go} style={{width:'100%',padding:'10px 0',borderRadius:8,border:'none',background:'#18181b',color:'#fff',fontWeight:700,fontSize:14,cursor:'pointer'}}>로그인</button>
-      </div>
-    </div>
-  );
-}
-
-/* ══════════════════════════════════════
-   FORM MODAL (Add/Edit) — URL only
-══════════════════════════════════════ */
-function Form({item,onClose,onSave}){
-  const isEdit=!!item;
-  const existImg=useImg(item?.image,item?.id);
-  const[ko,setKo]=useState(item?.ko||'');
-  const[en,setEn]=useState(item?.en||'');
-  const[cat,setCat]=useState(item?.cat||'ARTISTIC');
-  const[prompt,setPr]=useState(item?.prompt||'');
-  const[imgUrl,setImgUrl]=useState((item?.image&&!item.image.startsWith('__idb__')&&!item.image.startsWith('data:'))?item.image:'');
-  const[preview,setPreview]=useState(null);
-  const[imgMode,setImgMode]=useState('url'); // 'url' or 'file'
-  const[fileData,setFileData]=useState(null); // base64 from file upload
-  const[previewErr,setPreviewErr]=useState(false);
-
-  // Google Drive URL 자동 변환
-  const convertGDriveUrl=(url)=>{
-    if(!url)return url;
-    // https://drive.google.com/file/d/FILE_ID/view?...
-    const m1=url.match(/drive\.google\.com\/file\/d\/([^\/\?]+)/);
-    if(m1)return 'https://drive.google.com/uc?export=view&id='+m1[1];
-    // https://drive.google.com/open?id=FILE_ID
-    const m2=url.match(/drive\.google\.com\/open\?id=([^&]+)/);
-    if(m2)return 'https://drive.google.com/uc?export=view&id='+m2[1];
-    // https://lh3.googleusercontent.com/d/FILE_ID
-    const m3=url.match(/lh3\.googleusercontent\.com\/d\/([^\/\?]+)/);
-    if(m3)return 'https://lh3.googleusercontent.com/d/'+m3[1];
-    return url;
-  };
-
-  const handleUrlChange=(val)=>{
-    setImgUrl(val);
-    setPreviewErr(false);
-    const converted=convertGDriveUrl(val.trim());
-    setPreview(converted);
-  };
-
-  // 파일 업로드 → base64
-  const handleFile=(e)=>{
-    const f=e.target.files[0];
-    if(!f)return;
-    if(f.size>5*1024*1024){alert('⚠️ 5MB 이하 이미지만 가능합니다');return;}
-    const r=new FileReader();
-    r.onload=(ev)=>{
-      setFileData(ev.target.result);
-      setPreview(ev.target.result);
-      setPreviewErr(false);
-    };
-    r.readAsDataURL(f);
-  };
-
-  const save=async()=>{
-    if(!ko.trim()||!prompt.trim())return;
-    let finalImage=item?.image||null;
-
-    if(imgMode==='file'&&fileData){
-      // 파일 업로드: IndexedDB에 저장
-      const newId=item?.id||Date.now();
-      try{await idbSet(newId,fileData);finalImage='__idb__'+newId;}catch(e){console.warn('idb save err',e);}
-    }else if(imgMode==='url'&&imgUrl.trim()){
-      // URL: Google Drive 자동 변환 적용
-      finalImage=convertGDriveUrl(imgUrl.trim());
-    }
-
-    const d={
-      id:item?.id||Date.now(),
-      cat,
-      ko:ko.trim(),
-      en:en.trim(),
-      prompt:prompt.trim(),
-      image:finalImage,
-      grad:item?.grad||`linear-gradient(135deg,${CC[cat]||'#888'}22,${CC[cat]||'#888'}88)`
-    };
-    onSave(d);onClose();
-  };
-
-  const labelStyle={fontSize:12,fontWeight:600,color:'#52525b',marginBottom:4,display:'block'};
-  const inputStyle={width:'100%',padding:'8px 12px',borderRadius:8,border:'1.5px solid #e5e5e5',fontSize:13,outline:'none',marginBottom:12};
-  const tabStyle=(active)=>({flex:1,padding:'7px 0',borderRadius:6,border:'1px solid '+(active?'#18181b':'#e5e5e5'),background:active?'#18181b':'#fff',color:active?'#fff':'#666',fontSize:12,fontWeight:600,cursor:'pointer',textAlign:'center'});
-
-  return(
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-box" onClick={e=>e.stopPropagation()} style={{width:440,maxWidth:'92vw',maxHeight:'90vh'}}>
-        <div style={{padding:'20px 24px',borderBottom:'1px solid #f0f0f0',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-          <div style={{fontWeight:900,fontSize:18,color:'#18181b'}}>{isEdit?'스타일 편집':'새 스타일 추가'}</div>
-          <button onClick={onClose} style={{background:'none',border:'none',fontSize:20,cursor:'pointer',color:'#a1a1aa'}}>×</button>
-        </div>
-        <div style={{padding:'16px 24px 24px',overflow:'auto'}}>
-          <label style={labelStyle}>카테고리</label>
-          <select value={cat} onChange={e=>setCat(e.target.value)} style={{...inputStyle,cursor:'pointer'}}>
-            {CAT_IN.map(c=><option key={c} value={c}>{CAT_KO[c]} ({c})</option>)}
-          </select>
-          <label style={labelStyle}>한글 이름</label>
-          <input value={ko} onChange={e=>setKo(e.target.value)} placeholder="예: 수채화 드림" style={inputStyle}/>
-          <label style={labelStyle}>영문 이름</label>
-          <input value={en} onChange={e=>setEn(e.target.value)} placeholder="예: Watercolor / Soft" style={inputStyle}/>
-          <label style={labelStyle}>프롬프트</label>
-          <textarea value={prompt} onChange={e=>setPr(e.target.value)} placeholder="AI 이미지 생성 프롬프트..." rows={4} style={{...inputStyle,resize:'vertical',lineHeight:1.5}}/>
-
-          {/* 이미지 입력 방식 탭 */}
-          <label style={labelStyle}>이미지</label>
-          <div style={{display:'flex',gap:6,marginBottom:10}}>
-            <button onClick={()=>setImgMode('url')} style={tabStyle(imgMode==='url')}>🔗 URL 입력</button>
-            <button onClick={()=>setImgMode('file')} style={tabStyle(imgMode==='file')}>📁 파일 업로드</button>
-          </div>
-
-          {imgMode==='url'?(
-            <>
-              <input value={imgUrl} onChange={e=>handleUrlChange(e.target.value)} placeholder="https://... 또는 Google Drive 공유 링크" style={inputStyle}/>
-              {imgUrl.includes('drive.google.com')&&imgUrl!==convertGDriveUrl(imgUrl)&&(
-                <div style={{fontSize:11,color:'#16a34a',marginBottom:8,marginTop:-8,padding:'4px 8px',background:'#f0fdf4',borderRadius:6}}>
-                  ✅ Google Drive 링크가 자동 변환됩니다
-                </div>
-              )}
-            </>
-          ):(
-            <>
-              <input type="file" accept="image/*" onChange={handleFile} style={{...inputStyle,padding:6,cursor:'pointer'}}/>
-              <div style={{fontSize:11,color:'#a1a1aa',marginBottom:8,marginTop:-8}}>JPG, PNG, WebP · 최대 5MB</div>
-            </>
-          )}
-
-          {/* 미리보기 */}
-          {(preview||existImg)&&(
-            <div style={{position:'relative',marginBottom:12}}>
-              <img
-                src={preview||existImg}
-                onError={()=>setPreviewErr(true)}
-                onLoad={()=>setPreviewErr(false)}
-                style={{width:'100%',height:140,objectFit:'cover',borderRadius:8,border:'1px solid #e5e5e5',display:previewErr?'none':'block'}}
-              />
-              {previewErr&&(
-                <div style={{width:'100%',height:140,borderRadius:8,border:'1px solid #fecaca',background:'#fef2f2',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:4}}>
-                  <span style={{fontSize:20}}>⚠️</span>
-                  <span style={{fontSize:11,color:'#dc2626',fontWeight:600}}>이미지를 불러올 수 없습니다</span>
-                  <span style={{fontSize:10,color:'#999'}}>URL이 올바른지 확인하거나 파일 업로드를 사용하세요</span>
-                </div>
-              )}
-            </div>
-          )}
-
-          <button onClick={save} style={{width:'100%',padding:'11px 0',borderRadius:8,border:'none',background:'#18181b',color:'#fff',fontWeight:700,fontSize:14,cursor:'pointer',marginTop:4}}>
-            {isEdit?'수정 완료':'추가하기'}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ══════════════════════════════════════
-   MAIN APP
-══════════════════════════════════════ */
-function App(){
-  const[styles,setStyles]=useState(null);
-  const[favs,setFavs]=useState(new Set());
-  const[admin,setAdmin]=useState(false);
-  const[q,setQ]=useState('');
-  const[active,setActive]=useState('ALL');
-  const[copied,setCopied]=useState(null);
-  const[detail,setDetail]=useState(null);
-  const[login,setLogin]=useState(false);
-  const[form,setForm]=useState(false);
-  const[editItem,setEditItem]=useState(null);
-  const[toast,setToast]=useState({msg:'',vis:false});
-  const[mig,setMig]=useState(null);
-  const importRef=useRef(null);
-
-  const tst=msg=>{setToast({msg,vis:true});setTimeout(()=>setToast(t=>({...t,vis:false})),2200);};
-  const copyText=t=>{navigator.clipboard?navigator.clipboard.writeText(t):(() =>{const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();document.execCommand('copy');document.body.removeChild(a);})();};
-
-  // Load
-  useEffect(()=>{
-    const init=async()=>{
-      // Migration
-      try{
-        const r=await migrate((done,total)=>setMig({done,total}));
-        if(r.moved)setMig({done:r.moved,total:r.moved,complete:true});
-      }catch(e){console.warn('migration err',e);}
-      setTimeout(()=>setMig(null),2000);
-
-      // Load styles
-      const saved=lsLoad(EDITS_KEY);
-      setStyles(saved&&Array.isArray(saved)?saved:DEFAULTS);
-
-      // Load favs
-      const f=lsLoad(FAVS_KEY);
-      if(f&&Array.isArray(f))setFavs(new Set(f));
-    };
-    init();
-  },[]);
-
-  // Persist
-  useEffect(()=>{if(styles)lsSave(EDITS_KEY,styles);},[styles]);
-  useEffect(()=>{lsSave(FAVS_KEY,[...favs]);},[favs]);
-
-  const toggleFav=id=>setFavs(p=>{const n=new Set(p);n.has(id)?n.delete(id):n.add(id);return n;});
-  const doCopy=s=>{copyText(s.prompt);setCopied(s.id);tst('✓ 프롬프트가 복사되었습니다');setTimeout(()=>setCopied(null),2000);};
-  const doSave=async d=>{
-    const exists=styles.find(s=>s.id===d.id);
-    if(exists){setStyles(p=>p.map(s=>s.id===d.id?{...s,...d}:s));}
-    else{setStyles(p=>[d,...p]);}
-    tst(exists?'✅ 수정되었습니다':'✅ 추가되었습니다');
-  };
-  const doDel=id=>{if(!window.confirm('정말 삭제하시겠습니까?'))return;idbDel(id);setStyles(p=>p.filter(s=>s.id!==id));tst('삭제되었습니다');};
-  const doExport=()=>{const b=new Blob([JSON.stringify(styles,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='design-styles-myway75.json';a.click();URL.revokeObjectURL(a.href);tst('📦 내보내기 완료');};
-  const doImport=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(Array.isArray(d)){setStyles(d);tst('✅ '+d.length+'개 가져오기 완료');}}catch(e){tst('⚠️ JSON 형식 오류');}e.target.value='';};r.readAsText(f);};
-
-  if(styles===null)return <div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',color:'#a1a1aa',fontSize:14}}>불러오는 중...</div>;
-
-  const filtered=styles.filter(s=>{
-    if(active==='FAVORITES'&&!favs.has(s.id))return false;
-    if(active!=='ALL'&&active!=='FAVORITES'&&s.cat!==active)return false;
-    if(q&&!s.ko.includes(q)&&!s.en.toLowerCase().includes(q.toLowerCase())&&!s.prompt.toLowerCase().includes(q.toLowerCase()))return false;
-    return true;
-  });
-
-  return(
-    <div style={{minHeight:'100vh',background:'#f4f4f5'}}>
-      {/* Migration banner */}
-      {mig&&!mig.complete&&(
-        <div className="mig-banner">
-          <span style={{animation:'pulse 1.5s infinite'}}>⏳</span>
-          이미지 마이그레이션 중... {mig.done}/{mig.total}
-          <div className="mig-bar"><div className="mig-fill" style={{width:`${mig.total?(mig.done/mig.total*100):0}%`}}/></div>
-        </div>
-      )}
-
-      {/* HEADER */}
-      <header style={{background:'#fff',borderBottom:'1px solid #e8e8e8',position:'sticky',top:0,zIndex:100}}>
-        <div className="header-inner" style={{maxWidth:1280,margin:'0 auto',padding:'14px 24px',display:'flex',alignItems:'center',justifyContent:'space-between',gap:16}}>
-          {/* Logo */}
-          <div style={{display:'flex',alignItems:'center',gap:10,flexShrink:0}}>
-            <span style={{fontSize:20}}>⚡</span>
-            <div>
-              <div style={{fontWeight:900,fontSize:16,color:'#18181b',letterSpacing:'-0.5px',lineHeight:1}}>DESIGN_INDEX</div>
-              <div style={{fontSize:10,color:'#a1a1aa',fontFamily:"'IBM Plex Mono',monospace",letterSpacing:'.5px'}}>by Myway 75</div>
-            </div>
-          </div>
-
-          {/* Search */}
-          <div className="search-wrap">
-            {I.search}
-            <input value={q} onChange={e=>setQ(e.target.value)} placeholder="스타일 검색..."/>
-          </div>
-
-          {/* Right buttons */}
-          <div style={{display:'flex',gap:6,flexShrink:0}}>
-            <button className="admin-btn" onClick={()=>{copyText(SITE_URL);tst('✓ URL 복사: '+SITE_URL);}}>{I.link} URL 복사</button>
-            {admin?(
-              <>
-                <button className="admin-btn" onClick={()=>{setEditItem(null);setForm(true);}}>{I.plus} 추가</button>
-                <button className="admin-btn" onClick={doExport}>{I.dl} 내보내기</button>
-                <label className="admin-btn" style={{cursor:'pointer'}}>{I.ul} 가져오기<input ref={importRef} type="file" accept=".json" onChange={doImport} style={{display:'none'}}/></label>
-                <button className="admin-btn" onClick={()=>setAdmin(false)} style={{color:'#ef4444'}}>🔓 로그아웃</button>
-              </>
-            ):(
-              <button className="admin-btn" onClick={()=>setLogin(true)}>{I.lock} 관리자</button>
-            )}
-          </div>
-        </div>
-
-        {/* Category tabs */}
-        <div style={{maxWidth:1280,margin:'0 auto',padding:'0 24px 12px',display:'flex',gap:6,overflowX:'auto'}} className="tab-row">
-          {CATS.map(c=>(
-            <button key={c} className={`tab-btn${active===c?' active':''}`} onClick={()=>setActive(c)}>
-              {c==='ALL'?`전체 (${styles.length})`:c==='FAVORITES'?`♥ 즐겨찾기 (${[...favs].filter(id=>styles.some(s=>s.id===id)).length})`:(CAT_KO[c]||c)}
+        <div class="prompt-box">
+          <div class="prompt-head">
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>PROMPT · EN</span>
+            <button class="copy-btn" data-id="${s.id}">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              복사
             </button>
-          ))}
+          </div>
+          <code id="p-${s.id}">${esc(s.prompt)}</code>
         </div>
-      </header>
-
-      {/* GRID */}
-      <main style={{maxWidth:1280,margin:'0 auto',padding:'20px 24px 40px'}}>
-        {filtered.length===0?(
-          <div style={{textAlign:'center',padding:'80px 0'}}>
-            <div style={{fontSize:40,marginBottom:12,opacity:.15}}>{active==='FAVORITES'?'♡':'🔍'}</div>
-            <div style={{color:'#a1a1aa',fontSize:14}}>{active==='FAVORITES'?'즐겨찾기한 스타일이 없습니다':'검색 결과가 없습니다'}</div>
-          </div>
-        ):(
-          <div className="grid-4" style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(265px,1fr))',gap:18}}>
-            {filtered.map((s,i)=>(
-              <div key={s.id} className="card-enter" style={{animationDelay:`${i*.03}s`}}>
-                <Card s={s} fav={favs.has(s.id)} admin={admin} onFav={toggleFav} onCopy={doCopy} copied={copied} onView={setDetail} onEdit={s=>{setEditItem(s);setForm(true);}} onDel={doDel}/>
-              </div>
-            ))}
-          </div>
-        )}
-      </main>
-
-      {/* FOOTER */}
-      <footer style={{textAlign:'center',padding:'16px 0 28px',borderTop:'1px solid #e8e8e8',color:'#a1a1aa',fontSize:11,fontFamily:"'IBM Plex Mono',monospace",background:'#fff'}}>
-        Design by Myway 75 — {styles.length} styles
-      </footer>
-
-      {/* MODALS */}
-      {detail&&<Detail s={detail} onClose={()=>setDetail(null)} onCopy={doCopy} copied={copied}/>}
-      {login&&<Login onClose={()=>setLogin(false)} onLogin={()=>{setAdmin(true);tst('관리자 모드 활성화');}}/>}
-      {form&&admin&&<Form item={editItem} onClose={()=>{setForm(false);setEditItem(null);}} onSave={doSave}/>}
-      <Toast msg={toast.msg} vis={toast.vis}/>
+      </div>
     </div>
-  );
-}
+  </article>`;
+}).join("");
 
-ReactDOM.render(<App/>,document.getElementById('root'));
+/* ── copy ── */
+list.addEventListener("click",e=>{
+  const btn=e.target.closest(".copy-btn");if(!btn)return;
+  const id=btn.getAttribute("data-id");
+  const txt=document.getElementById("p-"+id).textContent;
+  const done=()=>{
+    btn.classList.add("done");
+    btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11-5-5"/></svg>복사됨';
+    toast("프롬프트가 복사되었습니다");
+    setTimeout(()=>{btn.classList.remove("done");btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>복사';},1800);
+  };
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done).catch(()=>fallback(txt,done));}
+  else fallback(txt,done);
+});
+function fallback(txt,cb){const a=document.createElement("textarea");a.value=txt;a.style.position="fixed";a.style.opacity="0";document.body.appendChild(a);a.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(a);cb&&cb();}
+
+/* ── filter ── */
+fb.addEventListener("click",e=>{
+  const chip=e.target.closest(".chip");if(!chip)return;
+  fb.querySelectorAll(".chip").forEach(c=>c.classList.remove("active"));
+  chip.classList.add("active");
+  const cat=chip.getAttribute("data-cat");
+  document.querySelectorAll(".style").forEach(el=>{
+    el.classList.toggle("hidden",cat!=="ALL"&&el.getAttribute("data-cat")!==cat);
+  });
+});
+
+/* ══════════════════════════════════════════════════ progress + toc scrollspy ══ */
+const progress=document.getElementById("progress");
+const tocLinks=Array.from(document.querySelectorAll(".toc a"));
+const sections=tocLinks.map(a=>document.querySelector(a.getAttribute("href"))).filter(Boolean);
+const toTop=document.getElementById("toTop");
+let ticking=false;
+function onScroll(){
+  if(ticking)return;ticking=true;
+  requestAnimationFrame(()=>{
+    const h=document.documentElement;
+    const sc=h.scrollTop, max=h.scrollHeight-h.clientHeight;
+    progress.style.width=(max>0?(sc/max*100):0)+"%";
+    toTop.classList.toggle("show",sc>560);
+    const mid=sc+ (window.innerHeight*0.32);
+    let cur=sections[0];
+    for(const s of sections){if(s.offsetTop<=mid)cur=s;}
+    tocLinks.forEach(a=>a.classList.toggle("active",a.getAttribute("href")==="#"+(cur&&cur.id)));
+    ticking=false;
+  });
+}
+window.addEventListener("scroll",onScroll,{passive:true});
+window.addEventListener("resize",onScroll);onScroll();
+toTop.addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}));
 </script>
 </body>
 </html>
