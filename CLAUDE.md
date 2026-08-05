@@ -9,6 +9,7 @@ PPT·슬라이드·발표자료 제작 요청 시 `.claude/skills/`의 스킬을
 | 요청 키워드 | 적용 스킬 |
 |---|---|
 | 별도 스타일 지정 없음 | `pptx-master-skills` (Claude Brand — 크림 캔버스 × 코랄 × 다크 네이비) |
+| "슬라이브", "Slive", "다크 키노트", "그라디언트 슬라이드", "테크 피치덱" | `slive-ppt` (다크 캔버스 × 일렉트릭 그라디언트 볼드 키노트) |
 | "미니멀", "모노크롬", "심플", "SimpleP" | `lecture-slide-creator-v3` (블랙·화이트·크림 미니멀) |
 | "ppt Design_1", "플랫 벡터", "Flat Vector" | `ppt-design-1` (순백 배경 + 포인트 컬러 4종) |
 | 강의자료·교육·워크숍·세미나 | `lecture-slide-creator` (교육학적 구성 + 발표자 노트) |
