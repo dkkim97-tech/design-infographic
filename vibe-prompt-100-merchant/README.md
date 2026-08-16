@@ -7,3 +7,5 @@
 - 단일 정적 파일(`index.html`) — 별도 빌드 불필요
 
 배포: Vercel (정적 호스팅, 프레임워크 없음, 출력 디렉터리 = 루트)
+
+<!-- deploy: vibe-prompt-100-merchant on Vercel (rootDir=vibe-prompt-100-merchant) -->
