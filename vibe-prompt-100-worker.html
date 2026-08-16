@@ -176,20 +176,52 @@ body::before{
 .chip.on .dot{background:#fff}
 .chip .c{font-size:11px;opacity:.6;font-variant-numeric:tabular-nums}
 
-/* palette strip */
-.palette-strip{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.palette-strip .plabel{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-weight:600;display:flex;align-items:center;gap:8px}
-.palette-strip .plabel::after{content:'';width:16px;height:1px;background:var(--line)}
-.pdots{display:flex;gap:9px;flex-wrap:wrap}
-.pdot{
-  width:26px;height:26px;border-radius:50%;cursor:pointer;padding:0;border:1px solid rgba(0,0,0,.08);
-  background:linear-gradient(135deg,var(--pa) 0 50%,var(--pb) 50% 100%);
-  outline:2px solid transparent;outline-offset:3px;transition:transform .2s,outline-color .2s;position:relative;
+/* ===== DESIGN COLOR — glass beads ===== */
+.designcolor{position:relative;z-index:1;max-width:var(--maxw);margin:0 auto;padding:34px 28px 4px}
+.dc-panel{
+  background:linear-gradient(180deg,rgba(255,255,255,.60),rgba(255,255,255,.28));
+  border:1px solid var(--line);border-radius:24px;padding:34px 30px 36px;
+  box-shadow:var(--shadow-sm);backdrop-filter:blur(8px) saturate(120%);text-align:center;
 }
-.pdot:hover{transform:scale(1.12)}
-.pdot.on{outline-color:var(--ink)}
-.pcurrent{font-size:12.5px;color:var(--muted)}
-.pcurrent b{color:var(--accent);font-weight:600}
+.dc-kicker{font-family:var(--display);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);font-weight:600}
+.dc-title{font-family:var(--serif);font-weight:600;font-size:clamp(23px,3vw,32px);color:var(--ink);margin:7px 0 9px;letter-spacing:-.3px}
+.dc-desc{font-size:13.5px;color:var(--muted);max-width:48ch;margin:0 auto 30px;line-height:1.75}
+.beads{display:flex;flex-wrap:wrap;justify-content:center;gap:28px 34px;margin-bottom:24px}
+.bead-item{
+  display:flex;flex-direction:column;align-items:center;gap:13px;cursor:pointer;
+  background:none;border:none;padding:8px 6px;border-radius:18px;transition:background .2s;font-family:inherit;
+}
+.bead-item:hover{background:rgba(255,255,255,.45)}
+.bead-item:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.bead{
+  width:66px;height:66px;border-radius:50%;position:relative;flex-shrink:0;
+  background:
+    radial-gradient(circle at 30% 24%,rgba(255,255,255,.95) 0%,rgba(255,255,255,.18) 18%,rgba(255,255,255,0) 42%),
+    linear-gradient(142deg,var(--pa) 0 50%,var(--pb) 50% 100%);
+  box-shadow:
+    inset 0 -8px 15px rgba(0,0,0,.30),
+    inset 0 6px 11px rgba(255,255,255,.42),
+    inset 0 0 0 1px rgba(255,255,255,.28),
+    0 9px 22px rgba(30,27,22,.22);
+  outline:2px solid transparent;outline-offset:6px;
+  transition:transform .3s cubic-bezier(.2,.8,.2,1),outline-color .3s,box-shadow .3s;
+}
+.bead::after{
+  content:'';position:absolute;top:10px;left:15px;width:22px;height:13px;border-radius:50%;
+  background:radial-gradient(ellipse at center,rgba(255,255,255,.95),rgba(255,255,255,0) 72%);
+  transform:rotate(-20deg);pointer-events:none;
+}
+.bead-item:hover .bead{transform:translateY(-4px) scale(1.07)}
+.bead-item.on .bead{
+  outline-color:var(--ink);
+  box-shadow:inset 0 -8px 15px rgba(0,0,0,.30),inset 0 6px 11px rgba(255,255,255,.42),
+    0 12px 28px rgba(30,27,22,.30),0 0 0 5px rgba(255,255,255,.7);
+}
+.bead-name{font-size:13.5px;font-weight:600;color:var(--ink-soft);letter-spacing:.2px;transition:color .2s}
+.bead-sub{font-size:11px;color:var(--faint);letter-spacing:.2px}
+.bead-item.on .bead-name{color:var(--accent-deep)}
+.dc-current{font-size:13px;color:var(--muted);min-height:20px}
+.dc-current b{color:var(--accent);font-weight:600}
 
 /* ===== GRID ===== */
 .main{position:relative;z-index:1;max-width:var(--maxw);margin:0 auto;padding:26px 28px 80px}
@@ -325,7 +357,7 @@ body::before{
 <header class="site-header" id="siteHeader">
   <div class="header-inner">
     <a class="wordmark" href="#top">
-      <span class="mk">AIC<em>L</em>AB</span>
+      <span class="mk">BA<em>L</em>AB</span>
       <span class="tag">Series #2</span>
     </a>
     <nav class="header-nav">
@@ -378,14 +410,20 @@ body::before{
         </div>
       </div>
       <div class="chips" id="catChips"></div>
-      <div class="palette-strip">
-        <span class="plabel">Design Color</span>
-        <div class="pdots" id="pdots"></div>
-        <span class="pcurrent" id="pcurrent">컬러를 고르면 복사 시 톤 가이드가 함께 붙습니다</span>
-      </div>
     </div>
   </div>
 </div>
+
+<!-- DESIGN COLOR -->
+<section class="designcolor">
+  <div class="dc-panel">
+    <div class="dc-kicker">Design Color</div>
+    <h2 class="dc-title">디자인 컬러</h2>
+    <p class="dc-desc">결과물에 입힐 컬러 톤을 고르세요. 선택하면 프롬프트를 복사할 때 톤 가이드가 함께 붙습니다.</p>
+    <div class="beads" id="beads"></div>
+    <div class="dc-current" id="pcurrent">아직 선택된 컬러가 없습니다</div>
+  </div>
+</section>
 
 <!-- MAIN -->
 <main class="main">
@@ -442,13 +480,11 @@ body::before{
 <!-- FOOTER -->
 <footer class="footer">
   <div class="footer-inner">
-    <div class="fmk">AIC<em>L</em>AB</div>
+    <div class="fmk">Made by BA<em>L</em>AB</div>
     <div class="flinks">
-      <a href="mailto:info@aiclab2020.com">info@aiclab2020.com</a>
-      <span class="fdot">&middot;</span>
-      <a href="https://kimjinsoo.aiclab.kr/" target="_blank" rel="noopener">kimjinsoo.aiclab.kr</a>
+      <a href="mailto:dkkim97@gmail.com">dkkim97@gmail.com</a>
     </div>
-    <div class="fcopy">&copy; 2026 KAEA &amp; AICLab. 김진수</div>
+    <div class="fcopy">일상의 어려움을 AI와 함께 해결해갑니다.</div>
     <div class="fcopy">시리즈: 직장인 &middot; 강사 &middot; 소상공인 &middot; GEO마케팅 &middot; 1인저자 &middot; 크리에이터 (예정)</div>
   </div>
 </footer>
@@ -1402,18 +1438,22 @@ function renderChips(){
 
 // ===== PALETTE =====
 function renderPalettes(){
-  const wrap=$('#pdots');
+  const wrap=$('#beads');
   wrap.innerHTML=palettes.map(p=>
-    `<button class="pdot ${selectedPaletteId===p.id?'on':''}" data-id="${p.id}" title="${p.name}" aria-label="${p.name} 톤" style="--pa:${p.hexA};--pb:${p.hexB}"></button>`
+    `<button class="bead-item ${selectedPaletteId===p.id?'on':''}" data-id="${p.id}" aria-pressed="${selectedPaletteId===p.id}" aria-label="${esc(p.name)} 톤 선택">
+      <span class="bead" style="--pa:${p.hexA};--pb:${p.hexB}"></span>
+      <span class="bead-name">${esc(p.name)}</span>
+      <span class="bead-sub">${esc(p.hexA_name)} · ${esc(p.hexB_name)}</span>
+    </button>`
   ).join('');
-  wrap.querySelectorAll('.pdot').forEach(b=>b.onclick=()=>selectPalette(b.dataset.id));
+  wrap.querySelectorAll('.bead-item').forEach(b=>b.onclick=()=>selectPalette(b.dataset.id));
 }
 function selectPalette(id){
   selectedPaletteId = (selectedPaletteId===id)?null:id;
   renderPalettes();
   const cur=$('#pcurrent');
   const p=palettes.find(x=>x.id===selectedPaletteId);
-  cur.innerHTML = p ? `현재 톤: <b>${esc(p.name)}</b> — 복사 시 함께 붙습니다` : '컬러를 고르면 복사 시 톤 가이드가 함께 붙습니다';
+  cur.innerHTML = p ? `현재 톤: <b>${esc(p.name)}</b> — 복사 시 톤 가이드가 함께 붙습니다` : '아직 선택된 컬러가 없습니다';
   if(detailItem) renderDetailTone();
 }
 function buildPaletteBlock(){
