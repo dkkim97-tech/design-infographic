@@ -1,0 +1,736 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<meta name="theme-color" content="#0b1020"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="style Ai"/>
+<meta name="description" content="사진에 옷·모자·신발·액세서리를 입혀보는 AI 가상 피팅 스튜디오. 모바일 대응, 순차 합성, 원터치 다운로드."/>
+<title>style Ai · AI 가상 피팅 스튜디오</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%91%97%3C/text%3E%3C/svg%3E"/>
+<style>
+/* ===== tokens ===== */
+:root{
+  color-scheme:light dark;
+  --font:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',system-ui,'Segoe UI',Roboto,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+
+  /* aurora ground (day) */
+  --ground:#eaecf7;
+  --blob1:#a5b4fc; --blob2:#f0abfc; --blob3:#7dd3fc;
+  --ink:#141425; --ink-soft:#4c4c63; --ink-faint:#6f6f88;
+
+  /* glass surface (day) */
+  --glass-bg:linear-gradient(135deg,rgba(255,255,255,.72),rgba(255,255,255,.42));
+  --glass-brd:rgba(255,255,255,.7);
+  --glass-sheen:linear-gradient(180deg,rgba(255,255,255,.85),rgba(255,255,255,0) 46%);
+  --glass-shadow:0 10px 30px rgba(30,27,75,.14),inset 0 1px 0 rgba(255,255,255,.9);
+  --field-bg:rgba(255,255,255,.55);
+
+  --accent:#7c3aed; --accent-2:#db2777;
+  --accent-ring:rgba(124,58,237,.4);
+  --ok:#0d9f6e; --ok-bg:rgba(16,185,129,.16);
+  --danger:#e11d48; --danger-bg:rgba(225,29,72,.14);
+  --radius:18px;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --ground:#0b1020;
+    --blob1:#6d28d9; --blob2:#db2777; --blob3:#0ea5e9;
+    --ink:#f3f2fb; --ink-soft:#c3c2d6; --ink-faint:#8f8ea8;
+    --glass-bg:linear-gradient(135deg,rgba(255,255,255,.14),rgba(255,255,255,.04));
+    --glass-brd:rgba(255,255,255,.18);
+    --glass-sheen:linear-gradient(180deg,rgba(255,255,255,.28),rgba(255,255,255,0) 46%);
+    --glass-shadow:0 12px 34px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.22);
+    --field-bg:rgba(12,14,28,.42);
+    --accent:#a78bfa; --accent-2:#f472b6;
+    --accent-ring:rgba(167,139,250,.45);
+    --ok:#34d399; --ok-bg:rgba(16,185,129,.2);
+    --danger:#fb7185; --danger-bg:rgba(251,113,133,.18);
+  }
+}
+:root[data-theme="light"]{
+  --ground:#eaecf7; --blob1:#a5b4fc; --blob2:#f0abfc; --blob3:#7dd3fc;
+  --ink:#141425; --ink-soft:#4c4c63; --ink-faint:#6f6f88;
+  --glass-bg:linear-gradient(135deg,rgba(255,255,255,.72),rgba(255,255,255,.42));
+  --glass-brd:rgba(255,255,255,.7);
+  --glass-sheen:linear-gradient(180deg,rgba(255,255,255,.85),rgba(255,255,255,0) 46%);
+  --glass-shadow:0 10px 30px rgba(30,27,75,.14),inset 0 1px 0 rgba(255,255,255,.9);
+  --field-bg:rgba(255,255,255,.55);
+  --accent:#7c3aed; --accent-2:#db2777; --accent-ring:rgba(124,58,237,.4);
+  --ok:#0d9f6e; --ok-bg:rgba(16,185,129,.16); --danger:#e11d48; --danger-bg:rgba(225,29,72,.14);
+}
+:root[data-theme="dark"]{
+  --ground:#0b1020; --blob1:#6d28d9; --blob2:#db2777; --blob3:#0ea5e9;
+  --ink:#f3f2fb; --ink-soft:#c3c2d6; --ink-faint:#8f8ea8;
+  --glass-bg:linear-gradient(135deg,rgba(255,255,255,.14),rgba(255,255,255,.04));
+  --glass-brd:rgba(255,255,255,.18);
+  --glass-sheen:linear-gradient(180deg,rgba(255,255,255,.28),rgba(255,255,255,0) 46%);
+  --glass-shadow:0 12px 34px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.22);
+  --field-bg:rgba(12,14,28,.42);
+  --accent:#a78bfa; --accent-2:#f472b6; --accent-ring:rgba(167,139,250,.45);
+  --ok:#34d399; --ok-bg:rgba(16,185,129,.2); --danger:#fb7185; --danger-bg:rgba(251,113,133,.18);
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  font-family:var(--font); color:var(--ink); background:var(--ground);
+  line-height:1.5; -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+  min-height:100dvh; overflow-x:hidden; position:relative;
+  transition:background .4s ease,color .3s ease;
+}
+/* aurora blobs */
+body::before,body::after{content:"";position:fixed;z-index:-1;border-radius:50%;filter:blur(80px);opacity:.85;pointer-events:none;transition:background .4s ease}
+body::before{width:60vw;height:60vw;left:-14vw;top:-16vw;background:radial-gradient(circle at 30% 30%,var(--blob1),transparent 68%)}
+body::after{width:64vw;height:64vw;right:-18vw;bottom:-22vw;background:radial-gradient(circle at 70% 70%,var(--blob2),transparent 66%)}
+.aurora3{position:fixed;z-index:-1;width:46vw;height:46vw;left:30vw;bottom:-24vw;border-radius:50%;filter:blur(90px);opacity:.6;background:radial-gradient(circle,var(--blob3),transparent 68%);pointer-events:none}
+
+button,input,select{font-family:inherit;font-size:inherit;color:inherit}
+button{cursor:pointer;border:none;background:none}
+a{color:var(--accent)}
+.mono{font-family:var(--mono)}
+::selection{background:var(--accent-ring);color:#fff}
+
+/* ===== glass primitives ===== */
+.glass{
+  position:relative; background:var(--glass-bg);
+  -webkit-backdrop-filter:blur(18px) saturate(180%); backdrop-filter:blur(18px) saturate(180%);
+  border:1px solid var(--glass-brd); box-shadow:var(--glass-shadow);
+  border-radius:var(--radius);
+}
+.glass::before{content:"";position:absolute;left:0;right:0;top:0;height:55%;border-radius:inherit;
+  background:var(--glass-sheen);opacity:.8;pointer-events:none}
+
+/* glass bead buttons */
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:11px 18px;border-radius:999px;font-weight:700;font-size:14px;letter-spacing:-.01em;
+  color:var(--ink);background:var(--glass-bg);border:1px solid var(--glass-brd);
+  -webkit-backdrop-filter:blur(14px) saturate(180%);backdrop-filter:blur(14px) saturate(180%);
+  box-shadow:0 6px 18px rgba(30,27,75,.16),inset 0 1px 0 rgba(255,255,255,.7);
+  transition:transform .16s ease,box-shadow .16s ease,opacity .16s ease}
+.btn::before{content:"";position:absolute;left:6px;right:6px;top:3px;height:42%;border-radius:999px;
+  background:linear-gradient(180deg,rgba(255,255,255,.9),rgba(255,255,255,0));opacity:.7;pointer-events:none}
+@media (prefers-color-scheme:dark){.btn::before{background:linear-gradient(180deg,rgba(255,255,255,.35),rgba(255,255,255,0))}}
+:root[data-theme="dark"] .btn::before{background:linear-gradient(180deg,rgba(255,255,255,.35),rgba(255,255,255,0))}
+:root[data-theme="light"] .btn::before{background:linear-gradient(180deg,rgba(255,255,255,.9),rgba(255,255,255,0))}
+.btn:hover{transform:translateY(-1px);box-shadow:0 10px 26px rgba(30,27,75,.22),inset 0 1px 0 rgba(255,255,255,.7)}
+.btn:active{transform:translateY(0)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn svg{width:17px;height:17px}
+.btn[disabled]{opacity:.42;cursor:not-allowed;transform:none;box-shadow:0 4px 12px rgba(30,27,75,.12)}
+.btn.sm{padding:8px 12px;font-size:12.5px}
+.btn.icon{padding:10px;width:42px;height:42px;border-radius:14px}
+.btn.icon svg{width:18px;height:18px}
+.btn.primary{color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  border-color:transparent;box-shadow:0 10px 26px var(--accent-ring),inset 0 1px 0 rgba(255,255,255,.5)}
+.btn.primary::before{opacity:.5}
+.btn.primary:hover{box-shadow:0 14px 32px var(--accent-ring),inset 0 1px 0 rgba(255,255,255,.5)}
+.btn.wide{width:100%}
+
+/* ===== layout ===== */
+.wrap{width:100%;max-width:1160px;margin:0 auto;padding:0 clamp(14px,4vw,26px)}
+
+.hdr{position:sticky;top:12px;z-index:40;margin:12px auto 0;max-width:1160px;
+  width:calc(100% - clamp(28px,8vw,52px));border-radius:999px}
+.hdr-in{display:flex;align-items:center;gap:12px;padding:9px 12px 9px 16px}
+.brand{display:flex;align-items:center;gap:11px;min-width:0}
+.brand .bead{width:38px;height:38px;border-radius:13px;display:grid;place-items:center;font-size:20px;flex:none;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));box-shadow:0 6px 16px var(--accent-ring),inset 0 1px 0 rgba(255,255,255,.5)}
+.brand b{font-size:15.5px;font-weight:800;letter-spacing:-.02em;white-space:nowrap}
+.brand small{display:block;font-size:11px;color:var(--ink-soft);font-weight:600}
+.spacer{flex:1}
+@media (max-width:560px){#saveApp .lbl{display:none}#saveApp{padding:10px;width:42px;height:42px;border-radius:14px}}
+
+.hero{text-align:center;padding:34px 0 6px}
+.hero .eyebrow{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;font-size:12px;font-weight:700;
+  color:var(--ink);margin-bottom:16px}
+.hero .live{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 4px var(--ok-bg);animation:pulse 2.2s infinite}
+@keyframes pulse{50%{opacity:.35}}
+.hero h1{font-size:clamp(29px,6vw,50px);font-weight:900;letter-spacing:-.035em;line-height:1.05;text-wrap:balance}
+.hero h1 .grad{background:linear-gradient(115deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{margin:14px auto 0;max-width:56ch;color:var(--ink-soft);font-size:clamp(14px,2.4vw,16px);text-wrap:pretty}
+
+.studio{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.06fr);gap:18px;align-items:start;margin:26px 0 40px}
+@media (max-width:920px){.studio{grid-template-columns:1fr}}
+.col{display:flex;flex-direction:column;gap:16px;min-width:0}
+@media (min-width:921px){.col.right{position:sticky;top:88px}}
+
+.card{padding:18px}
+.card h2{font-size:15px;font-weight:800;letter-spacing:-.01em;display:flex;align-items:center;gap:9px;margin-bottom:4px}
+.card h2 .no{width:24px;height:24px;border-radius:8px;flex:none;display:grid;place-items:center;font-size:12.5px;font-weight:800;color:#fff;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));box-shadow:0 3px 8px var(--accent-ring)}
+.card .lead{font-size:12.5px;color:var(--ink-soft);margin:2px 0 14px 33px}
+@media (max-width:520px){.card .lead{margin-left:0}}
+
+/* dropzone (person) */
+.drop{position:relative;border:1.5px dashed var(--glass-brd);border-radius:14px;background:var(--field-bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;
+  padding:24px 16px;min-height:200px;cursor:pointer;transition:.18s;overflow:hidden}
+.drop:hover{border-color:var(--accent)}
+.drop.drag{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 14%,var(--field-bg))}
+.drop.filled{border-style:solid;padding:0;cursor:default;background:#0b0b12;min-height:230px}
+.drop .pic{width:100%;height:100%;position:absolute;inset:0;object-fit:contain;
+  background:repeating-conic-gradient(#00000010 0% 25%,transparent 0% 50%) 50%/24px 24px}
+.drop .ph-ic{width:46px;height:46px;color:var(--ink-faint)}
+.drop .ph-t{font-size:13.5px;font-weight:700;color:var(--ink-soft)}
+.drop .ph-s{font-size:12px;color:var(--ink-faint)}
+.drop .tools{position:absolute;top:9px;right:9px;display:flex;gap:7px;opacity:0;transition:.15s;z-index:2}
+.drop.filled:hover .tools,.drop.filled:focus-within .tools{opacity:1}
+.tool{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;color:#fff;
+  background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.25)}
+.tool:hover{background:rgba(0,0,0,.78)}
+.tool svg{width:16px;height:16px}
+.row{display:flex;gap:9px;margin-top:12px;flex-wrap:wrap}
+.row .btn{flex:1;min-width:120px}
+
+/* garment slots */
+.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:11px}
+.slot{position:relative;border-radius:15px;background:var(--field-bg);border:1px solid var(--glass-brd);
+  padding:11px;display:flex;flex-direction:column;gap:9px;transition:.18s}
+.slot.on{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-ring)}
+.slot .thumb{position:relative;aspect-ratio:1/1;border-radius:11px;overflow:hidden;cursor:pointer;
+  background:repeating-conic-gradient(#00000010 0% 25%,transparent 0% 50%) 50%/20px 20px;
+  display:grid;place-items:center;border:1px dashed var(--glass-brd)}
+.slot .thumb.has{border-style:solid;background:#0b0b12}
+.slot .thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.slot .thumb .ic{width:30px;height:30px;color:var(--ink-faint);z-index:1}
+.slot .thumb .add{position:absolute;bottom:6px;right:6px;width:24px;height:24px;border-radius:8px;display:grid;place-items:center;
+  color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent-2));box-shadow:0 3px 8px var(--accent-ring);z-index:2}
+.slot .thumb .add svg{width:14px;height:14px}
+.slot .rm{position:absolute;top:6px;right:6px;width:24px;height:24px;border-radius:8px;display:none;place-items:center;color:#fff;
+  background:rgba(0,0,0,.6);z-index:3}
+.slot .rm svg{width:13px;height:13px}
+.slot .name{font-size:13px;font-weight:800;display:flex;align-items:center;gap:6px}
+.slot .name .em{font-size:14px}
+.slot .hint{font-size:10.5px;color:var(--ink-faint);margin-top:-6px;line-height:1.35}
+.slot .inc{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:11.5px;font-weight:700;color:var(--ink-soft)}
+/* toggle switch */
+.sw{position:relative;width:38px;height:22px;border-radius:999px;background:var(--field-bg);border:1px solid var(--glass-brd);transition:.18s;flex:none;cursor:pointer}
+.sw::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:var(--ink-faint);transition:.18s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.slot.on .sw{background:linear-gradient(135deg,var(--accent),var(--accent-2));border-color:transparent}
+.slot.on .sw::after{left:18px;background:#fff}
+.slot[data-empty="1"] .inc{opacity:.4;pointer-events:none}
+
+/* options */
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:400px){.opts{grid-template-columns:1fr}}
+.field label{display:block;font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:6px}
+select,input[type=text],input[type=password]{width:100%;padding:11px 13px;border-radius:12px;font-size:14px;
+  background:var(--field-bg);border:1px solid var(--glass-brd);color:var(--ink);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);transition:.15s}
+select:focus,input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-ring)}
+select{-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%238f8ea8' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:34px}
+
+/* api key */
+.keyhead{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;user-select:none}
+.keyhead .ic{width:34px;height:34px;border-radius:11px;flex:none;display:grid;place-items:center;color:var(--accent);background:var(--field-bg);border:1px solid var(--glass-brd)}
+.keyhead .ic svg{width:17px;height:17px}
+.keyhead .t{font-weight:800;font-size:13.5px}
+.keyhead .s{font-size:11.5px;color:var(--ink-soft);margin-top:1px}
+.pill{margin-left:auto;font-size:11px;font-weight:800;padding:4px 11px;border-radius:999px}
+.pill.ok{background:var(--ok-bg);color:var(--ok)}
+.pill.no{background:var(--danger-bg);color:var(--danger)}
+.chev{width:18px;height:18px;color:var(--ink-faint);transition:transform .2s;flex:none}
+.keybar.open .chev{transform:rotate(180deg)}
+.keybody{display:none;padding:0 16px 16px}
+.keybar.open .keybody{display:block}
+.keybody .field{margin-top:12px}
+.inrow{display:flex;gap:8px}
+.note{font-size:11.5px;color:var(--ink-soft);margin-top:12px;padding:10px 12px;border-radius:11px;background:var(--field-bg);border:1px dashed var(--glass-brd)}
+.note b{color:var(--ink)}
+
+/* result */
+.stage{position:relative;border-radius:15px;overflow:hidden;background:var(--field-bg);border:1px solid var(--glass-brd);
+  min-height:340px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;padding:22px}
+@media (min-width:921px){.stage{min-height:460px}}
+.stage img.res{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
+  background:repeating-conic-gradient(#00000010 0% 25%,transparent 0% 50%) 50%/26px 26px}
+.idle-ic{width:64px;height:64px;color:var(--ink-faint)}
+.idle-t{font-size:14px;color:var(--ink-soft);font-weight:600;max-width:26ch}
+.spin{width:52px;height:52px;border-radius:50%;border:4px solid var(--glass-brd);border-top-color:var(--accent);animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.spin{animation-duration:2.4s}.hero .live{animation:none}}
+.p-t{font-size:15px;font-weight:800}
+.p-s{font-size:12.5px;color:var(--ink-soft)}
+.p-time{font-variant-numeric:tabular-nums;font-size:12px;color:var(--ink-faint)}
+.steps-bar{display:flex;gap:5px;margin-top:2px}
+.steps-bar i{width:26px;height:5px;border-radius:3px;background:var(--glass-brd)}
+.steps-bar i.done{background:var(--accent)}
+.steps-bar i.now{background:var(--accent-2);animation:pulse 1s infinite}
+.err{width:100%;text-align:left}
+.err .h{color:var(--danger);font-weight:800;font-size:14px;display:flex;align-items:center;gap:7px;margin-bottom:6px}
+.err .m{font-size:12.5px;color:var(--ink-soft);line-height:1.6;word-break:break-word}
+.badge-cmp{position:absolute;top:10px;left:10px;z-index:4;font-size:11px;font-weight:800;padding:5px 11px;border-radius:999px;
+  color:#fff;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.25)}
+.actions{display:grid;grid-template-columns:1fr;gap:10px;margin-top:14px}
+.actions .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+
+/* mobile sticky run bar */
+.dockbar{position:sticky;bottom:12px;z-index:30;margin-top:16px;display:none;padding:10px}
+.dockbar .in{display:flex;gap:10px}
+@media (max-width:920px){.dockbar{display:block}}
+
+footer{text-align:center;padding:26px 16px 40px;color:var(--ink-soft);font-size:12.5px;line-height:1.8}
+
+.hidden{display:none!important}
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);z-index:90;padding:12px 20px;border-radius:14px;
+  font-size:13.5px;font-weight:700;color:#fff;background:rgba(15,15,28,.86);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.16);box-shadow:0 12px 30px rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:.25s}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+</style>
+</head>
+<body>
+<div class="aurora3"></div>
+
+<header class="hdr glass">
+  <div class="hdr-in">
+    <div class="brand">
+      <span class="bead">👗</span>
+      <span><b>style Ai</b><small>AI 가상 피팅 스튜디오</small></span>
+    </div>
+    <span class="spacer"></span>
+    <button class="btn sm" id="saveApp" title="앱을 HTML 파일로 저장">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+      <span class="lbl">앱 저장</span>
+    </button>
+    <button class="btn icon" id="themeBtn" title="주간·야간 전환" aria-label="주간·야간 전환">
+      <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg>
+    </button>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="eyebrow glass"><span class="live"></span> fal.ai · FASHN 순차 합성 · 모바일 대응</div>
+    <h1>사진 한 장에<br/><span class="grad">머리부터 발끝까지</span> 입혀보기</h1>
+    <p>인물 사진에 모자·상의·하의·신발·액세서리를 원하는 만큼 올리면, AI가 순서대로 겹쳐 입힌 결과 이미지를 만들어 줍니다. 완성본은 버튼 하나로 저장·공유하세요.</p>
+  </section>
+
+  <div class="studio">
+    <!-- LEFT: inputs -->
+    <div class="col left">
+      <section class="card glass">
+        <h2><span class="no">1</span>인물 사진</h2>
+        <p class="lead">전신 또는 상반신이 잘 보이는 정면 사진이 가장 정확합니다.</p>
+        <div class="drop" id="dropPerson" tabindex="0" role="button" aria-label="인물 사진 올리기">
+          <img class="pic hidden" alt="업로드한 인물 사진"/>
+          <svg class="ph-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7v1"/></svg>
+          <div class="ph-t">여기로 끌어다 놓거나 눌러서 선택</div>
+          <div class="ph-s">JPG · PNG · 붙여넣기(Ctrl/⌘+V) 가능</div>
+          <div class="tools">
+            <button class="tool btn-recam" title="다시 촬영" aria-label="다시 촬영"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></button>
+            <button class="tool btn-clear" title="삭제" aria-label="인물 사진 삭제"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+          </div>
+        </div>
+        <div class="row">
+          <button class="btn btn-file"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5-5 5 5M12 5v13"/></svg>파일 선택</button>
+          <button class="btn btn-cam"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>카메라</button>
+        </div>
+      </section>
+
+      <section class="card glass">
+        <h2><span class="no">2</span>입힐 아이템</h2>
+        <p class="lead">필요한 것만 켜세요. 켠 아이템은 <b>모자→상의→하의→신발→액세서리</b> 순으로 겹쳐 합성됩니다.</p>
+        <div class="slots" id="slots"></div>
+      </section>
+
+      <section class="card glass">
+        <h2><span class="no">3</span>합성 옵션</h2>
+        <div class="opts">
+          <div class="field"><label for="mode">품질 모드</label>
+            <select id="mode"><option value="balanced">균형 (권장)</option><option value="quality">고품질 (느림)</option><option value="performance">빠름</option></select>
+          </div>
+          <div class="field"><label for="outFmt">출력 포맷</label>
+            <select id="outFmt"><option value="png">PNG · 고화질</option><option value="jpeg">JPEG · 가벼움</option></select>
+          </div>
+        </div>
+      </section>
+
+      <div class="keybar glass" id="keybar">
+        <div class="keyhead" id="keyToggle">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.6 7.6a5 5 0 1 1-7 7 5 5 0 0 1 7-7zm0 0L15 8m0 0l3 3 3-3-3-3"/></svg></span>
+          <div><div class="t">fal.ai API 키</div><div class="s">실제 합성에 필요 · 이 브라우저에만 저장</div></div>
+          <span class="pill no" id="keyPill">키 없음</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="keybody">
+          <div class="field">
+            <label for="apiKey">API Key <span style="font-weight:400;color:var(--ink-faint)">— <a href="https://fal.ai/dashboard/keys" target="_blank" rel="noopener">fal.ai/dashboard/keys</a></span></label>
+            <div class="inrow">
+              <input type="password" id="apiKey" placeholder="fal.ai 키를 붙여넣으세요" autocomplete="off" spellcheck="false"/>
+              <button class="btn sm" id="visKey" type="button">보기</button>
+              <button class="btn sm primary" id="saveKey" type="button">저장</button>
+            </div>
+          </div>
+          <div class="field"><label for="endpoint">모델 엔드포인트 <span style="font-weight:400;color:var(--ink-faint)">(고급)</span></label>
+            <input type="text" id="endpoint" class="mono" style="font-size:12.5px" value="fal-ai/fashn/tryon/v1.6"/>
+          </div>
+          <div class="note">🔒 키는 <b>localStorage</b>에만 저장되며 서버로 전송되지 않습니다. 공용 PC에서는 사용 후 삭제하세요.<br/>👟 <b>참고</b> — 상의·하의는 FASHN이 기본 지원합니다. 신발·모자·액세서리는 사용하는 엔드포인트의 지원 범위에 따라 결과가 달라질 수 있어요.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: result -->
+    <div class="col right">
+      <section class="card glass">
+        <h2><span class="no">4</span>결과</h2>
+        <div class="stage" id="stage">
+          <div id="sIdle" style="display:flex;flex-direction:column;align-items:center;gap:14px">
+            <svg class="idle-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3m0 12v3m9-9h-3M6 12H3m13.5-6.5-2 2m-7 7-2 2m0-11 2 2m7 7 2 2"/><circle cx="12" cy="12" r="3.4"/></svg>
+            <div class="idle-t">인물 사진과 아이템을 올린 뒤 <b>합성 시작</b>을 누르면 여기에 결과가 나타납니다.</div>
+          </div>
+          <div id="sLoad" class="hidden" style="display:flex;flex-direction:column;align-items:center;gap:13px">
+            <div class="spin"></div>
+            <div class="p-t" id="pT">합성 준비 중…</div>
+            <div class="p-s" id="pS">잠시만 기다려 주세요</div>
+            <div class="steps-bar" id="pBar"></div>
+            <div class="p-time" id="pTime">0.0s</div>
+          </div>
+          <div id="sErr" class="hidden err">
+            <div class="h"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>안내</div>
+            <div class="m" id="errMsg"></div>
+          </div>
+          <span class="badge-cmp hidden" id="cmpBadge">원본</span>
+          <img id="resImg" class="res hidden" alt="가상 피팅 합성 결과"/>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary wide" id="runBtn" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l14 9-14 9V3z"/></svg>합성 시작
+          </button>
+          <div class="grid3">
+            <button class="btn sm hidden" id="dlBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>다운로드</button>
+            <button class="btn sm hidden" id="shBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v14"/></svg>공유</button>
+            <button class="btn sm hidden" id="cmpBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9m18 0-5-5-4 4-3-3-6 6m18-1v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3"/></svg>원본 비교</button>
+          </div>
+        </div>
+      </section>
+
+      <div class="dockbar glass">
+        <div class="in">
+          <button class="btn primary wide" id="runBtn2" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l14 9-14 9V3z"/></svg>합성 시작
+          </button>
+          <button class="btn icon hidden" id="dlBtn2" title="다운로드" aria-label="다운로드"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div>👗 <b>style Ai</b> — 단일 HTML · 의존성 없음 · 오프라인에서도 UI 동작</div>
+    <div>만든사람 · 김동규 강사</div>
+    <div>💾 상단 <b>앱 저장</b>으로 이 앱을 내려받아 두면 인터넷 없이도 열 수 있고, 휴대폰은 브라우저 메뉴의 <b>홈 화면에 추가</b>로 앱처럼 설치됩니다.</div>
+    <div>Powered by <a href="https://fal.ai" target="_blank" rel="noopener">fal.ai</a> · <a href="https://fashn.ai" target="_blank" rel="noopener">FASHN</a></div>
+  </footer>
+</main>
+
+<input type="file" id="fileInput" accept="image/*" class="hidden"/>
+<input type="file" id="camInput" accept="image/*" capture="environment" class="hidden"/>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  "use strict";
+  const $=(s,r=document)=>r.querySelector(s);
+  const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+  const LS={key:"vto_fal_key",ep:"vto_endpoint",theme:"vto_theme"};
+  const IS_PREVIEW=false; /* 저장소 원본: 실제 API 호출 활성 */
+
+  /* ---- theme ---- */
+  const rootEl=document.documentElement, themeBtn=$("#themeBtn");
+  const sun='<circle cx="12" cy="12" r="4.2"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/>';
+  const moon='<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>';
+  const auto='<circle cx="12" cy="12" r="9"/><path d="M12 3v18a9 9 0 0 0 0-18z" fill="currentColor" stroke="none"/>';
+  function applyTheme(t){
+    if(t==="system")rootEl.removeAttribute("data-theme"); else rootEl.setAttribute("data-theme",t);
+    $("#themeIcon").innerHTML = t==="dark"?moon : t==="light"?sun : auto;
+    themeBtn.title = t==="dark"?"야간 (누르면 자동)" : t==="light"?"주간 (누르면 야간)" : "자동 (누르면 주간)";
+  }
+  let theme; try{theme=localStorage.getItem(LS.theme)||"system";}catch(_){theme="system";}
+  applyTheme(theme);
+  themeBtn.addEventListener("click",()=>{
+    theme = theme==="system"?"light" : theme==="light"?"dark" : "system";
+    try{localStorage.setItem(LS.theme,theme);}catch(_){}
+    applyTheme(theme);
+  });
+
+  const store={get(k){try{return localStorage.getItem(k)||"";}catch(_){return"";}},set(k,v){try{localStorage.setItem(k,v);}catch(_){}}};
+  let toastT; function toast(m){const el=$("#toast");el.textContent=m;el.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove("show"),2300);}
+
+  /* ---- save the app itself as a standalone HTML file ---- */
+  function saveApp(){
+    try{
+      const src = (typeof window.__APP_SRC__==="string" && window.__APP_SRC__)
+        ? window.__APP_SRC__
+        : "<!doctype html>\n"+document.documentElement.outerHTML;
+      const blob=new Blob([src],{type:"text/html;charset=utf-8"});
+      const u=URL.createObjectURL(blob);
+      const a=document.createElement("a");a.href=u;a.download="style-ai.html";
+      document.body.appendChild(a);a.click();a.remove();
+      setTimeout(()=>URL.revokeObjectURL(u),1000);
+      toast("⬇ 앱을 저장했습니다 · style-ai.html");
+    }catch(_){toast("⚠ 저장에 실패했습니다");}
+  }
+  $("#saveApp").addEventListener("click",saveApp);
+
+  /* ---- state ---- */
+  const state={person:null, busy:false, result:null, showingOriginal:false};
+  const SLOTS=[
+    {key:"hat",       name:"모자",     em:"🧢", hint:"모자·캡·비니",     cat:"auto"},
+    {key:"top",       name:"상의",     em:"👕", hint:"티셔츠·셔츠·자켓", cat:"tops"},
+    {key:"bottom",    name:"하의",     em:"👖", hint:"바지·스커트",      cat:"bottoms"},
+    {key:"shoes",     name:"신발",     em:"👟", hint:"운동화·구두·부츠", cat:"auto"},
+    {key:"accessory", name:"액세서리", em:"👜", hint:"가방·안경·목걸이", cat:"auto"}
+  ];
+  const items={}; SLOTS.forEach(s=>items[s.key]={img:null,on:false});
+
+  /* ---- build slots ---- */
+  const slotsWrap=$("#slots");
+  SLOTS.forEach(s=>{
+    const el=document.createElement("div");
+    el.className="slot"; el.dataset.key=s.key; el.dataset.empty="1";
+    el.innerHTML=
+      '<div class="thumb" tabindex="0" role="button" aria-label="'+s.name+' 이미지 올리기">'+
+        '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M12 8v8M8 12h8"/></svg>'+
+        '<img class="hidden" alt="'+s.name+' 이미지"/>'+
+        '<span class="add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>'+
+      '</div>'+
+      '<button class="rm" title="삭제" aria-label="'+s.name+' 삭제"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>'+
+      '<div class="name"><span class="em">'+s.em+'</span>'+s.name+'</div>'+
+      '<div class="hint">'+s.hint+'</div>'+
+      '<div class="inc"><span>합성에 포함</span><span class="sw" role="switch" aria-checked="false" tabindex="0"></span></div>';
+    slotsWrap.appendChild(el);
+    const thumb=$(".thumb",el);
+    thumb.addEventListener("click",()=>pick(s.key));
+    thumb.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();pick(s.key);}});
+    thumb.addEventListener("dragover",e=>{e.preventDefault();thumb.style.borderColor="var(--accent)";});
+    thumb.addEventListener("dragleave",()=>{thumb.style.borderColor="";});
+    thumb.addEventListener("drop",e=>{e.preventDefault();thumb.style.borderColor="";const f=e.dataTransfer.files[0];if(f)loadImage(f).then(d=>setItem(s.key,d)).catch(err=>toast("⚠ "+err.message));});
+    $(".rm",el).addEventListener("click",e=>{e.stopPropagation();setItem(s.key,null);});
+    const sw=$(".sw",el);
+    const toggle=()=>{if(!items[s.key].img)return;items[s.key].on=!items[s.key].on;syncSlot(s.key);updateRun();};
+    $(".inc",el).addEventListener("click",toggle);
+    sw.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();toggle();}});
+  });
+
+  function syncSlot(key){
+    const it=items[key];
+    const el=$('.slot[data-key="'+key+'"]'), thumb=$(".thumb",el), img=$("img",thumb), sw=$(".sw",el);
+    if(it.img){thumb.classList.add("has");img.src=it.img;img.classList.remove("hidden");$(".ic",thumb).classList.add("hidden");$(".add",thumb).classList.add("hidden");$(".rm",el).style.display="grid";el.dataset.empty="0";}
+    else{thumb.classList.remove("has");img.src="";img.classList.add("hidden");$(".ic",thumb).classList.remove("hidden");$(".add",thumb).classList.remove("hidden");$(".rm",el).style.display="none";el.dataset.empty="1";it.on=false;}
+    el.classList.toggle("on",it.on);
+    sw.setAttribute("aria-checked",it.on?"true":"false");
+  }
+  function setItem(key,data){items[key].img=data;if(data)items[key].on=true;syncSlot(key);updateRun();}
+
+  /* ---- picker ---- */
+  const fileInput=$("#fileInput"), camInput=$("#camInput");
+  let target=null;
+  function pick(t,cam){target=t;const inp=cam?camInput:fileInput;inp.value="";inp.click();}
+  function onPicked(inp){const f=inp.files[0];if(!f||!target){inp.value="";return;}
+    loadImage(f).then(d=>{ if(target==="person")setPerson(d); else setItem(target,d); }).catch(err=>toast("⚠ "+err.message));
+    inp.value="";}
+  fileInput.addEventListener("change",()=>onPicked(fileInput));
+  camInput.addEventListener("change",()=>onPicked(camInput));
+
+  /* ---- image resize/encode ---- */
+  const MAX=1024;
+  function loadImage(file){
+    return new Promise((res,rej)=>{
+      if(!file||!file.type.startsWith("image/"))return rej(new Error("이미지 파일이 아닙니다"));
+      const r=new FileReader();
+      r.onerror=()=>rej(new Error("파일을 읽지 못했습니다"));
+      r.onload=()=>{const im=new Image();im.onerror=()=>rej(new Error("이미지를 해석하지 못했습니다"));
+        im.onload=()=>{let w=im.width,h=im.height;const sc=Math.min(1,MAX/Math.max(w,h));w=Math.round(w*sc);h=Math.round(h*sc);
+          const c=document.createElement("canvas");c.width=w;c.height=h;const x=c.getContext("2d");
+          x.fillStyle="#fff";x.fillRect(0,0,w,h);x.drawImage(im,0,0,w,h);res(c.toDataURL("image/png"));};
+        im.src=r.result;};
+      r.readAsDataURL(file);});
+  }
+
+  /* ---- person dropzone ---- */
+  const dropP=$("#dropPerson"), picP=$(".pic",dropP);
+  function setPerson(data){
+    state.person=data;
+    if(data){picP.src=data;picP.classList.remove("hidden");dropP.classList.add("filled");$$(".ph-ic,.ph-t,.ph-s",dropP).forEach(e=>e.style.display="none");}
+    else{picP.src="";picP.classList.add("hidden");dropP.classList.remove("filled");$$(".ph-ic,.ph-t,.ph-s",dropP).forEach(e=>e.style.display="");}
+    updateRun();
+  }
+  dropP.addEventListener("click",e=>{if(e.target.closest(".tools"))return;if(!dropP.classList.contains("filled"))pick("person");});
+  dropP.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&!dropP.classList.contains("filled")){e.preventDefault();pick("person");}});
+  dropP.addEventListener("dragover",e=>{e.preventDefault();dropP.classList.add("drag");});
+  dropP.addEventListener("dragleave",()=>dropP.classList.remove("drag"));
+  dropP.addEventListener("drop",e=>{e.preventDefault();dropP.classList.remove("drag");const f=e.dataTransfer.files[0];if(f)loadImage(f).then(setPerson).catch(err=>toast("⚠ "+err.message));});
+  $(".btn-file",dropP.parentElement).addEventListener("click",()=>pick("person"));
+  $(".btn-cam",dropP.parentElement).addEventListener("click",()=>pick("person",true));
+  $(".btn-clear",dropP).addEventListener("click",e=>{e.stopPropagation();setPerson(null);});
+  $(".btn-recam",dropP).addEventListener("click",e=>{e.stopPropagation();pick("person",true);});
+
+  /* paste anywhere */
+  window.addEventListener("paste",e=>{
+    const it=[...((e.clipboardData&&e.clipboardData.items)||[])].find(i=>i.type.startsWith("image/"));
+    if(!it)return;const f=it.getAsFile();if(!f)return;
+    if(!state.person){loadImage(f).then(setPerson).catch(err=>toast("⚠ "+err.message));toast("📋 인물 사진 붙여넣기");}
+    else{const empty=SLOTS.find(s=>!items[s.key].img);if(empty){loadImage(f).then(d=>setItem(empty.key,d)).catch(err=>toast("⚠ "+err.message));toast("📋 "+empty.name+"에 붙여넣기");}else toast("모든 슬롯이 채워져 있어요");}
+  });
+
+  /* ---- api key (memory-first, so it works even when storage is blocked) ---- */
+  const DEF_EP="fal-ai/fashn/tryon/v1.6";
+  const apiKeyEl=$("#apiKey"), endpointEl=$("#endpoint");
+  let memKey=store.get(LS.key), memEp=store.get(LS.ep)||DEF_EP;
+  function keyVal(){return (memKey||"").trim();}
+  function epVal(){return (memEp||DEF_EP).trim().replace(/^\/+|\/+$/g,"")||DEF_EP;}
+  function storageOK(){try{localStorage.setItem("__vto_probe","1");localStorage.removeItem("__vto_probe");return true;}catch(_){return false;}}
+  function refreshKey(){const k=keyVal();$("#keyPill").textContent=k?"입력됨":"키 없음";$("#keyPill").className="pill "+(k?"ok":"no");updateRun();}
+  apiKeyEl.value=memKey; endpointEl.value=memEp; refreshKey();
+  $("#keyToggle").addEventListener("click",()=>$("#keybar").classList.toggle("open"));
+  if(!keyVal())$("#keybar").classList.add("open");
+  $("#visKey").addEventListener("click",()=>{const p=apiKeyEl.type==="password";apiKeyEl.type=p?"text":"password";$("#visKey").textContent=p?"숨김":"보기";});
+  /* typing applies immediately for this session */
+  apiKeyEl.addEventListener("input",()=>{memKey=apiKeyEl.value;refreshKey();});
+  endpointEl.addEventListener("input",()=>{memEp=endpointEl.value;});
+  $("#saveKey").addEventListener("click",()=>{
+    memKey=apiKeyEl.value.trim(); memEp=endpointEl.value.trim()||DEF_EP;
+    const ok = storageOK() && (store.set(LS.key,memKey), store.set(LS.ep,memEp), true);
+    refreshKey();
+    toast(ok ? "✓ 저장되었습니다" : "✓ 적용됨 — 이 브라우저는 저장이 제한돼 이번 세션에만 유지됩니다");
+  });
+
+  /* ---- run enable ---- */
+  const runBtns=[$("#runBtn"),$("#runBtn2")];
+  function activeItems(){return SLOTS.filter(s=>items[s.key].on&&items[s.key].img);}
+  function updateRun(){
+    const ok = !state.busy && !!state.person && activeItems().length>0 && !!keyVal();
+    /* look buttons up at call time so this never depends on init order */
+    [document.getElementById("runBtn"),document.getElementById("runBtn2")].forEach(b=>{if(b)b.disabled=!ok;});
+  }
+
+  /* ---- stage ---- */
+  function showStage(which){
+    ["sIdle","sLoad","sErr","resImg"].forEach(id=>$("#"+id).classList.add("hidden"));
+    $("#"+which).classList.remove("hidden");
+    const hasRes=which==="resImg";
+    ["#dlBtn","#cmpBtn","#dlBtn2"].forEach(s=>$(s).classList.toggle("hidden",!hasRes));
+    $("#shBtn").classList.toggle("hidden",!(hasRes&&navigator.share));
+    $("#cmpBadge").classList.add("hidden");
+    state.showingOriginal=false;$("#cmpBtn").classList.remove("primary");
+  }
+  let timer=null,t0=0;
+  function startTimer(){t0=performance.now();timer=setInterval(()=>{$("#pTime").textContent=((performance.now()-t0)/1000).toFixed(1)+"s";},100);}
+  function stopTimer(){clearInterval(timer);}
+  function prog(t,s){$("#pT").textContent=t;if(s!==undefined)$("#pS").textContent=s;}
+  function buildBar(n){const b=$("#pBar");b.innerHTML="";for(let i=0;i<n;i++)b.appendChild(document.createElement("i"));}
+  function markBar(i,n){$$("#pBar i").forEach((e,idx)=>{e.className=idx<i?"done":idx===i?"now":"";});}
+  const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+  const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])).replace(/\n/g,"<br>");
+
+  async function apiError(resp){
+    let d="";try{const j=await resp.json();d=j.detail?(typeof j.detail==="string"?j.detail:JSON.stringify(j.detail)):(j.error||j.message||"");}catch(_){try{d=await resp.text();}catch(__){}}
+    const map={401:"인증 실패 (401) — API 키를 확인하세요.",402:"결제 필요 (402) — fal.ai 크레딧을 확인하세요.",403:"권한 없음 (403) — 키 권한/결제를 확인하세요.",404:"엔드포인트를 찾을 수 없음 (404).",422:"입력 값 오류 (422) — 이미지/옵션을 확인하세요.",429:"요청이 많습니다 (429) — 잠시 후 다시 시도하세요."};
+    const base=map[resp.status]||("요청 실패 ("+resp.status+")");
+    return new Error(d?base+"\n"+d:base);
+  }
+  function pickUrl(data){
+    const u=(data&&data.images&&data.images[0]&&data.images[0].url)||(data&&data.image&&data.image.url)||(data&&(Array.isArray(data.output)?data.output[0]:data.output));
+    if(!u)throw new Error("결과 이미지를 찾지 못했습니다.");return u;
+  }
+  async function tryonStep(personData, garmentData, category){
+    const key=keyVal();
+    const ep=epVal();
+    const headers={"Authorization":"Key "+key,"Content-Type":"application/json"};
+    const body={model_image:personData,garment_image:garmentData,category:category,mode:$("#mode").value,num_samples:1,output_format:$("#outFmt").value};
+    const sub=await fetch("https://queue.fal.run/"+ep,{method:"POST",headers,body:JSON.stringify(body)});
+    if(!sub.ok)throw await apiError(sub);
+    const sj=await sub.json();
+    if(!sj.status_url||!sj.response_url){if(sj.images)return pickUrl(sj);throw new Error("예상치 못한 응답 형식입니다.");}
+    let done=false,tries=0;
+    while(!done){await sleep(1500);tries++;
+      const st=await fetch(sj.status_url+"?logs=0",{headers});if(!st.ok)throw await apiError(st);
+      const j=await st.json();
+      if(j.status==="COMPLETED")done=true;
+      else if(j.status==="FAILED"||j.status==="ERROR")throw new Error("모델 처리에 실패했습니다. 다른 이미지로 시도해 보세요.");
+      if(tries>120)throw new Error("시간이 너무 오래 걸립니다.");
+    }
+    const res=await fetch(sj.response_url,{headers});if(!res.ok)throw await apiError(res);
+    return pickUrl(await res.json());
+  }
+  async function toDataURL(url){const r=await fetch(url);const b=await r.blob();return await new Promise(res=>{const fr=new FileReader();fr.onload=()=>res(fr.result);fr.readAsDataURL(b);});}
+
+  async function run(){
+    const key=keyVal();
+    if(!key){$("#keybar").classList.add("open");apiKeyEl.focus();toast("먼저 fal.ai API 키를 입력하세요");return;}
+    if(!state.person)return toast("인물 사진을 올려주세요");
+    const list=activeItems();
+    if(!list.length)return toast("합성할 아이템을 하나 이상 켜주세요");
+
+    state.busy=true;updateRun();
+    showStage("sLoad");buildBar(list.length);startTimer();
+
+    if(IS_PREVIEW){
+      stopTimer();showStage("sErr");
+      $("#errMsg").innerHTML=esc("이 미리보기 환경은 보안 정책상 외부 API(fal.ai) 호출이 차단됩니다.\n실제 합성은 저장소의 virtual-try-on/index.html 파일을 내려받아 브라우저에서 열고 fal.ai 키를 입력하면 정상 동작합니다.");
+      state.busy=false;updateRun();return;
+    }
+
+    let current=state.person;
+    try{
+      for(let i=0;i<list.length;i++){
+        const s=list[i];markBar(i,list.length);
+        prog(s.em+" "+s.name+" 적용 중… ("+(i+1)+"/"+list.length+")","AI가 이미지를 생성하고 있어요");
+        const url=await tryonStep(current, items[s.key].img, s.cat);
+        current=await toDataURL(url);
+      }
+      markBar(list.length,list.length);
+      finish(current);
+    }catch(err){
+      stopTimer();showStage("sErr");
+      let msg=err&&err.message?err.message:String(err);
+      if(err instanceof TypeError||/Failed to fetch|NetworkError|load failed|Content Security/i.test(msg)){
+        msg="네트워크 또는 보안 정책으로 fal.ai 호출이 차단됐습니다.\n로컬 브라우저에서 이 파일을 열고 올바른 키를 입력했는지 확인하세요.";
+      }
+      $("#errMsg").innerHTML=esc(msg);
+    }finally{state.busy=false;updateRun();}
+  }
+  function finish(dataURL){
+    stopTimer();state.result=dataURL;
+    const img=$("#resImg");
+    img.onload=()=>{showStage("resImg");toast("✓ 합성 완료!");};
+    img.onerror=()=>{showStage("sErr");$("#errMsg").textContent="결과 이미지를 불러오지 못했습니다.";};
+    img.src=dataURL;
+  }
+
+  /* ---- result actions ---- */
+  runBtns.forEach(b=>b.addEventListener("click",run));
+  function fname(){return "virtual-tryon-"+Date.now()+"."+($("#outFmt").value==="jpeg"?"jpg":"png");}
+  async function download(){
+    if(!state.result)return;
+    try{const r=await fetch(state.result);const b=await r.blob();const u=URL.createObjectURL(b);const a=document.createElement("a");a.href=u;a.download=fname();document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(u);toast("⬇ 저장했습니다");}
+    catch(_){const a=document.createElement("a");a.href=state.result;a.download=fname();a.click();}
+  }
+  $("#dlBtn").addEventListener("click",download);
+  $("#dlBtn2").addEventListener("click",download);
+  $("#shBtn").addEventListener("click",async()=>{
+    if(!state.result||!navigator.share)return;
+    try{const r=await fetch(state.result);const b=await r.blob();const file=new File([b],fname(),{type:b.type||"image/png"});
+      if(navigator.canShare&&navigator.canShare({files:[file]}))await navigator.share({files:[file],title:"AI 가상 피팅 결과"});
+      else await navigator.share({title:"AI 가상 피팅 결과",text:"내가 만든 가상 피팅 결과예요!"});
+    }catch(_){}
+  });
+  $("#cmpBtn").addEventListener("click",()=>{
+    if(!state.result||!state.person)return;
+    state.showingOriginal=!state.showingOriginal;
+    $("#resImg").src=state.showingOriginal?state.person:state.result;
+    $("#cmpBadge").classList.toggle("hidden",!state.showingOriginal);
+    $("#cmpBtn").classList.toggle("primary",state.showingOriginal);
+  });
+
+  showStage("sIdle");
+})();
+</script>
+</body>
+</html>
