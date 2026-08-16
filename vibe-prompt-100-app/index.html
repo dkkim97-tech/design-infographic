@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>바이브코딩 시작 PRD 100선 — AICLab</title>
+<meta name="description" content="혼자 야근하지 마세요. 복사 한 번이면 내 첫 도구의 PRD가 됩니다. 비전공자 직장인을 위한 바이브코딩 시작 PRD 100선 — AICLab." />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="AICLab" />
+<meta property="og:locale" content="ko_KR" />
+<meta property="og:title" content="시리즈 #2 — 바이브코딩 시작 PRD 100선" />
+<meta property="og:description" content="AI 시대, 모든 직장인의 첫 코딩. 10분야 100개의 한 줄 컨셉 → 한 페이지 PRD." />
+<meta property="og:url" content="https://vibe-prompt-100-worker.vercel.app/" />
+<meta property="og:image" content="https://vibe-prompt-100-worker.vercel.app/og.jpg" />
+<meta property="og:image:secure_url" content="https://vibe-prompt-100-worker.vercel.app/og.jpg" />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:width" content="1264" />
+<meta property="og:image:height" content="843" />
+<meta property="og:image:alt" content="시리즈 #2 — 바이브코딩 시작 PRD 100선 — AICLab" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="시리즈 #2 — 바이브코딩 시작 PRD 100선" />
+<meta name="twitter:description" content="혼자 야근하지 마세요. 복사 한 번이면 내 첫 도구의 PRD가 됩니다." />
+<meta name="twitter:image" content="https://vibe-prompt-100-worker.vercel.app/og.jpg" />
+<meta name="twitter:image:alt" content="시리즈 #2 — 바이브코딩 시작 PRD 100선 — AICLab" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F4F0E8;
+  --paper-2:#EFEAE0;
+  --surface:#FFFFFF;
+  --ink:#1E1B16;
+  --ink-soft:#4B453C;
+  --muted:#8B8478;
+  --faint:#B7AF9F;
+  --line:#E4DCCD;
+  --line-soft:#EDE7DA;
+  --accent:#C05A32;
+  --accent-deep:#9E4522;
+  --accent-soft:rgba(192,90,50,.10);
+  --hero-hi:#1F3A5C;
+  --sage:#5C7A63;
+  --sage-soft:rgba(92,122,99,.12);
+  --shadow-sm:0 1px 2px rgba(30,27,22,.04),0 2px 8px rgba(30,27,22,.04);
+  --shadow-md:0 8px 30px rgba(30,27,22,.10),0 2px 8px rgba(30,27,22,.05);
+  --shadow-lg:0 24px 70px rgba(30,27,22,.16);
+  --serif:'Noto Sans KR',system-ui,sans-serif;
+  --display:'Noto Sans KR',system-ui,sans-serif;
+  --sans:'Noto Sans KR',system-ui,sans-serif;
+  --r:16px;
+  --maxw:1220px;
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-weight:400;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;
+}
+::selection{background:var(--accent-soft);color:var(--accent-deep)}
+a{color:inherit}
+button,input,select,textarea{font-family:inherit}
+
+/* paper grain */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes cardIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes toastUp{0%{opacity:0;transform:translate(-50%,6px)}15%{opacity:1;transform:translate(-50%,0)}85%{opacity:1}100%{opacity:0;transform:translate(-50%,-6px)}}
+
+/* ===== HEADER ===== */
+.site-header{
+  position:sticky;top:0;z-index:200;
+  background:rgba(244,240,232,.82);
+  backdrop-filter:blur(14px) saturate(120%);
+  border-bottom:1px solid transparent;
+  transition:border-color .3s,background .3s;
+}
+.site-header.scrolled{border-bottom-color:var(--line);background:rgba(244,240,232,.92)}
+.header-inner{
+  max-width:var(--maxw);margin:0 auto;padding:16px 28px;
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+}
+.wordmark{display:flex;align-items:baseline;gap:10px;text-decoration:none;flex-shrink:0}
+.wordmark .mk{font-family:var(--display);font-weight:700;font-size:22px;letter-spacing:.5px;color:var(--ink)}
+.wordmark .mk em{font-style:normal;color:var(--accent)}
+.wordmark .tag{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--faint);font-weight:500}
+.header-nav{display:flex;align-items:center;gap:8px}
+.hbtn{
+  border:1px solid var(--line);background:var(--surface);color:var(--ink-soft);
+  padding:8px 16px;border-radius:999px;font-size:13px;font-weight:500;cursor:pointer;
+  transition:all .2s;display:inline-flex;align-items:center;gap:7px;
+}
+.hbtn:hover{border-color:var(--accent);color:var(--accent-deep);box-shadow:var(--shadow-sm)}
+.hbtn svg{width:15px;height:15px}
+
+/* ===== HERO ===== */
+.hero{position:relative;z-index:1;max-width:var(--maxw);margin:0 auto;padding:64px 28px 40px}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);
+  font-weight:600;margin-bottom:26px;opacity:0;animation:fadeUp .7s .05s ease both;
+}
+.hero-eyebrow::before{content:'';width:26px;height:1px;background:var(--accent)}
+.hero-title{
+  font-family:var(--serif);font-weight:800;color:var(--ink);
+  font-size:clamp(38px,6.4vw,78px);line-height:1.16;letter-spacing:-.5px;
+  margin-bottom:28px;max-width:17ch;
+}
+.hero-title .l{display:block;opacity:0;animation:fadeUp .8s ease both}
+.hero-title .l:nth-child(1){animation-delay:.12s}
+.hero-title .l:nth-child(2){animation-delay:.22s}
+.hero-title .l.hi{color:var(--hero-hi)}
+.hero-title .l.sm{font-size:clamp(25px,4vw,48px);line-height:1.26}
+.hero-title .l.accent{color:var(--accent);font-weight:800;animation-delay:.34s}
+.hero-lead{
+  font-size:clamp(16px,1.7vw,19px);color:var(--ink-soft);font-weight:300;
+  max-width:52ch;line-height:1.75;margin-bottom:38px;opacity:0;animation:fadeUp .8s .46s ease both;
+}
+.hero-lead b{font-weight:500;color:var(--ink)}
+.hero-meta{display:flex;flex-wrap:wrap;gap:38px;opacity:0;animation:fadeUp .8s .56s ease both}
+.metric{display:flex;flex-direction:column;gap:2px}
+.metric .n{font-family:var(--display);font-size:clamp(30px,4vw,44px);font-weight:700;line-height:1;color:var(--ink)}
+.metric .n em{font-style:normal;color:var(--accent)}
+.metric .k{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-weight:500}
+.metric-div{width:1px;background:var(--line);align-self:stretch}
+
+/* ===== CONTROLS ===== */
+.controls-wrap{position:sticky;top:65px;z-index:150;background:transparent;padding-top:8px}
+.controls{
+  position:relative;z-index:1;max-width:var(--maxw);margin:0 auto;padding:0 28px;
+}
+.controls-bar{
+  background:rgba(255,255,255,.72);backdrop-filter:blur(14px) saturate(130%);
+  border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;
+  box-shadow:var(--shadow-sm);
+  display:flex;flex-direction:column;gap:12px;
+}
+.controls-row1{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.search{position:relative;flex:1;min-width:220px}
+.search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:17px;height:17px;color:var(--muted)}
+.search input{
+  width:100%;padding:11px 14px 11px 40px;border:1px solid var(--line);border-radius:11px;
+  background:var(--surface);font-size:14px;color:var(--ink);outline:none;transition:all .2s;
+}
+.search input::placeholder{color:var(--faint)}
+.search input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.seg{display:inline-flex;background:var(--paper-2);border-radius:11px;padding:3px;gap:2px}
+.seg button{
+  border:none;background:transparent;color:var(--muted);font-size:13px;font-weight:500;
+  padding:8px 15px;border-radius:9px;cursor:pointer;transition:all .18s;white-space:nowrap;
+}
+.seg button:hover{color:var(--ink)}
+.seg button.on{background:var(--surface);color:var(--ink);box-shadow:var(--shadow-sm)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{
+  border:1px solid var(--line);background:var(--surface);color:var(--ink-soft);
+  padding:7px 14px;border-radius:999px;font-size:12.5px;font-weight:500;cursor:pointer;
+  white-space:nowrap;transition:all .18s;display:inline-flex;align-items:center;gap:7px;flex-shrink:0;
+}
+.chip:hover{border-color:var(--accent);color:var(--accent-deep)}
+.chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.chip .dot{width:7px;height:7px;border-radius:50%;background:var(--cd,var(--accent));flex-shrink:0}
+.chip.on .dot{background:#fff}
+.chip .c{font-size:11px;opacity:.6;font-variant-numeric:tabular-nums}
+
+/* ===== DESIGN COLOR — glass beads ===== */
+.designcolor{position:relative;z-index:1;max-width:var(--maxw);margin:0 auto;padding:34px 28px 4px}
+.dc-panel{
+  background:linear-gradient(180deg,rgba(255,255,255,.60),rgba(255,255,255,.28));
+  border:1px solid var(--line);border-radius:24px;padding:34px 30px 36px;
+  box-shadow:var(--shadow-sm);backdrop-filter:blur(8px) saturate(120%);text-align:center;
+}
+.dc-kicker{font-family:var(--display);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);font-weight:600}
+.dc-title{font-family:var(--serif);font-weight:700;font-size:clamp(23px,3vw,32px);color:var(--ink);margin:7px 0 9px;letter-spacing:-.3px}
+.dc-desc{font-size:13.5px;color:var(--muted);max-width:48ch;margin:0 auto 30px;line-height:1.75}
+.beads{display:flex;flex-wrap:wrap;justify-content:center;gap:28px 34px;margin-bottom:24px}
+.bead-item{
+  display:flex;flex-direction:column;align-items:center;gap:13px;cursor:pointer;
+  background:none;border:none;padding:8px 6px;border-radius:18px;transition:background .2s;font-family:inherit;
+}
+.bead-item:hover{background:rgba(255,255,255,.45)}
+.bead-item:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.bead{
+  width:66px;height:66px;border-radius:50%;position:relative;flex-shrink:0;
+  background:
+    radial-gradient(circle at 30% 24%,rgba(255,255,255,.95) 0%,rgba(255,255,255,.18) 18%,rgba(255,255,255,0) 42%),
+    linear-gradient(142deg,var(--pa) 0 50%,var(--pb) 50% 100%);
+  box-shadow:
+    inset 0 -8px 15px rgba(0,0,0,.30),
+    inset 0 6px 11px rgba(255,255,255,.42),
+    inset 0 0 0 1px rgba(255,255,255,.28),
+    0 9px 22px rgba(30,27,22,.22);
+  outline:2px solid transparent;outline-offset:6px;
+  transition:transform .3s cubic-bezier(.2,.8,.2,1),outline-color .3s,box-shadow .3s;
+}
+.bead::after{
+  content:'';position:absolute;top:10px;left:15px;width:22px;height:13px;border-radius:50%;
+  background:radial-gradient(ellipse at center,rgba(255,255,255,.95),rgba(255,255,255,0) 72%);
+  transform:rotate(-20deg);pointer-events:none;
+}
+.bead-item:hover .bead{transform:translateY(-4px) scale(1.07)}
+.bead-item.on .bead{
+  outline-color:var(--ink);
+  box-shadow:inset 0 -8px 15px rgba(0,0,0,.30),inset 0 6px 11px rgba(255,255,255,.42),
+    0 12px 28px rgba(30,27,22,.30),0 0 0 5px rgba(255,255,255,.7);
+}
+.bead-name{font-size:13.5px;font-weight:600;color:var(--ink-soft);letter-spacing:.2px;transition:color .2s}
+.bead-sub{font-size:11px;color:var(--faint);letter-spacing:.2px}
+.bead-item.on .bead-name{color:var(--accent-deep)}
+.dc-current{font-size:13px;color:var(--muted);min-height:20px}
+.dc-current b{color:var(--accent);font-weight:600}
+
+/* ===== GRID ===== */
+.main{position:relative;z-index:1;max-width:var(--maxw);margin:0 auto;padding:26px 28px 80px}
+.result-line{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin:8px 2px 18px;flex-wrap:wrap}
+.result-line .rc{font-size:13px;color:var(--muted)}
+.result-line .rc b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+.result-line .clearq{font-size:12.5px;color:var(--accent);cursor:pointer;background:none;border:none;font-weight:500;display:none}
+.result-line .clearq.show{display:inline}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:18px}
+.card{
+  position:relative;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  padding:22px 22px 18px;cursor:pointer;transition:transform .22s cubic-bezier(.2,.7,.3,1),box-shadow .22s,border-color .22s;
+  display:flex;flex-direction:column;min-height:200px;overflow:hidden;
+  animation:cardIn .4s ease both;
+}
+.card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--cd,var(--accent));opacity:0;transition:opacity .22s}
+.card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:transparent}
+.card:hover::before{opacity:1}
+.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.card-cat{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:600;color:var(--ink-soft);letter-spacing:.2px}
+.card-cat .dot{width:8px;height:8px;border-radius:50%;background:var(--cd,var(--accent))}
+.card-num{font-family:var(--display);font-size:14px;color:var(--faint);font-weight:500;font-variant-numeric:tabular-nums}
+.card-title{font-family:var(--serif);font-weight:700;font-size:19px;line-height:1.4;color:var(--ink);margin-bottom:8px;letter-spacing:-.2px}
+.card-desc{font-size:13.5px;color:var(--muted);line-height:1.6;margin-bottom:auto}
+.card-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:18px;padding-top:14px;border-top:1px solid var(--line-soft)}
+.badge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:999px;letter-spacing:.3px}
+.badge.easy{background:var(--sage-soft);color:var(--sage)}
+.badge.normal{background:var(--accent-soft);color:var(--accent-deep)}
+.slug{font-family:var(--sans);font-size:11.5px;color:var(--faint);letter-spacing:.2px}
+.card-actions{display:flex;gap:8px;align-items:center}
+.icobtn{
+  border:1px solid var(--line);background:var(--surface);color:var(--ink-soft);width:34px;height:34px;
+  border-radius:9px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all .18s;position:relative;
+}
+.icobtn:hover{border-color:var(--accent);color:var(--accent)}
+.icobtn svg{width:16px;height:16px}
+.icobtn.copied{background:var(--sage);border-color:var(--sage);color:#fff}
+
+.empty{text-align:center;padding:90px 20px;color:var(--muted)}
+.empty .eico{font-size:34px;opacity:.3;margin-bottom:14px}
+.empty .et{font-family:var(--serif);font-size:19px;color:var(--ink-soft);margin-bottom:6px}
+.empty .es{font-size:13.5px}
+
+/* ===== MODAL ===== */
+.overlay{
+  position:fixed;inset:0;z-index:1000;background:rgba(30,27,22,.42);backdrop-filter:blur(6px);
+  display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;visibility:hidden;transition:all .28s;
+}
+.overlay.open{opacity:1;visibility:visible}
+.sheet{
+  background:var(--surface);border-radius:22px;box-shadow:var(--shadow-lg);
+  width:640px;max-width:100%;max-height:88vh;display:flex;flex-direction:column;overflow:hidden;
+  transform:translateY(16px) scale(.98);transition:transform .28s cubic-bezier(.2,.8,.2,1);
+}
+.overlay.open .sheet{transform:none}
+.sheet-head{padding:26px 30px 20px;border-bottom:1px solid var(--line-soft);position:relative}
+.sheet-close{position:absolute;top:20px;right:22px;width:34px;height:34px;border-radius:9px;border:1px solid var(--line);background:var(--surface);color:var(--muted);font-size:18px;cursor:pointer;transition:all .18s;display:flex;align-items:center;justify-content:center}
+.sheet-close:hover{color:var(--ink);border-color:var(--ink)}
+.sheet-meta{display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.sheet-cat{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:var(--ink-soft)}
+.sheet-cat .dot{width:8px;height:8px;border-radius:50%;background:var(--cd,var(--accent))}
+.sheet-num{font-family:var(--display);font-size:13px;color:var(--faint);font-weight:500}
+.sheet-title{font-family:var(--serif);font-weight:700;font-size:26px;line-height:1.3;color:var(--ink);margin-bottom:6px;letter-spacing:-.3px}
+.sheet-sub{font-size:14px;color:var(--muted)}
+.sheet-slug{display:inline-block;margin-top:12px;font-family:var(--sans);font-size:12px;color:var(--ink-soft);background:var(--paper-2);border:1px solid var(--line);padding:3px 10px;border-radius:7px}
+.sheet-body{padding:22px 30px;overflow:auto}
+.pblock{
+  background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:18px 20px;
+  font-size:13.5px;line-height:1.85;color:var(--ink-soft);white-space:pre-wrap;word-break:break-word;
+  font-family:var(--sans);
+}
+.tone-note{
+  margin-top:16px;padding:14px 18px;border-radius:12px;background:var(--paper-2);
+  border-left:3px solid var(--tacc,var(--accent));font-size:12.5px;line-height:1.7;color:var(--ink-soft);
+}
+.tone-note[hidden]{display:none}
+.tone-head{display:flex;align-items:center;gap:9px;margin-bottom:9px}
+.tone-swatch{width:15px;height:15px;border-radius:50%;background:linear-gradient(135deg,var(--ta) 0 50%,var(--tb) 50% 100%);border:1px solid rgba(0,0,0,.1)}
+.tone-title{font-family:var(--display);font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--ink);font-weight:600}
+.tone-body{white-space:pre-wrap}
+.sheet-foot{padding:18px 30px 24px;border-top:1px solid var(--line-soft);display:flex;gap:10px}
+.btn-primary{
+  flex:1;border:none;background:var(--ink);color:#fff;padding:13px;border-radius:12px;font-size:14px;font-weight:600;
+  cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+}
+.btn-primary:hover{background:var(--accent-deep)}
+.btn-primary.ok{background:var(--sage)}
+.btn-primary svg{width:16px;height:16px}
+
+/* 사용법 modal steps */
+.guide h2{font-family:var(--serif);font-weight:700;font-size:24px;margin-bottom:22px;color:var(--ink)}
+.guide h2 em{font-style:normal;color:var(--accent)}
+.gstep{display:flex;gap:16px;margin-bottom:20px;align-items:flex-start}
+.gstep .gn{font-family:var(--display);font-size:26px;font-weight:500;color:var(--accent);line-height:1;min-width:30px}
+.gstep .gt{font-size:14.5px;color:var(--ink-soft);line-height:1.6;padding-top:3px}
+.gstep .gt b{color:var(--ink);font-weight:600}
+
+/* toast */
+.toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:11px 22px;border-radius:12px;font-size:13.5px;font-weight:500;z-index:2000;box-shadow:var(--shadow-lg);pointer-events:none;animation:toastUp 1.6s ease forwards}
+
+/* ===== FOOTER ===== */
+.footer{position:relative;z-index:1;border-top:1px solid var(--line);background:var(--paper-2)}
+.footer-inner{max-width:var(--maxw);margin:0 auto;padding:44px 28px;text-align:center}
+.footer .fmk{font-family:var(--display);font-size:22px;font-weight:700;letter-spacing:.5px;margin-bottom:14px}
+.footer .fmk em{font-style:normal;color:var(--accent)}
+.footer .flinks{font-size:14px;color:var(--muted);margin-bottom:14px}
+.footer .flinks a{text-decoration:none;border-bottom:1px solid transparent;transition:border-color .2s;color:var(--ink-soft)}
+.footer .flinks a:hover{border-bottom-color:var(--accent)}
+.footer .fdot{margin:0 10px;color:var(--faint)}
+.footer .fcopy{font-size:12px;color:var(--faint);line-height:1.8}
+
+@media(max-width:720px){
+  .header-inner{padding:14px 18px}
+  .hero{padding:44px 18px 30px}
+  .hero-meta{gap:24px}
+  .controls-wrap{top:61px}
+  .controls{padding:0 14px}
+  .main{padding:22px 14px 64px}
+  .grid{grid-template-columns:1fr;gap:14px}
+  .metric-div{display:none}
+  .sheet-head,.sheet-body,.sheet-foot{padding-left:22px;padding-right:22px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;animation-delay:0ms!important}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a class="wordmark" href="#top">
+      <span class="mk">BA<em>L</em>AB</span>
+      <span class="tag">Series #2</span>
+    </a>
+    <nav class="header-nav">
+      <button class="hbtn" onclick="copyUrl()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        링크 복사
+      </button>
+      <button class="hbtn" onclick="openGuide()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        사용법
+      </button>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <span class="hero-eyebrow">AI 시대, 모든 직장인의 첫 코딩</span>
+  <h1 class="hero-title">
+    <span class="l hi">업무 효율 10배 올리기</span>
+    <span class="l sm">복사 한 번이면</span>
+    <span class="l sm accent">내 도구가 됩니다.</span>
+  </h1>
+  <p class="hero-lead">
+    10개 분야, 100개의 한 줄 컨셉을 <b>바로 붙여넣을 수 있는 한 페이지 PRD</b>로 바꿔 드립니다.
+    검색하고, 컬러 톤을 고르고, 복사하세요 &mdash; 첫 바이브코딩이 시작됩니다.
+  </p>
+  <div class="hero-meta">
+    <div class="metric"><span class="n">10</span><span class="k">Categories</span></div>
+    <div class="metric-div"></div>
+    <div class="metric"><span class="n"><em>100</em></span><span class="k">Prompts</span></div>
+    <div class="metric-div"></div>
+    <div class="metric"><span class="n">6</span><span class="k">Design Tones</span></div>
+  </div>
+</section>
+
+<!-- CONTROLS -->
+<div class="controls-wrap">
+  <div class="controls">
+    <div class="controls-bar">
+      <div class="controls-row1">
+        <label class="search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input id="searchInput" type="text" placeholder="도구 이름·설명·분야·슬러그 검색…" autocomplete="off">
+        </label>
+        <div class="seg" id="levelSeg">
+          <button data-lv="ALL" class="on">전체</button>
+          <button data-lv="쉬움">쉬움</button>
+          <button data-lv="보통">보통</button>
+        </div>
+      </div>
+      <div class="chips" id="catChips"></div>
+    </div>
+  </div>
+</div>
+
+<!-- DESIGN COLOR -->
+<section class="designcolor">
+  <div class="dc-panel">
+    <div class="dc-kicker">Design Color</div>
+    <h2 class="dc-title">디자인 컬러</h2>
+    <p class="dc-desc">결과물에 입힐 컬러 톤을 고르세요. 선택하면 프롬프트를 복사할 때 톤 가이드가 함께 붙습니다.</p>
+    <div class="beads" id="beads"></div>
+    <div class="dc-current" id="pcurrent">아직 선택된 컬러가 없습니다</div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main class="main">
+  <div class="result-line">
+    <span class="rc"><b id="rcNum">100</b>개 프롬프트</span>
+    <button class="clearq" id="clearBtn" onclick="clearFilters()">필터 초기화 ✕</button>
+  </div>
+  <div class="grid" id="grid"></div>
+</main>
+
+<!-- DETAIL MODAL -->
+<div class="overlay" id="detailOverlay" onclick="if(event.target===this)closeDetail()">
+  <div class="sheet" role="dialog" aria-modal="true">
+    <div class="sheet-head">
+      <button class="sheet-close" onclick="closeDetail()" aria-label="닫기">&times;</button>
+      <div class="sheet-meta">
+        <span class="sheet-cat"><span class="dot"></span><span id="dCat"></span></span>
+        <span class="sheet-num" id="dNum"></span>
+        <span class="badge" id="dBadge"></span>
+      </div>
+      <div class="sheet-title" id="dTitle"></div>
+      <div class="sheet-sub" id="dDesc"></div>
+      <span class="sheet-slug" id="dSlug"></span>
+    </div>
+    <div class="sheet-body">
+      <div class="pblock" id="dPrompt"></div>
+      <div class="tone-note" id="dTone" hidden></div>
+    </div>
+    <div class="sheet-foot">
+      <button class="btn-primary" id="dCopy" onclick="copyFromDetail()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        프롬프트 복사
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- GUIDE MODAL -->
+<div class="overlay" id="guideOverlay" onclick="if(event.target===this)closeGuide()">
+  <div class="sheet guide" role="dialog" aria-modal="true" style="width:460px">
+    <div class="sheet-head" style="border:none;padding-bottom:0">
+      <button class="sheet-close" onclick="closeGuide()" aria-label="닫기">&times;</button>
+    </div>
+    <div class="sheet-body" style="padding-top:6px">
+      <h2>사용<em>법</em></h2>
+      <div class="gstep"><span class="gn">1</span><span class="gt"><b>Design Color</b>에서 결과물 컬러 톤 선택 <span style="color:var(--faint)">(선택)</span></span></div>
+      <div class="gstep"><span class="gn">2</span><span class="gt">검색·분야·난이도로 <b>원하는 프롬프트</b>를 좁히세요</span></div>
+      <div class="gstep"><span class="gn">3</span><span class="gt">카드를 열어 미리보고 <b>복사 버튼</b>을 누르세요</span></div>
+      <div class="gstep"><span class="gn">4</span><span class="gt">AI 채팅창에 <b>붙여넣기 → 한 페이지 PRD 완성!</b></span></div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="fmk">Made by BA<em>L</em>AB</div>
+    <div class="flinks">
+      <a href="mailto:dkkim97@gmail.com">dkkim97@gmail.com</a>
+    </div>
+    <div class="fcopy">일상의 어려움을 AI와 함께 해결해갑니다.</div>
+    <div class="fcopy">직장인, 소상공인, 중소기업, 공공기관 맞춤형 Solution</div>
+  </div>
+</footer>
+
+<script>
+// ===== PROMPT DATA =====
+const categories = [
+  {
+    name: "아이디어",
+    count: 10,
+    prompts: [
+      { id: 1, level: "쉬움", title: "아이디어 브레인스토밍", desc: "Idea Brainstorm", prompt: "너는 시니어 프로덕트 매니저야. 관심 분야 [분야]에서 실제 사용자의 페인포인트 3가지를 도출하고, 각각을 해결하는 앱 아이디어 3개를 제안해줘. 각 아이디어는 한 줄 컨셉, 타깃 유저, 핵심 기능 3가지, 수익 모델을 포함해줘." },
+      { id: 2, level: "쉬움", title: "페인포인트 발굴", desc: "Pain Point Mining", prompt: "[타깃 사용자]가 [상황]에서 겪는 불편함을 하루 동선(Job-to-be-done) 관점으로 10개 나열해줘. 각 항목마다 빈도, 심각도(상/중/하), 현재 대안, 개선 여지를 표로 정리해줘." },
+      { id: 3, level: "보통", title: "린 캔버스 검증", desc: "Lean Canvas", prompt: "다음 아이디어를 린 캔버스로 정리해줘: [아이디어]. 문제·고객군·고유가치제안·솔루션·채널·수익원·비용구조·핵심지표·경쟁우위 9칸을 표로 채우고, 가장 큰 리스크 2가지와 이를 검증할 실험을 제안해줘." },
+      { id: 4, level: "보통", title: "경쟁 분석", desc: "Competitor Analysis", prompt: "[제품 카테고리]의 주요 경쟁 서비스 5개를 비교해줘. 각 서비스의 핵심 기능, 가격, 타깃, 강점, 약점을 표로 정리하고, 시장에 아직 비어있는 포지셔닝 기회 2가지를 알려줘." },
+      { id: 5, level: "쉬움", title: "타깃 페르소나 정의", desc: "Persona Definition", prompt: "[서비스 설명]의 핵심 사용자 페르소나 2명을 만들어줘. 각 페르소나는 이름·나이·직업·목표·불편함·자주 쓰는 도구·구매 결정 요인을 포함하고, 이 사람을 만족시킬 첫 기능을 제안해줘." },
+      { id: 6, level: "보통", title: "MVP 범위 정하기", desc: "MVP Scoping", prompt: "[아이디어]로 4주 안에 출시 가능한 MVP를 설계해줘. 반드시 넣을 기능(Must), 나중에 넣을 기능(Later), 절대 안 넣을 기능(Never)으로 분류하고, MVP로 검증할 단 하나의 가설을 명확히 정의해줘." },
+      { id: 7, level: "쉬움", title: "네이밍 & 슬로건", desc: "Naming & Slogan", prompt: "[서비스 컨셉]에 어울리는 서비스 이름 후보 10개를 제안해줘. 각 이름은 발음·의미·도메인 가용성 느낌·한 줄 슬로건을 함께 제시하고, 가장 추천하는 3개와 이유를 알려줘." },
+      { id: 8, level: "보통", title: "수익 모델 설계", desc: "Revenue Model", prompt: "[서비스]에 적용 가능한 수익 모델 4가지(구독·프리미엄·광고·수수료 등)를 비교해줘. 각 모델의 예상 전환 지점, 장단점, 초기 스타트업에 적합한 정도를 평가하고 추천안을 제시해줘." },
+      { id: 9, level: "보통", title: "차별화 포인트", desc: "Differentiation", prompt: "[내 서비스]가 기존 [경쟁 서비스] 대비 확실히 이길 수 있는 차별화 포인트 3가지를 정의해줘. 각 포인트를 '왜 사용자가 갈아탈까'의 관점에서 한 문장으로 설명하고, 이를 증명할 지표를 제안해줘." },
+      { id: 10, level: "보통", title: "아이디어 리스크 진단", desc: "Idea Risk Audit", prompt: "[아이디어]가 실패할 수 있는 이유를 시장·기술·팀·타이밍 4개 축으로 진단해줘. 각 리스크의 발생 확률과 영향도를 점수화하고, 가장 치명적인 리스크를 먼저 없앨 검증 순서를 제안해줘." }
+    ]
+  },
+  {
+    name: "기획·설계",
+    count: 10,
+    prompts: [
+      { id: 11, level: "보통", title: "PRD 작성", desc: "Write a PRD", prompt: "[기능/제품]에 대한 제품 요구사항 문서(PRD)를 작성해줘. 배경, 목표, 성공 지표, 사용자 스토리, 기능 요구사항, 비기능 요구사항, 범위 밖(Out of scope), 오픈 이슈 섹션을 포함해줘." },
+      { id: 12, level: "쉬움", title: "사용자 스토리 도출", desc: "User Stories", prompt: "[기능]에 대한 사용자 스토리를 'As a [역할], I want [행동], so that [가치]' 형식으로 8개 작성해줘. 각 스토리마다 수용 기준(Acceptance Criteria)을 Given-When-Then으로 붙여줘." },
+      { id: 13, level: "쉬움", title: "기능 우선순위(MoSCoW)", desc: "Prioritization", prompt: "다음 기능 목록을 MoSCoW(Must/Should/Could/Won't)로 분류해줘: [기능 목록]. 각 기능의 사용자 가치와 개발 난이도를 함께 표시하고, 첫 스프린트에서 개발할 순서를 제안해줘." },
+      { id: 14, level: "보통", title: "정보구조(IA) 설계", desc: "Information Architecture", prompt: "[서비스]의 전체 정보구조(IA)를 트리 형태로 설계해줘. 최상위 내비게이션, 각 화면과 하위 화면, 화면 간 관계를 정리하고, 사용자가 핵심 작업을 3클릭 이내에 끝낼 수 있는지 검토해줘." },
+      { id: 15, level: "보통", title: "화면 흐름(User Flow)", desc: "User Flow", prompt: "[핵심 시나리오, 예: 회원가입 후 첫 결제]의 사용자 플로우를 단계별로 설계해줘. 각 단계의 화면, 사용자 액션, 시스템 반응, 이탈 가능 지점과 대응책을 표로 정리해줘." },
+      { id: 16, level: "보통", title: "데이터 모델 설계", desc: "Data Model", prompt: "[서비스]에 필요한 데이터 모델을 설계해줘. 주요 엔티티, 각 엔티티의 필드와 타입, 엔티티 간 관계(1:N, N:M)를 ER 다이어그램 텍스트로 표현하고, 정규화 관점의 개선점을 알려줘." },
+      { id: 17, level: "보통", title: "API 명세 초안", desc: "API Spec Draft", prompt: "[기능]에 필요한 REST API 엔드포인트를 설계해줘. 각 엔드포인트의 메서드, 경로, 요청 파라미터, 응답 예시(JSON), 상태 코드, 인증 필요 여부를 표로 정리해줘." },
+      { id: 18, level: "쉬움", title: "기술 스택 추천", desc: "Tech Stack", prompt: "[프로젝트 설명]과 [팀 규모/경험]을 고려해 최적의 기술 스택을 추천해줘. 프론트엔드·백엔드·DB·배포·인증 각각에 대해 1순위와 대안을 제시하고, 왜 이 조합이 빠른 출시에 유리한지 설명해줘." },
+      { id: 19, level: "보통", title: "개발 로드맵", desc: "Roadmap", prompt: "[제품]의 3개월 개발 로드맵을 2주 단위 마일스톤으로 짜줘. 각 마일스톤의 목표, 산출물, 주요 리스크를 정리하고, 데모 가능한 시점을 표시해줘." },
+      { id: 20, level: "쉬움", title: "릴리즈 체크리스트", desc: "Release Checklist", prompt: "[웹앱] 첫 배포 전에 점검할 릴리즈 체크리스트를 만들어줘. 기능·보안·성능·SEO·모니터링·법적(개인정보/약관) 항목으로 나누고, 각 항목을 배포 차단(Blocker)인지 아닌지 표시해줘." }
+    ]
+  },
+  {
+    name: "UI/UX",
+    count: 10,
+    prompts: [
+      { id: 21, level: "쉬움", title: "랜딩페이지 구성", desc: "Landing Page", prompt: "[서비스]의 랜딩페이지 구조와 카피를 작성해줘. 히어로(헤드라인·서브·CTA), 문제 제기, 솔루션, 핵심 기능 3개, 사회적 증거, 가격, FAQ, 마지막 CTA 순으로 각 섹션의 실제 문구를 제안해줘." },
+      { id: 22, level: "보통", title: "디자인 시스템 토큰", desc: "Design Tokens", prompt: "[브랜드 무드, 예: 신뢰감 있는 핀테크]에 맞는 디자인 토큰을 정의해줘. 컬러(primary/secondary/neutral/semantic), 타이포 스케일, 간격(spacing), 라운드, 그림자를 CSS 변수 형태로 제안해줘." },
+      { id: 23, level: "쉬움", title: "컬러 팔레트 제안", desc: "Color Palette", prompt: "[서비스 성격]에 어울리는 컬러 팔레트를 제안해줘. 메인·서브·강조·배경·텍스트 색을 HEX로 제시하고, 명도 대비(WCAG AA) 통과 여부와 다크모드 대응 색상까지 함께 알려줘." },
+      { id: 24, level: "보통", title: "컴포넌트 설계", desc: "Component Design", prompt: "[컴포넌트, 예: 카드]의 재사용 가능한 설계를 제안해줘. 필요한 props, 상태(기본/호버/선택/비활성), 반응형 동작, 접근성 속성을 정의하고 사용 예시를 보여줘." },
+      { id: 25, level: "보통", title: "반응형 레이아웃", desc: "Responsive Layout", prompt: "[화면]을 모바일·태블릿·데스크톱에 대응하는 반응형 레이아웃으로 설계해줘. 각 브레이크포인트의 컬럼 수, 요소 배치 변화, 숨김/노출 규칙을 CSS Grid/Flexbox 기준으로 제안해줘." },
+      { id: 26, level: "쉬움", title: "마이크로카피 작성", desc: "Microcopy", prompt: "[화면/기능]의 마이크로카피를 다듬어줘. 버튼 라벨, 플레이스홀더, 에러 메시지, 성공 메시지, 툴팁을 사용자 친화적인 톤으로 각각 2가지 버전(간결형/친근형)으로 제안해줘." },
+      { id: 27, level: "보통", title: "온보딩 플로우", desc: "Onboarding Flow", prompt: "신규 사용자가 [서비스]의 핵심 가치를 처음 60초 안에 경험하도록 온보딩 플로우를 설계해줘. 각 단계의 화면, 목표, 이탈 방지 장치, '아하 모먼트' 지점을 정의해줘." },
+      { id: 28, level: "보통", title: "접근성 점검", desc: "Accessibility Audit", prompt: "[화면/컴포넌트]의 웹 접근성(a11y)을 점검해줘. 키보드 내비게이션, 스크린리더용 aria 속성, 색 대비, 포커스 표시, 대체 텍스트 관점에서 문제점과 수정 방법을 목록으로 알려줘." },
+      { id: 29, level: "보통", title: "다크모드 설계", desc: "Dark Mode", prompt: "기존 라이트 테마 [설명]을 다크모드로 확장하는 규칙을 정의해줘. 배경·표면·텍스트·강조 색의 매핑 원칙, 그림자 대체(테두리/오버레이), prefers-color-scheme 대응 CSS 예시를 제안해줘." },
+      { id: 30, level: "쉬움", title: "빈 상태 디자인", desc: "Empty State", prompt: "[화면]의 빈 상태(Empty State)를 디자인해줘. 데이터가 없을 때의 일러스트 컨셉, 안내 문구, 다음 행동을 유도하는 CTA를 제안하고, 첫 사용/검색 결과 없음/에러 3가지 경우로 나눠 작성해줘." }
+    ]
+  },
+  {
+    name: "프론트엔드",
+    count: 10,
+    prompts: [
+      { id: 31, level: "쉬움", title: "React 컴포넌트 생성", desc: "React Component", prompt: "[요구사항]을 만족하는 React 함수형 컴포넌트를 작성해줘. TypeScript와 함수형 훅을 사용하고, props 타입 정의, 접근성 속성, 간단한 사용 예시를 포함해줘. 불필요한 라이브러리 없이 구현해줘." },
+      { id: 32, level: "쉬움", title: "Tailwind 스타일링", desc: "Tailwind Styling", prompt: "[컴포넌트/화면]을 Tailwind CSS로 스타일링해줘. 반응형(sm/md/lg), 호버·포커스 상태, 다크모드(dark:)를 고려하고, 반복되는 클래스는 @apply나 컴포넌트로 정리하는 방법을 함께 제안해줘." },
+      { id: 33, level: "보통", title: "상태관리 설계", desc: "State Management", prompt: "[기능]의 상태관리를 설계해줘. 어떤 상태가 로컬/전역/서버 상태인지 분류하고, 각각에 적합한 도구(useState/Context/Zustand/React Query)를 추천하고 예시 코드를 보여줘." },
+      { id: 34, level: "보통", title: "폼 검증", desc: "Form Validation", prompt: "[폼 필드 목록]에 대한 폼을 react-hook-form과 zod로 구현해줘. 각 필드의 검증 규칙, 실시간 에러 메시지, 제출 처리, 로딩·성공·실패 상태를 포함한 코드를 작성해줘." },
+      { id: 35, level: "보통", title: "애니메이션 추가", desc: "Animation", prompt: "[요소/전환]에 자연스러운 애니메이션을 Framer Motion으로 추가해줘. 등장/퇴장, 리스트 stagger, 페이지 전환을 예시로 구현하고, 성능과 접근성(prefers-reduced-motion)을 고려한 팁을 알려줘." },
+      { id: 36, level: "쉬움", title: "라우팅 구조", desc: "Routing", prompt: "[서비스]의 라우팅 구조를 [React Router/Next.js App Router] 기준으로 설계해줘. 페이지 경로, 중첩 레이아웃, 보호된 라우트(인증 필요), 404 처리, 동적 경로를 코드 예시로 보여줘." },
+      { id: 37, level: "보통", title: "데이터 페칭", desc: "Data Fetching", prompt: "[API]를 React Query(TanStack Query)로 연동해줘. 쿼리 키 설계, 로딩·에러 처리, 캐싱과 재검증, 낙관적 업데이트(optimistic update)를 포함한 커스텀 훅으로 구현해줘." },
+      { id: 38, level: "보통", title: "성능 최적화", desc: "Performance", prompt: "[React 앱/화면]의 렌더링 성능을 진단하고 최적화해줘. 불필요한 리렌더, 무거운 계산, 큰 번들, 이미지 로딩 관점에서 문제를 찾고 memo/useMemo/코드 스플리팅/lazy 적용 방법을 제안해줘." },
+      { id: 39, level: "보통", title: "컴포넌트 테스트", desc: "Component Test", prompt: "[컴포넌트]에 대한 테스트를 React Testing Library와 Vitest로 작성해줘. 렌더링, 사용자 상호작용, 상태 변화, 엣지 케이스를 커버하고, 무엇을 테스트하지 말아야 하는지도 알려줘." },
+      { id: 40, level: "쉬움", title: "SEO 메타 태그", desc: "SEO Meta", prompt: "[페이지]의 SEO를 위한 메타 태그를 작성해줘. title, description, canonical, Open Graph, Twitter Card, JSON-LD 구조화 데이터를 포함하고, Next.js Metadata API 버전도 함께 제시해줘." }
+    ]
+  },
+  {
+    name: "백엔드",
+    count: 10,
+    prompts: [
+      { id: 41, level: "쉬움", title: "REST API 엔드포인트", desc: "REST Endpoint", prompt: "[리소스]에 대한 CRUD REST API를 [Node.js/Express 또는 FastAPI]로 구현해줘. 라우팅, 요청 검증, 서비스 계층 분리, 일관된 응답 포맷, 상태 코드를 포함한 코드를 작성해줘." },
+      { id: 42, level: "보통", title: "인증/인가", desc: "Auth (JWT)", prompt: "JWT 기반 인증을 구현해줘. 회원가입·로그인·토큰 발급·리프레시 토큰·로그아웃 흐름을 코드로 보여주고, 비밀번호 해싱(bcrypt), 토큰 만료, 인가 미들웨어를 포함해줘." },
+      { id: 43, level: "보통", title: "미들웨어 작성", desc: "Middleware", prompt: "[요구사항, 예: 요청 로깅/인증 확인/CORS]을 처리하는 미들웨어를 작성해줘. 실행 순서, 에러 전파, next() 호출 규칙을 설명하고 재사용 가능한 형태로 구현해줘." },
+      { id: 44, level: "보통", title: "에러 핸들링 표준화", desc: "Error Handling", prompt: "[백엔드]의 에러 핸들링을 표준화해줘. 커스텀 에러 클래스, 전역 에러 핸들러, 일관된 에러 응답 스키마(코드·메시지·상세), 로깅 연동, 운영/개발 환경 구분을 코드로 제안해줘." },
+      { id: 45, level: "보통", title: "입력 검증 & 보안", desc: "Validation & Security", prompt: "[엔드포인트]의 입력 검증과 보안을 강화해줘. 스키마 검증(zod/joi), SQL 인젝션·XSS 방어, 민감정보 마스킹, 요청 크기 제한 관점에서 점검하고 수정 코드를 제시해줘." },
+      { id: 46, level: "보통", title: "파일 업로드 처리", desc: "File Upload", prompt: "이미지/파일 업로드 기능을 구현해줘. 멀티파트 처리, 파일 타입·크기 검증, 스토리지(S3/로컬) 저장, 안전한 파일명 생성, 업로드 후 URL 반환까지 코드로 보여줘." },
+      { id: 47, level: "쉬움", title: "이메일/알림 발송", desc: "Email/Notification", prompt: "[상황, 예: 가입 환영/비밀번호 재설정]에 대한 이메일 발송을 구현해줘. 템플릿 구조, 발송 라이브러리 연동, 실패 재시도, 발송 로그를 포함하고 스팸 방지 팁을 알려줘." },
+      { id: 48, level: "보통", title: "결제 연동", desc: "Payment (Stripe)", prompt: "[Stripe 또는 토스페이먼츠] 결제를 연동해줘. 결제 세션 생성, 클라이언트 처리, 웹훅으로 결제 확정, 멱등성 처리, 환불 흐름을 코드로 보여주고 테스트 방법을 알려줘." },
+      { id: 49, level: "보통", title: "Rate Limiting", desc: "Rate Limiting", prompt: "[API]에 요청 제한(rate limiting)을 적용해줘. 사용자/IP 기준, 슬라이딩 윈도우 알고리즘, 429 응답과 Retry-After 헤더, Redis 기반 분산 환경 대응을 코드로 제안해줘." },
+      { id: 50, level: "보통", title: "백엔드 단위 테스트", desc: "Backend Test", prompt: "[서비스/함수]의 단위 테스트를 작성해줘. 정상 경로, 엣지 케이스, 실패 케이스를 커버하고, 외부 의존성(DB·API)은 모킹하며, 테스트 데이터 준비와 정리 방법을 보여줘." }
+    ]
+  },
+  {
+    name: "데이터",
+    count: 10,
+    prompts: [
+      { id: 51, level: "보통", title: "DB 스키마 설계", desc: "DB Schema", prompt: "[서비스]에 필요한 데이터베이스 스키마를 설계해줘. 테이블, 컬럼·타입·제약조건, 기본키·외래키, 인덱스 후보를 정의하고, 정규화와 성능 사이의 트레이드오프를 설명해줘." },
+      { id: 52, level: "쉬움", title: "SQL 쿼리 작성", desc: "SQL Query", prompt: "[요구사항, 예: 최근 30일 활성 사용자별 매출 합계]을 구하는 SQL을 작성해줘. 사용한 조인·집계·필터를 설명하고, 성능을 위한 인덱스 제안과 대안 쿼리도 함께 보여줘." },
+      { id: 53, level: "보통", title: "마이그레이션 작성", desc: "Migration", prompt: "[스키마 변경, 예: 컬럼 추가/테이블 분리]에 대한 안전한 DB 마이그레이션을 작성해줘. up/down 스크립트, 무중단 배포 고려사항, 데이터 백필 방법, 롤백 전략을 포함해줘." },
+      { id: 54, level: "보통", title: "인덱스 최적화", desc: "Index Tuning", prompt: "느린 쿼리 [쿼리/EXPLAIN 결과]를 분석해 인덱스를 최적화해줘. 어떤 인덱스가 필요한지, 복합 인덱스 컬럼 순서, 과도한 인덱스의 부작용, 예상 개선 효과를 설명해줘." },
+      { id: 55, level: "쉬움", title: "ORM 모델(Prisma)", desc: "ORM Model", prompt: "[도메인]을 Prisma 스키마로 모델링해줘. 모델·필드·관계·enum·인덱스를 정의하고, 자주 쓰는 쿼리(생성·조회·관계 포함 조회)의 예시 코드를 함께 보여줘." },
+      { id: 56, level: "쉬움", title: "시드 데이터 생성", desc: "Seed Data", prompt: "[스키마]에 맞는 현실적인 시드/더미 데이터를 생성하는 스크립트를 작성해줘. 관계가 있는 데이터의 일관성을 유지하고, 개발용으로 충분한 양(예: 사용자 50명, 각 게시글 5개)을 만들어줘." },
+      { id: 57, level: "보통", title: "집계/리포팅 쿼리", desc: "Reporting Query", prompt: "[지표, 예: 일별 신규가입·이탈·매출]을 대시보드용으로 집계하는 쿼리를 작성해줘. 날짜 그룹핑, 결측 날짜 채우기, 전기 대비 증감 계산을 포함하고 결과 형태를 예시로 보여줘." },
+      { id: 58, level: "보통", title: "데이터 검증 파이프라인", desc: "Data Validation", prompt: "[데이터 소스, 예: CSV 업로드/외부 API]를 저장 전에 검증·정제하는 파이프라인을 설계해줘. 스키마 검증, 결측·이상치 처리, 중복 제거, 실패 레코드 격리 방법을 코드로 제안해줘." },
+      { id: 59, level: "보통", title: "캐싱 전략", desc: "Caching (Redis)", prompt: "[읽기 부하가 큰 기능]에 Redis 캐싱을 적용해줘. 캐시 키 설계, TTL, 캐시 무효화(쓰기 시), cache-aside 패턴, 캐시 스탬피드 방지를 코드로 보여줘." },
+      { id: 60, level: "보통", title: "백업/복구 전략", desc: "Backup & Recovery", prompt: "[DB]의 백업·복구 전략을 설계해줘. 백업 주기·보관 기간, 자동화 방법, 복구 테스트 절차, RPO/RTO 목표, 재해 상황 대응 체크리스트를 정리해줘." }
+    ]
+  },
+  {
+    name: "디버깅",
+    count: 10,
+    prompts: [
+      { id: 61, level: "쉬움", title: "에러 메시지 분석", desc: "Error Analysis", prompt: "다음 에러가 발생했어: [에러 메시지]. 가능한 원인을 확률 순으로 나열하고, 각 원인을 확인하는 방법과 가장 빠른 해결책을 알려줘. 관련 코드가 필요하면 무엇을 보여줘야 하는지 알려줘." },
+      { id: 62, level: "보통", title: "스택트레이스 해석", desc: "Stack Trace", prompt: "이 스택트레이스를 해석해줘: [스택트레이스]. 어느 라인에서 실제 문제가 시작됐는지, 호출 흐름이 어떻게 되는지, 프레임워크 코드와 내 코드를 구분해서 설명하고 수정 방향을 제시해줘." },
+      { id: 63, level: "보통", title: "버그 재현 & 원인 추적", desc: "Root Cause", prompt: "[버그 증상]이 간헐적으로 발생해. 재현을 위한 최소 조건을 좁히는 가설-검증 절차를 설계하고, 로그·중단점·이분 탐색(bisect)으로 원인을 추적하는 순서를 알려줘." },
+      { id: 64, level: "보통", title: "리팩터링 제안", desc: "Refactoring", prompt: "다음 코드를 리팩터링해줘: [코드]. 동작은 그대로 유지하면서 가독성·중복 제거·함수 분리·네이밍을 개선하고, 변경 전후를 비교해서 왜 더 나아졌는지 설명해줘." },
+      { id: 65, level: "보통", title: "코드 리뷰", desc: "Code Review", prompt: "다음 코드를 시니어 개발자 관점에서 리뷰해줘: [코드]. 버그 가능성, 보안, 성능, 가독성, 테스트 관점에서 문제를 심각도별로 정리하고, 각각 구체적인 수정 예시를 제시해줘." },
+      { id: 66, level: "보통", title: "성능 병목 진단", desc: "Bottleneck", prompt: "[기능]이 느려. 병목을 찾기 위해 측정할 지점(네트워크·연산·렌더·DB)을 정하고, 프로파일링 방법과 흔한 원인별 해결책을 우선순위로 제안해줘." },
+      { id: 67, level: "보통", title: "메모리 누수 찾기", desc: "Memory Leak", prompt: "[앱/서비스]에서 메모리가 계속 증가해. 누수 가능 지점(이벤트 리스너·타이머·클로저·전역 캐시)을 점검하는 체크리스트와, 힙 스냅샷으로 원인을 좁히는 방법을 알려줘." },
+      { id: 68, level: "쉬움", title: "로그 추가 전략", desc: "Logging Strategy", prompt: "[모듈/기능]에 효과적인 로그를 추가해줘. 로그 레벨(debug/info/warn/error) 기준, 무엇을 기록하고 무엇을 기록하면 안 되는지(민감정보), 구조화 로깅 형식을 제안하고 예시를 보여줘." },
+      { id: 69, level: "보통", title: "테스트 실패 원인 분석", desc: "Test Failure", prompt: "이 테스트가 실패해: [테스트 코드/에러]. 실패 원인이 테스트 문제인지 코드 문제인지 구분하고, 플레이키(불안정) 테스트라면 원인과 안정화 방법까지 제안해줘." },
+      { id: 70, level: "보통", title: "레거시 코드 이해", desc: "Understand Legacy", prompt: "다음 낯선 코드를 이해하도록 도와줘: [코드]. 전체 동작을 한 문단으로 요약하고, 핵심 함수의 역할, 데이터 흐름, 위험한 부분과 손대기 전에 만들어둘 테스트를 알려줘." }
+    ]
+  },
+  {
+    name: "배포",
+    count: 10,
+    prompts: [
+      { id: 71, level: "보통", title: "Dockerfile 작성", desc: "Dockerfile", prompt: "[앱 스택]을 위한 프로덕션용 Dockerfile을 작성해줘. 멀티스테이지 빌드, 이미지 경량화, 비루트 사용자, 캐시 최적화, .dockerignore를 포함하고 각 단계를 주석으로 설명해줘." },
+      { id: 72, level: "보통", title: "CI/CD 파이프라인", desc: "CI/CD", prompt: "[프로젝트]의 GitHub Actions 워크플로를 작성해줘. 린트·테스트·빌드·배포 단계, 브랜치별 조건, 캐시, 시크릿 사용, 실패 시 알림을 포함한 YAML을 제시해줘." },
+      { id: 73, level: "쉬움", title: "Vercel/Netlify 배포", desc: "Deploy to Vercel", prompt: "[프레임워크] 앱을 [Vercel/Netlify]에 배포하는 방법을 단계별로 알려줘. 빌드 설정, 환경변수, 커스텀 도메인 연결, 프리뷰 배포, 흔한 배포 실패 원인과 해결법을 포함해줘." },
+      { id: 74, level: "쉬움", title: "환경변수 관리", desc: "Env Management", prompt: "[프로젝트]의 환경변수를 안전하게 관리하는 방법을 알려줘. .env 구조, 개발/스테이징/운영 분리, 시크릿 저장소 사용, 클라이언트 노출 변수 구분, .gitignore 처리를 정리해줘." },
+      { id: 75, level: "보통", title: "도메인/HTTPS 설정", desc: "Domain & HTTPS", prompt: "[서비스]에 커스텀 도메인과 HTTPS를 연결하는 방법을 알려줘. DNS 레코드(A/CNAME) 설정, SSL 인증서 발급·자동 갱신, www·apex 리다이렉트, 전파 확인 방법을 단계별로 설명해줘." },
+      { id: 76, level: "보통", title: "모니터링/알럿", desc: "Monitoring", prompt: "[운영 서비스]의 모니터링을 설계해줘. 관찰할 핵심 지표(에러율·응답시간·가동률), 로그·에러 추적 도구, 알림 임계값과 채널, 대시보드 구성을 제안해줘." },
+      { id: 77, level: "보통", title: "무중단 배포 전략", desc: "Zero-downtime", prompt: "[서비스]의 무중단 배포 전략을 설계해줘. 블루-그린과 카나리 배포를 비교하고, 헬스체크, 트래픽 전환, DB 마이그레이션과의 순서, 실패 감지 기준을 정리해줘." },
+      { id: 78, level: "보통", title: "롤백 계획", desc: "Rollback Plan", prompt: "배포 후 문제가 생겼을 때의 롤백 계획을 만들어줘. 롤백 트리거 조건, 빠른 롤백 절차, DB 변경이 포함된 경우의 처리, 사후 커뮤니케이션과 회고 항목을 정리해줘." },
+      { id: 79, level: "보통", title: "인프라 as Code", desc: "IaC (Terraform)", prompt: "[인프라 요구사항]을 Terraform으로 코드화해줘. 리소스 정의, 변수·출력, 상태 관리(원격 백엔드), 환경 분리(워크스페이스/모듈)를 예시로 보여주고 apply 전 검토 방법을 알려줘." },
+      { id: 80, level: "쉬움", title: "배포 후 스모크 테스트", desc: "Smoke Test", prompt: "[서비스]의 배포 직후 실행할 스모크 테스트 목록을 만들어줘. 핵심 사용자 경로, 헬스체크 엔드포인트, 외부 연동 확인 항목을 정하고, 자동화 스크립트 예시를 제시해줘." }
+    ]
+  },
+  {
+    name: "AI 연동",
+    count: 10,
+    prompts: [
+      { id: 81, level: "쉬움", title: "LLM 프롬프트 설계", desc: "Prompt Engineering", prompt: "[작업, 예: 이메일 요약]을 잘 수행하는 LLM 프롬프트를 설계해줘. 역할·맥락·지시·제약·출력 형식을 구조화하고, few-shot 예시 포함/비포함 버전을 각각 제시하고 개선 팁을 알려줘." },
+      { id: 82, level: "보통", title: "RAG 파이프라인", desc: "RAG Pipeline", prompt: "[문서 종류]에 대한 RAG(검색 증강 생성) 파이프라인을 설계해줘. 청킹 전략, 임베딩 모델, 벡터 저장소, 검색·리랭킹, 프롬프트 조립, 환각 방지 방법을 단계별로 설명하고 예시 코드를 보여줘." },
+      { id: 83, level: "보통", title: "챗봇 시스템 프롬프트", desc: "Chatbot Prompt", prompt: "[서비스] 고객지원 챗봇의 시스템 프롬프트를 작성해줘. 역할·톤·범위·거절 규칙·안전 가이드라인을 정의하고, 모르는 질문·민감 요청·범위 밖 요청에 대한 대응 방식을 명시해줘." },
+      { id: 84, level: "보통", title: "함수 호출/툴 정의", desc: "Tool/Function Calling", prompt: "LLM이 [기능, 예: 날씨 조회/예약 생성]을 도구로 호출하도록 함수(툴) 스키마를 정의해줘. 각 툴의 이름·설명·파라미터 스키마를 작성하고, 호출 결과를 응답에 반영하는 흐름을 코드로 보여줘." },
+      { id: 85, level: "보통", title: "임베딩 & 벡터 검색", desc: "Vector Search", prompt: "[텍스트 데이터]로 의미 기반 검색을 구현해줘. 임베딩 생성, 벡터 DB 저장, 유사도 검색(코사인), top-k 반환을 코드로 보여주고, 정확도를 높이는 하이브리드 검색 팁을 알려줘." },
+      { id: 86, level: "보통", title: "스트리밍 응답 처리", desc: "Streaming Response", prompt: "LLM API의 스트리밍 응답을 프론트엔드에 실시간 표시하도록 구현해줘. 서버의 스트림 프록시, 클라이언트의 점진적 렌더링, 중단·에러 처리, 토큰 단위 표시를 코드로 제안해줘." },
+      { id: 87, level: "보통", title: "토큰/비용 최적화", desc: "Token & Cost", prompt: "[LLM 기능]의 토큰 사용량과 비용을 줄여줘. 프롬프트 압축, 컨텍스트 선택, 캐싱, 모델 라우팅(작업별 모델 분리), 출력 길이 제어 관점에서 구체적 방법과 예상 절감을 알려줘." },
+      { id: 88, level: "보통", title: "AI 에이전트 설계", desc: "AI Agent", prompt: "[목표 작업]을 자율 수행하는 AI 에이전트를 설계해줘. 계획-실행-관찰 루프, 사용할 도구, 종료 조건, 실패·무한루프 방지, 사람 확인(HITL) 지점을 정의하고 의사코드로 보여줘." },
+      { id: 89, level: "쉬움", title: "이미지 생성 프롬프트", desc: "Image Gen Prompt", prompt: "[원하는 이미지, 예: 앱 히어로 일러스트]를 만드는 이미지 생성 프롬프트를 작성해줘. 주제·스타일·구도·색감·조명·분위기·화질 키워드를 구조화하고, 변형 3가지와 피해야 할 요소(negative)를 제안해줘." },
+      { id: 90, level: "보통", title: "AI 안전장치/가드레일", desc: "AI Guardrails", prompt: "[LLM 기능]에 안전장치를 설계해줘. 입력 필터링(악용·주입 공격), 출력 검증, 민감정보 차단, 환각 완화, 사용량 제한, 로깅·감사 관점의 가드레일을 목록과 예시로 제안해줘." }
+    ]
+  },
+  {
+    name: "그로스",
+    count: 10,
+    prompts: [
+      { id: 91, level: "쉬움", title: "랜딩 A/B 테스트", desc: "A/B Test", prompt: "[랜딩페이지 요소, 예: 헤드라인/CTA]의 A/B 테스트를 설계해줘. 가설, 변형안 2개, 측정 지표, 최소 표본·기간 산정, 성공 판단 기준, 결과 해석 방법을 정리해줘." },
+      { id: 92, level: "보통", title: "SEO 콘텐츠 전략", desc: "SEO Content", prompt: "[서비스/주제]의 SEO 콘텐츠 전략을 세워줘. 타깃 키워드(검색 의도별), 콘텐츠 클러스터 구조, 우선순위 글감 10개, 각 글의 제목·핵심 키워드·내부 링크 계획을 표로 정리해줘." },
+      { id: 93, level: "쉬움", title: "SNS 런칭 카피", desc: "Launch Copy", prompt: "[서비스] 출시를 알리는 SNS 게시글을 작성해줘. X(트위터) 스레드, 링크드인, 인스타그램 캡션 3가지 버전으로, 각 플랫폼 톤에 맞게 후킹·핵심가치·CTA·해시태그를 포함해줘." },
+      { id: 94, level: "보통", title: "이메일 온보딩 시퀀스", desc: "Email Onboarding", prompt: "신규 가입자를 위한 이메일 온보딩 시퀀스(5통)를 설계해줘. 각 이메일의 발송 시점, 목표, 제목 후보 2개, 핵심 메시지, CTA를 정리하고 이탈 방지 포인트를 알려줘." },
+      { id: 95, level: "보통", title: "프로덕트 헌트 런칭", desc: "Product Hunt", prompt: "[서비스]의 Product Hunt 런칭을 준비해줘. 태그라인, 설명, 첫 댓글(메이커 코멘트), 갤러리 구성, 런칭일 체크리스트, 초기 트래픽 확보 방법을 제안해줘." },
+      { id: 96, level: "보통", title: "리텐션 개선", desc: "Retention", prompt: "[서비스]의 사용자 리텐션을 높일 방법을 제안해줘. 이탈이 일어나는 지점을 가정하고, 습관 형성 훅(트리거·행동·보상), 복귀 유도 알림, 핵심 지표를 정의해줘." },
+      { id: 97, level: "보통", title: "퍼널 분석 지표", desc: "Funnel Metrics", prompt: "[서비스]의 전환 퍼널을 정의하고 측정 지표를 설계해줘. 방문→가입→활성화→유료 각 단계의 전환율, 이벤트 트래킹 명세, 개선 우선순위 판단 기준을 정리해줘." },
+      { id: 98, level: "보통", title: "가격 정책 실험", desc: "Pricing Experiment", prompt: "[서비스]의 가격 정책을 설계하고 실험해줘. 가치 기반 요금제 3티어, 각 티어의 기능 경계와 가격, 앵커링·심리적 가격, 실험으로 검증할 가설과 지표를 제안해줘." },
+      { id: 99, level: "보통", title: "바이럴 루프 설계", desc: "Viral Loop", prompt: "[서비스]에 자연스러운 바이럴 루프를 설계해줘. 사용자가 남을 초대할 동기, 초대 트리거 지점, 양쪽 보상(리퍼럴), K-factor를 높이는 요소, 어뷰징 방지책을 정리해줘." },
+      { id: 100, level: "쉬움", title: "사용자 피드백 수집", desc: "User Feedback", prompt: "[서비스]의 사용자 피드백을 체계적으로 수집·정리하는 방법을 설계해줘. 인앱 설문·인터뷰 질문지, NPS 측정, 피드백 분류·우선순위화 프레임워크, 로드맵 반영 프로세스를 제안해줘." }
+    ]
+  }
+];
+
+// ===== VIBE-CODING PRD CONVERTER =====
+const ioByCategory = {
+  '엑셀·스프레드시트 자동화': '입력: CSV/표 텍스트 붙여넣기 / 출력: 정돈된 표 미리보기 + 복사·CSV 다운로드',
+  '보고서·기획서·제안서': '입력: 주제·배경·청중·분량 / 출력: 마크다운 본문 + 한 줄 요약',
+  '이메일·커뮤니케이션': '입력: 상대·상황·요지(3줄) / 출력: 한국어 메일 + (필요 시) 영문 변형',
+  '회의·일정 관리': '입력: 메모·날짜·참여자 / 출력: 회의록·다음 일정 카드',
+  '데이터 분석·시각화': '입력: CSV 또는 표 텍스트 / 출력: 인사이트 3줄 + 추천 차트 1~2개 설명',
+  '영업·세일즈': '입력: 고객·제품·상황(3~5줄) / 출력: 콜드 메일/제안 카피 + 후속 액션',
+  '마케팅·콘텐츠': '입력: 타깃·키워드·길이 / 출력: 카피·캡션·후크 후보 3개',
+  '인사·HR': '입력: 직무·조건·정책 / 출력: 공고·면접 가이드·답신 템플릿',
+  '재무·회계 보조': '입력: 비용 항목 또는 거래 내역 / 출력: 분류 결과·계정과목 추천',
+  '프로젝트 관리': '입력: 목표·기한·인원 / 출력: 일정·마일스톤·리스크 표',
+  '고객 응대·CS': '입력: 고객 메시지·이력 / 출력: 응답 후보 2~3개 + 톤 표기',
+  '사내 지식·위키': '입력: 키워드 또는 정책 텍스트 / 출력: 마크다운 위키 페이지 초안',
+  '업무 대시보드': '입력: 지표·기간·목표 / 출력: 카드 카피 + 표·차트 텍스트 설명',
+  '자동화 워크플로우': '입력: 트리거·조건·결과 액션 / 출력: n8n·Make 노드 목록 + 흐름도'
+};
+
+function makeVibePrd(cat, p) {
+  const io = ioByCategory[cat.name] || '입력: 자유 텍스트 / 출력: 마크다운 결과';
+  return `너는 바이브코딩 첫 도구를 함께 짜는 PM 겸 풀스택 엔지니어야.
+비전공자 직장인이 "${p.title}" 한 페이지 웹 도구를 만들려고 한다. 아래 PRD를 받아 [원하는 출력]을 채워줘.
+
+[한 페이지 PRD]
+- 도구 이름: ${p.title}
+- 폴더·레포명: ${p.slug}
+- 한 줄 컨셉: ${p.desc}
+- 사용 영역: ${cat.name}
+- 누가 쓰나: 본인 또는 같은 팀 (혼자~소수)
+- 입출력 힌트: ${io}
+- 출시 형태: 정적 HTML 1파일 (선택: Vercel 배포)
+
+[원하는 출력 — 순서대로]
+① 한 줄 컨셉 재진술 (12~16자, 명사구)
+② 1주 안에 만들 MVP 기능 3개 (각 1줄)
+③ "v2 이후"로 미루는 기능 2~3개 (각 1줄, 이유 1단어)
+④ 첫 화면 텍스트 와이어프레임 (모바일 360px, 10줄 이내)
+⑤ 파일 구조 (HTML 1파일이면 그대로 명시. 분리 필요 시 이유와 함께)
+⑥ 결정이 필요한 빈칸 3개 (각 1줄 질문, 단순 디자인 취향 말고 진짜 결정)
+
+[제약]
+- 외부 유료 API 금지. 무료 키 필요 시 "키 필요" 명시.
+- 라이브러리는 CDN 1~2개까지.
+- 첫 커밋에 README가 들어가야 한다.
+
+[자체 점검 — 응답 마지막에 별도 블록]
+- MVP 3개가 모두 1주 안에 가능한가
+- 입력·출력 데이터 예시가 한 줄 이상 들어 있는가
+- "v2" 블록이 별도로 정리되어 있는가
+- 빈칸 질문이 진짜 결정이 필요한 것인가`;
+}
+
+const slugById = {
+  1: "idea-brainstorm",
+  2: "pain-point-mining",
+  3: "lean-canvas",
+  4: "competitor-analysis",
+  5: "persona-definition",
+  6: "mvp-scoping",
+  7: "naming-slogan",
+  8: "revenue-model",
+  9: "differentiation",
+  10: "idea-risk-audit",
+  11: "write-a-prd",
+  12: "user-stories",
+  13: "prioritization",
+  14: "information-architecture",
+  15: "user-flow",
+  16: "data-model",
+  17: "api-spec-draft",
+  18: "tech-stack",
+  19: "roadmap",
+  20: "release-checklist",
+  21: "landing-page",
+  22: "design-tokens",
+  23: "color-palette",
+  24: "component-design",
+  25: "responsive-layout",
+  26: "microcopy",
+  27: "onboarding-flow",
+  28: "accessibility-audit",
+  29: "dark-mode",
+  30: "empty-state",
+  31: "react-component",
+  32: "tailwind-styling",
+  33: "state-management",
+  34: "form-validation",
+  35: "animation",
+  36: "routing",
+  37: "data-fetching",
+  38: "performance",
+  39: "component-test",
+  40: "seo-meta",
+  41: "rest-endpoint",
+  42: "auth-jwt",
+  43: "middleware",
+  44: "error-handling",
+  45: "validation-security",
+  46: "file-upload",
+  47: "email-notification",
+  48: "payment-stripe",
+  49: "rate-limiting",
+  50: "backend-test",
+  51: "db-schema",
+  52: "sql-query",
+  53: "migration",
+  54: "index-tuning",
+  55: "orm-model",
+  56: "seed-data",
+  57: "reporting-query",
+  58: "data-validation",
+  59: "caching-redis",
+  60: "backup-recovery",
+  61: "error-analysis",
+  62: "stack-trace",
+  63: "root-cause",
+  64: "refactoring",
+  65: "code-review",
+  66: "bottleneck",
+  67: "memory-leak",
+  68: "logging-strategy",
+  69: "test-failure",
+  70: "understand-legacy",
+  71: "dockerfile",
+  72: "ci-cd",
+  73: "deploy-to-vercel",
+  74: "env-management",
+  75: "domain-https",
+  76: "monitoring",
+  77: "zero-downtime",
+  78: "rollback-plan",
+  79: "iac-terraform",
+  80: "smoke-test",
+  81: "prompt-engineering",
+  82: "rag-pipeline",
+  83: "chatbot-prompt",
+  84: "tool-function-calling",
+  85: "vector-search",
+  86: "streaming-response",
+  87: "token-cost",
+  88: "ai-agent",
+  89: "image-gen-prompt",
+  90: "ai-guardrails",
+  91: "a-b-test",
+  92: "seo-content",
+  93: "launch-copy",
+  94: "email-onboarding",
+  95: "product-hunt",
+  96: "retention",
+  97: "funnel-metrics",
+  98: "pricing-experiment",
+  99: "viral-loop",
+  100: "user-feedback"
+};
+
+// 카테고리별 절제된 에디토리얼 컬러
+const CAT_COLORS = ['#B0553A','#3F5A7A','#6B8E5A','#A6763B','#8A5A7A','#4E8C87','#B07A3A','#5A6B8C','#8C5A4E','#4E7A5A','#7A6B4E','#8C6B8C','#5A8C7A','#A6603A'];
+
+// 100개 모두 PRD 시작 프롬프트로 일괄 교체 + 슬러그·컬러 주입, flat 목록 구성
+const items = [];
+categories.forEach((cat, ci) => {
+  cat.color = CAT_COLORS[ci % CAT_COLORS.length];
+  cat.prompts.forEach(p => {
+    p.slug = slugById[p.id] || ('tool-' + p.id);
+    items.push({ ...p, cat: cat.name, color: cat.color });
+  });
+});
+
+// ===== DESIGN COLOR PALETTE =====
+const palettes = [
+  { id:'navy-gold', name:'네이비·골드', hexA:'#0A1F44', hexA_name:'딥 네이비', hexB:'#D4A84B', hexB_name:'클래식 골드',
+    mood:'격식 있고 신중한 임원 보고 톤. 단정한 명사형 종결, 군더더기 없는 한 문장.',
+    usage:'제목·KPI·CTA는 골드, 본문/표 헤더는 네이비, 배경은 흰색. 보조는 연회색(#EEE).' },
+  { id:'pink-cream', name:'핑크·크림', hexA:'#E8A2B0', hexA_name:'더스티 핑크', hexB:'#FBE9D7', hexB_name:'소프트 크림',
+    mood:'부드럽고 친근한 라이프스타일 톤. 어조는 따뜻하게, 이모지는 최소한.',
+    usage:'주요 강조는 핑크, 배경·카드는 크림, 텍스트는 진한 차콜(#2B2B2B).' },
+  { id:'mono', name:'모노톤', hexA:'#0A0A0A', hexA_name:'잉크 블랙', hexB:'#F2F2F2', hexB_name:'오프 화이트',
+    mood:'담백한 미니멀·테크 톤. 객관 사실 위주, 형용사 절제, 표/숫자 중심.',
+    usage:'거의 모든 요소는 무채색. 강조는 굵기·여백·라인 두께로만 차등.' },
+  { id:'forest', name:'포레스트', hexA:'#1E3A2C', hexA_name:'딥 포레스트', hexB:'#E5DBC4', hexB_name:'오트 베이지',
+    mood:'ESG·지속가능성 톤. 신중하고 사실 중심, 과장된 수식어 자제.',
+    usage:'헤드라인·아이콘은 포레스트, 본문 배경은 베이지, 차트 보조는 머스터드(#C9A23A).' },
+  { id:'ocean', name:'오션', hexA:'#0C3F5F', hexA_name:'딥 오션', hexB:'#98C4DE', hexB_name:'스카이 라이트',
+    mood:'핀테크·신뢰감 톤. 정확한 수치 표현, 모호한 표현 금지, 두 자리 소수 유지.',
+    usage:'강조는 딥 오션, 보조 차트·태그는 스카이 라이트, 위험 표시는 코랄(#E08366) 예외.' },
+  { id:'cherry', name:'체리', hexA:'#7A1426', hexA_name:'와인 체리', hexB:'#F1D2D5', hexB_name:'블러시 핑크',
+    mood:'리테일·이커머스 톤. CTA는 강한 동사, 헤드라인은 12자 이내, 숫자 강조.',
+    usage:'CTA·세일 배지·핵심 카피는 체리, 카드 배경은 블러시, 본문은 차콜(#1A1A1A).' }
+];
+
+// ===== STATE =====
+let query = '';
+let activeCat = 'ALL';
+let activeLevel = 'ALL';
+let selectedPaletteId = null;
+let detailItem = null;
+
+const $ = s => document.querySelector(s);
+const grid = $('#grid');
+
+function copyText(t){
+  if(navigator.clipboard) return navigator.clipboard.writeText(t);
+  const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();document.execCommand('copy');a.remove();
+  return Promise.resolve();
+}
+function toast(msg){
+  const t=document.createElement('div');t.className='toast';t.textContent=msg;document.body.appendChild(t);
+  setTimeout(()=>t.remove(),1600);
+}
+function esc(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+// ===== CHIPS =====
+function renderChips(){
+  const wrap=$('#catChips');
+  let html=`<button class="chip ${activeCat==='ALL'?'on':''}" data-cat="ALL">전체 <span class="c">${items.length}</span></button>`;
+  categories.forEach(cat=>{
+    html+=`<button class="chip ${activeCat===cat.name?'on':''}" data-cat="${esc(cat.name)}" style="--cd:${cat.color}">
+      <span class="dot"></span>${esc(cat.name)} <span class="c">${cat.count}</span></button>`;
+  });
+  wrap.innerHTML=html;
+  wrap.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{activeCat=b.dataset.cat;renderChips();render();});
+}
+
+// ===== PALETTE =====
+function renderPalettes(){
+  const wrap=$('#beads');
+  wrap.innerHTML=palettes.map(p=>
+    `<button class="bead-item ${selectedPaletteId===p.id?'on':''}" data-id="${p.id}" aria-pressed="${selectedPaletteId===p.id}" aria-label="${esc(p.name)} 톤 선택">
+      <span class="bead" style="--pa:${p.hexA};--pb:${p.hexB}"></span>
+      <span class="bead-name">${esc(p.name)}</span>
+      <span class="bead-sub">${esc(p.hexA_name)} · ${esc(p.hexB_name)}</span>
+    </button>`
+  ).join('');
+  wrap.querySelectorAll('.bead-item').forEach(b=>b.onclick=()=>selectPalette(b.dataset.id));
+}
+function selectPalette(id){
+  selectedPaletteId = (selectedPaletteId===id)?null:id;
+  renderPalettes();
+  const cur=$('#pcurrent');
+  const p=palettes.find(x=>x.id===selectedPaletteId);
+  cur.innerHTML = p ? `현재 톤: <b>${esc(p.name)}</b> — 복사 시 톤 가이드가 함께 붙습니다` : '아직 선택된 컬러가 없습니다';
+  if(detailItem) renderDetailTone();
+}
+function buildPaletteBlock(){
+  const p=palettes.find(x=>x.id===selectedPaletteId);
+  if(!p) return '';
+  return ['','','---',`[디자인 톤: ${p.name}]`,
+    `· 팔레트: ${p.hexA_name}(${p.hexA}) + ${p.hexB_name}(${p.hexB})`,
+    `· 시각 결과물(차트·표·대시보드·이미지·슬라이드): ${p.usage}`,
+    `· 글 결과물(이메일·보고서·카피): ${p.mood}`,
+    `· 위 톤이 적용 불가한 텍스트만의 결과물이면 본 가이드는 무시.`].join('\n');
+}
+
+// ===== FILTER + RENDER =====
+function filtered(){
+  const q=query.trim().toLowerCase();
+  return items.filter(it=>{
+    if(activeCat!=='ALL' && it.cat!==activeCat) return false;
+    if(activeLevel!=='ALL' && it.level!==activeLevel) return false;
+    if(q){
+      const hay=(it.title+' '+it.desc+' '+it.slug+' '+it.cat+' '+it.prompt).toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
+    return true;
+  });
+}
+function render(){
+  const list=filtered();
+  $('#rcNum').textContent=list.length;
+  $('#clearBtn').classList.toggle('show', !!(query||activeCat!=='ALL'||activeLevel!=='ALL'));
+  if(!list.length){
+    grid.innerHTML=`<div class="empty" style="grid-column:1/-1"><div class="eico">🔍</div><div class="et">결과가 없습니다</div><div class="es">검색어나 필터를 바꿔 보세요</div></div>`;
+    return;
+  }
+  grid.innerHTML=list.map((it,i)=>{
+    const num=String(it.id).padStart(2,'0');
+    const badge = it.level==='쉬움'?'<span class="badge easy">쉬움</span>':'<span class="badge normal">보통</span>';
+    return `<article class="card" style="--cd:${it.color};animation-delay:${Math.min(i,20)*0.02}s" data-id="${it.id}">
+      <div class="card-head">
+        <span class="card-cat"><span class="dot"></span>${esc(it.cat)}</span>
+        <span class="card-num">${num}</span>
+      </div>
+      <h3 class="card-title">${esc(it.title)}</h3>
+      <p class="card-desc">${esc(it.desc)}</p>
+      <div class="card-foot">
+        <div style="display:flex;align-items:center;gap:10px">${badge}<span class="slug">${esc(it.slug)}</span></div>
+        <div class="card-actions">
+          <button class="icobtn" data-copy="${it.id}" title="복사" aria-label="프롬프트 복사">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </button>
+        </div>
+      </div>
+    </article>`;
+  }).join('');
+  grid.querySelectorAll('.card').forEach(c=>{
+    c.onclick=e=>{ if(e.target.closest('[data-copy]'))return; openDetail(+c.dataset.id); };
+  });
+  grid.querySelectorAll('[data-copy]').forEach(b=>{
+    b.onclick=e=>{ e.stopPropagation(); const it=items.find(x=>x.id===+b.dataset.copy);
+      copyText(it.prompt+buildPaletteBlock()).then(()=>{ b.classList.add('copied'); toast(selectedPaletteId?'복사 완료 (톤 포함)':'복사 완료!'); setTimeout(()=>b.classList.remove('copied'),1400); });
+    };
+  });
+}
+
+// ===== DETAIL =====
+function openDetail(id){
+  const it=items.find(x=>x.id===id); if(!it)return;
+  detailItem=it;
+  const num=String(it.id).padStart(2,'0');
+  $('#dCat').textContent=it.cat;
+  $('#dCat').parentElement.style.setProperty('--cd', it.color);
+  $('#dNum').textContent='No. '+num;
+  const badge=$('#dBadge');
+  badge.textContent=it.level;
+  badge.className='badge '+(it.level==='쉬움'?'easy':'normal');
+  $('#dTitle').textContent=it.title;
+  $('#dDesc').textContent=it.desc;
+  $('#dSlug').textContent=it.slug;
+  $('#dPrompt').textContent=it.prompt;
+  const cp=$('#dCopy'); cp.classList.remove('ok'); cp.querySelector('span')&&(cp.querySelector('span').textContent='');
+  renderDetailTone();
+  $('#detailOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function renderDetailTone(){
+  const box=$('#dTone');
+  const p=palettes.find(x=>x.id===selectedPaletteId);
+  if(!p){ box.hidden=true; box.innerHTML=''; return; }
+  box.hidden=false;
+  box.style.setProperty('--tacc',p.hexA); box.style.setProperty('--ta',p.hexA); box.style.setProperty('--tb',p.hexB);
+  box.innerHTML=`<div class="tone-head"><span class="tone-swatch"></span><span class="tone-title">Design Tone — ${esc(p.name)}</span></div>
+    <div class="tone-body">· 팔레트: ${esc(p.hexA_name)}(${p.hexA}) + ${esc(p.hexB_name)}(${p.hexB})
+· 시각 결과물(차트·표·대시보드·이미지·슬라이드): ${esc(p.usage)}
+· 글 결과물(이메일·보고서·카피): ${esc(p.mood)}
+· 위 톤이 적용 불가한 텍스트만의 결과물이면 본 가이드는 무시.</div>`;
+}
+function copyFromDetail(){
+  if(!detailItem)return;
+  copyText(detailItem.prompt+buildPaletteBlock()).then(()=>{
+    const b=$('#dCopy'); b.classList.add('ok'); b.innerHTML='✓ 복사 완료!';
+    toast(selectedPaletteId?'복사 완료 (톤 포함)':'복사 완료!');
+    setTimeout(()=>{ b.classList.remove('ok'); b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 프롬프트 복사'; },1500);
+  });
+}
+function closeDetail(){ $('#detailOverlay').classList.remove('open'); document.body.style.overflow=''; detailItem=null; }
+
+// ===== GUIDE =====
+function openGuide(){ $('#guideOverlay').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeGuide(){ $('#guideOverlay').classList.remove('open'); document.body.style.overflow=''; }
+
+// ===== MISC =====
+function copyUrl(){ copyText('https://vibe-prompt-100-worker.vercel.app/').then(()=>toast('링크가 복사되었습니다')); }
+function clearFilters(){ query=''; $('#searchInput').value=''; activeCat='ALL'; activeLevel='ALL';
+  document.querySelectorAll('#levelSeg button').forEach(b=>b.classList.toggle('on',b.dataset.lv==='ALL'));
+  renderChips(); render();
+}
+
+// ===== INIT =====
+$('#searchInput').addEventListener('input',e=>{query=e.target.value;render();});
+$('#levelSeg').querySelectorAll('button').forEach(b=>b.onclick=()=>{
+  activeLevel=b.dataset.lv;
+  $('#levelSeg').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
+  render();
+});
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeDetail(); closeGuide(); } });
+window.addEventListener('scroll',()=>{ $('#siteHeader').classList.toggle('scrolled', window.scrollY>8); },{passive:true});
+
+renderChips();
+renderPalettes();
+render();
+</script>
+</body>
+</html>
+
