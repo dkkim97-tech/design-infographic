@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>소상공인 바이브코딩 시작 PRD 100선 — AICLab</title>
+<meta name="description" content="혼자 가게 보지 마세요. 복사 한 번이면 내 가게 도구의 PRD가 됩니다. 소상공인을 위한 바이브코딩 시작 PRD 100선 — AICLab." />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="AICLab" />
+<meta property="og:locale" content="ko_KR" />
+<meta property="og:title" content="시리즈 #4 — 소상공인 바이브코딩 시작 PRD 100선" />
+<meta property="og:description" content="AI 시대, 모든 사장님의 첫 코딩. 14분야 100개의 한 줄 컨셉 → 한 페이지 PRD." />
+<meta property="og:url" content="https://vibe-prompt-100-merchant.vercel.app/" />
+<meta property="og:image" content="https://vibe-prompt-100-merchant.vercel.app/og.jpg" />
+<meta property="og:image:secure_url" content="https://vibe-prompt-100-merchant.vercel.app/og.jpg" />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:width" content="1264" />
+<meta property="og:image:height" content="843" />
+<meta property="og:image:alt" content="시리즈 #4 — 소상공인 바이브코딩 시작 PRD 100선 — AICLab" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="시리즈 #4 — 소상공인 바이브코딩 시작 PRD 100선" />
+<meta name="twitter:description" content="혼자 가게 보지 마세요. 복사 한 번이면 내 가게 도구의 PRD가 됩니다." />
+<meta name="twitter:image" content="https://vibe-prompt-100-merchant.vercel.app/og.jpg" />
+<meta name="twitter:image:alt" content="시리즈 #4 — 소상공인 바이브코딩 시작 PRD 100선 — AICLab" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F4F0E8;
+  --paper-2:#EFEAE0;
+  --surface:#FFFFFF;
+  --ink:#1E1B16;
+  --ink-soft:#4B453C;
+  --muted:#8B8478;
+  --faint:#B7AF9F;
+  --line:#E4DCCD;
+  --line-soft:#EDE7DA;
+  --accent:#C05A32;
+  --accent-deep:#9E4522;
+  --accent-soft:rgba(192,90,50,.10);
+  --hero-hi:#1F3A5C;
+  --sage:#5C7A63;
+  --sage-soft:rgba(92,122,99,.12);
+  --shadow-sm:0 1px 2px rgba(30,27,22,.04),0 2px 8px rgba(30,27,22,.04);
+  --shadow-md:0 8px 30px rgba(30,27,22,.10),0 2px 8px rgba(30,27,22,.05);
+  --shadow-lg:0 24px 70px rgba(30,27,22,.16);
+  --serif:'Noto Sans KR',system-ui,sans-serif;
+  --display:'Noto Sans KR',system-ui,sans-serif;
+  --sans:'Noto Sans KR',system-ui,sans-serif;
+  --r:16px;
+  --maxw:1220px;
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-weight:400;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;
+}
+::selection{background:var(--accent-soft);color:var(--accent-deep)}
+a{color:inherit}
+button,input,select,textarea{font-family:inherit}
+
+/* paper grain */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes cardIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes toastUp{0%{opacity:0;transform:translate(-50%,6px)}15%{opacity:1;transform:translate(-50%,0)}85%{opacity:1}100%{opacity:0;transform:translate(-50%,-6px)}}
+
+/* ===== HEADER ===== */
+.site-header{
+  position:sticky;top:0;z-index:200;
+  background:rgba(244,240,232,.82);
+  backdrop-filter:blur(14px) saturate(120%);
+  border-bottom:1px solid transparent;
+  transition:border-color .3s,background .3s;
+}
+.site-header.scrolled{border-bottom-color:var(--line);background:rgba(244,240,232,.92)}
+.header-inner{
+  max-width:var(--maxw);margin:0 auto;padding:16px 28px;
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+}
+.wordmark{display:flex;align-items:baseline;gap:10px;text-decoration:none;flex-shrink:0}
+.wordmark .mk{font-family:var(--display);font-weight:700;font-size:22px;letter-spacing:.5px;color:var(--ink)}
+.wordmark .mk em{font-style:normal;color:var(--accent)}
+.wordmark .tag{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--faint);font-weight:500}
+.header-nav{display:flex;align-items:center;gap:8px}
+.hbtn{
+  border:1px solid var(--line);background:var(--surface);color:var(--ink-soft);
+  padding:8px 16px;border-radius:999px;font-size:13px;font-weight:500;cursor:pointer;
+  transition:all .2s;display:inline-flex;align-items:center;gap:7px;
+}
+.hbtn:hover{border-color:var(--accent);color:var(--accent-deep);box-shadow:var(--shadow-sm)}
+.hbtn svg{width:15px;height:15px}
+
+/* ===== HERO ===== */
+.hero{position:relative;z-index:1;max-width:var(--maxw);margin:0 auto;padding:64px 28px 40px}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);
+  font-weight:600;margin-bottom:26px;opacity:0;animation:fadeUp .7s .05s ease both;
+}
+.hero-eyebrow::before{content:'';width:26px;height:1px;background:var(--accent)}
+.hero-title{
+  font-family:var(--serif);font-weight:800;color:var(--ink);
+  font-size:clamp(38px,6.4vw,78px);line-height:1.16;letter-spacing:-.5px;
+  margin-bottom:28px;max-width:17ch;
+}
+.hero-title .l{display:block;opacity:0;animation:fadeUp .8s ease both}
+.hero-title .l:nth-child(1){animation-delay:.12s}
+.hero-title .l:nth-child(2){animation-delay:.22s}
+.hero-title .l.hi{color:var(--hero-hi)}
+.hero-title .l.sm{font-size:clamp(25px,4vw,48px);line-height:1.26}
+.hero-title .l.accent{color:var(--accent);font-weight:800;animation-delay:.34s}
+.hero-lead{
+  font-size:clamp(16px,1.7vw,19px);color:var(--ink-soft);font-weight:300;
+  max-width:52ch;line-height:1.75;margin-bottom:38px;opacity:0;animation:fadeUp .8s .46s ease both;
+}
+.hero-lead b{font-weight:500;color:var(--ink)}
+.hero-meta{display:flex;flex-wrap:wrap;gap:38px;opacity:0;animation:fadeUp .8s .56s ease both}
+.metric{display:flex;flex-direction:column;gap:2px}
+.metric .n{font-family:var(--display);font-size:clamp(30px,4vw,44px);font-weight:700;line-height:1;color:var(--ink)}
+.metric .n em{font-style:normal;color:var(--accent)}
+.metric .k{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-weight:500}
+.metric-div{width:1px;background:var(--line);align-self:stretch}
+
+/* ===== CONTROLS ===== */
+.controls-wrap{position:sticky;top:65px;z-index:150;background:transparent;padding-top:8px}
+.controls{
+  position:relative;z-index:1;max-width:var(--maxw);margin:0 auto;padding:0 28px;
+}
+.controls-bar{
+  background:rgba(255,255,255,.72);backdrop-filter:blur(14px) saturate(130%);
+  border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;
+  box-shadow:var(--shadow-sm);
+  display:flex;flex-direction:column;gap:12px;
+}
+.controls-row1{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.search{position:relative;flex:1;min-width:220px}
+.search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:17px;height:17px;color:var(--muted)}
+.search input{
+  width:100%;padding:11px 14px 11px 40px;border:1px solid var(--line);border-radius:11px;
+  background:var(--surface);font-size:14px;color:var(--ink);outline:none;transition:all .2s;
+}
+.search input::placeholder{color:var(--faint)}
+.search input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.seg{display:inline-flex;background:var(--paper-2);border-radius:11px;padding:3px;gap:2px}
+.seg button{
+  border:none;background:transparent;color:var(--muted);font-size:13px;font-weight:500;
+  padding:8px 15px;border-radius:9px;cursor:pointer;transition:all .18s;white-space:nowrap;
+}
+.seg button:hover{color:var(--ink)}
+.seg button.on{background:var(--surface);color:var(--ink);box-shadow:var(--shadow-sm)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{
+  border:1px solid var(--line);background:var(--surface);color:var(--ink-soft);
+  padding:7px 14px;border-radius:999px;font-size:12.5px;font-weight:500;cursor:pointer;
+  white-space:nowrap;transition:all .18s;display:inline-flex;align-items:center;gap:7px;flex-shrink:0;
+}
+.chip:hover{border-color:var(--accent);color:var(--accent-deep)}
+.chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.chip .dot{width:7px;height:7px;border-radius:50%;background:var(--cd,var(--accent));flex-shrink:0}
+.chip.on .dot{background:#fff}
+.chip .c{font-size:11px;opacity:.6;font-variant-numeric:tabular-nums}
+
+/* ===== DESIGN COLOR — glass beads ===== */
+.designcolor{position:relative;z-index:1;max-width:var(--maxw);margin:0 auto;padding:34px 28px 4px}
+.dc-panel{
+  background:linear-gradient(180deg,rgba(255,255,255,.60),rgba(255,255,255,.28));
+  border:1px solid var(--line);border-radius:24px;padding:34px 30px 36px;
+  box-shadow:var(--shadow-sm);backdrop-filter:blur(8px) saturate(120%);text-align:center;
+}
+.dc-kicker{font-family:var(--display);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);font-weight:600}
+.dc-title{font-family:var(--serif);font-weight:700;font-size:clamp(23px,3vw,32px);color:var(--ink);margin:7px 0 9px;letter-spacing:-.3px}
+.dc-desc{font-size:13.5px;color:var(--muted);max-width:48ch;margin:0 auto 30px;line-height:1.75}
+.beads{display:flex;flex-wrap:wrap;justify-content:center;gap:28px 34px;margin-bottom:24px}
+.bead-item{
+  display:flex;flex-direction:column;align-items:center;gap:13px;cursor:pointer;
+  background:none;border:none;padding:8px 6px;border-radius:18px;transition:background .2s;font-family:inherit;
+}
+.bead-item:hover{background:rgba(255,255,255,.45)}
+.bead-item:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.bead{
+  width:66px;height:66px;border-radius:50%;position:relative;flex-shrink:0;
+  background:
+    radial-gradient(circle at 30% 24%,rgba(255,255,255,.95) 0%,rgba(255,255,255,.18) 18%,rgba(255,255,255,0) 42%),
+    linear-gradient(142deg,var(--pa) 0 50%,var(--pb) 50% 100%);
+  box-shadow:
+    inset 0 -8px 15px rgba(0,0,0,.30),
+    inset 0 6px 11px rgba(255,255,255,.42),
+    inset 0 0 0 1px rgba(255,255,255,.28),
+    0 9px 22px rgba(30,27,22,.22);
+  outline:2px solid transparent;outline-offset:6px;
+  transition:transform .3s cubic-bezier(.2,.8,.2,1),outline-color .3s,box-shadow .3s;
+}
+.bead::after{
+  content:'';position:absolute;top:10px;left:15px;width:22px;height:13px;border-radius:50%;
+  background:radial-gradient(ellipse at center,rgba(255,255,255,.95),rgba(255,255,255,0) 72%);
+  transform:rotate(-20deg);pointer-events:none;
+}
+.bead-item:hover .bead{transform:translateY(-4px) scale(1.07)}
+.bead-item.on .bead{
+  outline-color:var(--ink);
+  box-shadow:inset 0 -8px 15px rgba(0,0,0,.30),inset 0 6px 11px rgba(255,255,255,.42),
+    0 12px 28px rgba(30,27,22,.30),0 0 0 5px rgba(255,255,255,.7);
+}
+.bead-name{font-size:13.5px;font-weight:600;color:var(--ink-soft);letter-spacing:.2px;transition:color .2s}
+.bead-sub{font-size:11px;color:var(--faint);letter-spacing:.2px}
+.bead-item.on .bead-name{color:var(--accent-deep)}
+.dc-current{font-size:13px;color:var(--muted);min-height:20px}
+.dc-current b{color:var(--accent);font-weight:600}
+
+/* ===== GRID ===== */
+.main{position:relative;z-index:1;max-width:var(--maxw);margin:0 auto;padding:26px 28px 80px}
+.result-line{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin:8px 2px 18px;flex-wrap:wrap}
+.result-line .rc{font-size:13px;color:var(--muted)}
+.result-line .rc b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+.result-line .clearq{font-size:12.5px;color:var(--accent);cursor:pointer;background:none;border:none;font-weight:500;display:none}
+.result-line .clearq.show{display:inline}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:18px}
+.card{
+  position:relative;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  padding:22px 22px 18px;cursor:pointer;transition:transform .22s cubic-bezier(.2,.7,.3,1),box-shadow .22s,border-color .22s;
+  display:flex;flex-direction:column;min-height:200px;overflow:hidden;
+  animation:cardIn .4s ease both;
+}
+.card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--cd,var(--accent));opacity:0;transition:opacity .22s}
+.card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:transparent}
+.card:hover::before{opacity:1}
+.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.card-cat{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:600;color:var(--ink-soft);letter-spacing:.2px}
+.card-cat .dot{width:8px;height:8px;border-radius:50%;background:var(--cd,var(--accent))}
+.card-num{font-family:var(--display);font-size:14px;color:var(--faint);font-weight:500;font-variant-numeric:tabular-nums}
+.card-title{font-family:var(--serif);font-weight:700;font-size:19px;line-height:1.4;color:var(--ink);margin-bottom:8px;letter-spacing:-.2px}
+.card-desc{font-size:13.5px;color:var(--muted);line-height:1.6;margin-bottom:auto}
+.card-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:18px;padding-top:14px;border-top:1px solid var(--line-soft)}
+.badge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:999px;letter-spacing:.3px}
+.badge.easy{background:var(--sage-soft);color:var(--sage)}
+.badge.normal{background:var(--accent-soft);color:var(--accent-deep)}
+.slug{font-family:var(--sans);font-size:11.5px;color:var(--faint);letter-spacing:.2px}
+.card-actions{display:flex;gap:8px;align-items:center}
+.icobtn{
+  border:1px solid var(--line);background:var(--surface);color:var(--ink-soft);width:34px;height:34px;
+  border-radius:9px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all .18s;position:relative;
+}
+.icobtn:hover{border-color:var(--accent);color:var(--accent)}
+.icobtn svg{width:16px;height:16px}
+.icobtn.copied{background:var(--sage);border-color:var(--sage);color:#fff}
+
+.empty{text-align:center;padding:90px 20px;color:var(--muted)}
+.empty .eico{font-size:34px;opacity:.3;margin-bottom:14px}
+.empty .et{font-family:var(--serif);font-size:19px;color:var(--ink-soft);margin-bottom:6px}
+.empty .es{font-size:13.5px}
+
+/* ===== MODAL ===== */
+.overlay{
+  position:fixed;inset:0;z-index:1000;background:rgba(30,27,22,.42);backdrop-filter:blur(6px);
+  display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;visibility:hidden;transition:all .28s;
+}
+.overlay.open{opacity:1;visibility:visible}
+.sheet{
+  background:var(--surface);border-radius:22px;box-shadow:var(--shadow-lg);
+  width:640px;max-width:100%;max-height:88vh;display:flex;flex-direction:column;overflow:hidden;
+  transform:translateY(16px) scale(.98);transition:transform .28s cubic-bezier(.2,.8,.2,1);
+}
+.overlay.open .sheet{transform:none}
+.sheet-head{padding:26px 30px 20px;border-bottom:1px solid var(--line-soft);position:relative}
+.sheet-close{position:absolute;top:20px;right:22px;width:34px;height:34px;border-radius:9px;border:1px solid var(--line);background:var(--surface);color:var(--muted);font-size:18px;cursor:pointer;transition:all .18s;display:flex;align-items:center;justify-content:center}
+.sheet-close:hover{color:var(--ink);border-color:var(--ink)}
+.sheet-meta{display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.sheet-cat{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:var(--ink-soft)}
+.sheet-cat .dot{width:8px;height:8px;border-radius:50%;background:var(--cd,var(--accent))}
+.sheet-num{font-family:var(--display);font-size:13px;color:var(--faint);font-weight:500}
+.sheet-title{font-family:var(--serif);font-weight:700;font-size:26px;line-height:1.3;color:var(--ink);margin-bottom:6px;letter-spacing:-.3px}
+.sheet-sub{font-size:14px;color:var(--muted)}
+.sheet-slug{display:inline-block;margin-top:12px;font-family:var(--sans);font-size:12px;color:var(--ink-soft);background:var(--paper-2);border:1px solid var(--line);padding:3px 10px;border-radius:7px}
+.sheet-body{padding:22px 30px;overflow:auto}
+.pblock{
+  background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:18px 20px;
+  font-size:13.5px;line-height:1.85;color:var(--ink-soft);white-space:pre-wrap;word-break:break-word;
+  font-family:var(--sans);
+}
+.tone-note{
+  margin-top:16px;padding:14px 18px;border-radius:12px;background:var(--paper-2);
+  border-left:3px solid var(--tacc,var(--accent));font-size:12.5px;line-height:1.7;color:var(--ink-soft);
+}
+.tone-note[hidden]{display:none}
+.tone-head{display:flex;align-items:center;gap:9px;margin-bottom:9px}
+.tone-swatch{width:15px;height:15px;border-radius:50%;background:linear-gradient(135deg,var(--ta) 0 50%,var(--tb) 50% 100%);border:1px solid rgba(0,0,0,.1)}
+.tone-title{font-family:var(--display);font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--ink);font-weight:600}
+.tone-body{white-space:pre-wrap}
+.sheet-foot{padding:18px 30px 24px;border-top:1px solid var(--line-soft);display:flex;gap:10px}
+.btn-primary{
+  flex:1;border:none;background:var(--ink);color:#fff;padding:13px;border-radius:12px;font-size:14px;font-weight:600;
+  cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+}
+.btn-primary:hover{background:var(--accent-deep)}
+.btn-primary.ok{background:var(--sage)}
+.btn-primary svg{width:16px;height:16px}
+
+/* 사용법 modal steps */
+.guide h2{font-family:var(--serif);font-weight:700;font-size:24px;margin-bottom:22px;color:var(--ink)}
+.guide h2 em{font-style:normal;color:var(--accent)}
+.gstep{display:flex;gap:16px;margin-bottom:20px;align-items:flex-start}
+.gstep .gn{font-family:var(--display);font-size:26px;font-weight:500;color:var(--accent);line-height:1;min-width:30px}
+.gstep .gt{font-size:14.5px;color:var(--ink-soft);line-height:1.6;padding-top:3px}
+.gstep .gt b{color:var(--ink);font-weight:600}
+
+/* toast */
+.toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:11px 22px;border-radius:12px;font-size:13.5px;font-weight:500;z-index:2000;box-shadow:var(--shadow-lg);pointer-events:none;animation:toastUp 1.6s ease forwards}
+
+/* ===== FOOTER ===== */
+.footer{position:relative;z-index:1;border-top:1px solid var(--line);background:var(--paper-2)}
+.footer-inner{max-width:var(--maxw);margin:0 auto;padding:44px 28px;text-align:center}
+.footer .fmk{font-family:var(--display);font-size:22px;font-weight:700;letter-spacing:.5px;margin-bottom:14px}
+.footer .fmk em{font-style:normal;color:var(--accent)}
+.footer .flinks{font-size:14px;color:var(--muted);margin-bottom:14px}
+.footer .flinks a{text-decoration:none;border-bottom:1px solid transparent;transition:border-color .2s;color:var(--ink-soft)}
+.footer .flinks a:hover{border-bottom-color:var(--accent)}
+.footer .fdot{margin:0 10px;color:var(--faint)}
+.footer .fcopy{font-size:12px;color:var(--faint);line-height:1.8}
+
+@media(max-width:720px){
+  .header-inner{padding:14px 18px}
+  .hero{padding:44px 18px 30px}
+  .hero-meta{gap:24px}
+  .controls-wrap{top:61px}
+  .controls{padding:0 14px}
+  .main{padding:22px 14px 64px}
+  .grid{grid-template-columns:1fr;gap:14px}
+  .metric-div{display:none}
+  .sheet-head,.sheet-body,.sheet-foot{padding-left:22px;padding-right:22px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;animation-delay:0ms!important}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a class="wordmark" href="#top">
+      <span class="mk">BA<em>L</em>AB</span>
+      <span class="tag">Series #4</span>
+    </a>
+    <nav class="header-nav">
+      <button class="hbtn" onclick="copyUrl()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        링크 복사
+      </button>
+      <button class="hbtn" onclick="openGuide()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        사용법
+      </button>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <span class="hero-eyebrow">AI 시대, 모든 사장님의 첫 코딩</span>
+  <h1 class="hero-title">
+    <span class="l hi">혼자 가게 보지 마세요.</span>
+    <span class="l sm">복사 한 번이면</span>
+    <span class="l sm accent">내 가게 도구가 됩니다.</span>
+  </h1>
+  <p class="hero-lead">
+    14개 분야, 100개의 한 줄 컨셉을 <b>바로 붙여넣을 수 있는 한 페이지 PRD</b>로 바꿔 드립니다.
+    검색하고, 컬러 톤을 고르고, 복사하세요 &mdash; 내 가게의 첫 바이브코딩이 시작됩니다.
+  </p>
+  <div class="hero-meta">
+    <div class="metric"><span class="n">14</span><span class="k">Categories</span></div>
+    <div class="metric-div"></div>
+    <div class="metric"><span class="n"><em>100</em></span><span class="k">Prompts</span></div>
+    <div class="metric-div"></div>
+    <div class="metric"><span class="n">6</span><span class="k">Design Tones</span></div>
+  </div>
+</section>
+
+<!-- CONTROLS -->
+<div class="controls-wrap">
+  <div class="controls">
+    <div class="controls-bar">
+      <div class="controls-row1">
+        <label class="search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input id="searchInput" type="text" placeholder="도구 이름·설명·분야·슬러그 검색…" autocomplete="off">
+        </label>
+        <div class="seg" id="levelSeg">
+          <button data-lv="ALL" class="on">전체</button>
+          <button data-lv="쉬움">쉬움</button>
+          <button data-lv="보통">보통</button>
+        </div>
+      </div>
+      <div class="chips" id="catChips"></div>
+    </div>
+  </div>
+</div>
+
+<!-- DESIGN COLOR -->
+<section class="designcolor">
+  <div class="dc-panel">
+    <div class="dc-kicker">Design Color</div>
+    <h2 class="dc-title">디자인 컬러</h2>
+    <p class="dc-desc">결과물에 입힐 컬러 톤을 고르세요. 선택하면 프롬프트를 복사할 때 톤 가이드가 함께 붙습니다.</p>
+    <div class="beads" id="beads"></div>
+    <div class="dc-current" id="pcurrent">아직 선택된 컬러가 없습니다</div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main class="main">
+  <div class="result-line">
+    <span class="rc"><b id="rcNum">100</b>개 프롬프트</span>
+    <button class="clearq" id="clearBtn" onclick="clearFilters()">필터 초기화 ✕</button>
+  </div>
+  <div class="grid" id="grid"></div>
+</main>
+
+<!-- DETAIL MODAL -->
+<div class="overlay" id="detailOverlay" onclick="if(event.target===this)closeDetail()">
+  <div class="sheet" role="dialog" aria-modal="true">
+    <div class="sheet-head">
+      <button class="sheet-close" onclick="closeDetail()" aria-label="닫기">&times;</button>
+      <div class="sheet-meta">
+        <span class="sheet-cat"><span class="dot"></span><span id="dCat"></span></span>
+        <span class="sheet-num" id="dNum"></span>
+        <span class="badge" id="dBadge"></span>
+      </div>
+      <div class="sheet-title" id="dTitle"></div>
+      <div class="sheet-sub" id="dDesc"></div>
+      <span class="sheet-slug" id="dSlug"></span>
+    </div>
+    <div class="sheet-body">
+      <div class="pblock" id="dPrompt"></div>
+      <div class="tone-note" id="dTone" hidden></div>
+    </div>
+    <div class="sheet-foot">
+      <button class="btn-primary" id="dCopy" onclick="copyFromDetail()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        프롬프트 복사
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- GUIDE MODAL -->
+<div class="overlay" id="guideOverlay" onclick="if(event.target===this)closeGuide()">
+  <div class="sheet guide" role="dialog" aria-modal="true" style="width:460px">
+    <div class="sheet-head" style="border:none;padding-bottom:0">
+      <button class="sheet-close" onclick="closeGuide()" aria-label="닫기">&times;</button>
+    </div>
+    <div class="sheet-body" style="padding-top:6px">
+      <h2>사용<em>법</em></h2>
+      <div class="gstep"><span class="gn">1</span><span class="gt"><b>Design Color</b>에서 결과물 컬러 톤 선택 <span style="color:var(--faint)">(선택)</span></span></div>
+      <div class="gstep"><span class="gn">2</span><span class="gt">검색·분야·난이도로 <b>원하는 프롬프트</b>를 좁히세요</span></div>
+      <div class="gstep"><span class="gn">3</span><span class="gt">카드를 열어 미리보고 <b>복사 버튼</b>을 누르세요</span></div>
+      <div class="gstep"><span class="gn">4</span><span class="gt">AI 채팅창에 <b>붙여넣기 → 한 페이지 PRD 완성!</b></span></div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="fmk">Made by BA<em>L</em>AB</div>
+    <div class="flinks">
+      <a href="mailto:dkkim97@gmail.com">dkkim97@gmail.com</a>
+    </div>
+    <div class="fcopy">일상의 어려움을 AI와 함께 해결해갑니다.</div>
+    <div class="fcopy">직장인, 소상공인, 중소기업, 공공기관 맞춤형 Solution</div>
+  </div>
+</footer>
+
+<script>
+// ===== PROMPT DATA =====
+const categories = [
+  {
+    name: '매출·정산 관리',
+    count: 7,
+    prompts: [
+      { id: 1,  level: '쉬움', title: '일매출 마감 계산기',     desc: '오늘 매출·카드·현금·잔돈을 한 화면에 정리' },
+      { id: 2,  level: '쉬움', title: '주간 매출 그래프',       desc: '7일치 매출을 입력하면 막대 그래프로 시각화' },
+      { id: 3,  level: '보통', title: '시간대별 매출 히트맵',   desc: '요일·시간대 매출을 색으로 보여주는 표' },
+      { id: 4,  level: '쉬움', title: '카드사 정산 대조표',     desc: '카드사 입금액과 POS 매출을 줄별로 비교' },
+      { id: 5,  level: '쉬움', title: '잔돈 시재 점검표',       desc: '권종별 시재를 입력해 부족·과잉을 즉시 계산' },
+      { id: 6,  level: '보통', title: '월말 손익 요약기',       desc: '매출·재료비·임대료를 넣으면 순이익 한 줄로' },
+      { id: 7,  level: '쉬움', title: '배달앱 수수료 계산기',   desc: '배달앱별 수수료를 빼고 실수령액을 표시' }
+    ]
+  },
+  {
+    name: '재고·발주',
+    count: 7,
+    prompts: [
+      { id: 8,  level: '쉬움', title: '재고 알림 도우미',       desc: '품목별 최소 수량을 정해두고 빨간불 표시' },
+      { id: 9,  level: '쉬움', title: '발주 체크리스트',         desc: '거래처별 단골 품목을 클릭으로 발주서 완성' },
+      { id: 10, level: '보통', title: '원두 소진 예측기',         desc: '하루 사용량으로 며칠치 남았는지 자동 계산' },
+      { id: 11, level: '쉬움', title: '유통기한 관리표',           desc: '입고일·유통기한을 넣고 임박 품목을 정렬' },
+      { id: 12, level: '쉬움', title: '재료 원가 계산기',           desc: '메뉴 한 잔·한 접시당 원가를 즉시 산출' },
+      { id: 13, level: '보통', title: '거래처 단가 비교표',         desc: '같은 품목의 거래처별 단가를 한눈에' },
+      { id: 14, level: '쉬움', title: '폐기율 기록장',               desc: '매일 폐기 수량·금액을 누적해 손실 추적' }
+    ]
+  },
+  {
+    name: '예약·일정 관리',
+    count: 7,
+    prompts: [
+      { id: 15, level: '쉬움', title: '간단 예약 장부',           desc: '시간 슬롯 클릭으로 예약자·연락처를 기록' },
+      { id: 16, level: '보통', title: '미용실 예약 캘린더',         desc: '디자이너별 컬럼으로 시간 겹침을 차단' },
+      { id: 17, level: '쉬움', title: '노쇼 방지 안내문',           desc: '예약 정보를 넣으면 확인 문자 문구 자동 생성' },
+      { id: 18, level: '쉬움', title: '과외 시간표 짜기',           desc: '학생·요일·시간을 끌어 놓아 주간표 완성' },
+      { id: 19, level: '쉬움', title: '휴무·영업일 안내판',         desc: '공휴일·휴무일을 표시해 손님에게 공유' },
+      { id: 20, level: '보통', title: '대기줄 번호표',               desc: '클릭으로 번호를 발급·호출해 대기 관리' },
+      { id: 21, level: '쉬움', title: '시술 소요시간 견적기',       desc: '메뉴 조합으로 종료 예상시간을 계산' }
+    ]
+  },
+  {
+    name: '단골·CRM',
+    count: 7,
+    prompts: [
+      { id: 22, level: '쉬움', title: '단골 쿠폰 발급기',           desc: '이름·전화번호로 도장 10개 쿠폰을 발행' },
+      { id: 23, level: '쉬움', title: '생일 손님 알림장',           desc: '단골 생일을 등록해 당월 명단을 자동 추출' },
+      { id: 24, level: '보통', title: '재방문 주기 분석',           desc: '방문 기록으로 평균 재방문 간격을 표시' },
+      { id: 25, level: '쉬움', title: '단골 등급 카드',               desc: '방문·구매액으로 골드·실버 등급을 자동 분류' },
+      { id: 26, level: '쉬움', title: 'VIP 호명 카드',                 desc: '직원이 단골 이름·취향을 빠르게 확인' },
+      { id: 27, level: '보통', title: '휴면 손님 추리기',             desc: '한 달 이상 안 온 단골을 골라 명단 출력' },
+      { id: 28, level: '쉬움', title: '추천인 코드 발급',             desc: '단골에게 코드를 줘서 신규 손님을 추적' }
+    ]
+  },
+  {
+    name: '메뉴·상품 진열',
+    count: 7,
+    prompts: [
+      { id: 29, level: '쉬움', title: '메뉴판 생성기',                 desc: '메뉴·가격·사진을 입력해 인쇄용 메뉴판 출력' },
+      { id: 30, level: '쉬움', title: 'POP 가격표 만들기',             desc: '할인율·기간을 넣으면 매장 부착용 POP 완성' },
+      { id: 31, level: '보통', title: 'QR 메뉴북',                       desc: 'QR 스캔으로 모바일 메뉴판을 보여주는 페이지' },
+      { id: 32, level: '쉬움', title: '오늘의 추천 칠판',                 desc: '추천 메뉴를 입력하면 칠판 느낌 이미지로 변환' },
+      { id: 33, level: '쉬움', title: '세트 구성 미리보기',               desc: '메뉴 조합으로 세트 가격·할인액을 시뮬레이션' },
+      { id: 34, level: '보통', title: '상품 카드 일괄 생성',               desc: '엑셀로 상품 정보를 넣어 카드 이미지 한번에' },
+      { id: 35, level: '쉬움', title: '알러지 표시 라벨',                   desc: '메뉴별 알러지 정보를 라벨 형태로 출력' }
+    ]
+  },
+  {
+    name: 'SNS·홍보',
+    count: 7,
+    prompts: [
+      { id: 36, level: '쉬움', title: '인스타 캡션 생성기',               desc: '메뉴·이벤트 키워드로 감성 캡션 5개 추천' },
+      { id: 37, level: '쉬움', title: '해시태그 추천기',                     desc: '업종·지역을 넣으면 한국형 해시태그 묶음 출력' },
+      { id: 38, level: '보통', title: '오픈 공지 카드',                       desc: '오픈일·시간·주소를 넣어 SNS용 이미지 완성' },
+      { id: 39, level: '쉬움', title: '블로그 글 시작템플릿',                 desc: '메뉴·후기를 넣으면 블로그 초안 한 편 자동' },
+      { id: 40, level: '쉬움', title: '카카오 채널 멘트 생성',                 desc: '이벤트·신메뉴 단어로 알림톡 문구 작성' },
+      { id: 41, level: '보통', title: '릴스 30초 스크립트',                     desc: '메뉴 소개 릴스의 컷·자막·시간표 자동 작성' },
+      { id: 42, level: '쉬움', title: '오늘의 한 줄 카피',                       desc: '날씨·요일로 매일 다른 인스타 한 줄 추천' }
+    ]
+  },
+  {
+    name: '사진·콘텐츠',
+    count: 7,
+    prompts: [
+      { id: 43, level: '쉬움', title: '메뉴 사진 배경 정리',                     desc: '사진 업로드 시 흰배경·정사각으로 자동 변환' },
+      { id: 44, level: '쉬움', title: '워터마크 도장기',                           desc: '매장 로고를 사진 모서리에 일괄 삽입' },
+      { id: 45, level: '보통', title: '비포·애프터 비교판',                         desc: '미용·청소·공방 결과를 좌우 슬라이드로 비교' },
+      { id: 46, level: '쉬움', title: '리뷰 캡처 카드',                               desc: '손님 후기를 입력하면 SNS용 인용 카드로 출력' },
+      { id: 47, level: '쉬움', title: '상품 사진 일괄 리사이즈',                       desc: '쇼핑몰 등록용 규격으로 한번에 크기 조정' },
+      { id: 48, level: '보통', title: '명함·전단 한장 디자인',                         desc: '상호·연락처·로고를 넣어 인쇄용 PDF 출력' },
+      { id: 49, level: '쉬움', title: '오늘의 디저트 보드',                             desc: '메뉴·가격으로 SNS 보드 이미지를 자동 생성' }
+    ]
+  },
+  {
+    name: '고객 응대·후기',
+    count: 7,
+    prompts: [
+      { id: 50, level: '쉬움', title: '리뷰 답글 도우미',                             desc: '별점·키워드로 정중한 답글 3종을 추천' },
+      { id: 51, level: '보통', title: '컴플레인 대응 스크립트',                       desc: '상황별 환불·교환·사과 멘트를 골라쓰는 카드' },
+      { id: 52, level: '쉬움', title: '단골 인사말 메모',                                 desc: '손님별 취향·기념일을 메모해 응대 전 표시' },
+      { id: 53, level: '쉬움', title: '문자 자동 답장 템플릿',                             desc: '예약·문의·휴무 문자에 쓸 답변 묶음' },
+      { id: 54, level: '보통', title: '리뷰 키워드 분석',                                   desc: '리뷰 글을 붙여넣으면 자주 나오는 단어 추출' },
+      { id: 55, level: '쉬움', title: '환불·교환 안내 카드',                                 desc: '규정을 채우면 매장 부착용 안내문 출력' },
+      { id: 56, level: '쉬움', title: '후기 부탁 카드 생성',                                   desc: '영수증·테이크아웃에 끼울 후기 요청 카드' }
+    ]
+  },
+  {
+    name: '직원·근태',
+    count: 7,
+    prompts: [
+      { id: 57, level: '쉬움', title: '주간 근무표 짜기',                                       desc: '직원·요일·시간 조합으로 근무표 자동 배치' },
+      { id: 58, level: '쉬움', title: '간단 출퇴근 기록기',                                       desc: '버튼 하나로 출근·퇴근 시각을 누적 저장' },
+      { id: 59, level: '보통', title: '주휴수당 계산기',                                           desc: '시급·시간 입력으로 주휴 포함 급여를 계산' },
+      { id: 60, level: '쉬움', title: '교대 인수인계 노트',                                         desc: '교대 시 체크할 항목을 정형화한 메모장' },
+      { id: 61, level: '쉬움', title: '아르바이트 시급 명세서',                                       desc: '근무 기록을 모아 월말 명세서 한 장으로' },
+      { id: 62, level: '보통', title: '직원 교육 체크표',                                             desc: '신입에게 가르칠 항목을 단계별로 체크' },
+      { id: 63, level: '쉬움', title: '연차·휴무 신청판',                                               desc: '직원이 휴무를 신청하면 달력에 자동 표시' }
+    ]
+  },
+  {
+    name: '마케팅 자동화',
+    count: 7,
+    prompts: [
+      { id: 64, level: '쉬움', title: '쿠폰 일괄 발송 폼',                                                 desc: '명단을 붙여넣고 카톡·문자 링크를 일괄 생성' },
+      { id: 65, level: '보통', title: '월간 이벤트 캘린더',                                                   desc: '기념일·시즌별 이벤트 아이디어를 자동 배치' },
+      { id: 66, level: '쉬움', title: '신메뉴 사전공지 페이지',                                                 desc: '출시일·가격을 입력해 단일 페이지 랜딩 생성' },
+      { id: 67, level: '쉬움', title: '추첨 이벤트 룰렛',                                                         desc: '참여자 명단을 넣고 룰렛으로 당첨자 추첨' },
+      { id: 68, level: '보통', title: '리타겟 멘트 생성기',                                                       desc: '오래 안 온 손님에게 보낼 맞춤 문자 작성' },
+      { id: 69, level: '쉬움', title: '입소문 카드 만들기',                                                         desc: '추천·소개 이벤트 안내를 카드 이미지로 출력' },
+      { id: 70, level: '쉬움', title: 'SMS 발송 비용 계산',                                                           desc: '명단 수·문자 종류로 캠페인 비용 산정' }
+    ]
+  },
+  {
+    name: '세무·영수증',
+    count: 7,
+    prompts: [
+      { id: 71, level: '쉬움', title: '간이영수증 발행기',                                                             desc: '날짜·품목·금액 입력으로 즉시 영수증 PDF' },
+      { id: 72, level: '쉬움', title: '부가세 미리 계산',                                                                 desc: '분기 매출·매입을 넣어 예상 부가세 산출' },
+      { id: 73, level: '보통', title: '경비 영수증 정리장',                                                                 desc: '사진 영수증을 카테고리별로 누적 합산' },
+      { id: 74, level: '쉬움', title: '세금계산서 항목 도우미',                                                                 desc: '품목·수량·단가로 발행 양식 자동 작성' },
+      { id: 75, level: '쉬움', title: '카드 매입 분류기',                                                                         desc: '카드 명세를 붙여 항목별로 자동 분류' },
+      { id: 76, level: '보통', title: '월별 손익 추이판',                                                                           desc: '매출·매입·순이익 12개월 추이를 그래프로' },
+      { id: 77, level: '쉬움', title: '현금 영수증 안내문',                                                                           desc: '의무발행·소득공제 안내를 부착용으로 출력' }
+    ]
+  },
+  {
+    name: '매장 운영·체크리스트',
+    count: 7,
+    prompts: [
+      { id: 78, level: '쉬움', title: '오픈 마감 체크리스트',                                                                             desc: '매일 해야 할 오픈·마감 업무를 체크 형태로' },
+      { id: 79, level: '쉬움', title: '청소 주기표',                                                                                         desc: '구역별 청소 주기를 정해 마지막 일자 표시' },
+      { id: 80, level: '보통', title: '냉장고 온도 점검표',                                                                                     desc: '하루 2회 온도 기록을 차트로 누적 관리' },
+      { id: 81, level: '쉬움', title: '시설 점검 일지',                                                                                           desc: '기기·전등·수도 점검 결과를 날짜별로 기록' },
+      { id: 82, level: '쉬움', title: '소모품 발주 알람',                                                                                             desc: '휴지·봉투·세제 잔량을 보고 발주 시점 알림' },
+      { id: 83, level: '보통', title: '안전·위생 자가점검',                                                                                             desc: '식약처 점검 항목을 체크해 PDF 보고서 출력' },
+      { id: 84, level: '쉬움', title: '오늘의 매장 일지',                                                                                                 desc: '날씨·이슈·매출 메모를 한 화면에 정리' }
+    ]
+  },
+  {
+    name: 'POS·결제 보조',
+    count: 7,
+    prompts: [
+      { id: 85, level: '쉬움', title: '분할 결제 계산기',                                                                                                   desc: '인원수·금액을 입력하면 1/N 결제액 표시' },
+      { id: 86, level: '쉬움', title: '잔돈 거스름돈 도우미',                                                                                                   desc: '받은 돈·결제액을 넣어 권종별 거스름돈 산출' },
+      { id: 87, level: '보통', title: '메뉴 단축 주문판',                                                                                                         desc: '자주 나가는 메뉴를 큰 버튼으로 빠른 주문' },
+      { id: 88, level: '쉬움', title: '계좌이체 안내 카드',                                                                                                         desc: '상호·계좌·QR을 한 장에 정리해 부착' },
+      { id: 89, level: '쉬움', title: '봉투·포장비 계산기',                                                                                                           desc: '주문 구성으로 포장비를 자동 추가 계산' },
+      { id: 90, level: '보통', title: '카드 단말 점검 로그',                                                                                                           desc: '단말 오류·승인 거절 이슈를 기록·분류' },
+      { id: 91, level: '쉬움', title: '환불 처리 안내판',                                                                                                               desc: '환불 사유별 처리 단계를 카드로 정리' }
+    ]
+  },
+  {
+    name: '트렌드·경쟁 모니터링',
+    count: 9,
+    prompts: [
+      { id: 92, level: '쉬움', title: '경쟁 매장 가격표',                                                                                                                 desc: '주변 매장 가격을 모아 평균·최저가 비교' },
+      { id: 93, level: '보통', title: '동네 키워드 추적기',                                                                                                                 desc: '지역명·업종을 검색해 인기 키워드 누적' },
+      { id: 94, level: '쉬움', title: '시즌 메뉴 아이디어',                                                                                                                     desc: '월·날씨를 넣으면 시즌 메뉴 후보 자동 추천' },
+      { id: 95, level: '쉬움', title: '오픈일 카운트다운',                                                                                                                         desc: '신규 오픈·이벤트까지 남은 날을 시각화' },
+      { id: 96, level: '보통', title: '리뷰 점수 추이판',                                                                                                                           desc: '플랫폼 평점을 입력해 월별 추이 그래프로' },
+      { id: 97, level: '쉬움', title: '주변 상권 인사이트',                                                                                                                             desc: '유동인구·날씨를 메모해 매출 상관관계 기록' },
+      { id: 98, level: '쉬움', title: '경쟁점 SNS 클리핑',                                                                                                                                 desc: '경쟁 매장의 이벤트·메뉴를 카드로 스크랩' },
+      { id: 99, level: '보통', title: '검색 노출 자가 진단',                                                                                                                                 desc: '지도·블로그 노출 상태를 체크리스트로 점검' },
+      { id: 100,level: '쉬움', title: '월간 트렌드 리포트',                                                                                                                                     desc: '한 달 매출·이슈·아이디어를 1장으로 요약' }
+    ]
+  }
+];
+
+// ===== VIBE-CODING PRD CONVERTER =====
+// 시리즈3(강사용) 14개 카테고리에 맞춘 입출력 힌트
+const ioByCategory = {
+  '매출·정산 관리': '입력: 일·주·월 매출 데이터 / 출력: 마감표·정산표·그래프·다운로드',
+  '재고·발주': '입력: 품목·수량·거래처 / 출력: 발주표·재고 알림·소진 예측',
+  '예약·일정 관리': '입력: 시간·인원·서비스 / 출력: 예약 캘린더·확정 SMS·대기 번호',
+  '단골·CRM': '입력: 손님 정보·방문·구매액 / 출력: 등급·쿠폰·휴면 명단·생일 알림',
+  '메뉴·상품 진열': '입력: 메뉴명·가격·사진 / 출력: 메뉴판·POP·QR 메뉴북·세트 시뮬',
+  'SNS·홍보': '입력: 매장 정보·이벤트 키워드 / 출력: 캡션·해시태그·릴스 스크립트·블로그 초안',
+  '사진·콘텐츠': '입력: 사진 업로드·로고 / 출력: 워터마크·리사이즈·비포애프터 카드',
+  '고객 응대·후기': '입력: 리뷰·문의·컴플레인 / 출력: 답글 후보 3종·환불 안내·인사 멘트',
+  '직원·근태': '입력: 직원·근무 시간·시급 / 출력: 근무표·명세서·출퇴근 기록·교대 노트',
+  '마케팅 자동화': '입력: 명단·이벤트·시즌 / 출력: 쿠폰·랜딩·룰렛·맞춤 SMS',
+  '세무·영수증': '입력: 매출·매입·영수증 / 출력: 영수증·부가세 추정·경비 표·세금계산서 양식',
+  '매장 운영·체크리스트': '입력: 오픈/마감 시간·점검 항목 / 출력: 체크리스트·온도 표·시설 일지',
+  'POS·결제 보조': '입력: 결제 금액·인원·메뉴 / 출력: 분할 결제·잔돈·포장비·환불 안내',
+  '트렌드·경쟁 모니터링': '입력: 경쟁 매장·키워드·평점 / 출력: 가격 비교·키워드 추적·SEO 점검표'
+};
+
+function makeVibePrd(cat, p) {
+  const io = ioByCategory[cat.name] || '입력: 자유 텍스트 / 출력: 마크다운 결과';
+  return `너는 바이브코딩 첫 도구를 함께 짜는 PM 겸 풀스택 엔지니어야.
+소상공인 사장님이 "${p.title}" 한 페이지 웹 도구를 만들려고 한다. 아래 PRD를 받아 [원하는 출력]을 채워줘.
+
+[한 페이지 PRD]
+- 도구 이름: ${p.title}
+- 폴더·레포명: ${p.slug}
+- 한 줄 컨셉: ${p.desc}
+- 사용 영역: ${cat.name}
+- 누가 쓰나: 본인(사장) 또는 직원 1~2명 (혼자~소수)
+- 입출력 힌트: ${io}
+- 출시 형태: 정적 HTML 1파일 (선택: Vercel 배포)
+
+[원하는 출력 — 순서대로]
+① 한 줄 컨셉 재진술 (12~16자, 명사구)
+② 1주 안에 만들 MVP 기능 3개 (각 1줄)
+③ "v2 이후"로 미루는 기능 2~3개 (각 1줄, 이유 1단어)
+④ 첫 화면 텍스트 와이어프레임 (모바일 360px, 10줄 이내)
+⑤ 파일 구조 (HTML 1파일이면 그대로 명시. 분리 필요 시 이유와 함께)
+⑥ 결정이 필요한 빈칸 3개 (각 1줄 질문, 단순 디자인 취향 말고 진짜 결정)
+
+[제약]
+- 외부 유료 API 금지. 무료 키 필요 시 "키 필요" 명시.
+- 라이브러리는 CDN 1~2개까지.
+- 데이터는 localStorage 또는 다운로드(.json/.csv) 우선.
+- 첫 커밋에 README가 들어가야 한다.
+
+[자체 점검 — 응답 마지막에 별도 블록]
+- MVP 3개가 모두 1주 안에 가능한가
+- 입력·출력 데이터 예시가 한 줄 이상 들어 있는가
+- "v2" 블록이 별도로 정리되어 있는가
+- 빈칸 질문이 진짜 결정이 필요한 것인가`;
+}
+
+const slugById = {
+  1: 'sales-closer', 2: 'weekly-chart', 3: 'time-heatmap', 4: 'card-reconcile',
+  5: 'cash-check', 6: 'profit-summary', 7: 'delivery-fee',
+  8: 'stock-alert', 9: 'order-list', 10: 'bean-forecast', 11: 'expiry-tracker',
+  12: 'cost-calc', 13: 'vendor-compare', 14: 'waste-log',
+  15: 'booking-board', 16: 'salon-calendar', 17: 'noshow-sms', 18: 'tutor-schedule',
+  19: 'holiday-board', 20: 'queue-ticket', 21: 'duration-estimate',
+  22: 'stamp-coupon', 23: 'birthday-list', 24: 'visit-cycle', 25: 'tier-card',
+  26: 'vip-memo', 27: 'dormant-finder', 28: 'referral-code',
+  29: 'menu-builder', 30: 'pop-maker', 31: 'qr-menu', 32: 'special-board',
+  33: 'combo-preview', 34: 'card-batch', 35: 'allergy-label',
+  36: 'insta-caption', 37: 'hashtag-pack', 38: 'open-card', 39: 'blog-starter',
+  40: 'kakao-script', 41: 'reels-script', 42: 'daily-copy',
+  43: 'photo-cleaner', 44: 'watermark-stamp', 45: 'before-after', 46: 'review-quote',
+  47: 'photo-resize', 48: 'card-print', 49: 'dessert-board',
+  50: 'reply-helper', 51: 'complaint-kit', 52: 'guest-memo', 53: 'sms-template',
+  54: 'review-keyword', 55: 'refund-card', 56: 'review-ask',
+  57: 'shift-maker', 58: 'punch-log', 59: 'wage-calc', 60: 'handover-note',
+  61: 'payslip-mini', 62: 'training-check', 63: 'leave-board',
+  64: 'coupon-blast', 65: 'event-calendar', 66: 'launch-landing', 67: 'lucky-roulette',
+  68: 'retarget-sms', 69: 'referral-card', 70: 'sms-budget',
+  71: 'receipt-maker', 72: 'vat-preview', 73: 'expense-log', 74: 'tax-invoice',
+  75: 'card-sort', 76: 'pnl-trend', 77: 'cash-notice',
+  78: 'open-close', 79: 'clean-cycle', 80: 'fridge-temp', 81: 'facility-log',
+  82: 'supply-alert', 83: 'safety-audit', 84: 'shop-diary',
+  85: 'split-pay', 86: 'change-helper', 87: 'quick-order', 88: 'transfer-card',
+  89: 'pack-fee', 90: 'pos-log', 91: 'refund-guide',
+  92: 'rival-price', 93: 'local-keyword', 94: 'season-idea', 95: 'opening-countdown',
+  96: 'rating-trend', 97: 'area-insight', 98: 'rival-clip', 99: 'seo-audit',
+  100: 'monthly-report'
+};
+
+// 카테고리별 절제된 에디토리얼 컬러
+const CAT_COLORS = ['#B0553A','#3F5A7A','#6B8E5A','#A6763B','#8A5A7A','#4E8C87','#B07A3A','#5A6B8C','#8C5A4E','#4E7A5A','#7A6B4E','#8C6B8C','#5A8C7A','#A6603A'];
+
+// 100개 모두 PRD 시작 프롬프트로 일괄 교체 + 슬러그·컬러 주입, flat 목록 구성
+const items = [];
+categories.forEach((cat, ci) => {
+  cat.color = CAT_COLORS[ci % CAT_COLORS.length];
+  cat.prompts.forEach(p => {
+    p.slug = slugById[p.id] || ('tool-' + p.id);
+    p.prompt = makeVibePrd(cat, p);
+    items.push({ ...p, cat: cat.name, color: cat.color });
+  });
+});
+
+// ===== DESIGN COLOR PALETTE =====
+const palettes = [
+  { id: 'navy-gold', name: '네이비·골드',
+    hexA: '#0A1F44', hexA_name: '딥 네이비', hexB: '#D4A84B', hexB_name: '클래식 골드',
+    mood: '격식 있고 신중한 톤. 단정한 명사형 종결, 군더더기 없는 한 문장.',
+    usage: '제목·KPI·CTA는 골드, 본문/표 헤더는 네이비, 배경은 흰색. 보조는 연회색(#EEE).' },
+  { id: 'pink-cream', name: '핑크·크림',
+    hexA: '#E8A2B0', hexA_name: '더스티 핑크', hexB: '#FBE9D7', hexB_name: '소프트 크림',
+    mood: '부드럽고 친근한 라이프스타일 톤. 어조는 따뜻하게, 이모지는 최소한.',
+    usage: '주요 강조는 핑크, 배경·카드는 크림, 텍스트는 진한 차콜(#2B2B2B).' },
+  { id: 'mono', name: '모노톤',
+    hexA: '#0A0A0A', hexA_name: '잉크 블랙', hexB: '#F2F2F2', hexB_name: '오프 화이트',
+    mood: '담백한 미니멀·테크 톤. 객관 사실 위주, 형용사 절제, 표/숫자 중심.',
+    usage: '거의 모든 요소는 무채색. 강조는 굵기·여백·라인 두께로만 차등.' },
+  { id: 'forest', name: '포레스트',
+    hexA: '#1E3A2C', hexA_name: '딥 포레스트', hexB: '#E5DBC4', hexB_name: '오트 베이지',
+    mood: 'ESG·지속가능성 톤. 신중하고 사실 중심, 과장된 수식어 자제.',
+    usage: '헤드라인·아이콘은 포레스트, 본문 배경은 베이지, 차트 보조는 머스터드(#C9A23A).' },
+  { id: 'ocean', name: '오션',
+    hexA: '#0C3F5F', hexA_name: '딥 오션', hexB: '#98C4DE', hexB_name: '스카이 라이트',
+    mood: '신뢰감·정돈 톤. 정확한 수치 표현, 모호한 표현 금지, 두 자리 소수 유지.',
+    usage: '강조는 딥 오션, 보조 차트·태그는 스카이 라이트, 위험 표시는 코랄(#E08366) 예외.' },
+  { id: 'cherry', name: '체리',
+    hexA: '#7A1426', hexA_name: '와인 체리', hexB: '#F1D2D5', hexB_name: '블러시 핑크',
+    mood: '활기·강조 톤. CTA는 강한 동사, 헤드라인은 12자 이내, 숫자 강조.',
+    usage: 'CTA·세일 배지·핵심 카피는 체리, 카드 배경은 블러시, 본문은 차콜(#1A1A1A).' }
+];
+
+// ===== STATE =====
+let query = '';
+let activeCat = 'ALL';
+let activeLevel = 'ALL';
+let selectedPaletteId = null;
+let detailItem = null;
+
+const $ = s => document.querySelector(s);
+const grid = $('#grid');
+
+function copyText(t){
+  if(navigator.clipboard) return navigator.clipboard.writeText(t);
+  const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();document.execCommand('copy');a.remove();
+  return Promise.resolve();
+}
+function toast(msg){
+  const t=document.createElement('div');t.className='toast';t.textContent=msg;document.body.appendChild(t);
+  setTimeout(()=>t.remove(),1600);
+}
+function esc(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+// ===== CHIPS =====
+function renderChips(){
+  const wrap=$('#catChips');
+  let html=`<button class="chip ${activeCat==='ALL'?'on':''}" data-cat="ALL">전체 <span class="c">${items.length}</span></button>`;
+  categories.forEach(cat=>{
+    html+=`<button class="chip ${activeCat===cat.name?'on':''}" data-cat="${esc(cat.name)}" style="--cd:${cat.color}">
+      <span class="dot"></span>${esc(cat.name)} <span class="c">${cat.count}</span></button>`;
+  });
+  wrap.innerHTML=html;
+  wrap.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{activeCat=b.dataset.cat;renderChips();render();});
+}
+
+// ===== PALETTE =====
+function renderPalettes(){
+  const wrap=$('#beads');
+  wrap.innerHTML=palettes.map(p=>
+    `<button class="bead-item ${selectedPaletteId===p.id?'on':''}" data-id="${p.id}" aria-pressed="${selectedPaletteId===p.id}" aria-label="${esc(p.name)} 톤 선택">
+      <span class="bead" style="--pa:${p.hexA};--pb:${p.hexB}"></span>
+      <span class="bead-name">${esc(p.name)}</span>
+      <span class="bead-sub">${esc(p.hexA_name)} · ${esc(p.hexB_name)}</span>
+    </button>`
+  ).join('');
+  wrap.querySelectorAll('.bead-item').forEach(b=>b.onclick=()=>selectPalette(b.dataset.id));
+}
+function selectPalette(id){
+  selectedPaletteId = (selectedPaletteId===id)?null:id;
+  renderPalettes();
+  const cur=$('#pcurrent');
+  const p=palettes.find(x=>x.id===selectedPaletteId);
+  cur.innerHTML = p ? `현재 톤: <b>${esc(p.name)}</b> — 복사 시 톤 가이드가 함께 붙습니다` : '아직 선택된 컬러가 없습니다';
+  if(detailItem) renderDetailTone();
+}
+function buildPaletteBlock(){
+  const p=palettes.find(x=>x.id===selectedPaletteId);
+  if(!p) return '';
+  return ['','','---',`[디자인 톤: ${p.name}]`,
+    `· 팔레트: ${p.hexA_name}(${p.hexA}) + ${p.hexB_name}(${p.hexB})`,
+    `· 시각 결과물(차트·표·대시보드·이미지·슬라이드): ${p.usage}`,
+    `· 글 결과물(이메일·보고서·카피): ${p.mood}`,
+    `· 위 톤이 적용 불가한 텍스트만의 결과물이면 본 가이드는 무시.`].join('\n');
+}
+
+// ===== FILTER + RENDER =====
+function filtered(){
+  const q=query.trim().toLowerCase();
+  return items.filter(it=>{
+    if(activeCat!=='ALL' && it.cat!==activeCat) return false;
+    if(activeLevel!=='ALL' && it.level!==activeLevel) return false;
+    if(q){
+      const hay=(it.title+' '+it.desc+' '+it.slug+' '+it.cat+' '+it.prompt).toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
+    return true;
+  });
+}
+function render(){
+  const list=filtered();
+  $('#rcNum').textContent=list.length;
+  $('#clearBtn').classList.toggle('show', !!(query||activeCat!=='ALL'||activeLevel!=='ALL'));
+  if(!list.length){
+    grid.innerHTML=`<div class="empty" style="grid-column:1/-1"><div class="eico">🔍</div><div class="et">결과가 없습니다</div><div class="es">검색어나 필터를 바꿔 보세요</div></div>`;
+    return;
+  }
+  grid.innerHTML=list.map((it,i)=>{
+    const num=String(it.id).padStart(2,'0');
+    const badge = it.level==='쉬움'?'<span class="badge easy">쉬움</span>':'<span class="badge normal">보통</span>';
+    return `<article class="card" style="--cd:${it.color};animation-delay:${Math.min(i,20)*0.02}s" data-id="${it.id}">
+      <div class="card-head">
+        <span class="card-cat"><span class="dot"></span>${esc(it.cat)}</span>
+        <span class="card-num">${num}</span>
+      </div>
+      <h3 class="card-title">${esc(it.title)}</h3>
+      <p class="card-desc">${esc(it.desc)}</p>
+      <div class="card-foot">
+        <div style="display:flex;align-items:center;gap:10px">${badge}<span class="slug">${esc(it.slug)}</span></div>
+        <div class="card-actions">
+          <button class="icobtn" data-copy="${it.id}" title="복사" aria-label="프롬프트 복사">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </button>
+        </div>
+      </div>
+    </article>`;
+  }).join('');
+  grid.querySelectorAll('.card').forEach(c=>{
+    c.onclick=e=>{ if(e.target.closest('[data-copy]'))return; openDetail(+c.dataset.id); };
+  });
+  grid.querySelectorAll('[data-copy]').forEach(b=>{
+    b.onclick=e=>{ e.stopPropagation(); const it=items.find(x=>x.id===+b.dataset.copy);
+      copyText(it.prompt+buildPaletteBlock()).then(()=>{ b.classList.add('copied'); toast(selectedPaletteId?'복사 완료 (톤 포함)':'복사 완료!'); setTimeout(()=>b.classList.remove('copied'),1400); });
+    };
+  });
+}
+
+// ===== DETAIL =====
+function openDetail(id){
+  const it=items.find(x=>x.id===id); if(!it)return;
+  detailItem=it;
+  const num=String(it.id).padStart(2,'0');
+  $('#dCat').textContent=it.cat;
+  $('#dCat').parentElement.style.setProperty('--cd', it.color);
+  $('#dNum').textContent='No. '+num;
+  const badge=$('#dBadge');
+  badge.textContent=it.level;
+  badge.className='badge '+(it.level==='쉬움'?'easy':'normal');
+  $('#dTitle').textContent=it.title;
+  $('#dDesc').textContent=it.desc;
+  $('#dSlug').textContent=it.slug;
+  $('#dPrompt').textContent=it.prompt;
+  const cp=$('#dCopy'); cp.classList.remove('ok'); cp.querySelector('span')&&(cp.querySelector('span').textContent='');
+  renderDetailTone();
+  $('#detailOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function renderDetailTone(){
+  const box=$('#dTone');
+  const p=palettes.find(x=>x.id===selectedPaletteId);
+  if(!p){ box.hidden=true; box.innerHTML=''; return; }
+  box.hidden=false;
+  box.style.setProperty('--tacc',p.hexA); box.style.setProperty('--ta',p.hexA); box.style.setProperty('--tb',p.hexB);
+  box.innerHTML=`<div class="tone-head"><span class="tone-swatch"></span><span class="tone-title">Design Tone — ${esc(p.name)}</span></div>
+    <div class="tone-body">· 팔레트: ${esc(p.hexA_name)}(${p.hexA}) + ${esc(p.hexB_name)}(${p.hexB})
+· 시각 결과물(차트·표·대시보드·이미지·슬라이드): ${esc(p.usage)}
+· 글 결과물(이메일·보고서·카피): ${esc(p.mood)}
+· 위 톤이 적용 불가한 텍스트만의 결과물이면 본 가이드는 무시.</div>`;
+}
+function copyFromDetail(){
+  if(!detailItem)return;
+  copyText(detailItem.prompt+buildPaletteBlock()).then(()=>{
+    const b=$('#dCopy'); b.classList.add('ok'); b.innerHTML='✓ 복사 완료!';
+    toast(selectedPaletteId?'복사 완료 (톤 포함)':'복사 완료!');
+    setTimeout(()=>{ b.classList.remove('ok'); b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 프롬프트 복사'; },1500);
+  });
+}
+function closeDetail(){ $('#detailOverlay').classList.remove('open'); document.body.style.overflow=''; detailItem=null; }
+
+// ===== GUIDE =====
+function openGuide(){ $('#guideOverlay').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeGuide(){ $('#guideOverlay').classList.remove('open'); document.body.style.overflow=''; }
+
+// ===== MISC =====
+function copyUrl(){ copyText('https://vibe-prompt-100-merchant.vercel.app/').then(()=>toast('링크가 복사되었습니다')); }
+function clearFilters(){ query=''; $('#searchInput').value=''; activeCat='ALL'; activeLevel='ALL';
+  document.querySelectorAll('#levelSeg button').forEach(b=>b.classList.toggle('on',b.dataset.lv==='ALL'));
+  renderChips(); render();
+}
+
+// ===== INIT =====
+$('#searchInput').addEventListener('input',e=>{query=e.target.value;render();});
+$('#levelSeg').querySelectorAll('button').forEach(b=>b.onclick=()=>{
+  activeLevel=b.dataset.lv;
+  $('#levelSeg').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
+  render();
+});
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeDetail(); closeGuide(); } });
+window.addEventListener('scroll',()=>{ $('#siteHeader').classList.toggle('scrolled', window.scrollY>8); },{passive:true});
+
+renderChips();
+renderPalettes();
+render();
+</script>
+</body>
+</html>
