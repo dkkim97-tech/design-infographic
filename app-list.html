@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>개발된 애플리케이션 목록</title>
+<style>
+  :root{
+    --bg:#f2f0ee;
+    --card:#ffffff;
+    --ink:#26221f;
+    --ink-soft:#6d6560;
+    --line:#e5e1dc;
+    --head-bg:#eceae7;
+    --head-ink:#5f5751;
+    --title:#8a6a72;
+    --row-alt:#faf9f8;
+    --chip-bg:#efece9;
+    --chip-ink:#b0413e;
+    --accent:#8a6a72;
+    --pill-bg:#eceae7;
+    --pill-ink:#6d6560;
+    --shadow:0 1px 2px rgba(38,34,31,.05),0 8px 30px rgba(38,34,31,.06);
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --bg:#181613;
+      --card:#211e1b;
+      --ink:#ece8e3;
+      --ink-soft:#a49c94;
+      --line:#332f2b;
+      --head-bg:#2a2723;
+      --head-ink:#c3bab1;
+      --title:#c99aa4;
+      --row-alt:#1d1a17;
+      --chip-bg:#2c2825;
+      --chip-ink:#e08d84;
+      --accent:#c99aa4;
+      --pill-bg:#2c2825;
+      --pill-ink:#a49c94;
+      --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 34px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#181613;
+    --card:#211e1b;
+    --ink:#ece8e3;
+    --ink-soft:#a49c94;
+    --line:#332f2b;
+    --head-bg:#2a2723;
+    --head-ink:#c3bab1;
+    --title:#c99aa4;
+    --row-alt:#1d1a17;
+    --chip-bg:#2c2825;
+    --chip-ink:#e08d84;
+    --accent:#c99aa4;
+    --pill-bg:#2c2825;
+    --pill-ink:#a49c94;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 34px rgba(0,0,0,.35);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",system-ui,-apple-system,sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    padding:clamp(20px,5vw,64px) clamp(14px,4vw,48px);
+    min-height:100vh;
+  }
+  .wrap{max-width:1080px;margin:0 auto}
+
+  header.masthead{margin-bottom:22px}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:7px;
+    font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--ink-soft);margin-bottom:14px;
+  }
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+  h1{
+    display:flex;align-items:center;gap:12px;
+    font-size:clamp(22px,3.4vw,30px);font-weight:800;letter-spacing:-.01em;
+    color:var(--title);text-wrap:balance;
+  }
+  h1 .ico{font-size:.95em;filter:grayscale(.15)}
+  .sub{margin-top:10px;color:var(--ink-soft);font-size:14.5px;max-width:60ch}
+  .sub b{color:var(--ink);font-weight:700}
+
+  .card{
+    margin-top:22px;background:var(--card);border:1px solid var(--line);
+    border-radius:16px;box-shadow:var(--shadow);overflow:hidden;
+  }
+  .tscroll{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:14px;min-width:860px}
+  thead th{
+    background:var(--head-bg);color:var(--head-ink);
+    font-weight:700;font-size:12.5px;letter-spacing:.02em;
+    text-align:left;padding:14px 18px;white-space:nowrap;
+    border-bottom:1px solid var(--line);
+  }
+  tbody td{padding:16px 18px;border-bottom:1px solid var(--line);vertical-align:top}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:nth-child(even){background:var(--row-alt)}
+  tbody tr:hover{background:color-mix(in srgb,var(--accent) 7%,var(--card))}
+
+  .app{font-weight:800;color:var(--ink);font-size:14.5px;line-height:1.35}
+  .app .alias{display:block;font-weight:500;font-size:12px;color:var(--ink-soft);margin-top:3px}
+  td.purpose{color:var(--ink);max-width:22ch}
+  td.form{color:var(--ink-soft);white-space:nowrap}
+
+  code.loc{
+    display:inline-block;font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+    font-size:11.5px;line-height:1.5;color:var(--chip-ink);background:var(--chip-bg);
+    padding:3px 7px;border-radius:6px;word-break:break-all;max-width:24ch;
+  }
+  .loc-note{display:block;margin-top:6px;font-size:11px;color:var(--ink-soft)}
+
+  td.tool{color:var(--ink-soft);font-size:13px;white-space:nowrap}
+
+  .pill{
+    display:inline-block;font-size:12px;font-weight:600;
+    padding:4px 10px;border-radius:999px;background:var(--pill-bg);color:var(--pill-ink);
+    white-space:nowrap;
+  }
+  .pill.done{background:color-mix(in srgb,#3f9d6b 16%,var(--card));color:color-mix(in srgb,#2e7a51 82%,var(--ink))}
+  .pill.live{background:color-mix(in srgb,#3f7bd9 16%,var(--card));color:color-mix(in srgb,#2f63b8 82%,var(--ink))}
+  .pill.proto{background:color-mix(in srgb,#c99a3f 18%,var(--card));color:color-mix(in srgb,#977326 82%,var(--ink))}
+
+  footer{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px 22px;align-items:center;
+    color:var(--ink-soft);font-size:12.5px}
+  footer .k{font-weight:700;color:var(--ink)}
+  .legend{display:flex;flex-wrap:wrap;gap:8px}
+  .note{margin-top:14px;font-size:12px;color:var(--ink-soft);line-height:1.6}
+  .note b{color:var(--ink)}
+
+  @media (max-width:560px){
+    thead th,tbody td{padding:12px 14px}
+    .sub{font-size:13.5px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="masthead">
+    <span class="eyebrow"><span class="dot"></span>PORTFOLIO CATALOG</span>
+    <h1><span class="ico">🛠️</span>개발된 애플리케이션 목록</h1>
+    <p class="sub">지금까지 만든 <b>13개</b> 앱을 목적·형태·위치·상태 기준으로 정리했습니다. GitHub 저장소 12개와 작업공간 프로토타입 1개를 포함합니다.</p>
+  </header>
+
+  <div class="card">
+    <div class="tscroll">
+      <table>
+        <thead>
+          <tr>
+            <th>앱</th>
+            <th>목적</th>
+            <th>형태</th>
+            <th>위치</th>
+            <th>생성 도구</th>
+            <th>상태</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="app">Design by Myway 75</td>
+            <td class="purpose">디자인 스타일 라이브러리 · 인포그래픽 제작</td>
+            <td class="form">웹앱 (React)</td>
+            <td><code class="loc">dkkim97-tech/design-infographic</code></td>
+            <td class="tool">확인 필요</td>
+            <td><span class="pill">진행 중</span></td>
+          </tr>
+          <tr>
+            <td class="app">Vibe Prompt 100</td>
+            <td class="purpose">바이브 코딩 실전 프롬프트 100선 라이브러리</td>
+            <td class="form">정적 웹앱</td>
+            <td><code class="loc">dkkim97-tech/vibe-prompt-100</code></td>
+            <td class="tool">확인 필요</td>
+            <td><span class="pill live">공개 배포</span></td>
+          </tr>
+          <tr>
+            <td class="app">환율 예측 PWA</td>
+            <td class="purpose">3년 환율 데이터 + 30영업일 전망 조회</td>
+            <td class="form">모바일 우선 정적 PWA</td>
+            <td><code class="loc">dkkim97-tech/USD-exchange</code></td>
+            <td class="tool">확인 필요</td>
+            <td><span class="pill live">공개 배포</span></td>
+          </tr>
+          <tr>
+            <td class="app">DK 회의록 메이커</td>
+            <td class="purpose">녹음·음성 인식·요약·PDF 회의록 제작</td>
+            <td class="form">정적 PWA</td>
+            <td><code class="loc">dkkim97-tech/DK_Recording2</code></td>
+            <td class="tool">확인 필요</td>
+            <td><span class="pill proto">프로토타입</span></td>
+          </tr>
+          <tr>
+            <td class="app">PHOTO-1</td>
+            <td class="purpose">사진을 원하는 이미지로 변환</td>
+            <td class="form">웹앱</td>
+            <td><code class="loc">dkkim97-tech/PHOTO-1</code></td>
+            <td class="tool">확인 필요</td>
+            <td><span class="pill proto">프로토타입</span></td>
+          </tr>
+          <tr>
+            <td class="app">mbticoach</td>
+            <td class="purpose">MBTI + 이키가이로 맞춤 직업 추천</td>
+            <td class="form">웹앱</td>
+            <td><code class="loc">dkkim97-tech/mbticoach</code></td>
+            <td class="tool">확인 필요</td>
+            <td><span class="pill proto">프로토타입</span></td>
+          </tr>
+          <tr>
+            <td class="app">DK Barcode Studio</td>
+            <td class="purpose">바코드·QR 코드 생성기 (PNG·SVG·JPEG)</td>
+            <td class="form">정적 PWA</td>
+            <td><code class="loc">dkkim97-tech/DK_Barcode</code></td>
+            <td class="tool">확인 필요</td>
+            <td><span class="pill done">완성</span></td>
+          </tr>
+          <tr>
+            <td class="app">YOOM Hair Studio</td>
+            <td class="purpose">헤어스타일 가상 체험</td>
+            <td class="form">모바일 우선 웹 프로토타입</td>
+            <td>
+              <code class="loc">2026-06-01/in-app-browser-the-user-has/outputs/hair-studio</code>
+              <span class="loc-note">작업공간 전용 · GitHub 미등록</span>
+            </td>
+            <td class="tool">불명 (Codex 작업공간)</td>
+            <td><span class="pill proto">v10 변형 존재</span></td>
+          </tr>
+          <tr>
+            <td class="app">Family Vault Chat</td>
+            <td class="purpose">가족 6명 · 4남매용으로 분리된 메신저</td>
+            <td class="form">PWA 프로토타입</td>
+            <td>
+              <code class="loc">dkkim97-tech/DK_sns1</code>
+              <span class="loc-note">원본: 2026-05-25/6-ux-1-6-serverless-ui</span>
+            </td>
+            <td class="tool">확인 필요</td>
+            <td><span class="pill proto">프로토타입</span></td>
+          </tr>
+          <tr>
+            <td class="app">DK 멀티 계산기</td>
+            <td class="purpose">다기능 멀티 계산기</td>
+            <td class="form">웹앱</td>
+            <td><code class="loc">dkkim97-tech/DK_Calcu-2</code></td>
+            <td class="tool">확인 필요</td>
+            <td><span class="pill proto">프로토타입</span></td>
+          </tr>
+          <tr>
+            <td class="app">e-prompt</td>
+            <td class="purpose">사진 속 프롬프트 복사</td>
+            <td class="form">웹앱</td>
+            <td><code class="loc">dkkim97-tech/e-prompt</code></td>
+            <td class="tool">확인 필요</td>
+            <td><span class="pill proto">프로토타입</span></td>
+          </tr>
+          <tr>
+            <td class="app">김동규 강사 프로필 사이트<span class="alias">my-landing</span></td>
+            <td class="purpose">AI 교육 강사 프로필 · 리드 제너레이션</td>
+            <td class="form">반응형 원페이지 사이트</td>
+            <td><code class="loc">dkkim97-tech/my-landing</code></td>
+            <td class="tool">확인 필요</td>
+            <td><span class="pill done">v1.0.0 완성</span></td>
+          </tr>
+          <tr>
+            <td class="app">공간/펜션 예약</td>
+            <td class="purpose">공간 · 펜션 예약</td>
+            <td class="form">웹앱 (React)</td>
+            <td><code class="loc">dkkim97-tech/pension-app</code></td>
+            <td class="tool">확인 필요</td>
+            <td><span class="pill proto">프로토타입</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer>
+    <span><span class="k">총 13개</span> · GitHub 12 + 작업공간 1</span>
+    <span class="legend">
+      <span class="pill done">완성</span>
+      <span class="pill live">공개 배포</span>
+      <span class="pill proto">프로토타입</span>
+      <span class="pill">진행 중</span>
+    </span>
+  </footer>
+
+  <p class="note">
+    <b>메모</b> — 「생성 도구」는 저장소에 기록이 남아 있지 않아 대부분 <b>확인 필요</b>로 두었습니다. 실제 사용 도구(Claude Code·Codex 등)를 알려주시면 채워 넣겠습니다.
+    <b>Family Vault Chat</b>은 첨부 목록의 작업공간 경로와 GitHub <code class="loc">DK_sns1</code> 저장소가 동일 앱이라 하나로 통합했습니다.
+  </p>
+</div>
+</body>
+</html>
