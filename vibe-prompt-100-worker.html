@@ -165,9 +165,7 @@ body::before{
 }
 .seg button:hover{color:var(--ink)}
 .seg button.on{background:var(--surface);color:var(--ink);box-shadow:var(--shadow-sm)}
-.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;scrollbar-width:thin;scroll-behavior:smooth}
-.chips::-webkit-scrollbar{height:5px}
-.chips::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
 .chip{
   border:1px solid var(--line);background:var(--surface);color:var(--ink-soft);
   padding:7px 14px;border-radius:999px;font-size:12.5px;font-weight:500;cursor:pointer;
