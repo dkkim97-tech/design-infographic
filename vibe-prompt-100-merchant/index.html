@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <!-- Release version: update this value and VERSION_HISTORY.md together. -->
-<meta name="app-version" content="1.00">
+<meta name="app-version" content="1.01">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>소상공인 바이브코딩 시작 PRD 100선 — AICLab</title>
 <meta name="description" content="혼자 가게 보지 마세요. 복사 한 번이면 내 가게 도구의 PRD가 됩니다. 소상공인을 위한 바이브코딩 시작 PRD 100선 — AICLab." />
@@ -355,6 +355,37 @@ body::before{
 @media(prefers-reduced-motion:reduce){
   *{animation-duration:.01ms!important;animation-delay:0ms!important}
 }
+
+/* Compact overview: all 100 prompts, in numerical order down each column. */
+.overview[hidden]{display:none}
+body.list-mode{height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+body.list-mode>.hero,body.list-mode>.controls-wrap,body.list-mode>.designcolor,body.list-mode>.main,body.list-mode>.footer{display:none}
+body.list-mode>.site-header{flex-shrink:0}
+.overview{flex:1;min-height:0;display:flex;flex-direction:column;width:100%;padding:12px 24px 18px;box-sizing:border-box}
+.overview-head{display:flex;align-items:baseline;gap:14px;margin-bottom:10px;flex-shrink:0}
+.overview-head h2{font-size:18px;margin:0;color:var(--ink)}
+.overview-head p{font-size:12px;color:var(--ink-soft);margin:0}
+.overview-list{flex:1;min-height:0;display:grid;grid-auto-flow:column;grid-template-columns:repeat(5,minmax(0,1fr));grid-template-rows:repeat(20,minmax(26px,1fr));gap:3px 12px;overflow:auto;list-style:none;padding:0;margin:0}
+.overview-list li{min-width:0;min-height:0}
+.overview-item{display:flex;align-items:center;gap:8px;width:100%;height:100%;padding:2px 8px;text-align:left;border:1px solid var(--line);border-left:3px solid var(--item-color);border-radius:5px;background:var(--surface);color:var(--ink);cursor:pointer;font:inherit;font-size:12px}
+.overview-item:hover{background:var(--paper-2)}
+.overview-item:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.overview-num{color:var(--ink-soft);font-size:10px;font-variant-numeric:tabular-nums;flex-shrink:0;width:22px}
+.overview-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#viewToggle[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
+@media(max-width:1000px){
+ .overview-list{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(34,minmax(30px,1fr))}
+}
+@media(max-width:600px){
+ .header-inner{flex-wrap:wrap;gap:10px}
+ .header-nav{flex-wrap:wrap}
+ .overview{padding:10px 12px}
+ .overview-head{display:block}
+ .overview-head p{margin-top:4px}
+ .overview-list{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(50,minmax(34px,1fr));gap:4px 6px}
+ .overview-item{font-size:11px;gap:4px;padding:2px 5px}
+}
+
 </style>
 </head>
 <body>
@@ -368,6 +399,7 @@ body::before{
       <span class="app-version" data-app-version aria-label="앱 버전"></span>
     </a>
     <nav class="header-nav">
+      <button class="hbtn" id="viewToggle" type="button" aria-pressed="false" aria-controls="listOverview" onclick="toggleListView()">리스트 보기</button>
       <button class="hbtn" onclick="copyUrl()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
         링크 복사
@@ -440,6 +472,15 @@ body::before{
   </div>
   <div class="grid" id="grid"></div>
 </main>
+
+<!-- ALL PROMPTS OVERVIEW -->
+<section class="overview" id="listOverview" aria-labelledby="overviewTitle" hidden>
+  <div class="overview-head">
+    <h2 id="overviewTitle">전체 리스트 · 100개</h2>
+    <p>번호순으로 한눈에 · 항목을 누르면 상세 내용과 복사를 사용할 수 있습니다.</p>
+  </div>
+  <ol class="overview-list" id="overviewList"></ol>
+</section>
 
 <!-- DETAIL MODAL -->
 <div class="overlay" id="detailOverlay" onclick="if(event.target===this)closeDetail()">
@@ -933,6 +974,23 @@ function render(){
       copyText(it.prompt+buildPaletteBlock()).then(()=>{ b.classList.add('copied'); toast(selectedPaletteId?'복사 완료 (톤 포함)':'복사 완료!'); setTimeout(()=>b.classList.remove('copied'),1400); });
     };
   });
+}
+
+// ===== LIST OVERVIEW =====
+let listView = false;
+function toggleListView(){
+  listView = !listView;
+  document.body.classList.toggle('list-mode', listView);
+  $('#listOverview').hidden = !listView;
+  const toggle = $('#viewToggle');
+  toggle.textContent = listView ? '카드 보기' : '리스트 보기';
+  toggle.setAttribute('aria-pressed', String(listView));
+  if(listView && !$('#overviewList').children.length){
+    $('#overviewList').innerHTML = items.map(it => `<li><button type="button" class="overview-item" data-detail="${it.id}" style="--item-color:${it.color}" title="${esc(it.cat)} · ${esc(it.title)} · ${esc(it.level)}"><span class="overview-num">${String(it.id).padStart(2,'0')}</span><span class="overview-name">${esc(it.title)}</span></button></li>`).join('');
+    $('#overviewList').querySelectorAll('[data-detail]').forEach(button => {
+      button.onclick = () => openDetail(Number(button.dataset.detail));
+    });
+  }
 }
 
 // ===== DETAIL =====
