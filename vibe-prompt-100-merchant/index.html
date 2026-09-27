@@ -2,6 +2,8 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
+<!-- Release version: update this value and VERSION_HISTORY.md together. -->
+<meta name="app-version" content="1.00">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>소상공인 바이브코딩 시작 PRD 100선 — AICLab</title>
 <meta name="description" content="혼자 가게 보지 마세요. 복사 한 번이면 내 가게 도구의 PRD가 됩니다. 소상공인을 위한 바이브코딩 시작 PRD 100선 — AICLab." />
@@ -98,6 +100,9 @@ body::before{
 .wordmark .mk{font-family:var(--display);font-weight:700;font-size:22px;letter-spacing:.5px;color:var(--ink)}
 .wordmark .mk em{font-style:normal;color:var(--accent)}
 .wordmark .tag{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--faint);font-weight:500}
+.app-version{display:inline-flex;align-items:center;padding:3px 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink-soft);font:600 12px/1.4 var(--body);letter-spacing:0;white-space:nowrap;vertical-align:middle}
+.wordmark{flex-wrap:wrap;column-gap:8px;row-gap:2px;min-width:0;flex-shrink:1}
+.hero-title .app-version{margin-left:8px;vertical-align:middle}
 .header-nav{display:flex;align-items:center;gap:8px}
 .hbtn{
   border:1px solid var(--line);background:var(--surface);color:var(--ink-soft);
@@ -360,6 +365,7 @@ body::before{
     <a class="wordmark" href="#top">
       <span class="mk">BA<em>L</em>AB</span>
       <span class="tag">Series #4</span>
+      <span class="app-version" data-app-version aria-label="앱 버전"></span>
     </a>
     <nav class="header-nav">
       <button class="hbtn" onclick="copyUrl()">
@@ -380,7 +386,7 @@ body::before{
   <h1 class="hero-title">
     <span class="l hi">혼자 가게 보지 마세요.</span>
     <span class="l sm">복사 한 번이면</span>
-    <span class="l sm accent">내 가게 도구가 됩니다.</span>
+    <span class="l sm accent">내 가게 도구가 됩니다. <span class="app-version" data-app-version aria-label="앱 버전"></span></span>
   </h1>
   <p class="hero-lead">
     14개 분야, 100개의 한 줄 컨셉을 <b>바로 붙여넣을 수 있는 한 페이지 PRD</b>로 바꿔 드립니다.
@@ -491,6 +497,14 @@ body::before{
 </footer>
 
 <script>
+// ===== APP VERSION (single source: app-version meta) =====
+const APP_VERSION = document.querySelector('meta[name="app-version"]').content;
+document.querySelectorAll('[data-app-version]').forEach(el => {
+  el.textContent = 'v' + APP_VERSION;
+  el.setAttribute('aria-label', '앱 버전 ' + APP_VERSION);
+});
+document.title = document.title.replace(' — ', ' v' + APP_VERSION + ' — ');
+
 // ===== PROMPT DATA =====
 const categories = [
   {
@@ -968,7 +982,7 @@ function openGuide(){ $('#guideOverlay').classList.add('open'); document.body.st
 function closeGuide(){ $('#guideOverlay').classList.remove('open'); document.body.style.overflow=''; }
 
 // ===== MISC =====
-function copyUrl(){ copyText('https://vibe-prompt-100-merchant.vercel.app/').then(()=>toast('링크가 복사되었습니다')); }
+function copyUrl(){ copyText(location.origin + location.pathname).then(()=>toast('링크가 복사되었습니다')); }
 function clearFilters(){ query=''; $('#searchInput').value=''; activeCat='ALL'; activeLevel='ALL';
   document.querySelectorAll('#levelSeg button').forEach(b=>b.classList.toggle('on',b.dataset.lv==='ALL'));
   renderChips(); render();
